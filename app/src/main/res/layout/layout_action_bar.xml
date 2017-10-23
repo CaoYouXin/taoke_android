@@ -29,5 +29,5 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_gravity="bottom"
-        android:background="@color/grey_100" />
+        android:background="@color/grey_300" />
 </FrameLayout>

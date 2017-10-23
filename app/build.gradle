@@ -10,6 +10,7 @@ android {
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -27,6 +28,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support:recyclerview-v7:26.+'
+    compile 'com.android.support:multidex:1.0.1'
 
     debugCompile('com.github.gnastnosaj.Boilerplate:boilerplate:3b53858') {
         artifact {
@@ -44,8 +46,6 @@ dependencies {
             classifier = 'release'
         }
     }
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.2'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.2'
 
     compile 'com.jakewharton:butterknife:+'
     annotationProcessor 'com.jakewharton:butterknife-compiler:+'
