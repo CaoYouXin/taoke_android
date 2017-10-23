@@ -15,14 +15,16 @@
         <activity
             android:name=".ui.activity.SplashActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.Fullscreen">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.activity.IntroActivity" />
+        <activity
+            android:name=".ui.activity.IntroActivity"
+            android:theme="@style/AppTheme.Fullscreen" />
 
         <activity
             android:name=".ui.activity.TaoKeActivity"

@@ -1,64 +1,78 @@
 package com.github.caoyouxin.taoke.ui.activity;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
+import com.github.caoyouxin.taoke.R;
 import com.github.paolorotolo.appintro.AppIntro;
+import com.github.paolorotolo.appintro.AppIntroFragment;
+import com.github.paolorotolo.appintro.model.SliderPage;
 
 /**
  * Created by jasontsang on 10/23/17.
  */
 
 public class IntroActivity extends AppIntro {
+    public final static String INTRO_READ = "intro_read";
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Note here that we DO NOT use setContentView();
+        SliderPage sliderPage1 = new SliderPage();
+        sliderPage1.setTitle("Welcome!");
+        sliderPage1.setDescription("This is a demo of the AppIntro library.");
+        sliderPage1.setImageDrawable(R.mipmap.ic_slide1);
+        sliderPage1.setBgColor(Color.TRANSPARENT);
+        addSlide(AppIntroFragment.newInstance(sliderPage1));
 
-        // Add your slide fragments here.
-        // AppIntro will automatically generate the dots indicator and buttons.
-        // addSlide(firstFragment);
-        // addSlide(secondFragment);
-        // addSlide(thirdFragment);
-        // addSlide(fourthFragment);
+        SliderPage sliderPage2 = new SliderPage();
+        sliderPage2.setTitle("Clean App Intros");
+        sliderPage2.setDescription("This library offers developers the ability to add clean app intros at the start of their apps.");
+        sliderPage2.setImageDrawable(R.mipmap.ic_slide2);
+        sliderPage2.setBgColor(Color.TRANSPARENT);
+        addSlide(AppIntroFragment.newInstance(sliderPage2));
 
-        // Instead of fragments, you can also use our default slide
-        // Just set a title, description, background and image. AppIntro will do the rest.
-        // addSlide(AppIntroFragment.newInstance(title, description, image, backgroundColor));
+        SliderPage sliderPage3 = new SliderPage();
+        sliderPage3.setTitle("Simple, yet Customizable");
+        sliderPage3.setDescription("The library offers a lot of customization, while keeping it simple for those that like simple.");
+        sliderPage3.setImageDrawable(R.mipmap.ic_slide3);
+        sliderPage3.setBgColor(Color.TRANSPARENT);
+        addSlide(AppIntroFragment.newInstance(sliderPage3));
 
-        // OPTIONAL METHODS
-        // Override bar/separator color.
-        setBarColor(Color.parseColor("#3F51B5"));
-        setSeparatorColor(Color.parseColor("#2196F3"));
+        SliderPage sliderPage4 = new SliderPage();
+        sliderPage4.setTitle("Explore");
+        sliderPage4.setDescription("Feel free to explore the rest of the library demo!");
+        sliderPage4.setImageDrawable(R.mipmap.ic_slide4);
+        sliderPage4.setBgColor(Color.TRANSPARENT);
+        addSlide(AppIntroFragment.newInstance(sliderPage4));
 
-        // Hide Skip/Done button.
-        // showSkipButton(false);
-        // setProgressButtonEnabled(false);
-
-        // Turn vibration on and set intensity.
-        // NOTE: you will probably need to ask VIBRATE permission in Manifest.
-        setVibrate(true);
-        setVibrateIntensity(30);
+        setSkipText(getResources().getString(R.string.intro_skip));
+        setDoneText(getResources().getString(R.string.intro_done));
     }
 
     @Override
     public void onSkipPressed(Fragment currentFragment) {
         super.onSkipPressed(currentFragment);
-        // Do something when users tap on Skip button.
+        start();
     }
 
     @Override
     public void onDonePressed(Fragment currentFragment) {
         super.onDonePressed(currentFragment);
-        // Do something when users tap on Done button.
+        start();
     }
 
-    @Override
-    public void onSlideChanged(@Nullable Fragment oldFragment, @Nullable Fragment newFragment) {
-        super.onSlideChanged(oldFragment, newFragment);
-        // Do something when the slide changes.
+    private void start() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(INTRO_READ, true);
+        editor.apply();
+        startActivity(new Intent(this, TaoKeActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
     }
 }
