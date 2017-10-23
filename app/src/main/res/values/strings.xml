@@ -1,6 +1,11 @@
 <resources>
-    <string name="app_name">TaoKe</string>
+    <string name="app_name">淘客</string>
 
     <string name="intro_skip">跳过</string>
     <string name="intro_done">立即体验</string>
+
+    <string name="tab_discover">发现</string>
+    <string name="tab_chat">报表</string>
+    <string name="tab_message">消息</string>
+    <string name="tab_account">我的</string>
 </resources>
