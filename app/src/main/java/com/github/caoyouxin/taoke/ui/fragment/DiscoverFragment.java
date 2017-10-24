@@ -170,19 +170,6 @@ public class DiscoverFragment extends Fragment {
             }
         });
 
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    int firstVisiblePosition = layoutManager.findFirstCompletelyVisibleItemPosition();
-                    if (firstVisiblePosition == 0 && ((appBarLayout.getY() + appBarLayout.getHeight()) == (tabLayout.getHeight() + 1))) {
-                        appBarLayout.setExpanded(true, true);
-                    }
-                }
-            }
-        });
-
         CouponDataSource couponDataSource = new CouponDataSource(getActivity());
 
         mvcHelper = new MVCNormalHelper(recyclerView);
