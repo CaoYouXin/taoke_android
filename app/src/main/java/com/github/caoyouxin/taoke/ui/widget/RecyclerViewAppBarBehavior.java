@@ -50,9 +50,9 @@ public final class RecyclerViewAppBarBehavior extends AppBarLayout.Behavior {
         private WeakReference<RecyclerViewAppBarBehavior> behaviorWeakReference;
 
         public RecyclerViewScrollListener(CoordinatorLayout coordinatorLayout, AppBarLayout child, RecyclerViewAppBarBehavior barBehavior) {
-            coordinatorLayoutRef = new WeakReference<CoordinatorLayout>(coordinatorLayout);
-            childRef = new WeakReference<AppBarLayout>(child);
-            behaviorWeakReference = new WeakReference<RecyclerViewAppBarBehavior>(barBehavior);
+            coordinatorLayoutRef = new WeakReference<>(coordinatorLayout);
+            childRef = new WeakReference<>(child);
+            behaviorWeakReference = new WeakReference<>(barBehavior);
         }
 
         @Override
