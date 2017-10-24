@@ -20,9 +20,9 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.adapter.CouponAdapter;
-import com.github.caoyouxin.taoke.api.CouponTab;
+import com.github.caoyouxin.taoke.model.CouponTab;
 import com.github.caoyouxin.taoke.api.RxHelper;
-import com.github.caoyouxin.taoke.api.TaoKeRetrofit;
+import com.github.caoyouxin.taoke.api.TaoKeApi;
 import com.github.caoyouxin.taoke.datasource.CouponDataSource;
 import com.github.caoyouxin.taoke.ui.widget.HackyTextSliderView;
 import com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity;
@@ -115,7 +115,7 @@ public class DiscoverFragment extends Fragment {
     }
 
     private void initCouponTab() {
-        TaoKeRetrofit.getService().getCouponTabData()
+        TaoKeApi.getCouponTab()
                 .compose(((BaseActivity) getActivity()).bindUntilEvent(ActivityEvent.DESTROY))
                 .compose(RxHelper.rxSchedulerHelper())
                 .subscribe(tabs -> {

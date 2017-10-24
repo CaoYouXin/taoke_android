@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.caoyouxin.taoke.R;
-import com.github.caoyouxin.taoke.api.CouponItem;
+import com.github.caoyouxin.taoke.model.CouponItem;
 import com.shizhefei.mvc.IDataAdapter;
 
 import java.util.ArrayList;

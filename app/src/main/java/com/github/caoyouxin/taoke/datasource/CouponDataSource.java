@@ -2,7 +2,7 @@ package com.github.caoyouxin.taoke.datasource;
 
 import android.content.Context;
 
-import com.github.caoyouxin.taoke.api.CouponItem;
+import com.github.caoyouxin.taoke.model.CouponItem;
 import com.github.gnastnosaj.boilerplate.mvchelper.RxDataSource;
 import com.shizhefei.mvc.IDataCacheLoader;
 
