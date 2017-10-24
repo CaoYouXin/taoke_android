@@ -4,6 +4,7 @@
     android:layout_height="match_parent">
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/smart_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -15,6 +16,37 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.daimajia.slider.library.SliderLayout
+                    android:id="@+id/slider_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp" />
+
+                <include layout="@layout/layout_discover_tool" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/len_12"
+                    android:background="@color/grey_100" />
+
+                <include layout="@layout/layout_discover_brand" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/len_12"
+                    android:background="@color/grey_100" />
+
+                <include layout="@layout/layout_discover_coupon" />
+            </LinearLayout>
+
         </android.support.v4.widget.NestedScrollView>
+
+        <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </FrameLayout>

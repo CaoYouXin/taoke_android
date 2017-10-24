@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/len_80"
+    android:background="@color/white"
+    android:orientation="horizontal">
+
+    <FrameLayout
+        android:id="@+id/tool_collection"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawableTop="@mipmap/ic_launcher"
+            android:text="@string/discover_tool_collection"
+            android:textAlignment="center"
+            android:textColor="@color/grey_800" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/tool_coupon"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawableTop="@mipmap/ic_launcher"
+            android:text="@string/discover_tool_coupon"
+            android:textAlignment="center"
+            android:textColor="@color/grey_800" />
+    </FrameLayout>
+
+
+    <FrameLayout
+        android:id="@+id/tool_11"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawableTop="@mipmap/ic_launcher"
+            android:text="@string/discover_tool_11"
+            android:textAlignment="center"
+            android:textColor="@color/grey_800" />
+    </FrameLayout>
+
+
+    <FrameLayout
+        android:id="@+id/tool_convert"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawableTop="@mipmap/ic_launcher"
+            android:text="@string/discover_tool_convert"
+            android:textAlignment="center"
+            android:textColor="@color/grey_800" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/tool_novice"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawableTop="@mipmap/ic_launcher"
+            android:text="@string/discover_tool_novice"
+            android:textAlignment="center"
+            android:textColor="@color/grey_800" />
+    </FrameLayout>
+
+</LinearLayout>

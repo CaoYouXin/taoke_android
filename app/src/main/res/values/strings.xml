@@ -8,4 +8,13 @@
     <string name="tab_chat">报表</string>
     <string name="tab_message">消息</string>
     <string name="tab_account">我的</string>
+
+    <string name="discover_tool_collection">收藏夹</string>
+    <string name="discover_tool_coupon">优惠券清单</string>
+    <string name="discover_tool_11">双11活动</string>
+    <string name="discover_tool_convert">转链教程</string>
+    <string name="discover_tool_novice">新手上路</string>
+
+    <string name="discover_brand">品牌精选</string>
+    <string name="discover_coupon">好券直播</string>
 </resources>
