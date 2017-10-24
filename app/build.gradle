@@ -60,6 +60,7 @@ dependencies {
     compile 'q.rorbin:badgeview:1.1.2'
     compile "me.leolin:ShortcutBadger:1.1.18@aar"
 
+    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
     compile 'com.daimajia.slider:library:+'
 
 }
