@@ -7,6 +7,7 @@
     <include layout="@layout/layout_action_bar" />
 
     <FrameLayout
+        android:id="@+id/tab_content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
