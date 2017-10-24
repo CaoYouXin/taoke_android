@@ -1,4 +1,4 @@
-package com.github.caoyouxin.taoke.api;
+package com.github.caoyouxin.taoke.model;
 
 /**
  * Created by jasontsang on 10/24/17.
