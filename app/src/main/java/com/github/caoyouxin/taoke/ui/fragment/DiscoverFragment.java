@@ -15,8 +15,13 @@ import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.github.caoyouxin.taoke.R;
+import com.github.caoyouxin.taoke.api.CouponTab;
+import com.github.caoyouxin.taoke.api.RxHelper;
+import com.github.caoyouxin.taoke.api.TaoKeRetrofit;
 import com.github.caoyouxin.taoke.ui.widget.HackyTextSliderView;
+import com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,6 +60,8 @@ public class DiscoverFragment extends Fragment {
 
             initSlider();
 
+            initCouponTab();
+
             initRefreshLayout();
         }
         return rootView;
@@ -89,6 +96,17 @@ public class DiscoverFragment extends Fragment {
         textSliderView = new HackyTextSliderView(getActivity());
         textSliderView.image(R.mipmap.splash).setScaleType(BaseSliderView.ScaleType.CenterCrop);
         sliderLayout.addSlider(textSliderView);
+    }
+
+    private void initCouponTab() {
+        TaoKeRetrofit.getService().getCouponTabData()
+                .compose(((BaseActivity) getActivity()).bindUntilEvent(ActivityEvent.DESTROY))
+                .compose(RxHelper.rxSchedulerHelper())
+                .subscribe(tabs -> {
+                    for (CouponTab tab : tabs) {
+                        tabLayout.addTab(tabLayout.newTab().setText(tab.title));
+                    }
+                });
     }
 
     private void initRefreshLayout() {
