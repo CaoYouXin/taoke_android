@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -12,41 +13,61 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <android.support.v4.widget.NestedScrollView
+        <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <LinearLayout
+            <android.support.design.widget.AppBarLayout
+                android:id="@+id/app_bar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:background="@color/white">
 
-                <com.daimajia.slider.library.SliderLayout
-                    android:id="@+id/slider_layout"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dp" />
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_scrollFlags="scroll|snap">
 
-                <include layout="@layout/layout_discover_tool" />
+                    <com.daimajia.slider.library.SliderLayout
+                        android:id="@+id/slider_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/len_12"
-                    android:background="@color/grey_100" />
+                    <include layout="@layout/layout_discover_tool" />
 
-                <include layout="@layout/layout_discover_brand" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/len_12"
+                        android:background="@color/grey_100" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/len_12"
-                    android:background="@color/grey_100" />
+                    <include layout="@layout/layout_discover_brand" />
 
-                <include layout="@layout/layout_discover_coupon" />
-            </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/len_12"
+                        android:background="@color/grey_100" />
 
-        </android.support.v4.widget.NestedScrollView>
+                    <include layout="@layout/layout_discover_coupon_title" />
+
+                </LinearLayout>
+
+                <include layout="@layout/layout_discover_coupon_tab" />
+
+            </android.support.design.widget.AppBarLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        </android.support.design.widget.CoordinatorLayout>
 
         <com.scwang.smartrefresh.layout.footer.ClassicsFooter
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
 </FrameLayout>

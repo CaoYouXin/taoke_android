@@ -6,4 +6,14 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
+
+    <style name="TabLayout.Coupon" parent="Widget.Design.TabLayout">
+        <item name="tabTextAppearance">@style/TabTextAppearance.Coupon</item>
+        <item name="tabSelectedTextColor">@color/orange_800</item>
+    </style>
+
+    <style name="TabTextAppearance.Coupon" parent="TextAppearance.Design.Tab">
+        <item name="android:textColor">@color/grey_800</item>
+    </style>
+
 </resources>
