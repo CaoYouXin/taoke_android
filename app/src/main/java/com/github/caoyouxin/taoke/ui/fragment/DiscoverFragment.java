@@ -125,7 +125,8 @@ public class DiscoverFragment extends Fragment {
                     tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                         @Override
                         public void onTabSelected(TabLayout.Tab tab) {
-
+                            appBarLayout.setExpanded(false, true);
+                            mvcHelper.refresh();
                         }
 
                         @Override
@@ -175,7 +176,7 @@ public class DiscoverFragment extends Fragment {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     int firstVisiblePosition = layoutManager.findFirstCompletelyVisibleItemPosition();
-                    if (firstVisiblePosition == 0) {
+                    if (firstVisiblePosition == 0 && ((appBarLayout.getY() + appBarLayout.getHeight()) == (tabLayout.getHeight() + 1))) {
                         appBarLayout.setExpanded(true, true);
                     }
                 }
