@@ -72,6 +72,12 @@ public class DiscoverFragment extends Fragment {
 
     }
 
+    @Override
+    public void onStop() {
+        sliderLayout.stopAutoCycle();
+        super.onStop();
+    }
+
     private void initSlider() {
         DisplayMetrics dMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(dMetrics);
@@ -80,6 +86,7 @@ public class DiscoverFragment extends Fragment {
         LinearLayout.LayoutParams itemViewParams = new LinearLayout.LayoutParams(sliderLayoutWidth, sliderLayoutHeight);
         sliderLayout.setLayoutParams(itemViewParams);
         updateSlider();
+        sliderLayout.setDuration(4000);
     }
 
     private void updateSlider() {
