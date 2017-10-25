@@ -17,4 +17,6 @@
 
     <string name="discover_brand">品牌精选</string>
     <string name="discover_coupon">好券直播</string>
+
+    <string name="fab_tag_reset">reset</string>
 </resources>

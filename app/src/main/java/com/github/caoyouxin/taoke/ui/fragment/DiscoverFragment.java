@@ -193,10 +193,6 @@ public class DiscoverFragment extends Fragment {
                 .color(getResources().getColor(R.color.grey_800))
                 .sizeDp(18)
                 .paddingDp(4));
-        floatingActionButton.setOnClickListener(v -> {
-            recyclerView.scrollToPosition(0);
-            appBarLayout.setExpanded(true, true);
-        });
     }
 
     private void initRefreshLayout() {
