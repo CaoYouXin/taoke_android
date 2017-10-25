@@ -3,6 +3,7 @@ package com.github.caoyouxin.taoke.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,6 +27,8 @@ import com.github.caoyouxin.taoke.api.TaoKeApi;
 import com.github.caoyouxin.taoke.datasource.CouponDataSource;
 import com.github.caoyouxin.taoke.ui.widget.HackyTextSliderView;
 import com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity;
+import com.mikepenz.iconics.IconicsDrawable;
+import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.shizhefei.mvc.MVCHelper;
 import com.shizhefei.mvc.MVCNormalHelper;
@@ -57,6 +60,9 @@ public class DiscoverFragment extends Fragment {
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
 
+    @BindView(R.id.floating_action_button)
+    FloatingActionButton floatingActionButton;
+
     View rootView;
 
     MVCHelper mvcHelper;
@@ -77,6 +83,8 @@ public class DiscoverFragment extends Fragment {
             initCouponTab();
 
             initRecyclerView();
+
+            initFloatingActionButton();
 
             initRefreshLayout();
         }
@@ -177,6 +185,18 @@ public class DiscoverFragment extends Fragment {
         mvcHelper.setDataSource(couponDataSource);
 
         mvcHelper.refresh();
+    }
+
+    private void initFloatingActionButton() {
+        floatingActionButton.setImageDrawable(new IconicsDrawable(getActivity())
+                .icon(MaterialDesignIconic.Icon.gmi_format_valign_top)
+                .color(getResources().getColor(R.color.grey_800))
+                .sizeDp(18)
+                .paddingDp(4));
+        floatingActionButton.setOnClickListener(v -> {
+            recyclerView.scrollToPosition(0);
+            appBarLayout.setExpanded(true, true);
+        });
     }
 
     private void initRefreshLayout() {

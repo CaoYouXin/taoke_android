@@ -3,6 +3,7 @@ package com.github.caoyouxin.taoke.ui.widget;
 import android.content.Context;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
@@ -19,9 +20,6 @@ public final class RecyclerViewAppBarBehavior extends AppBarLayout.Behavior {
 
     private Map<RecyclerView, RecyclerViewScrollListener> scrollListenerMap = new ArrayMap<>(); //keep scroll listener map, the custom scroll listener also keep the current scroll Y position.
 
-    public RecyclerViewAppBarBehavior() {
-    }
-
     public RecyclerViewAppBarBehavior(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
@@ -37,6 +35,13 @@ public final class RecyclerViewAppBarBehavior extends AppBarLayout.Behavior {
             }
             scrollListenerMap.get(recyclerView).setVelocity(velocityY);
             consumed = scrollListenerMap.get(recyclerView).getScrolledY() > 0; //recyclerView only consume the fling when it's not scrolled to the top
+        }
+        for (int i = 0; i < coordinatorLayout.getChildCount(); i++) {
+            View v = coordinatorLayout.getChildAt(i);
+            if (v instanceof FloatingActionButton) {
+                v.setVisibility(View.INVISIBLE);
+                break;
+            }
         }
         return super.onNestedFling(coordinatorLayout, child, target, velocityX, velocityY, consumed);
     }
@@ -71,6 +76,16 @@ public final class RecyclerViewAppBarBehavior extends AppBarLayout.Behavior {
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             scrolledY += dy;
+
+            if (coordinatorLayoutRef.get() != null) {
+                for (int i = 0; i < coordinatorLayoutRef.get().getChildCount(); i++) {
+                    View v = coordinatorLayoutRef.get().getChildAt(i);
+                    if (v instanceof FloatingActionButton) {
+                        v.setVisibility(View.VISIBLE);
+                        break;
+                    }
+                }
+            }
 
             if (scrolledY <= 0 && !dragging && childRef.get() != null && coordinatorLayoutRef.get() != null && behaviorWeakReference.get() != null) {
                 //manually trigger the fling when it's scrolled at the top
