@@ -69,7 +69,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
                 android:layout_margin="@dimen/len_20"
-                android:tag="@string/fab_tag_reset"
                 android:visibility="invisible"
                 app:backgroundTint="@color/grey_100"
                 app:borderWidth="0dp"

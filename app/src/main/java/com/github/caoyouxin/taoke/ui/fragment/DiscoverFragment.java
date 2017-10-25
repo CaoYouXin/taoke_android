@@ -26,6 +26,8 @@ import com.github.caoyouxin.taoke.api.RxHelper;
 import com.github.caoyouxin.taoke.api.TaoKeApi;
 import com.github.caoyouxin.taoke.datasource.CouponDataSource;
 import com.github.caoyouxin.taoke.ui.widget.HackyTextSliderView;
+import com.github.caoyouxin.taoke.ui.widget.RecyclerViewAppBarBehavior;
+import com.github.gnastnosaj.boilerplate.rxbus.RxBus;
 import com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
@@ -38,6 +40,7 @@ import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 /**
  * Created by jasontsang on 10/24/17.
@@ -134,6 +137,8 @@ public class DiscoverFragment extends Fragment {
                         @Override
                         public void onTabSelected(TabLayout.Tab tab) {
                             appBarLayout.setExpanded(false, true);
+                            recyclerView.scrollToPosition(0);
+                            RxBus.getInstance().post(RecyclerViewAppBarBehavior.RecyclerViewScrollEvent.class, new RecyclerViewAppBarBehavior.RecyclerViewScrollEvent());
                             mvcHelper.refresh();
                         }
 
@@ -193,6 +198,25 @@ public class DiscoverFragment extends Fragment {
                 .color(getResources().getColor(R.color.grey_800))
                 .sizeDp(18)
                 .paddingDp(4));
+
+        floatingActionButton.setOnClickListener(v -> {
+            recyclerView.scrollToPosition(0);
+            RxBus.getInstance().post(RecyclerViewAppBarBehavior.RecyclerViewScrollEvent.class, new RecyclerViewAppBarBehavior.RecyclerViewScrollEvent());
+            appBarLayout.setExpanded(true, true);
+        });
+
+        RecyclerViewAppBarBehavior.RecyclerViewScrollEvent.observable
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(recyclerViewScrollEvent -> {
+                    switch (recyclerViewScrollEvent.getType()) {
+                        case RecyclerViewAppBarBehavior.RecyclerViewScrollEvent.TYPE_NESTED_FLING:
+                            floatingActionButton.setVisibility(View.INVISIBLE);
+                            break;
+                        case RecyclerViewAppBarBehavior.RecyclerViewScrollEvent.TYPE_SCROLLED:
+                            floatingActionButton.setVisibility(View.VISIBLE);
+                            break;
+                    }
+                });
     }
 
     private void initRefreshLayout() {
