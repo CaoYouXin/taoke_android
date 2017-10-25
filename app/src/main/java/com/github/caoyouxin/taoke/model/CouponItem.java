@@ -9,7 +9,7 @@ public class CouponItem {
     public String thumb;
     public String title;
     public String priceBefore;
-    public String sales;
+    public int sales;
     public String priceAfter;
     public String value;
     public int total;

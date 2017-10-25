@@ -257,7 +257,7 @@ public class DiscoverFragment extends Fragment {
         couponList.setLayoutManager(layoutManager);
         //couponList.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity()).size(1).build());
 
-        CouponAdapter couponAdapter = new CouponAdapter();
+        CouponAdapter couponAdapter = new CouponAdapter(getActivity());
 
         couponList.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener() {
             @Override
