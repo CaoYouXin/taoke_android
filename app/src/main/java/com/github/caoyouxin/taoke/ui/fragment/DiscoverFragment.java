@@ -255,7 +255,7 @@ public class DiscoverFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         couponList.setLayoutManager(layoutManager);
-        couponList.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity()).size(1).build());
+        //couponList.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity()).size(1).build());
 
         CouponAdapter couponAdapter = new CouponAdapter();
 

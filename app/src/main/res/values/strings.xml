@@ -17,4 +17,8 @@
 
     <string name="discover_brand">品牌精选</string>
     <string name="discover_coupon">好券直播</string>
+
+    <string name="discover_coupon_earn">赚 ¥ %1$s</string>
+    <string name="discover_coupon_price_before">现价 ¥ %1$s&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;月销量 %2$s 件</string>
+    <string name="discover_coupon_price_after">券后价 ¥ %1$s</string>
 </resources>

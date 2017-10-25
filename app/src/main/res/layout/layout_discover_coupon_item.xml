@@ -1,11 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/len_32">
+    android:layout_height="@dimen/len_128"
+    android:baselineAligned="false"
+    android:orientation="horizontal">
 
-    <TextView
+    <android.support.percent.PercentFrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="hello world" />
-</FrameLayout>
+        android:layout_height="match_parent"
+        android:padding="@dimen/len_4">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/coupon_thumb"
+            app:layout_aspectRatio="100%"
+            app:layout_heightPercent="100%"
+            fresco:actualImageScaleType="centerCrop" />
+
+    </android.support.percent.PercentFrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/coupon_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/coupon_price_before"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/discover_coupon_price_before" />
+
+                <TextView
+                    android:id="@+id/coupon_price_after"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/discover_coupon_price_after" />
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingEnd="@dimen/len_16"
+                android:paddingLeft="@dimen/len_12"
+                android:paddingRight="@dimen/len_16"
+                android:paddingStart="@dimen/len_12">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center_vertical|end"
+                    android:orientation="vertical"
+                    tools:ignore="UselessParent">
+
+                    <com.mikepenz.iconics.view.IconicsTextView
+                        android:layout_width="@dimen/len_44"
+                        android:layout_height="@dimen/len_44"
+                        android:background="@drawable/coupon_earn_circle_border"
+                        android:gravity="center"
+                        android:text="{typ-export-outline}"
+                        android:textColor="@color/orange_900"
+                        android:textSize="@dimen/font_24"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/discover_coupon_earn"
+                        android:textColor="@color/orange_900"
+                        android:textSize="@dimen/font_14" />
+                </LinearLayout>
+
+            </FrameLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_gravity="bottom"
+            android:background="@color/grey_300" />
+    </FrameLayout>
+
+
+</LinearLayout>
