@@ -29,6 +29,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support:recyclerview-v7:26.+'
     compile 'com.android.support:design:26.+'
+    compile 'com.android.support:percent:26.+'
     compile 'com.android.support:multidex:1.0.1'
 
     debugCompile('com.github.gnastnosaj.Boilerplate:boilerplate:3b53858') {
@@ -64,7 +65,7 @@ dependencies {
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
     compile 'com.daimajia.slider:library:+'
     compile 'com.yqritc:recyclerview-flexibledivider:+'
-
+    compile 'com.yanyusong.y_divideritemdecoration:y_divideritemdecoration:2.0'
 }
 
 configurations.all {

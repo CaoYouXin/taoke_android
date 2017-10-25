@@ -6,6 +6,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -20,7 +21,9 @@ import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.github.caoyouxin.taoke.R;
+import com.github.caoyouxin.taoke.adapter.BrandAdapter;
 import com.github.caoyouxin.taoke.adapter.CouponAdapter;
+import com.github.caoyouxin.taoke.datasource.BrandDataSource;
 import com.github.caoyouxin.taoke.model.CouponTab;
 import com.github.caoyouxin.taoke.api.RxHelper;
 import com.github.caoyouxin.taoke.api.TaoKeApi;
@@ -35,6 +38,9 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.shizhefei.mvc.MVCHelper;
 import com.shizhefei.mvc.MVCNormalHelper;
 import com.trello.rxlifecycle2.android.ActivityEvent;
+import com.yanyusong.y_divideritemdecoration.Y_Divider;
+import com.yanyusong.y_divideritemdecoration.Y_DividerBuilder;
+import com.yanyusong.y_divideritemdecoration.Y_DividerItemDecoration;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import butterknife.BindView;
@@ -57,18 +63,29 @@ public class DiscoverFragment extends Fragment {
     @BindView(R.id.app_bar_layout)
     AppBarLayout appBarLayout;
 
-    @BindView(R.id.tab_layout)
-    TabLayout tabLayout;
+    @BindView(R.id.brand_list)
+    RecyclerView brandList;
 
-    @BindView(R.id.recycler_view)
-    RecyclerView recyclerView;
+    @BindView(R.id.coupon_tab)
+    TabLayout couponTab;
+
+    @BindView(R.id.coupon_list)
+    RecyclerView couponList;
 
     @BindView(R.id.floating_action_button)
     FloatingActionButton floatingActionButton;
 
     View rootView;
 
-    MVCHelper mvcHelper;
+    private MVCHelper brandListHelper;
+    private MVCHelper couponListHelper;
+
+    private GestureDetector gestureDetector = new GestureDetector(getActivity(), new GestureDetector.SimpleOnGestureListener() {
+        @Override
+        public boolean onSingleTapUp(MotionEvent e) {
+            return true;
+        }
+    });
 
     @Nullable
     @Override
@@ -83,9 +100,11 @@ public class DiscoverFragment extends Fragment {
 
             initSlider();
 
+            initBrandList();
+
             initCouponTab();
 
-            initRecyclerView();
+            initCouponList();
 
             initFloatingActionButton();
 
@@ -125,21 +144,98 @@ public class DiscoverFragment extends Fragment {
         sliderLayout.addSlider(textSliderView);
     }
 
+    private void initBrandList() {
+        brandList.setLayoutManager(new GridLayoutManager(getActivity(), 3) {
+            @Override
+            public void onMeasure(RecyclerView.Recycler recycler, RecyclerView.State state, int widthSpec, int heightSpec) {
+                super.onMeasure(recycler, state, widthSpec, heightSpec);
+                int measuredWidth = brandList.getMeasuredWidth();
+                int measuredHeight = brandList.getMeasuredHeight();
+                int myMeasureHeight = 0;
+                int count = state.getItemCount();
+                for (int i = 0; i < count; i++) {
+                    View view = recycler.getViewForPosition(i);
+                    if (view != null) {
+                        if (myMeasureHeight < measuredHeight && i % 3 == 0) {
+                            RecyclerView.LayoutParams p = (RecyclerView.LayoutParams) view.getLayoutParams();
+                            int childWidthSpec = ViewGroup.getChildMeasureSpec(widthSpec,
+                                    getPaddingLeft() + getPaddingRight(), p.width);
+                            int childHeightSpec = ViewGroup.getChildMeasureSpec(heightSpec,
+                                    getPaddingTop() + getPaddingBottom(), p.height);
+                            view.measure(childWidthSpec, childHeightSpec);
+                            myMeasureHeight += view.getMeasuredHeight() + p.bottomMargin + p.topMargin;
+                        }
+                        recycler.recycleView(view);
+                    }
+                }
+                setMeasuredDimension(measuredWidth, Math.min(measuredHeight, myMeasureHeight));
+            }
+        });
+
+//        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.HORIZONTAL);
+//        brandList.addItemDecoration(dividerItemDecoration);
+        brandList.addItemDecoration(new Y_DividerItemDecoration(getActivity()) {
+            @Override
+            public Y_Divider getDivider(int itemPosition) {
+                Y_Divider divider;
+                switch (itemPosition % 3) {
+                    case 0:
+                        divider = new Y_DividerBuilder()
+                                .setRightSideLine(true, getResources().getColor(R.color.grey_300), 1, 0, 0)
+                                .create();
+                        break;
+                    case 2:
+                        divider = new Y_DividerBuilder()
+                                .setLeftSideLine(true, getResources().getColor(R.color.grey_300), 1, 0, 0)
+                                .create();
+                        break;
+                    default:
+                        divider = new Y_DividerBuilder().create();
+                        break;
+                }
+                return divider;
+            }
+        });
+
+        BrandAdapter brandAdapter = new BrandAdapter();
+
+        brandList.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent event) {
+                if (gestureDetector.onTouchEvent(event)) {
+                    View childView = rv.findChildViewUnder(event.getX(), event.getY());
+                    int childPosition = rv.getChildAdapterPosition(childView);
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
+
+        BrandDataSource brandDataSource = new BrandDataSource(getActivity());
+
+        brandListHelper = new MVCNormalHelper(brandList);
+        brandListHelper.setAdapter(brandAdapter);
+        brandListHelper.setDataSource(brandDataSource);
+
+        brandListHelper.refresh();
+    }
+
     private void initCouponTab() {
         TaoKeApi.getCouponTab()
                 .compose(((BaseActivity) getActivity()).bindUntilEvent(ActivityEvent.DESTROY))
                 .compose(RxHelper.rxSchedulerHelper())
                 .subscribe(tabs -> {
                     for (CouponTab tab : tabs) {
-                        tabLayout.addTab(tabLayout.newTab().setText(tab.title));
+                        couponTab.addTab(couponTab.newTab().setText(tab.title));
                     }
-                    tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                    couponTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                         @Override
                         public void onTabSelected(TabLayout.Tab tab) {
                             appBarLayout.setExpanded(false, true);
-                            recyclerView.scrollToPosition(0);
+                            couponList.scrollToPosition(0);
                             RxBus.getInstance().post(RecyclerViewAppBarBehavior.RecyclerViewScrollEvent.class, new RecyclerViewAppBarBehavior.RecyclerViewScrollEvent());
-                            mvcHelper.refresh();
+                            couponListHelper.refresh();
                         }
 
                         @Override
@@ -155,22 +251,15 @@ public class DiscoverFragment extends Fragment {
                 });
     }
 
-    private void initRecyclerView() {
+    private void initCouponList() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity()).size(1).build());
+        couponList.setLayoutManager(layoutManager);
+        couponList.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity()).size(1).build());
 
         CouponAdapter couponAdapter = new CouponAdapter();
 
-        GestureDetector gestureDetector = new GestureDetector(getActivity(), new GestureDetector.SimpleOnGestureListener() {
-            @Override
-            public boolean onSingleTapUp(MotionEvent e) {
-                return true;
-            }
-        });
-
-        recyclerView.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener() {
+        couponList.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener() {
             @Override
             public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent event) {
                 if (gestureDetector.onTouchEvent(event)) {
@@ -185,11 +274,11 @@ public class DiscoverFragment extends Fragment {
 
         CouponDataSource couponDataSource = new CouponDataSource(getActivity());
 
-        mvcHelper = new MVCNormalHelper(recyclerView);
-        mvcHelper.setAdapter(couponAdapter);
-        mvcHelper.setDataSource(couponDataSource);
+        couponListHelper = new MVCNormalHelper(couponList);
+        couponListHelper.setAdapter(couponAdapter);
+        couponListHelper.setDataSource(couponDataSource);
 
-        mvcHelper.refresh();
+        couponListHelper.refresh();
     }
 
     private void initFloatingActionButton() {
@@ -200,7 +289,7 @@ public class DiscoverFragment extends Fragment {
                 .paddingDp(4));
 
         floatingActionButton.setOnClickListener(v -> {
-            recyclerView.scrollToPosition(0);
+            couponList.scrollToPosition(0);
             RxBus.getInstance().post(RecyclerViewAppBarBehavior.RecyclerViewScrollEvent.class, new RecyclerViewAppBarBehavior.RecyclerViewScrollEvent());
             appBarLayout.setExpanded(true, true);
         });
