@@ -1,5 +1,6 @@
 package com.github.caoyouxin.taoke.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -28,6 +29,7 @@ import com.github.caoyouxin.taoke.model.CouponTab;
 import com.github.caoyouxin.taoke.api.RxHelper;
 import com.github.caoyouxin.taoke.api.TaoKeApi;
 import com.github.caoyouxin.taoke.datasource.CouponDataSource;
+import com.github.caoyouxin.taoke.ui.activity.NoviceActivity;
 import com.github.caoyouxin.taoke.ui.widget.HackyLoadViewFactory;
 import com.github.caoyouxin.taoke.ui.widget.HackyTextSliderView;
 import com.github.caoyouxin.taoke.ui.widget.RecyclerViewAppBarBehavior;
@@ -115,7 +117,15 @@ public class DiscoverFragment extends Fragment {
 
     @OnClick({R.id.tool_collection, R.id.tool_coupon, R.id.tool_11, R.id.tool_convert, R.id.tool_novice})
     protected void onToolClick(View view) {
-
+        Intent intent = null;
+        switch (view.getId()) {
+            case R.id.tool_novice:
+                intent = new Intent(getActivity(), NoviceActivity.class);
+                break;
+        }
+        if (intent != null) {
+            startActivity(intent);
+        }
     }
 
     private void initSlider() {
