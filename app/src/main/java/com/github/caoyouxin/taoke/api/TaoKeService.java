@@ -14,7 +14,9 @@ import retrofit2.http.Path;
 
 public interface TaoKeService {
 
+    String API_BRAND_LIST = "brandlist";
     String API_COUPON_TAB = "coupontab";
+    String API_COUPON_LIST = "couponlist";
 
     @FormUrlEncoded
     @POST("/api/{api}")

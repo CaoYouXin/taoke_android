@@ -29,6 +29,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support:recyclerview-v7:26.+'
     compile 'com.android.support:design:26.+'
+    compile 'com.android.support:percent:26.+'
     compile 'com.android.support:multidex:1.0.1'
 
     debugCompile('com.github.gnastnosaj.Boilerplate:boilerplate:3b53858') {
@@ -56,6 +57,7 @@ dependencies {
     compile 'com.github.gnastnosaj.BiliShare:library:f4a17c9'
 
     compile 'com.mikepenz:iconics-views:+@aar'
+    compile 'com.mikepenz:fontawesome-typeface:+@aar'
     compile 'com.mikepenz:material-design-iconic-typeface:+@aar'
     compile 'com.mikepenz:typeicons-typeface:+@aar'
     compile 'com.mikepenz:ionicons-typeface:+@aar'
@@ -64,8 +66,9 @@ dependencies {
 
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
     compile 'com.daimajia.slider:library:+'
-    compile 'com.yqritc:recyclerview-flexibledivider:+'
-
+    //compile 'com.yqritc:recyclerview-flexibledivider:+'
+    compile 'com.yanyusong.y_divideritemdecoration:y_divideritemdecoration:2.0'
+    compile 'com.akexorcist:RoundCornerProgressBar:2.0.3'
 }
 
 configurations.all {

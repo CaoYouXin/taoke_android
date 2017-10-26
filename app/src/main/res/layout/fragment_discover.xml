@@ -58,9 +58,10 @@
             </android.support.design.widget.AppBarLayout>
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view"
+                android:id="@+id/coupon_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/white"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
             <android.support.design.widget.FloatingActionButton
@@ -69,8 +70,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
                 android:layout_margin="@dimen/len_20"
-                android:visibility="visible"
-                app:backgroundTint="@color/grey_100"
+                android:visibility="invisible"
+                app:backgroundTint="@color/white"
                 app:borderWidth="0dp"
                 app:elevation="@dimen/len_4"
                 app:fabSize="mini" />

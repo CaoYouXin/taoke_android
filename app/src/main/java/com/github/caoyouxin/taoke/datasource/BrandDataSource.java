@@ -3,7 +3,7 @@ package com.github.caoyouxin.taoke.datasource;
 import android.content.Context;
 
 import com.github.caoyouxin.taoke.api.TaoKeApi;
-import com.github.caoyouxin.taoke.model.CouponItem;
+import com.github.caoyouxin.taoke.model.BrandItem;
 import com.github.gnastnosaj.boilerplate.mvchelper.RxDataSource;
 import com.shizhefei.mvc.IDataCacheLoader;
 
@@ -15,18 +15,18 @@ import io.reactivex.Observable;
  * Created by jasontsang on 10/24/17.
  */
 
-public class CouponDataSource extends RxDataSource<List<CouponItem>> implements IDataCacheLoader<List<CouponItem>> {
-    public CouponDataSource(Context context) {
+public class BrandDataSource extends RxDataSource<List<BrandItem>> implements IDataCacheLoader<List<BrandItem>> {
+    public BrandDataSource(Context context) {
         super(context);
     }
 
     @Override
-    public Observable<List<CouponItem>> refresh() throws Exception {
-        return TaoKeApi.getCouponList();
+    public Observable<List<BrandItem>> refresh() throws Exception {
+        return TaoKeApi.getBrandList();
     }
 
     @Override
-    public Observable<List<CouponItem>> loadMore() throws Exception {
+    public Observable<List<BrandItem>> loadMore() throws Exception {
         return null;
     }
 
@@ -36,7 +36,7 @@ public class CouponDataSource extends RxDataSource<List<CouponItem>> implements 
     }
 
     @Override
-    public List<CouponItem> loadCache(boolean isEmpty) {
+    public List<BrandItem> loadCache(boolean isEmpty) {
         return null;
     }
 }
