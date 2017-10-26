@@ -33,4 +33,9 @@
     <string name="help_report">帮助与反馈</string>
     <string name="about">关于</string>
     <string name="exit">退出登录</string>
+    <string name="logo">Logo</string>
+    <string name="app_version">v1.0.0</string>
+    <string name="app_intro">\t\t淘客客户端是由『X公司』自主开发，为淘宝客推出的一款移动客户端软件。淘客用户可以随时随地通过手机进行导购推广...，以及接收...消息。</string>
+    <string name="what_we_wish">淘客客户端致力于服务好广大用户，欢迎提出各种建议和反馈。</string>
+    <string name="report_email">反馈邮箱: xxx@xxx.com</string>
 </resources>
