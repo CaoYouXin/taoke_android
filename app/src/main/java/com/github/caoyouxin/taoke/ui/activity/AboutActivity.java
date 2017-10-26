@@ -11,11 +11,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-/**
- * Created by jasontsang on 10/26/17.
- */
-
-public class NoviceActivity extends BaseActivity {
+public class AboutActivity extends BaseActivity {
 
     @BindView(R.id.title)
     TextView title;
@@ -24,11 +20,11 @@ public class NoviceActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_novice);
+        setContentView(R.layout.activity_about);
 
         ButterKnife.bind(this);
 
-        title.setText(R.string.new_help);
+        title.setText(R.string.about);
     }
 
     @OnClick(R.id.back)
