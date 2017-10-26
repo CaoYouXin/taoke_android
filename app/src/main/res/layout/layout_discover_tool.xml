@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/len_80"
     android:background="@color/white"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:baselineAligned="false">
 
     <FrameLayout
         android:id="@+id/tool_collection"

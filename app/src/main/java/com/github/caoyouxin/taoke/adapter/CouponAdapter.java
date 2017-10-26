@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.model.CouponItem;
@@ -47,6 +48,8 @@ public class CouponAdapter extends RecyclerView.Adapter implements IDataAdapter<
         holder.priceBefore.setText(context.getResources().getString(R.string.discover_coupon_price_before, item.priceBefore, String.valueOf(item.sales)));
         holder.priceAfter.setText(context.getResources().getString(R.string.discover_coupon_price_after, item.priceAfter));
         holder.earn.setText(context.getResources().getString(R.string.discover_coupon_earn, item.earn));
+        holder.value.setText(context.getResources().getString(R.string.discover_coupon_value, item.value, String.valueOf(item.left)));
+        holder.progress.setProgress(((float) item.left * 100) / item.total);
     }
 
     @Override
@@ -89,6 +92,12 @@ public class CouponAdapter extends RecyclerView.Adapter implements IDataAdapter<
 
         @BindView(R.id.coupon_earn)
         TextView earn;
+
+        @BindView(R.id.coupon_value)
+        TextView value;
+
+        @BindView(R.id.coupon_progress)
+        RoundCornerProgressBar progress;
 
         public ViewHolder(View itemView) {
             super(itemView);

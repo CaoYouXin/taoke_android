@@ -86,7 +86,7 @@ public class TaoKeTestService implements TaoKeService {
                     item.put("sales", 10);
                     item.put("priceAfter", "14.90");
                     item.put("value", "20");
-                    item.put("total", 1300000);
+                    item.put("total", 130000);
                     item.put("left", 59036);
                     item.put("earn", "0.33");
                     items2.add(item);
