@@ -155,6 +155,7 @@
     <orderEntry type="library" exported="" name="mkloader-1.4.0" level="project" />
     <orderEntry type="library" exported="" name="rxbinding-2.0.0" level="project" />
     <orderEntry type="library" exported="" name="jlog-1.0.6" level="project" />
+    <orderEntry type="library" exported="" name="ionicons-typeface-2.0.1.3" level="project" />
     <orderEntry type="library" exported="" name="design-26.0.0-alpha1" level="project" />
     <orderEntry type="library" exported="" name="jsr305-2.0.1" level="project" />
     <orderEntry type="library" exported="" name="animated-drawable-1.5.0" level="project" />

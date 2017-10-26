@@ -17,4 +17,12 @@
 
     <string name="discover_brand">品牌精选</string>
     <string name="discover_coupon">好券直播</string>
+
+    <string name="account_id">账户ID:  \n头衔</string>
+    <string name="new_help">新手引导</string>
+    <string name="account_description" />
+    <string name="share">分享给好友</string>
+    <string name="help_report">帮助与反馈</string>
+    <string name="about">关于</string>
+    <string name="exit">退出登录</string>
 </resources>

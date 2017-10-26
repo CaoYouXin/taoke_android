@@ -58,6 +58,7 @@ dependencies {
     compile 'com.mikepenz:iconics-views:+@aar'
     compile 'com.mikepenz:material-design-iconic-typeface:+@aar'
     compile 'com.mikepenz:typeicons-typeface:+@aar'
+    compile 'com.mikepenz:ionicons-typeface:+@aar'
     compile 'q.rorbin:badgeview:1.1.2'
     compile "me.leolin:ShortcutBadger:1.1.18@aar"
 
