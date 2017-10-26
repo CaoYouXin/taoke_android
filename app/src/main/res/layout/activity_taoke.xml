@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_action_bar" />
+    <include layout="@layout/layout_taoke_action_bar" />
 
     <FrameLayout
         android:id="@+id/tab_content"
@@ -12,6 +12,6 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <include layout="@layout/layout_tab" />
+    <include layout="@layout/layout_taoke_tab" />
 
 </LinearLayout>
