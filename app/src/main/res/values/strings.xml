@@ -18,6 +18,14 @@
     <string name="discover_brand">品牌精选</string>
     <string name="discover_coupon">好券直播</string>
 
+    <string name="discover_coupon_earn">赚 ¥ %1$s</string>
+    <string name="discover_coupon_price_before">现价 ¥ %1$s&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;月销量 %2$s 件</string>
+    <string name="discover_coupon_price_after">券后价 ¥ %1$s</string>
+    <string name="discover_coupon_value">券 | %1$s元&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;余%2$s张</string>
+
+    <string name="detail">宝贝推广信息</string>
+    <string name="detail_share">立即分享</string>
+
     <string name="account_id">账户ID:  \n头衔</string>
     <string name="new_help">新手引导</string>
     <string name="account_description" />
@@ -25,10 +33,4 @@
     <string name="help_report">帮助与反馈</string>
     <string name="about">关于</string>
     <string name="exit">退出登录</string>
-
-    <string name="discover_coupon_earn">赚 ¥ %1$s</string>
-    <string name="discover_coupon_price_before">现价 ¥ %1$s&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;月销量 %2$s 件</string>
-    <string name="discover_coupon_price_after">券后价 ¥ %1$s</string>
-    <string name="discover_coupon_value">券 | %1$s元&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;余%2$s张</string>
-
 </resources>
