@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/len_48"
-    android:background="@color/grey_100"
-    android:elevation="@dimen/len_4">
+    android:background="@color/grey_100">
 
     <TextView
         android:id="@+id/title"
@@ -19,10 +18,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/len_16"
         android:layout_marginStart="@dimen/len_16"
         android:padding="@dimen/len_6"
         android:text="{gmi-chevron-left}"
         android:textColor="@color/grey_800"
         android:textSize="@dimen/font_24"
         tools:ignore="HardcodedText" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_gravity="bottom"
+        android:background="@color/grey_300" />
 </FrameLayout>
