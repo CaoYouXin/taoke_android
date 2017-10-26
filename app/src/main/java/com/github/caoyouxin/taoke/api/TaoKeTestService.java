@@ -93,6 +93,19 @@ public class TaoKeTestService implements TaoKeService {
                 }
                 taoKeData.body.put("recs", items2);
                 return Observable.just(taoKeData);
+            case API_HELP_LIST:
+                taoKeData.header.put("ResultCode", "0000");
+
+                List<Map> recs = new ArrayList<>();
+                for (int i = 0; i < 20; i++) {
+                    Map item = new ArrayMap();
+                    item.put("q", Math.random() > 0.5 ? "问题" + i : "这是一个很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长的问题");
+                    item.put("a", Math.random() > 0.5 ? "1. 方案1\n2. 方案2" : "如此如此");
+                    recs.add(item);
+                }
+                taoKeData.body.put("recs", recs);
+
+                return Observable.just(taoKeData);
         }
         return Observable.empty();
     }

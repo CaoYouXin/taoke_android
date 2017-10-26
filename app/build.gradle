@@ -67,7 +67,7 @@ dependencies {
 
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
     compile 'com.daimajia.slider:library:+'
-    //compile 'com.yqritc:recyclerview-flexibledivider:+'
+    compile 'com.yqritc:recyclerview-flexibledivider:+'
     compile 'com.yanyusong.y_divideritemdecoration:y_divideritemdecoration:2.0'
     compile 'com.akexorcist:RoundCornerProgressBar:2.0.3'
 }

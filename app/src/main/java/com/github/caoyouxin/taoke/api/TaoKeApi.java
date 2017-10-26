@@ -3,6 +3,7 @@ package com.github.caoyouxin.taoke.api;
 import com.github.caoyouxin.taoke.model.BrandItem;
 import com.github.caoyouxin.taoke.model.CouponItem;
 import com.github.caoyouxin.taoke.model.CouponTab;
+import com.github.caoyouxin.taoke.model.HelpItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +71,24 @@ public class TaoKeApi {
                             item.total = (int) rec.get("total");
                             item.left = (int) rec.get("left");
                             item.earn = (String) rec.get("earn");
+                            items.add(item);
+                        }
+                    }
+                    return Observable.just(items);
+                });
+    }
+
+    public static Observable<List<HelpItem>> getHelpList() {
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_HELP_LIST)
+                .compose(RxHelper.handleResult())
+                .flatMap(taoKeData -> {
+                    List<HelpItem> items = new ArrayList<>();
+                    List<Map> recs = (List<Map>) taoKeData.body.get("recs");
+                    if (recs != null) {
+                        for (Map rec : recs) {
+                            HelpItem item = new HelpItem();
+                            item.q = "Q: " + (String) rec.get("q");
+                            item.a = (String) rec.get("a");
                             items.add(item);
                         }
                     }
