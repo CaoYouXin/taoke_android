@@ -28,6 +28,7 @@ import com.github.caoyouxin.taoke.model.CouponTab;
 import com.github.caoyouxin.taoke.api.RxHelper;
 import com.github.caoyouxin.taoke.api.TaoKeApi;
 import com.github.caoyouxin.taoke.datasource.CouponDataSource;
+import com.github.caoyouxin.taoke.ui.widget.HackyLoadViewFactory;
 import com.github.caoyouxin.taoke.ui.widget.HackyTextSliderView;
 import com.github.caoyouxin.taoke.ui.widget.RecyclerViewAppBarBehavior;
 import com.github.gnastnosaj.boilerplate.rxbus.RxBus;
@@ -161,31 +162,6 @@ public class DiscoverFragment extends Fragment {
             public boolean canScrollVertically() {
                 return false;
             }
-
-            @Override
-            public void onMeasure(RecyclerView.Recycler recycler, RecyclerView.State state, int widthSpec, int heightSpec) {
-                super.onMeasure(recycler, state, widthSpec, heightSpec);
-                int measuredWidth = brandList.getMeasuredWidth();
-                int measuredHeight = brandList.getMeasuredHeight();
-                int myMeasureHeight = 0;
-                int count = state.getItemCount();
-                for (int i = 0; i < count; i++) {
-                    View view = recycler.getViewForPosition(i);
-                    if (view != null) {
-                        if (myMeasureHeight < measuredHeight && i % 3 == 0) {
-                            RecyclerView.LayoutParams p = (RecyclerView.LayoutParams) view.getLayoutParams();
-                            int childWidthSpec = ViewGroup.getChildMeasureSpec(widthSpec,
-                                    getPaddingLeft() + getPaddingRight(), p.width);
-                            int childHeightSpec = ViewGroup.getChildMeasureSpec(heightSpec,
-                                    getPaddingTop() + getPaddingBottom(), p.height);
-                            view.measure(childWidthSpec, childHeightSpec);
-                            myMeasureHeight += view.getMeasuredHeight() + p.bottomMargin + p.topMargin;
-                        }
-                        recycler.recycleView(view);
-                    }
-                }
-                setMeasuredDimension(measuredWidth, Math.min(measuredHeight, myMeasureHeight));
-            }
         });
 
 //        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.HORIZONTAL);
@@ -230,7 +206,9 @@ public class DiscoverFragment extends Fragment {
 
         BrandDataSource brandDataSource = new BrandDataSource(getActivity());
 
-        brandListHelper = new MVCNormalHelper(brandList);
+        //hacky to remove mvchelper loadview loadmoreview
+        HackyLoadViewFactory hackyLoadViewFactory = new HackyLoadViewFactory();
+        brandListHelper = new MVCNormalHelper(brandList, hackyLoadViewFactory.madeLoadView(), hackyLoadViewFactory.madeLoadMoreView());
         brandListHelper.setAdapter(brandAdapter);
         brandListHelper.setDataSource(brandDataSource);
 
@@ -290,7 +268,9 @@ public class DiscoverFragment extends Fragment {
 
         CouponDataSource couponDataSource = new CouponDataSource(getActivity());
 
-        couponListHelper = new MVCNormalHelper(couponList);
+        //hacky to remove mvchelper loadview loadmoreview
+        HackyLoadViewFactory hackyLoadViewFactory = new HackyLoadViewFactory();
+        couponListHelper = new MVCNormalHelper(couponList, hackyLoadViewFactory.madeLoadView(), hackyLoadViewFactory.madeLoadMoreView());
         couponListHelper.setAdapter(couponAdapter);
         couponListHelper.setDataSource(couponDataSource);
 
