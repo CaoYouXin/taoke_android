@@ -124,7 +124,7 @@ public class DiscoverFragment extends Fragment {
                 break;
         }
         if (intent != null) {
-            startActivity(intent);
+            getActivity().startActivity(intent);
         }
     }
 
