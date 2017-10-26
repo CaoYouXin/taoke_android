@@ -29,7 +29,9 @@ import com.github.caoyouxin.taoke.model.CouponTab;
 import com.github.caoyouxin.taoke.api.RxHelper;
 import com.github.caoyouxin.taoke.api.TaoKeApi;
 import com.github.caoyouxin.taoke.datasource.CouponDataSource;
+import com.github.caoyouxin.taoke.ui.activity.DetailActivity;
 import com.github.caoyouxin.taoke.ui.activity.NoviceActivity;
+import com.github.caoyouxin.taoke.ui.activity.ProductListActivity;
 import com.github.caoyouxin.taoke.ui.widget.HackyLoadViewFactory;
 import com.github.caoyouxin.taoke.ui.widget.HackyTextSliderView;
 import com.github.caoyouxin.taoke.ui.widget.RecyclerViewAppBarBehavior;
@@ -200,6 +202,8 @@ public class DiscoverFragment extends Fragment {
                 if (gestureDetector.onTouchEvent(event)) {
                     View childView = rv.findChildViewUnder(event.getX(), event.getY());
                     int childPosition = rv.getChildAdapterPosition(childView);
+                    Intent intent = new Intent(getActivity(), ProductListActivity.class);
+                    getActivity().startActivity(intent);
                     return true;
                 } else {
                     return false;
@@ -262,6 +266,8 @@ public class DiscoverFragment extends Fragment {
                 if (gestureDetector.onTouchEvent(event)) {
                     View childView = rv.findChildViewUnder(event.getX(), event.getY());
                     int childPosition = rv.getChildAdapterPosition(childView);
+                    Intent intent = new Intent(getActivity(), DetailActivity.class);
+                    getActivity().startActivity(intent);
                     return true;
                 } else {
                     return false;
