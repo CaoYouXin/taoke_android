@@ -69,6 +69,7 @@ public class TaoKeApi {
                             item.value = (String) rec.get("value");
                             item.total = (int) rec.get("total");
                             item.left = (int) rec.get("left");
+                            item.earn = (String) rec.get("earn");
                             items.add(item);
                         }
                     }

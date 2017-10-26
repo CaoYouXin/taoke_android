@@ -4,7 +4,7 @@
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/len_128"
+    android:layout_height="112dp"
     android:baselineAligned="false"
     android:orientation="horizontal">
 
@@ -35,24 +35,33 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="@dimen/len_6">
 
                 <TextView
                     android:id="@+id/coupon_title"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:lines="2"
+                    android:textColor="@color/grey_800"
+                    android:textSize="@dimen/font_12" />
 
                 <TextView
                     android:id="@+id/coupon_price_before"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/discover_coupon_price_before" />
+                    android:layout_marginTop="@dimen/len_6"
+                    android:text="@string/discover_coupon_price_before"
+                    android:textSize="@dimen/font_12" />
 
                 <TextView
                     android:id="@+id/coupon_price_after"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/discover_coupon_price_after" />
+                    android:layout_marginTop="@dimen/len_6"
+                    android:text="@string/discover_coupon_price_after"
+                    android:textSize="13sp" />
             </LinearLayout>
 
             <FrameLayout
@@ -64,6 +73,7 @@
                 android:paddingStart="@dimen/len_12">
 
                 <LinearLayout
+                    android:id="@+id/coupon_spread"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -76,18 +86,19 @@
                         android:layout_height="@dimen/len_44"
                         android:background="@drawable/coupon_earn_circle_border"
                         android:gravity="center"
-                        android:text="{typ-export-outline}"
+                        android:text="{faw-share-square-o}"
                         android:textColor="@color/orange_900"
-                        android:textSize="@dimen/font_24"
+                        android:textSize="@dimen/font_22"
                         tools:ignore="HardcodedText" />
 
                     <TextView
+                        android:id="@+id/coupon_earn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="@string/discover_coupon_earn"
                         android:textColor="@color/orange_900"
-                        android:textSize="@dimen/font_14" />
+                        android:textSize="@dimen/font_12" />
                 </LinearLayout>
 
             </FrameLayout>

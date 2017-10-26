@@ -57,6 +57,7 @@ dependencies {
     compile 'com.github.gnastnosaj.BiliShare:library:f4a17c9'
 
     compile 'com.mikepenz:iconics-views:+@aar'
+    compile 'com.mikepenz:fontawesome-typeface:+@aar'
     compile 'com.mikepenz:material-design-iconic-typeface:+@aar'
     compile 'com.mikepenz:typeicons-typeface:+@aar'
     compile 'q.rorbin:badgeview:1.1.2'

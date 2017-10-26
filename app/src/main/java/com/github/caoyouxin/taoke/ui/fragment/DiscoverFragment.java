@@ -41,7 +41,6 @@ import com.trello.rxlifecycle2.android.ActivityEvent;
 import com.yanyusong.y_divideritemdecoration.Y_Divider;
 import com.yanyusong.y_divideritemdecoration.Y_DividerBuilder;
 import com.yanyusong.y_divideritemdecoration.Y_DividerItemDecoration;
-import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -146,6 +145,16 @@ public class DiscoverFragment extends Fragment {
 
     private void initBrandList() {
         brandList.setLayoutManager(new GridLayoutManager(getActivity(), 3) {
+            @Override
+            public boolean canScrollHorizontally() {
+                return false;
+            }
+
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+
             @Override
             public void onMeasure(RecyclerView.Recycler recycler, RecyclerView.State state, int widthSpec, int heightSpec) {
                 super.onMeasure(recycler, state, widthSpec, heightSpec);

@@ -14,4 +14,5 @@ public class CouponItem {
     public String value;
     public int total;
     public int left;
+    public String earn;
 }

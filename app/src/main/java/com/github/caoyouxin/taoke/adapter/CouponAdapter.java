@@ -46,6 +46,7 @@ public class CouponAdapter extends RecyclerView.Adapter implements IDataAdapter<
         holder.title.setText(item.title);
         holder.priceBefore.setText(context.getResources().getString(R.string.discover_coupon_price_before, item.priceBefore, String.valueOf(item.sales)));
         holder.priceAfter.setText(context.getResources().getString(R.string.discover_coupon_price_after, item.priceAfter));
+        holder.earn.setText(context.getResources().getString(R.string.discover_coupon_earn, item.earn));
     }
 
     @Override
@@ -85,6 +86,9 @@ public class CouponAdapter extends RecyclerView.Adapter implements IDataAdapter<
 
         @BindView(R.id.coupon_price_after)
         TextView priceAfter;
+
+        @BindView(R.id.coupon_earn)
+        TextView earn;
 
         public ViewHolder(View itemView) {
             super(itemView);

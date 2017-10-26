@@ -105,6 +105,7 @@
     <orderEntry type="jdk" jdkName="Android API 26 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="fresco-1.5.0" level="project" />
+    <orderEntry type="library" exported="" name="fontawesome-typeface-4.7.0.1" level="project" />
     <orderEntry type="library" exported="" name="stetho-okhttp3-1.5.0" level="project" />
     <orderEntry type="library" exported="" name="support-fragment-26.0.0-alpha1" level="project" />
     <orderEntry type="library" exported="" name="imagepipeline-base-1.5.0" level="project" />
