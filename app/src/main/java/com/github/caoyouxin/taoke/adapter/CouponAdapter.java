@@ -9,6 +9,8 @@ import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.Interpolator;
 import android.widget.TextView;
 
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
@@ -19,9 +21,12 @@ import com.shizhefei.mvc.IDataAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 /**
  * Created by jasontsang on 10/24/17.
@@ -32,6 +37,8 @@ public class CouponAdapter extends RecyclerView.Adapter implements IDataAdapter<
     private Context context;
 
     private List<CouponItem> data = new ArrayList<>();
+
+    private Interpolator interpolator = new DecelerateInterpolator();
 
     public CouponAdapter(Context context) {
         this.context = context;
@@ -60,7 +67,20 @@ public class CouponAdapter extends RecyclerView.Adapter implements IDataAdapter<
 
         holder.earn.setText(context.getResources().getString(R.string.discover_coupon_earn, item.earn));
         holder.value.setText(context.getResources().getString(R.string.discover_coupon_value, item.value, String.valueOf(item.left)));
-        holder.progress.setProgress(((float) item.left * 100) / item.total);
+
+        Observable.intervalRange(0, 20, 500, 50, TimeUnit.MILLISECONDS)
+                .map(aLong -> {
+                    float result = interpolator.getInterpolation((float) aLong / 20);
+                    float progress = result * ((float) item.left * 100) / item.total;
+                    return progress;
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(progress -> {
+                    if (holder.progress.getProgress() < progress) {
+                        holder.progress.setProgress(progress);
+                    }
+                }, throwable -> {
+                });
     }
 
     @Override
