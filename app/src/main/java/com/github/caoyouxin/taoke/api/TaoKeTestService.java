@@ -115,7 +115,13 @@ public class TaoKeTestService implements TaoKeService {
                     item.put("priceAfter", "14.90");
                     item.put("value", "20");
                     item.put("total", 130000);
-                    item.put("left", 59036);
+                    if (i % 3 == 0) {
+                        item.put("left", 59036);
+                    } else if (i % 3 == 1) {
+                        item.put("left", 63036);
+                    } else {
+                        item.put("left", 98036);
+                    }
                     item.put("earn", "0.33");
                     items2.add(item);
                 }
