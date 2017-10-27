@@ -164,8 +164,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="{gmi-ticket-star}"
-                            android:textColor="@color/grey_800"
-                            android:textSize="@dimen/font_12"
+                            android:textColor="@color/grey_600"
+                            android:textSize="@dimen/font_16"
                             tools:ignore="HardcodedText" />
 
                         <TextView
@@ -190,8 +190,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="{faw-money}"
-                            android:textColor="@color/grey_800"
-                            android:textSize="@dimen/font_12"
+                            android:textColor="@color/grey_600"
+                            android:textSize="@dimen/font_14"
                             tools:ignore="HardcodedText" />
 
                         <TextView
@@ -219,6 +219,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="1px"
                     android:background="@color/grey_400" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/len_48" />
 
             </LinearLayout>
 
