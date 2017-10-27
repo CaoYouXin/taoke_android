@@ -2,6 +2,10 @@ package com.github.caoyouxin.taoke.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +50,14 @@ public class CouponAdapter extends RecyclerView.Adapter implements IDataAdapter<
         holder.thumb.setImageURI(item.thumb);
         holder.title.setText(item.title);
         holder.priceBefore.setText(context.getResources().getString(R.string.discover_coupon_price_before, item.priceBefore, String.valueOf(item.sales)));
-        holder.priceAfter.setText(context.getResources().getString(R.string.discover_coupon_price_after, item.priceAfter));
+
+        String text = context.getResources().getString(R.string.discover_coupon_price_after, item.priceAfter);
+        SpannableStringBuilder builder = new SpannableStringBuilder(text);
+        ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(context.getResources().getColor(R.color.grey_900));
+        builder.setSpan(foregroundColorSpan, text.indexOf("¥"), text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        builder.setSpan(new AbsoluteSizeSpan(context.getResources().getDimensionPixelSize(R.dimen.font_16)), text.indexOf("¥"), text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        holder.priceAfter.setText(builder);
+
         holder.earn.setText(context.getResources().getString(R.string.discover_coupon_earn, item.earn));
         holder.value.setText(context.getResources().getString(R.string.discover_coupon_value, item.value, String.valueOf(item.left)));
         holder.progress.setProgress(((float) item.left * 100) / item.total);
