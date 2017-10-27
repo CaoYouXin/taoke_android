@@ -117,6 +117,7 @@ public class DiscoverFragment extends Fragment {
 
             initRefreshLayout();
         }
+        sliderLayout.setDuration(4000);
         return rootView;
     }
 
@@ -147,7 +148,6 @@ public class DiscoverFragment extends Fragment {
         LinearLayout.LayoutParams itemViewParams = new LinearLayout.LayoutParams(sliderLayoutWidth, sliderLayoutHeight);
         sliderLayout.setLayoutParams(itemViewParams);
         updateSlider();
-        sliderLayout.setDuration(4000);
     }
 
     private void updateSlider() {
