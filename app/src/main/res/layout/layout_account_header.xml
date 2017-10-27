@@ -14,8 +14,9 @@
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"
-        fresco:placeholderImage="@mipmap/ic_launcher"
-        />
+        fresco:actualImageResource="@mipmap/ic_launcher"
+        fresco:actualImageScaleType="centerCrop"
+        fresco:viewAspectRatio="1" />
 
     <TextView
         android:id="@+id/account_id"

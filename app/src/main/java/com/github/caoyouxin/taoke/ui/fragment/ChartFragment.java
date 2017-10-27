@@ -1,5 +1,6 @@
 package com.github.caoyouxin.taoke.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.github.caoyouxin.taoke.R;
+import com.github.caoyouxin.taoke.ui.activity.OrdersActivity;
 
 import org.w3c.dom.Text;
 
@@ -64,7 +66,8 @@ public class ChartFragment extends Fragment {
 
     @OnClick(R.id.orders_detail)
     public void onClick(View view) {
-
+        Intent intent = new Intent(getActivity(), OrdersActivity.class);
+        getActivity().startActivity(intent);
     }
 
 }
