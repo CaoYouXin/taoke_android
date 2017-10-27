@@ -2,7 +2,10 @@ package com.github.caoyouxin.taoke.api;
 
 import android.support.v4.util.ArrayMap;
 
+import com.github.caoyouxin.taoke.model.MessageItem;
+
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +20,30 @@ import retrofit2.http.Path;
 public class TaoKeTestService implements TaoKeService {
     @Override
     public Observable<TaoKeData> tao(@Path("api") String api, @Field("data") String data, @Field("signature") String signature) {
+        TaoKeData taoKeData = new TaoKeData();
+        taoKeData.header = new ArrayMap<>();
+        taoKeData.body = new ArrayMap<>();
+        switch (api) {
+            case API_MESSAGE_LIST:
+                taoKeData.header.put("ResultCode", "0000");
+
+                List<Map> recs2 = new ArrayList<>();
+                Calendar calendar = Calendar.getInstance();
+                for (int i = 0; i < 10; i++) {
+                    Map item = new ArrayMap();
+                    item.put("title", data + "标题" + i);
+
+                    calendar.add(Calendar.DAY_OF_YEAR, 1);
+                    item.put("date", MessageItem.DF.format(calendar.getTime()));
+
+                    item.put("content", Math.random() > 0.5 ? "1. 消息\n2. 消息2\n\n诚至为您服务" : "如此如此\n\n诚至为您服务");
+                    recs2.add(item);
+                }
+                taoKeData.body.put("recs", recs2);
+
+                return Observable.just(taoKeData);
+        }
+
         return Observable.empty();
     }
 

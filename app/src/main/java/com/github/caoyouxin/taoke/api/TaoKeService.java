@@ -14,11 +14,12 @@ import retrofit2.http.Path;
 
 public interface TaoKeService {
 
-    String API_HELP_LIST = "helplist";
-    String API_BRAND_LIST = "brandlist";
-    String API_COUPON_TAB = "coupontab";
-    String API_COUPON_LIST = "couponlist";
-    String API_COUPON_DETAIL = "coupondetail";
+    String API_HELP_LIST = "helpList";
+    String API_BRAND_LIST = "brandList";
+    String API_COUPON_TAB = "couponTabList";
+    String API_COUPON_LIST = "couponList";
+    String API_MESSAGE_LIST = "messageList";
+    String API_COUPON_DETAIL = "couponDetail";
 
     @FormUrlEncoded
     @POST("/api/{api}")
