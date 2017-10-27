@@ -53,5 +53,8 @@
 
     <string name="user_amount">可提取金额\n¥ %1$s</string>
     <string name="withdraw">提现</string>
+    <string name="user_this_month_amount">本月结算预估收入\n¥ %1$s</string>
+    <string name="user_last_month_amount">上月结算预估收入\n¥ %1$s</string>
+    <string name="orders">订单明细</string>
 
 </resources>

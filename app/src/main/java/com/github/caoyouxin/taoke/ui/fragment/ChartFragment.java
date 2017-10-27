@@ -18,6 +18,7 @@ import org.w3c.dom.Text;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by jasontsang on 10/24/17.
@@ -27,6 +28,12 @@ public class ChartFragment extends Fragment {
 
     @BindView(R.id.user_amount)
     TextView userAmount;
+
+    @BindView(R.id.user_this_month_amount)
+    TextView userThisMonthAmount;
+
+    @BindView(R.id.user_last_month_amount)
+    TextView userLastMonthAmount;
 
     View rootView;
 
@@ -41,15 +48,23 @@ public class ChartFragment extends Fragment {
                 //restore
             }
 
-            this.initUserAmount();
+            this.userAmount.setText(this.buildAmount(R.string.user_amount, "0.00"));
+            this.userThisMonthAmount.setText(this.buildAmount(R.string.user_this_month_amount, "0.00"));
+            this.userLastMonthAmount.setText(this.buildAmount(R.string.user_last_month_amount, "120.00"));
         }
         return rootView;
     }
 
-    private void initUserAmount() {
-        String text = getActivity().getResources().getString(R.string.user_amount, "0.00");
+    private SpannableStringBuilder buildAmount(final int id, final String amount) {
+        String text = getActivity().getResources().getString(id, amount);
         SpannableStringBuilder builder = new SpannableStringBuilder(text);
         builder.setSpan(new AbsoluteSizeSpan(getActivity().getResources().getDimensionPixelSize(R.dimen.font_28)), text.indexOf('¥') + 2, text.indexOf('.'), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        this.userAmount.setText(builder);
+        return builder;
     }
+
+    @OnClick(R.id.orders_detail)
+    public void onClick(View view) {
+
+    }
+
 }

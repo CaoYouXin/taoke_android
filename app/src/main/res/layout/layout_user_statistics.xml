@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:orientation="horizontal"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/user_this_month_amount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:textAlignment="center"
+        android:textColor="@color/black_alpha_192"
+        android:text="@string/user_this_month_amount"
+        android:lineSpacingMultiplier="1.5"/>
+
+    <TextView
+        android:id="@+id/user_last_month_amount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:textAlignment="center"
+        android:textColor="@color/black_alpha_192"
+        android:text="@string/user_last_month_amount"
+        android:lineSpacingMultiplier="1.5"/>
+
+</LinearLayout>
