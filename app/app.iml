@@ -138,6 +138,7 @@
     <orderEntry type="library" exported="" name="com.facebook.fresco:webpsupport-1.5.0" level="project" />
     <orderEntry type="library" exported="" name="com.trello.rxlifecycle2:rxlifecycle:2.2.0@jar" level="project" />
     <orderEntry type="library" exported="" name="me.drakeet.multitype:multitype-3.3.3" level="project" />
+    <orderEntry type="library" exported="" name="io.reactivex.rxjava2:rxjava:2.1.6@jar" level="project" />
     <orderEntry type="library" exported="" name="com.jiongbull:jlog-1.0.6" level="project" />
     <orderEntry type="library" exported="" name="com.wanjian:cockroach-0.0.5" level="project" />
     <orderEntry type="library" exported="" name="com.facebook.fresco:animated-webp-1.5.0" level="project" />
@@ -166,7 +167,6 @@
     <orderEntry type="library" exported="" name="com.android.support:design-26.0.0-alpha1" level="project" />
     <orderEntry type="library" exported="" name="com.google.code.gson:gson:2.7@jar" level="project" />
     <orderEntry type="library" exported="" name="com.squareup.okio:okio:1.13.0@jar" level="project" />
-    <orderEntry type="library" exported="" name="io.reactivex.rxjava2:rxjava:2.1.5@jar" level="project" />
     <orderEntry type="library" exported="" name="com.squareup.retrofit2:retrofit:2.3.0@jar" level="project" />
     <orderEntry type="library" exported="" name="com.facebook.stetho:stetho-1.5.0" level="project" />
     <orderEntry type="library" exported="" name="com.github.gnastnosaj.BiliShare:library-f4a17c9" level="project" />
