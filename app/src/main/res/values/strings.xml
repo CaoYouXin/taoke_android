@@ -34,4 +34,8 @@
     <string name="detail_commission_hint">该商品可能存在高佣金，加油升级才可查看～</string>
     <string name="detail_share">立即分享</string>
     <string name="detail_app">淘宝打开</string>
+
+    <string name="sort_bar_multiple">综合</string>
+    <string name="sort_bar_sales">销量</string>
+    <string name="sort_bar_price">价格</string>
 </resources>
