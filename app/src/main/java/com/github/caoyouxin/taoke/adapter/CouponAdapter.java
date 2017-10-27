@@ -89,6 +89,13 @@ public class CouponAdapter extends RecyclerView.Adapter implements IDataAdapter<
     }
 
     @Override
+    public void onViewRecycled(RecyclerView.ViewHolder viewHolder) {
+        super.onViewRecycled(viewHolder);
+        ViewHolder holder = (ViewHolder) viewHolder;
+        holder.progress.setProgress(0);
+    }
+
+    @Override
     public void notifyDataChanged(List<CouponItem> data, boolean isRefresh) {
         if (isRefresh) {
             this.data.clear();
