@@ -17,6 +17,7 @@ public interface TaoKeService {
     String API_BRAND_LIST = "brandlist";
     String API_COUPON_TAB = "coupontab";
     String API_COUPON_LIST = "couponlist";
+    String API_COUPON_DETAIL = "coupondetail";
 
     @FormUrlEncoded
     @POST("/api/{api}")

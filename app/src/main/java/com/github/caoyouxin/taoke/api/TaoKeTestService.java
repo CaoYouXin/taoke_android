@@ -25,6 +25,7 @@ public class TaoKeTestService implements TaoKeService {
         TaoKeData taoKeData = new TaoKeData();
         taoKeData.header = new ArrayMap<>();
         taoKeData.body = new ArrayMap<>();
+
         switch (api) {
             case API_BRAND_LIST:
                 taoKeData.header.put("ResultCode", "0000");
@@ -94,6 +95,21 @@ public class TaoKeTestService implements TaoKeService {
                 taoKeData.body.put("recs", items2);
                 return Observable.just(taoKeData);
         }
+
+        if (api.startsWith(API_COUPON_DETAIL)) {
+            taoKeData.header.put("ResultCode", "0000");
+            taoKeData.body.put("thumb", "http://7xi8d6.com1.z0.glb.clouddn.com/20171025112955_lmesMu_katyteiko_25_10_2017_11_29_43_270.jpeg");
+            taoKeData.body.put("title", "冬季毛绒沙发垫加厚保暖简约法兰绒坐垫布艺防滑沙发套沙发罩全盖");
+            taoKeData.body.put("priceAfter", "99.00");
+            taoKeData.body.put("priceBefore", "399.00");
+            taoKeData.body.put("sales", 3580);
+            taoKeData.body.put("coupon", "300.0");
+            taoKeData.body.put("couponRequirement", "398.0");
+            taoKeData.body.put("commissionPercent", "5.50%");
+            taoKeData.body.put("commission", "5.45");
+            return Observable.just(taoKeData);
+        }
+
         return Observable.empty();
     }
 }

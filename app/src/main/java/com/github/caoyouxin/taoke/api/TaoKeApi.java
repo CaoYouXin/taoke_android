@@ -2,6 +2,7 @@ package com.github.caoyouxin.taoke.api;
 
 import com.github.caoyouxin.taoke.model.BrandItem;
 import com.github.caoyouxin.taoke.model.CouponItem;
+import com.github.caoyouxin.taoke.model.CouponItemDetail;
 import com.github.caoyouxin.taoke.model.CouponTab;
 
 import java.util.ArrayList;
@@ -74,6 +75,24 @@ public class TaoKeApi {
                         }
                     }
                     return Observable.just(items);
+                });
+    }
+
+    public static Observable<CouponItemDetail> getCouponDetail(CouponItem couponItem) {
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_COUPON_DETAIL + "/" + couponItem.id)
+                .compose(RxHelper.handleResult())
+                .flatMap(taoKeData -> {
+                    CouponItemDetail couponItemDetail = new CouponItemDetail();
+                    couponItemDetail.thumb = (String) taoKeData.body.get("thumb");
+                    couponItemDetail.title = (String) taoKeData.body.get("title");
+                    couponItemDetail.priceAfter = (String) taoKeData.body.get("priceAfter");
+                    couponItemDetail.priceBefore = (String) taoKeData.body.get("priceBefore");
+                    couponItemDetail.sales = (int) taoKeData.body.get("sales");
+                    couponItemDetail.coupon = (String) taoKeData.body.get("coupon");
+                    couponItemDetail.couponRequirement = (String) taoKeData.body.get("couponRequirement");
+                    couponItemDetail.commissionPercent = (String) taoKeData.body.get("commissionPercent");
+                    couponItemDetail.commission = (String) taoKeData.body.get("commission");
+                    return Observable.just(couponItemDetail);
                 });
     }
 }
