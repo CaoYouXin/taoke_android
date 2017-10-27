@@ -24,6 +24,9 @@ import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.adapter.BrandAdapter;
 import com.github.caoyouxin.taoke.adapter.CouponAdapter;
+import com.github.caoyouxin.taoke.datasource.BrandDataSource;
+import com.github.caoyouxin.taoke.model.CouponItem;
+import com.github.caoyouxin.taoke.model.CouponTab;
 import com.github.caoyouxin.taoke.api.RxHelper;
 import com.github.caoyouxin.taoke.api.TaoKeApi;
 import com.github.caoyouxin.taoke.datasource.BrandDataSource;
@@ -273,7 +276,8 @@ public class DiscoverFragment extends Fragment {
                 if (gestureDetector.onTouchEvent(event)) {
                     View childView = rv.findChildViewUnder(event.getX(), event.getY());
                     int childPosition = rv.getChildAdapterPosition(childView);
-                    Intent intent = new Intent(getActivity(), DetailActivity.class);
+                    CouponItem couponItem = couponAdapter.getData().get(childPosition);
+                    Intent intent = new Intent(getActivity(), DetailActivity.class).putExtra(DetailActivity.EXTRA_COUPON_ITEM, couponItem);
                     getActivity().startActivity(intent);
                     return true;
                 } else {

@@ -24,7 +24,16 @@
     <string name="discover_coupon_value">券 | %1$s元&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;余%2$s张</string>
 
     <string name="detail">宝贝推广信息</string>
+    <string name="detail_view">详情</string>
+    <string name="detail_price_after">券后价</string>
+    <string name="detail_price_unit">¥</string>
+    <string name="detail_price_before">现价&#160;¥ %1$s</string>
+    <string name="detail_sales">已售%1$s件</string>
+    <string name="detail_coupon">优惠券 %1$s元（满%2$s使用）</string>
+    <string name="detail_commission">通用佣金 %1$s（预计&#160;¥%2$s）</string>
+    <string name="detail_commission_hint">该商品可能存在高佣金，加油升级才可查看～</string>
     <string name="detail_share">立即分享</string>
+    <string name="detail_app">淘宝打开</string>
 
     <string name="account_id">账户ID:  \n头衔</string>
     <string name="new_help">新手引导</string>
@@ -41,4 +50,5 @@
     <string name="report">反馈</string>
     <string name="feedback">意见反馈</string>
     <string name="submit">提交</string>
+
 </resources>
