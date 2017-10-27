@@ -4,6 +4,7 @@ import com.github.caoyouxin.taoke.model.BrandItem;
 import com.github.caoyouxin.taoke.model.CouponItem;
 import com.github.caoyouxin.taoke.model.CouponTab;
 import com.github.caoyouxin.taoke.model.HelpItem;
+import com.github.caoyouxin.taoke.model.MessageItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,6 +90,25 @@ public class TaoKeApi {
                             HelpItem item = new HelpItem();
                             item.q = "Q: " + (String) rec.get("q");
                             item.a = (String) rec.get("a");
+                            items.add(item);
+                        }
+                    }
+                    return Observable.just(items);
+                });
+    }
+
+    public static Observable<List<MessageItem>> getMessageList(String type) {
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_MESSAGE_LIST, type, "")
+                .compose(RxHelper.handleResult())
+                .flatMap(taoKeData -> {
+                    List<MessageItem> items = new ArrayList<>();
+                    List<Map> recs = (List<Map>) taoKeData.body.get("recs");
+                    if (recs != null) {
+                        for (Map rec : recs) {
+                            MessageItem item = new MessageItem();
+                            item.title = (String) rec.get("title");
+                            item.dateStr = (String) rec.get("date");
+                            item.content = (String) rec.get("content");
                             items.add(item);
                         }
                     }

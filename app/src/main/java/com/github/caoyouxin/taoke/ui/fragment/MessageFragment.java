@@ -1,5 +1,6 @@
 package com.github.caoyouxin.taoke.ui.fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,11 +15,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.github.caoyouxin.taoke.R;
+import com.github.caoyouxin.taoke.ui.activity.MessageActivity;
 
 import org.w3c.dom.Text;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by jasontsang on 10/24/17.
@@ -52,5 +55,13 @@ public class MessageFragment extends Fragment {
         span.setSpan(new RelativeSizeSpan(1.36f), 0, 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         span.setSpan(new ForegroundColorSpan(Color.DKGRAY), 3, 9, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         globalMsg.setText(span);
+    }
+
+    @OnClick(R.id.global_msg)
+    public void onClick(View view) {
+        Intent intent = new Intent(getActivity(), MessageActivity.class);
+        String text = this.globalMsg.getText().toString();
+        intent.putExtra("title", text.substring(0, text.indexOf('\n')));
+        getActivity().startActivity(intent);
     }
 }
