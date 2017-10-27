@@ -51,4 +51,7 @@
     <string name="feedback">意见反馈</string>
     <string name="submit">提交</string>
 
+    <string name="user_amount">可提取金额\n¥ %1$s</string>
+    <string name="withdraw">提现</string>
+
 </resources>

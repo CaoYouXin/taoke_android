@@ -22,7 +22,8 @@
         android:layout_marginEnd="@dimen/len_16"
         android:text="@string/submit"
         android:textColor="@color/grey_800"
-        android:textSize="@dimen/font_16" />
+        android:textSize="@dimen/font_16"
+        tools:ignore="RtlHardcoded" />
 
     <com.mikepenz.iconics.view.IconicsTextView
         android:id="@+id/back"
