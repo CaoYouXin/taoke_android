@@ -15,11 +15,13 @@
         tools:ignore="DisableBaselineAlignment">
 
         <FrameLayout
+            android:id="@+id/sort_multiple_wrapper"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1">
 
             <TextView
+                android:id="@+id/sort_multiple"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -29,11 +31,13 @@
         </FrameLayout>
 
         <FrameLayout
+            android:id="@+id/sort_sales_wrapper"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1">
 
             <TextView
+                android:id="@+id/sort_sales"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -43,6 +47,7 @@
         </FrameLayout>
 
         <LinearLayout
+            android:id="@+id/sort_price_wrapper"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -51,6 +56,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/sort_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -66,6 +72,7 @@
                 android:orientation="vertical">
 
                 <com.mikepenz.iconics.view.IconicsTextView
+                    android:id="@+id/sort_price_up"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="-3dp"
@@ -75,6 +82,7 @@
                     tools:ignore="HardcodedText" />
 
                 <com.mikepenz.iconics.view.IconicsTextView
+                    android:id="@+id/sort_price_down"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="-3dp"

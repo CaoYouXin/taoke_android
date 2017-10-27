@@ -102,7 +102,29 @@ public class TaoKeTestService implements TaoKeService {
                 return Observable.just(taoKeData);
         }
 
-        if (api.startsWith(API_COUPON_DETAIL)) {
+        if (api.startsWith(API_PRODUCT_LIST)) {
+            taoKeData.header.put("ResultCode", "0000");
+
+            String[] thumbs = new String[]{};
+            //String[] thumbs = new String[]{"", "", ""};
+            List<Map> items = new ArrayList<>();
+            for (int i = 0; i < thumbs.length; i++) {
+                Map item = new ArrayMap();
+                item.put("id", i);
+                item.put("thumb", thumbs[i]);
+                item.put("title", "冬季毛绒沙发垫加厚保暖简约法兰绒坐垫布艺防滑沙发套沙发罩全盖");
+                if (i % 2 == 0) {
+                    item.put("isNew", true);
+                } else {
+                    item.put("isNew", false);
+                }
+                item.put("price", "328");
+                item.put("sales", "711");
+                items.add(item);
+            }
+            taoKeData.body.put("recs", items);
+            return Observable.just(taoKeData);
+        } else if (api.startsWith(API_COUPON_DETAIL)) {
             taoKeData.header.put("ResultCode", "0000");
             taoKeData.body.put("thumb", "http://7xi8d6.com1.z0.glb.clouddn.com/20171025112955_lmesMu_katyteiko_25_10_2017_11_29_43_270.jpeg");
             taoKeData.body.put("title", "冬季毛绒沙发垫加厚保暖简约法兰绒坐垫布艺防滑沙发套沙发罩全盖");

@@ -4,6 +4,7 @@ import com.github.caoyouxin.taoke.model.BrandItem;
 import com.github.caoyouxin.taoke.model.CouponItem;
 import com.github.caoyouxin.taoke.model.CouponItemDetail;
 import com.github.caoyouxin.taoke.model.CouponTab;
+import com.github.caoyouxin.taoke.model.Product;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,28 @@ public class TaoKeApi {
                             BrandItem item = new BrandItem();
                             item.type = (int) rec.get("type");
                             item.thumb = (String) rec.get("thumb");
+                            items.add(item);
+                        }
+                    }
+                    return Observable.just(items);
+                });
+    }
+
+    public static Observable<List<Product>> getProductList(BrandItem brandItem) {
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_PRODUCT_LIST + "/" + brandItem.type)
+                .compose(RxHelper.handleResult())
+                .flatMap(taoKeData -> {
+                    List<Product> items = new ArrayList<>();
+                    List<Map> recs = (List<Map>) taoKeData.body.get("recs");
+                    if (recs != null) {
+                        for (Map rec : recs) {
+                            Product item = new Product();
+                            item.id = (int) rec.get("id");
+                            item.thumb = (String) rec.get("thumb");
+                            item.title = (String) rec.get("title");
+                            item.isNew = (boolean) rec.get("isNew");
+                            item.price = (String) rec.get("price");
+                            item.sales = (int) rec.get("sales");
                             items.add(item);
                         }
                     }
