@@ -50,7 +50,7 @@ public class OrdersActivity extends BaseActivity {
     private TextView[] resetSelectViews;
     private View[] resetSelectedViews;
     private TextView[] resetSubSelectViews;
-    private View selectedSub;
+    private int selectedSubId = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +84,6 @@ public class OrdersActivity extends BaseActivity {
             case R.id.select_consigned:
             case R.id.select_settled:
                 this.resetSubSelections(view.getId());
-                this.selectedSub = view;
                 break;
         }
     }
@@ -112,8 +111,15 @@ public class OrdersActivity extends BaseActivity {
 
     private void resetSubSelections(final int id) {
         for (TextView resetSubSelectView : this.resetSubSelectViews) {
-            if (id == resetSubSelectView.getId() && (null == this.selectedSub || id != selectedSub.getId())) {
-                resetSubSelectView.setTextColor(this.getResources().getColor(R.color.orange_600));
+            if (id == resetSubSelectView.getId()) {
+
+                if (0 == this.selectedSubId || id != selectedSubId) {
+                    resetSubSelectView.setTextColor(this.getResources().getColor(R.color.orange_600));
+                    this.selectedSubId = id;
+                } else {
+                    resetSubSelectView.setTextColor(this.getResources().getColor(R.color.black_alpha_176));
+                    this.selectedSubId = 0;
+                }
             } else {
                 resetSubSelectView.setTextColor(this.getResources().getColor(R.color.black_alpha_176));
             }
