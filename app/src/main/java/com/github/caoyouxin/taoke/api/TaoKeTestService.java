@@ -2,6 +2,8 @@ package com.github.caoyouxin.taoke.api;
 
 import android.support.v4.util.ArrayMap;
 
+import com.github.caoyouxin.taoke.datasource.OrderDataSource;
+import com.github.caoyouxin.taoke.model.M;
 import com.github.caoyouxin.taoke.model.MessageItem;
 
 import java.util.ArrayList;
@@ -12,6 +14,9 @@ import java.util.Map;
 import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.Path;
+
+import static com.github.caoyouxin.taoke.datasource.OrderDataSource.*;
+import static com.github.caoyouxin.taoke.datasource.OrderDataSource.FetchType.*;
 
 /**
  * Created by jasontsang on 10/24/17.
@@ -34,12 +39,59 @@ public class TaoKeTestService implements TaoKeService {
                     item.put("title", data + "标题" + i);
 
                     calendar.add(Calendar.DAY_OF_YEAR, 1);
-                    item.put("date", MessageItem.DF.format(calendar.getTime()));
+                    item.put("date", M.DF.format(calendar.getTime()));
 
                     item.put("content", Math.random() > 0.5 ? "1. 消息\n2. 消息2\n\n诚至为您服务" : "如此如此\n\n诚至为您服务");
                     recs2.add(item);
                 }
                 taoKeData.body.put("recs", recs2);
+
+                return Observable.just(taoKeData);
+            case API_ORDER_LIST:
+                taoKeData.header.put("ResultCode", "0000");
+
+                String[] thumbs = new String[]{"http://7xi8d6.com1.z0.glb.clouddn.com/20171025112955_lmesMu_katyteiko_25_10_2017_11_29_43_270.jpeg", "http://7xi8d6.com1.z0.glb.clouddn.com/20171024083526_Hq4gO6_bluenamchu_24_10_2017_8_34_28_246.jpeg", "http://7xi8d6.com1.z0.glb.clouddn.com/20171018091347_Z81Beh_nini.nicky_18_10_2017_9_13_35_727.jpeg",
+                        "http://7xi8d6.com1.z0.glb.clouddn.com/20171025112955_lmesMu_katyteiko_25_10_2017_11_29_43_270.jpeg", "http://7xi8d6.com1.z0.glb.clouddn.com/20171024083526_Hq4gO6_bluenamchu_24_10_2017_8_34_28_246.jpeg", "http://7xi8d6.com1.z0.glb.clouddn.com/20171018091347_Z81Beh_nini.nicky_18_10_2017_9_13_35_727.jpeg",
+                        "http://7xi8d6.com1.z0.glb.clouddn.com/20171025112955_lmesMu_katyteiko_25_10_2017_11_29_43_270.jpeg", "http://7xi8d6.com1.z0.glb.clouddn.com/20171024083526_Hq4gO6_bluenamchu_24_10_2017_8_34_28_246.jpeg", "http://7xi8d6.com1.z0.glb.clouddn.com/20171018091347_Z81Beh_nini.nicky_18_10_2017_9_13_35_727.jpeg",
+                };
+
+                String[] randomCandidates = new String[0];
+                switch (valueOf(data)) {
+                    case ALL:
+                        randomCandidates = new String[]{"已支付", "已结算", "已收货", "已失效"};
+                        break;
+                    case ALL_EFFECTIVE:
+                        randomCandidates = new String[]{"已支付", "已结算", "已收货"};
+                        break;
+                    case EFFECTIVE_PAYED:
+                        randomCandidates = new String[]{"已支付"};
+                        break;
+                    case EFFECTIVE_CONSIGNED:
+                        randomCandidates = new String[]{"已收货"};
+                        break;
+                    case EFFECTIVE_SETTLED:
+                        randomCandidates = new String[]{"已结算"};
+                        break;
+                    case INEFFECTIVE:
+                        randomCandidates = new String[]{"已失效"};
+                        break;
+                }
+
+                List<Map> recs = new ArrayList<>();
+                Calendar calendar2 = Calendar.getInstance();
+                for (int i = 0; i < thumbs.length; i++) {
+                    Map item = new ArrayMap();
+                    item.put("item_name", "（买就送5双棉袜共10双）秋冬保暖羊毛袜男女中筒袜冬季保暖袜");
+                    item.put("item_store", "123服装店");
+                    calendar2.add(Calendar.HOUR_OF_DAY, (int) (Math.random() * 5 + 1));
+                    item.put("date", M.DF.format(calendar2.getTime()));
+                    item.put("thumb", thumbs[i]);
+                    item.put("price", Math.random() * 100);
+                    item.put("commission", Math.random());
+                    item.put("status", randomCandidates[(int) (randomCandidates.length * Math.random())]);
+                    recs.add(item);
+                }
+                taoKeData.body.put("recs", recs);
 
                 return Observable.just(taoKeData);
         }

@@ -1,5 +1,6 @@
 package com.github.caoyouxin.taoke.api;
 
+import com.github.caoyouxin.taoke.datasource.OrderDataSource;
 import com.github.caoyouxin.taoke.model.BrandItem;
 import com.github.caoyouxin.taoke.model.CouponItem;
 import com.github.caoyouxin.taoke.model.CouponItemDetail;
@@ -7,8 +8,10 @@ import com.github.caoyouxin.taoke.model.CouponTab;
 import com.github.caoyouxin.taoke.model.HelpItem;
 import com.github.caoyouxin.taoke.model.MessageItem;
 import com.github.caoyouxin.taoke.model.Product;
+import com.github.caoyouxin.taoke.model.OrderItem;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -154,6 +157,31 @@ public class TaoKeApi {
                             items.add(item);
                         }
                     }
+                    Collections.sort(items);
+                    return Observable.just(items);
+                });
+    }
+
+    public static Observable<List<OrderItem>> getOrderList(OrderDataSource.FetchType type) {
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_ORDER_LIST, type.toString(), "")
+                .compose(RxHelper.handleResult())
+                .flatMap(taoKeData -> {
+                    List<OrderItem> items = new ArrayList<>();
+                    List<Map> recs = (List<Map>) taoKeData.body.get("recs");
+                    if (recs != null) {
+                        for (Map rec : recs) {
+                            OrderItem item = new OrderItem();
+                            item.itemName = (String) rec.get("item_name");
+                            item.itemStoreName = (String) rec.get("item_store");
+                            item.dateStr = (String) rec.get("date");
+                            item.itemImgUrl = (String) rec.get("thumb");
+                            item.status = (String) rec.get("status");
+                            item.itemTradePrice = (Double) rec.get("price");
+                            item.commission = (Double) rec.get("commission");
+                            items.add(item);
+                        }
+                    }
+                    Collections.sort(items);
                     return Observable.just(items);
                 });
     }

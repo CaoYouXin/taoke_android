@@ -66,4 +66,8 @@
     <string name="sort_bar_multiple">综合</string>
     <string name="sort_bar_sales">销量</string>
     <string name="sort_bar_price">价格</string>
+
+    <string name="order_trade_price">付款金额\n¥ %1$s</string>
+    <string name="order_commission_price">成交预估收入\n¥ %1$s</string>
+    <string name="order_commission_rate">提成\n%1$s%%</string>
 </resources>

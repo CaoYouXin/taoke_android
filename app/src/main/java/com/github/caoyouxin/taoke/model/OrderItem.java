@@ -2,21 +2,21 @@ package com.github.caoyouxin.taoke.model;
 
 import android.support.annotation.NonNull;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Comparator;
 import java.util.Date;
 
 /**
  * Created by cls on 2017/10/27.
  */
 
-public class MessageItem implements Comparable<MessageItem> {
-
-    public String title;
+public class OrderItem implements Comparable<OrderItem> {
+    public String itemName;
+    public String itemStoreName;
+    public String itemImgUrl;
+    public String status;
+    public Double itemTradePrice;
+    public Double commission;
     public String dateStr;
-    public String content;
 
     private Date date;
 
@@ -33,8 +33,7 @@ public class MessageItem implements Comparable<MessageItem> {
     }
 
     @Override
-    public int compareTo(@NonNull MessageItem o) {
+    public int compareTo(@NonNull OrderItem o) {
         return o.getDate().compareTo(this.getDate());
     }
-
 }
