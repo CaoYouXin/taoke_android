@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">淘客</string>
+    <string name="app_name">觅券儿</string>
 
     <string name="intro_skip">跳过</string>
     <string name="intro_done">立即体验</string>
@@ -38,12 +38,11 @@
     <string name="account_id">账户ID:  \n头衔</string>
     <string name="new_help">新手引导</string>
     <string name="account_description" />
-    <string name="share">分享给好友</string>
+    <string name="share_2_friends">分享给好友</string>
     <string name="help_report">帮助与反馈</string>
     <string name="about">关于</string>
     <string name="exit">退出登录</string>
     <string name="logo">Logo</string>
-    <string name="app_version">v1.0.0</string>
     <string name="app_intro">\t\t淘客客户端是由『X公司』自主开发，为淘宝客推出的一款移动客户端软件。淘客用户可以随时随地通过手机进行导购推广...，以及接收...消息。</string>
     <string name="what_we_wish">淘客客户端致力于服务好广大用户，欢迎提出各种建议和反馈。</string>
     <string name="report_email">反馈邮箱: xxx@xxx.com</string>
@@ -70,4 +69,12 @@
     <string name="order_trade_price">付款金额\n¥ %1$s</string>
     <string name="order_commission_price">成交预估收入\n¥ %1$s</string>
     <string name="order_commission_rate">提成\n%1$s%%</string>
+
+    <string name="share_title">创建分享</string>
+    <string name="share_submit">分享</string>
+    <string name="select_images">选择图片</string>
+    <string name="selected_images">已选 %1$d 张</string>
+    <string name="edit_share_text">编辑分享文案</string>
+    <string name="share_text_only">仅复制文本文案</string>
+    <string name="share_explanation">请不要更改`{}`之间的文字哦~\n\n觅券儿仅提供技术支持，请您自行确保分享内容真实合法（如不使用内部优惠券、好评返现等虚假描述）。</string>
 </resources>

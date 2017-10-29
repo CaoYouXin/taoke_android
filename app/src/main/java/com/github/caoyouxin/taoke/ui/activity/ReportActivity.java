@@ -16,6 +16,9 @@ public class ReportActivity extends BaseActivity {
     @BindView(R.id.title)
     TextView title;
 
+    @BindView(R.id.handle)
+    TextView handle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +28,7 @@ public class ReportActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         title.setText(R.string.feedback);
+        handle.setText(R.string.submit);
     }
 
     @OnClick(R.id.back)

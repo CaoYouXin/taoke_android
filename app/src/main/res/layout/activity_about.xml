@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:textAlignment="center"
-                android:text="@string/app_version"/>
+                android:text="@string/app_version_name"/>
 
             <TextView
                 android:layout_width="match_parent"
