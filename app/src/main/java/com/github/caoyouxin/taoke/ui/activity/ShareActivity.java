@@ -9,6 +9,10 @@ import android.widget.TextView;
 import com.github.caoyouxin.taoke.R;
 import com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity;
 
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -38,12 +42,27 @@ public class ShareActivity extends BaseActivity {
 
     @OnClick({R.id.back, R.id.handle, R.id.share_text_only})
     protected void onBackClick(View view) {
+        if (R.id.back == view.getId()) {
+            onBackPressed();
+            return;
+        }
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
         switch (view.getId()) {
-            case R.id.back:
-                onBackPressed();
-                return;
             case R.id.handle:
-                return;
+                intent.setType("image/*");
+                intent.putExtra(Intent.EXTRA_SUBJECT, "Share");
+                try {
+                    intent.putExtra(Intent.EXTRA_STREAM, new URL("http://7xi8d6.com1.z0.glb.clouddn.com/20171025112955_lmesMu_katyteiko_25_10_2017_11_29_43_270.jpeg").toURI());
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                    return;
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                    return;
+                }
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                break;
             case R.id.share_text_only:
                 String text2Share = this.shareText.getText().toString();
                 if (text2Share.isEmpty()) {
@@ -51,12 +70,11 @@ public class ShareActivity extends BaseActivity {
                     return;
                 }
 
-                Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
                 intent.putExtra(Intent.EXTRA_SUBJECT, "Share");
                 intent.putExtra(Intent.EXTRA_TEXT, "I have successfully share my message through my app");
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(Intent.createChooser(intent, getTitle()));
         }
+        startActivity(Intent.createChooser(intent, getTitle()));
     }
 }
