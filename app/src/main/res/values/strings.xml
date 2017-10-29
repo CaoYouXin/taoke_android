@@ -75,4 +75,6 @@
     <string name="product_price">¥ %1$s</string>
     <string name="product_sales">月销%1$s笔</string>
 
+    <string name="friends">我的朋友们</string>
+    <string name="friends_amount">贡献 %1$s 元</string>
 </resources>

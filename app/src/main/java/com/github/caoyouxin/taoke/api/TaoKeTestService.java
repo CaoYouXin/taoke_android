@@ -194,6 +194,19 @@ public class TaoKeTestService implements TaoKeService {
                 taoKeData.body.put("recs", recs);
 
                 return Observable.just(taoKeData);
+            case API_FRIENDS_LIST:
+                taoKeData.header.put("ResultCode", "0000");
+
+                List<Map> recs2 = new ArrayList<>();
+                for (int i = 0; i < 20; i++) {
+                    Map item = new ArrayMap();
+                    item.put("amount", Math.random() * 1000);
+                    item.put("name", "淘客" + ("" + Math.random()).substring(2, 8));
+                    recs2.add(item);
+                }
+                taoKeData.body.put("recs", recs2);
+
+                return Observable.just(taoKeData);
         }
 
         if (api.startsWith(API_PRODUCT_LIST)) {

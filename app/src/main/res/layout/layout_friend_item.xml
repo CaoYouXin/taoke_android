@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/len_52"
+    android:paddingLeft="@dimen/len_16"
+    android:paddingRight="@dimen/len_16">
+
+    <com.mikepenz.iconics.view.IconicsTextView
+        android:layout_width="25dp"
+        android:gravity="center"
+        android:layout_height="match_parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:text="{ion-person}"
+        android:textColor="@color/grey_600"
+        android:textSize="@dimen/font_28"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/friend_name"
+        android:layout_weight="3"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:gravity="left|center_vertical"
+        android:textColor="@color/black_alpha_160"
+        tools:ignore="RtlHardcoded" />
+
+    <TextView
+        android:id="@+id/friend_amount"
+        android:layout_weight="2"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:gravity="right|center_vertical"
+        android:textColor="@color/orange_500"
+        android:text="@string/friends_amount"
+        tools:ignore="RtlHardcoded" />
+
+</LinearLayout>

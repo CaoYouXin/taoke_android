@@ -5,6 +5,7 @@ import com.github.caoyouxin.taoke.model.BrandItem;
 import com.github.caoyouxin.taoke.model.CouponItem;
 import com.github.caoyouxin.taoke.model.CouponItemDetail;
 import com.github.caoyouxin.taoke.model.CouponTab;
+import com.github.caoyouxin.taoke.model.FriendItem;
 import com.github.caoyouxin.taoke.model.HelpItem;
 import com.github.caoyouxin.taoke.model.MessageItem;
 import com.github.caoyouxin.taoke.model.Product;
@@ -183,6 +184,24 @@ public class TaoKeApi {
                         }
                     }
                     Collections.sort(items);
+                    return Observable.just(items);
+                });
+    }
+
+    public static Observable<List<FriendItem>> getFriendsList() {
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_FRIENDS_LIST)
+                .compose(RxHelper.handleResult())
+                .flatMap(taoKeData -> {
+                    List<FriendItem> items = new ArrayList<>();
+                    List<Map> recs = (List<Map>) taoKeData.body.get("recs");
+                    if (recs != null) {
+                        for (Map rec : recs) {
+                            FriendItem item = new FriendItem();
+                            item.amount = (Double) rec.get("amount");
+                            item.name = (String) rec.get("name");
+                            items.add(item);
+                        }
+                    }
                     return Observable.just(items);
                 });
     }

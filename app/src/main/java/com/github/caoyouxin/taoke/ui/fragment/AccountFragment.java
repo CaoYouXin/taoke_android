@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.ui.activity.AboutActivity;
+import com.github.caoyouxin.taoke.ui.activity.FriendsActivity;
 import com.github.caoyouxin.taoke.ui.activity.HelpReportActivity;
 import com.github.caoyouxin.taoke.ui.activity.NoviceActivity;
 
@@ -62,7 +63,7 @@ public class AccountFragment extends Fragment {
         accountId.setText(span);
     }
 
-    @OnClick({R.id.account_btn_about, R.id.account_btn_help_report, R.id.account_btn_newer_guide, R.id.account_btn_share_cmd})
+    @OnClick({R.id.account_btn_about, R.id.account_btn_help_report, R.id.account_btn_newer_guide, R.id.account_btn_share_cmd, R.id.account_btn_friends})
     protected void onToolClick(View view) {
         Intent intent = null;
         switch (view.getId()) {
@@ -74,6 +75,9 @@ public class AccountFragment extends Fragment {
                 break;
             case R.id.account_btn_about:
                 intent = new Intent(getActivity(), AboutActivity.class);
+                break;
+            case R.id.account_btn_friends:
+                intent = new Intent(getActivity(), FriendsActivity.class);
                 break;
         }
         if (intent != null) {
