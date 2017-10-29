@@ -70,4 +70,7 @@
     <string name="order_trade_price">付款金额\n¥ %1$s</string>
     <string name="order_commission_price">成交预估收入\n¥ %1$s</string>
     <string name="order_commission_rate">提成\n%1$s%%</string>
+
+    <string name="friends">我的朋友们</string>
+    <string name="friends_amount">贡献 %1$s 元</string>
 </resources>
