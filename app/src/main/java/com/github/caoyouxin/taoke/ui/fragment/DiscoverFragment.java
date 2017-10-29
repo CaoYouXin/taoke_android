@@ -25,6 +25,7 @@ import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.adapter.BrandAdapter;
 import com.github.caoyouxin.taoke.adapter.CouponAdapter;
 import com.github.caoyouxin.taoke.datasource.BrandDataSource;
+import com.github.caoyouxin.taoke.model.BrandItem;
 import com.github.caoyouxin.taoke.model.CouponItem;
 import com.github.caoyouxin.taoke.model.CouponTab;
 import com.github.caoyouxin.taoke.api.RxHelper;
@@ -212,8 +213,11 @@ public class DiscoverFragment extends Fragment {
                 if (gestureDetector.onTouchEvent(event)) {
                     View childView = rv.findChildViewUnder(event.getX(), event.getY());
                     int childPosition = rv.getChildAdapterPosition(childView);
-                    Intent intent = new Intent(getActivity(), ProductListActivity.class);
-                    getActivity().startActivity(intent);
+                    if (-1 < childPosition && childPosition < brandAdapter.getData().size()) {
+                        BrandItem brandItem = brandAdapter.getData().get(childPosition);
+                        Intent intent = new Intent(getActivity(), ProductListActivity.class).putExtra(ProductListActivity.EXTRA_BRAND_ITEM, brandItem);
+                        getActivity().startActivity(intent);
+                    }
                     return true;
                 } else {
                     return false;
@@ -276,9 +280,11 @@ public class DiscoverFragment extends Fragment {
                 if (gestureDetector.onTouchEvent(event)) {
                     View childView = rv.findChildViewUnder(event.getX(), event.getY());
                     int childPosition = rv.getChildAdapterPosition(childView);
-                    CouponItem couponItem = couponAdapter.getData().get(childPosition);
-                    Intent intent = new Intent(getActivity(), DetailActivity.class).putExtra(DetailActivity.EXTRA_COUPON_ITEM, couponItem);
-                    getActivity().startActivity(intent);
+                    if (-1 < childPosition && childPosition < couponAdapter.getData().size()) {
+                        CouponItem couponItem = couponAdapter.getData().get(childPosition);
+                        Intent intent = new Intent(getActivity(), DetailActivity.class).putExtra(DetailActivity.EXTRA_COUPON_ITEM, couponItem);
+                        getActivity().startActivity(intent);
+                    }
                     return true;
                 } else {
                     return false;
