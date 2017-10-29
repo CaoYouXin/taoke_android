@@ -9,7 +9,11 @@ import android.os.Parcelable;
 
 public class BrandItem implements Parcelable {
     public int type;
+    public String title;
     public String thumb;
+
+    public BrandItem() {
+    }
 
     @Override
     public int describeContents() {
@@ -19,18 +23,17 @@ public class BrandItem implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.type);
+        dest.writeString(this.title);
         dest.writeString(this.thumb);
-    }
-
-    public BrandItem() {
     }
 
     protected BrandItem(Parcel in) {
         this.type = in.readInt();
+        this.title = in.readString();
         this.thumb = in.readString();
     }
 
-    public static final Parcelable.Creator<BrandItem> CREATOR = new Parcelable.Creator<BrandItem>() {
+    public static final Creator<BrandItem> CREATOR = new Creator<BrandItem>() {
         @Override
         public BrandItem createFromParcel(Parcel source) {
             return new BrandItem(source);

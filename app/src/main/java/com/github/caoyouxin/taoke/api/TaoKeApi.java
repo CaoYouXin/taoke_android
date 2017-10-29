@@ -27,6 +27,7 @@ public class TaoKeApi {
                         for (Map rec : recs) {
                             BrandItem item = new BrandItem();
                             item.type = (int) rec.get("type");
+                            item.title = (String) rec.get("title");
                             item.thumb = (String) rec.get("thumb");
                             items.add(item);
                         }
