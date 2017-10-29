@@ -1,5 +1,6 @@
 package com.github.caoyouxin.taoke.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -74,6 +75,8 @@ public class DetailActivity extends BaseActivity {
             case R.id.detail_view:
                 break;
             case R.id.detail_share:
+                Intent intent = new Intent(this, ShareActivity.class);
+                startActivity(intent);
                 break;
             case R.id.detail_app:
                 break;

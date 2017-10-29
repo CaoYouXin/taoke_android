@@ -24,6 +24,7 @@ import com.github.caoyouxin.taoke.ui.activity.AboutActivity;
 import com.github.caoyouxin.taoke.ui.activity.FriendsActivity;
 import com.github.caoyouxin.taoke.ui.activity.HelpReportActivity;
 import com.github.caoyouxin.taoke.ui.activity.NoviceActivity;
+import com.github.caoyouxin.taoke.ui.activity.ShareActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -78,6 +79,9 @@ public class AccountFragment extends Fragment {
                 break;
             case R.id.account_btn_friends:
                 intent = new Intent(getActivity(), FriendsActivity.class);
+                break;
+            case R.id.account_btn_share_cmd:
+                intent = new Intent(getActivity(), ShareActivity.class);
                 break;
         }
         if (intent != null) {

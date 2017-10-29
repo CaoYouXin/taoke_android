@@ -26,7 +26,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:textSize="@dimen/font_18"
-        android:text="@string/share" />
+        android:text="@string/share_2_friends" />
 
     <com.mikepenz.iconics.view.IconicsTextView
         android:layout_width="wrap_content"

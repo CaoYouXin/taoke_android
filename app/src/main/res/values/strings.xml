@@ -1,28 +1,23 @@
 <resources>
-    <string name="app_name">淘客</string>
-
+    <string name="app_name">觅券儿</string>
+    <string name="app_version">v1.0.0</string>
     <string name="intro_skip">跳过</string>
     <string name="intro_done">立即体验</string>
-
     <string name="tab_discover">发现</string>
     <string name="tab_chat">报表</string>
     <string name="tab_message">消息</string>
     <string name="tab_account">我的</string>
-
     <string name="discover_tool_collection">收藏夹</string>
     <string name="discover_tool_coupon">优惠券清单</string>
     <string name="discover_tool_11">双11活动</string>
     <string name="discover_tool_convert">转链教程</string>
     <string name="discover_tool_novice">新手上路</string>
-
     <string name="discover_brand">品牌精选</string>
     <string name="discover_coupon">好券直播</string>
-
     <string name="discover_coupon_earn">赚 ¥ %1$s</string>
     <string name="discover_coupon_price_before">现价 ¥ %1$s&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;月销量 %2$s 件</string>
     <string name="discover_coupon_price_after">券后价 ¥ %1$s</string>
     <string name="discover_coupon_value">券 | %1$s元&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;余%2$s张</string>
-
     <string name="detail">宝贝推广信息</string>
     <string name="detail_view">详情</string>
     <string name="detail_price_after">券后价</string>
@@ -34,23 +29,20 @@
     <string name="detail_commission_hint">该商品可能存在高佣金，加油升级才可查看～</string>
     <string name="detail_share">立即分享</string>
     <string name="detail_app">淘宝打开</string>
-
     <string name="account_id">账户ID:  \n头衔</string>
     <string name="new_help">新手引导</string>
     <string name="account_description" />
-    <string name="share">分享给好友</string>
+    <string name="share_2_friends">分享给好友</string>
     <string name="help_report">帮助与反馈</string>
     <string name="about">关于</string>
     <string name="exit">退出登录</string>
     <string name="logo">Logo</string>
-    <string name="app_version">v1.0.0</string>
-    <string name="app_intro">\t\t淘客客户端是由『X公司』自主开发，为淘宝客推出的一款移动客户端软件。淘客用户可以随时随地通过手机进行导购推广...，以及接收...消息。</string>
+    <string name="app_intro">\t\t淘客客户端是由『X公司』自主开发，为淘宝客推出的一款移动客户端软件。淘客用户可以随时随地通过手机进行导购推广…，以及接收…消息。</string>
     <string name="what_we_wish">淘客客户端致力于服务好广大用户，欢迎提出各种建议和反馈。</string>
     <string name="report_email">反馈邮箱: xxx@xxx.com</string>
     <string name="report">反馈</string>
     <string name="feedback">意见反馈</string>
     <string name="submit">提交</string>
-
     <string name="user_amount">可提取金额\n¥ %1$s</string>
     <string name="withdraw">提现</string>
     <string name="user_this_month_amount">本月结算预估收入\n¥ %1$s</string>
@@ -62,19 +54,22 @@
     <string name="select_payed">已付款</string>
     <string name="select_consigned">已收货</string>
     <string name="select_settled">已结算</string>
-
     <string name="sort_bar_multiple">综合</string>
     <string name="sort_bar_sales">销量</string>
     <string name="sort_bar_price">价格</string>
-
     <string name="order_trade_price">付款金额\n¥ %1$s</string>
     <string name="order_commission_price">成交预估收入\n¥ %1$s</string>
     <string name="order_commission_rate">提成\n%1$s%%</string>
-
     <string name="product_new">新品</string>
     <string name="product_price">¥ %1$s</string>
     <string name="product_sales">月销%1$s笔</string>
-
     <string name="friends">我的朋友们</string>
     <string name="friends_amount">贡献 %1$s 元</string>
+    <string name="share_title">创建分享</string>
+    <string name="share_submit">分享</string>
+    <string name="select_images">选择图片</string>
+    <string name="selected_images">已选 %1$d 张</string>
+    <string name="edit_share_text">编辑分享文案</string>
+    <string name="share_text_only">仅复制文本文案</string>
+    <string name="share_explanation">请不要更改`{}`之间的文字哦~\n\n觅券儿仅提供技术支持，请您自行确保分享内容真实合法（如不使用内部优惠券、好评返现等虚假描述）。</string>
 </resources>
