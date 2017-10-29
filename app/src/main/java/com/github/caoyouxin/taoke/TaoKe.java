@@ -2,6 +2,7 @@ package com.github.caoyouxin.taoke;
 
 import android.app.Application;
 
+import com.github.caoyouxin.taoke.util.ShareHelper;
 import com.github.gnastnosaj.boilerplate.Boilerplate;
 
 import java.io.IOException;
@@ -48,5 +49,7 @@ public class TaoKe extends Application {
             }
             Timber.w(e, "Undeliverable exception received, not sure what to do");
         });
+
+        ShareHelper.initialize(this);
     }
 }
