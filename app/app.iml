@@ -156,6 +156,7 @@
     <orderEntry type="library" exported="" name="com.squareup.okhttp3:logging-interceptor:3.6.0@jar" level="project" />
     <orderEntry type="library" exported="" name="com.facebook.fresco:animated-drawable-1.5.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="com.android.support:multidex-instrumentation-1.0.1" level="project" />
+    <orderEntry type="library" exported="" name="com.github.gnastnosaj.BiliShare:library-ef3d740" level="project" />
     <orderEntry type="library" exported="" name="com.jakewharton.timber:timber-4.5.1" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:recyclerview-v7-26.0.0-alpha1" level="project" />
     <orderEntry type="library" exported="" name="com.facebook.fresco:imagepipeline-base-1.5.0" level="project" />
@@ -170,7 +171,6 @@
     <orderEntry type="library" exported="" name="com.squareup.okio:okio:1.13.0@jar" level="project" />
     <orderEntry type="library" exported="" name="com.squareup.retrofit2:retrofit:2.3.0@jar" level="project" />
     <orderEntry type="library" exported="" name="com.facebook.stetho:stetho-1.5.0" level="project" />
-    <orderEntry type="library" exported="" name="com.github.gnastnosaj.BiliShare:library-f4a17c9" level="project" />
     <orderEntry type="library" exported="" name="com.mikepenz:iconics-core-2.9.3" level="project" />
     <orderEntry type="library" exported="" name="com.jakewharton:butterknife-8.8.1" level="project" />
     <orderEntry type="library" exported="" name="com.tbruyelle.rxpermissions2:rxpermissions-0.9.4" level="project" />
