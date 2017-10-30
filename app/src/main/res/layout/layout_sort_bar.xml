@@ -46,6 +46,22 @@
                 android:textSize="@dimen/font_14" />
         </FrameLayout>
 
+        <FrameLayout
+            android:id="@+id/sort_commission_wrapper"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/sort_commission"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/sort_bar_commission"
+                android:textColor="@color/grey_400"
+                android:textSize="@dimen/font_14" />
+        </FrameLayout>
+
         <LinearLayout
             android:id="@+id/sort_price_wrapper"
             android:layout_width="0dp"
