@@ -25,7 +25,7 @@ public class TaoKeApi {
     public static Observable<List<BrandItem>> getBrandList() {
         return TaoKeRetrofit.getService().tao(TaoKeService.API_BRAND_LIST)
                 .compose(RxHelper.handleResult())
-                .flatMap(taoKeData -> {
+                .map(taoKeData -> {
                     List<BrandItem> items = new ArrayList<>();
                     List<Map> recs = (List<Map>) taoKeData.body.get("recs");
                     if (recs != null) {
@@ -36,14 +36,14 @@ public class TaoKeApi {
                             items.add(item);
                         }
                     }
-                    return Observable.just(items);
+                    return items;
                 });
     }
 
     public static Observable<List<Product>> getProductList(BrandItem brandItem) {
         return TaoKeRetrofit.getService().tao(TaoKeService.API_PRODUCT_LIST + "/" + brandItem.type)
                 .compose(RxHelper.handleResult())
-                .flatMap(taoKeData -> {
+                .map(taoKeData -> {
                     List<Product> items = new ArrayList<>();
                     List<Map> recs = (List<Map>) taoKeData.body.get("recs");
                     if (recs != null) {
@@ -58,14 +58,14 @@ public class TaoKeApi {
                             items.add(item);
                         }
                     }
-                    return Observable.just(items);
+                    return items;
                 });
     }
 
     public static Observable<List<CouponTab>> getCouponTab() {
         return TaoKeRetrofit.getService().tao(TaoKeService.API_COUPON_TAB)
                 .compose(RxHelper.handleResult())
-                .flatMap(taoKeData -> {
+                .map(taoKeData -> {
                     List<CouponTab> tabs = new ArrayList<>();
                     List<Map> recs = (List<Map>) taoKeData.body.get("recs");
                     if (recs != null) {
@@ -76,14 +76,14 @@ public class TaoKeApi {
                             tabs.add(tab);
                         }
                     }
-                    return Observable.just(tabs);
+                    return tabs;
                 });
     }
 
     public static Observable<List<CouponItem>> getCouponList() {
         return TaoKeRetrofit.getService().tao(TaoKeService.API_COUPON_LIST)
                 .compose(RxHelper.handleResult())
-                .flatMap(taoKeData -> {
+                .map(taoKeData -> {
                     List<CouponItem> items = new ArrayList<>();
                     List<Map> recs = (List<Map>) taoKeData.body.get("recs");
                     if (recs != null) {
@@ -102,14 +102,14 @@ public class TaoKeApi {
                             items.add(item);
                         }
                     }
-                    return Observable.just(items);
+                    return items;
                 });
     }
 
     public static Observable<List<HelpItem>> getHelpList() {
         return TaoKeRetrofit.getService().tao(TaoKeService.API_HELP_LIST)
                 .compose(RxHelper.handleResult())
-                .flatMap(taoKeData -> {
+                .map(taoKeData -> {
                     List<HelpItem> items = new ArrayList<>();
                     List<Map> recs = (List<Map>) taoKeData.body.get("recs");
                     if (recs != null) {
@@ -120,14 +120,14 @@ public class TaoKeApi {
                             items.add(item);
                         }
                     }
-                    return Observable.just(items);
-                  });
+                    return items;
+                });
     }
 
     public static Observable<CouponItemDetail> getCouponDetail(CouponItem couponItem) {
         return TaoKeRetrofit.getService().tao(TaoKeService.API_COUPON_DETAIL + "/" + couponItem.id)
                 .compose(RxHelper.handleResult())
-                .flatMap(taoKeData -> {
+                .map(taoKeData -> {
                     CouponItemDetail couponItemDetail = new CouponItemDetail();
                     couponItemDetail.thumb = (String) taoKeData.body.get("thumb");
                     couponItemDetail.title = (String) taoKeData.body.get("title");
@@ -138,14 +138,20 @@ public class TaoKeApi {
                     couponItemDetail.couponRequirement = (String) taoKeData.body.get("couponRequirement");
                     couponItemDetail.commissionPercent = (String) taoKeData.body.get("commissionPercent");
                     couponItemDetail.commission = (String) taoKeData.body.get("commission");
-                    return Observable.just(couponItemDetail);
+                    return couponItemDetail;
                 });
+    }
+
+    public static Observable<List<String>> getCouponShareImageList(CouponItem couponItem) {
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_COUPON_SHARE_IMAGE_LIST + "/" + couponItem.id)
+                .compose(RxHelper.handleResult())
+                .map(taoKeData -> (List<String>) taoKeData.body.get("images"));
     }
 
     public static Observable<List<MessageItem>> getMessageList(String type) {
         return TaoKeRetrofit.getService().tao(TaoKeService.API_MESSAGE_LIST, type, "")
                 .compose(RxHelper.handleResult())
-                .flatMap(taoKeData -> {
+                .map(taoKeData -> {
                     List<MessageItem> items = new ArrayList<>();
                     List<Map> recs = (List<Map>) taoKeData.body.get("recs");
                     if (recs != null) {
@@ -158,14 +164,14 @@ public class TaoKeApi {
                         }
                     }
                     Collections.sort(items);
-                    return Observable.just(items);
+                    return items;
                 });
     }
 
     public static Observable<List<OrderItem>> getOrderList(OrderDataSource.FetchType type) {
         return TaoKeRetrofit.getService().tao(TaoKeService.API_ORDER_LIST, type.toString(), "")
                 .compose(RxHelper.handleResult())
-                .flatMap(taoKeData -> {
+                .map(taoKeData -> {
                     List<OrderItem> items = new ArrayList<>();
                     List<Map> recs = (List<Map>) taoKeData.body.get("recs");
                     if (recs != null) {
@@ -182,7 +188,7 @@ public class TaoKeApi {
                         }
                     }
                     Collections.sort(items);
-                    return Observable.just(items);
+                    return items;
                 });
     }
 }

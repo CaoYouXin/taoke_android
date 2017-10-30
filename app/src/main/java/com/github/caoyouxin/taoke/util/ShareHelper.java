@@ -78,7 +78,7 @@ public class ShareHelper {
         }
     }
 
-    private static class ShareFrescoImageDownloader extends AbsImageDownloader {
+    public static class ShareFrescoImageDownloader extends AbsImageDownloader {
 
         @Override
         protected void downloadDirectly(final String imageUrl, final String filePath, final OnImageDownloadListener listener) {

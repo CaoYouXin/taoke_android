@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_marginEnd="@dimen/len_10"
+    android:layout_marginRight="@dimen/len_10">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/share_image_thumb"
+        android:background="@drawable/share_image_border"
+        app:layout_aspectRatio="100%"
+        app:layout_heightPercent="100%"
+        fresco:actualImageScaleType="centerCrop" />
+
+    <com.mikepenz.iconics.view.IconicsTextView
+        android:id="@+id/share_image_select"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:padding="@dimen/len_4"
+        android:text="{faw-check-circle}"
+        android:textSize="@dimen/font_24"
+        tools:ignore="HardcodedText" />
+
+</android.support.percent.PercentFrameLayout>
