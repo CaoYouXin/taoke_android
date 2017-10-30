@@ -55,7 +55,7 @@ dependencies {
 
     compile 'com.github.apl-devs:appintro:v4.2.2'
     compile 'com.github.javiersantos:AppUpdater:+'
-    compile 'com.github.gnastnosaj.BiliShare:library:f4a17c9'
+    compile 'com.github.gnastnosaj.BiliShare:library:ef3d740'
 
     compile 'com.mikepenz:iconics-views:+@aar'
     compile 'com.mikepenz:fontawesome-typeface:+@aar'
