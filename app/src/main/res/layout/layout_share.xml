@@ -61,7 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:inputType="text"
-                android:background="@drawable/border_1dp"/>
+                android:background="@drawable/border_1dp_with_pad"/>
 
             <LinearLayout
                 android:id="@+id/share_text_only"

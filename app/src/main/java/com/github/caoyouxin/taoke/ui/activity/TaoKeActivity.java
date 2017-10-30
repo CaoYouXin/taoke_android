@@ -1,5 +1,6 @@
 package com.github.caoyouxin.taoke.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -57,8 +58,14 @@ public class TaoKeActivity extends BaseActivity {
         showTabContent(tabDiscover.getId());
     }
 
-    @OnClick({R.id.tab_discover, R.id.tab_chart, R.id.tab_message, R.id.tab_account})
+    @OnClick({R.id.tab_discover, R.id.tab_chart, R.id.tab_message, R.id.tab_account, R.id.search_btn})
     protected void onTabClick(View view) {
+        if (view.getId() == R.id.search_btn) {
+            Intent intent = new Intent(this, SearchActivity.class);
+            startActivity(intent);
+            return;
+        }
+
         LinearLayout[] tabs = new LinearLayout[]{tabDiscover, tabChart, tabMessage, tabAccount};
         for (LinearLayout tab : tabs) {
             tab.animate().scaleX(1.0f).scaleY(1.0f);

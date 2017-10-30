@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey_200">
+
+    <include layout="@layout/layout_action_bar" />
+
+    <EditText
+        android:id="@+id/search_text"
+        android:layout_marginTop="@dimen/len_56"
+        android:layout_marginLeft="@dimen/len_16"
+        android:layout_marginRight="@dimen/len_16"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border_1dp_less_pad"
+        android:hint="@string/search_title"
+        android:maxLines="1"
+        android:inputType="text"
+        android:imeOptions="actionSearch"/>
+
+    <include layout="@layout/layout_search_history" />
+
+    <include layout="@layout/layout_search_hint" />
+
+    <include layout="@layout/layout_search_result" />
+
+</FrameLayout>
