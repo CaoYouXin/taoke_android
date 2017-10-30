@@ -19,11 +19,13 @@ import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.adapter.CouponAdapter;
 import com.github.caoyouxin.taoke.adapter.SearchHintAdapter;
 import com.github.caoyouxin.taoke.datasource.CouponDataSource;
+import com.github.caoyouxin.taoke.datasource.ProductDataSource;
 import com.github.caoyouxin.taoke.datasource.SearchHintDataSource;
 import com.github.caoyouxin.taoke.model.CouponItem;
 import com.github.caoyouxin.taoke.model.SearchHintItem;
 import com.github.caoyouxin.taoke.ui.widget.HackyLoadViewFactory;
 import com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity;
+import com.mikepenz.iconics.view.IconicsTextView;
 import com.shizhefei.mvc.MVCHelper;
 import com.shizhefei.mvc.MVCNormalHelper;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
@@ -59,6 +61,26 @@ public class SearchActivity extends BaseActivity implements TagCloudView.OnTagCl
 
     @BindView(R.id.search_hint_wrapper)
     FrameLayout searchHintWrapper;
+
+    @BindView(R.id.sort_multiple)
+    TextView sortMultiple;
+
+    @BindView(R.id.sort_sales)
+    TextView sortSales;
+
+    @BindView(R.id.sort_price)
+    TextView sortPrice;
+
+    @BindView(R.id.sort_price_up)
+    IconicsTextView sortPriceUp;
+
+    @BindView(R.id.sort_price_down)
+    IconicsTextView sortPriceDown;
+
+    @BindView(R.id.sort_commission)
+    TextView sortCommission;
+
+    private int sort;
 
     private GestureDetector gestureDetector;
     private SearchHintDataSource searchHintDataSource;
@@ -186,6 +208,41 @@ public class SearchActivity extends BaseActivity implements TagCloudView.OnTagCl
     @OnClick(R.id.back)
     protected void onBackClick(View view) {
         onBackPressed();
+    }
+
+    @OnClick({R.id.sort_multiple_wrapper, R.id.sort_sales_wrapper, R.id.sort_price_wrapper, R.id.sort_commission_wrapper})
+    protected void initSortBar(View view) {
+        sortMultiple.setTextColor(getResources().getColor(R.color.grey_400));
+        sortSales.setTextColor(getResources().getColor(R.color.grey_400));
+        sortPrice.setTextColor(getResources().getColor(R.color.grey_400));
+        sortPriceUp.setTextColor(getResources().getColor(R.color.grey_400));
+        sortPriceDown.setTextColor(getResources().getColor(R.color.grey_400));
+        sortCommission.setTextColor(getResources().getColor(R.color.grey_400));
+
+        switch (view.getId()) {
+            case R.id.sort_multiple_wrapper:
+                sort = ProductDataSource.SORT_MULTIPLE;
+                sortMultiple.setTextColor(getResources().getColor(R.color.grey_900));
+                break;
+            case R.id.sort_sales_wrapper:
+                sort = ProductDataSource.SORT_SALES;
+                sortSales.setTextColor(getResources().getColor(R.color.grey_900));
+                break;
+            case R.id.sort_price_wrapper:
+                if (sort == ProductDataSource.SORT_PRICE_UP) {
+                    sort = ProductDataSource.SORT_PRICE_DOWN;
+                    sortPriceDown.setTextColor(getResources().getColor(R.color.grey_900));
+                } else {
+                    sort = ProductDataSource.SORT_PRICE_UP;
+                    sortPriceUp.setTextColor(getResources().getColor(R.color.grey_900));
+                }
+                sortPrice.setTextColor(getResources().getColor(R.color.grey_900));
+                break;
+            case R.id.sort_commission_wrapper:
+                sort = ProductDataSource.SORT_COMMISSION;
+                sortCommission.setTextColor(getResources().getColor(R.color.grey_900));
+                break;
+        }
     }
 
     @OnTextChanged(R.id.search_text)
