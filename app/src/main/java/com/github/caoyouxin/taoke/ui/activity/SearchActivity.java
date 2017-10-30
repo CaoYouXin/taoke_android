@@ -8,18 +8,20 @@ import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.adapter.CouponAdapter;
-import com.github.caoyouxin.taoke.adapter.HelpAdapter;
 import com.github.caoyouxin.taoke.adapter.SearchHintAdapter;
 import com.github.caoyouxin.taoke.datasource.CouponDataSource;
-import com.github.caoyouxin.taoke.datasource.HelpDataSource;
 import com.github.caoyouxin.taoke.datasource.SearchHintDataSource;
 import com.github.caoyouxin.taoke.model.CouponItem;
-import com.github.caoyouxin.taoke.model.HelpItem;
+import com.github.caoyouxin.taoke.model.SearchHintItem;
 import com.github.caoyouxin.taoke.ui.widget.HackyLoadViewFactory;
 import com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity;
 import com.shizhefei.mvc.MVCHelper;
@@ -32,11 +34,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnEditorAction;
 import butterknife.OnTextChanged;
 import me.next.tagview.TagCloudView;
 
-public class SearchActivity extends BaseActivity implements TagCloudView.OnTagClickListener {
+public class SearchActivity extends BaseActivity implements TagCloudView.OnTagClickListener, TextView.OnEditorActionListener {
 
     @BindView(R.id.title)
     TextView title;
@@ -50,7 +51,18 @@ public class SearchActivity extends BaseActivity implements TagCloudView.OnTagCl
     @BindView(R.id.coupon_list)
     RecyclerView couponList;
 
+    @BindView(R.id.search_text)
+    EditText searchText;
+
+    @BindView(R.id.search_result_wrapper)
+    LinearLayout searchResultWrapper;
+
+    @BindView(R.id.search_hint_wrapper)
+    FrameLayout searchHintWrapper;
+
     private GestureDetector gestureDetector;
+    private SearchHintDataSource searchHintDataSource;
+    private MVCNormalHelper searchHintListHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +80,8 @@ public class SearchActivity extends BaseActivity implements TagCloudView.OnTagCl
                 return true;
             }
         });
+
+        this.searchText.setOnEditorActionListener(this);
 
         initSearchHistoryList();
         initSearchHintList();
@@ -125,8 +139,8 @@ public class SearchActivity extends BaseActivity implements TagCloudView.OnTagCl
                 if (gestureDetector.onTouchEvent(event)) {
                     View childView = rv.findChildViewUnder(event.getX(), event.getY());
                     int childPosition = rv.getChildAdapterPosition(childView);
-
-
+                    SearchHintItem searchHintItem = searchHintAdapter.getData().get(childPosition);
+                    SearchActivity.this.searchText.setText(searchHintItem.hint);
                     return true;
                 } else {
                     return false;
@@ -134,13 +148,11 @@ public class SearchActivity extends BaseActivity implements TagCloudView.OnTagCl
             }
         });
 
-        SearchHintDataSource searchHintDataSource = new SearchHintDataSource(this, "");
+        searchHintDataSource = new SearchHintDataSource(this, "");
 
-        MVCHelper searchHintListHelper = new MVCNormalHelper(searchHintList);
+        searchHintListHelper = new MVCNormalHelper(searchHintList);
         searchHintListHelper.setAdapter(searchHintAdapter);
         searchHintListHelper.setDataSource(searchHintDataSource);
-
-        searchHintListHelper.refresh();
     }
 
     private void initSearchHistoryList() {
@@ -178,7 +190,18 @@ public class SearchActivity extends BaseActivity implements TagCloudView.OnTagCl
 
     @OnTextChanged(R.id.search_text)
     public void onTextChanged(CharSequence text) {
-        Toast.makeText(this, "Text changed: " + text, Toast.LENGTH_SHORT).show();
+        this.searchHintDataSource.changeInputNow(text.toString());
+        this.searchHintListHelper.refresh();
+        this.searchResultWrapper.setVisibility(View.INVISIBLE);
+        this.searchHintWrapper.setVisibility(View.VISIBLE);
     }
 
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        if(actionId == EditorInfo.IME_ACTION_SEARCH){
+            this.searchResultWrapper.setVisibility(View.VISIBLE);
+            return true;
+        }
+        return false;
+    }
 }

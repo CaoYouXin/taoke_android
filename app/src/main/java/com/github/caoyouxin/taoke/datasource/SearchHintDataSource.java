@@ -25,6 +25,11 @@ public class SearchHintDataSource extends RxDataSource<List<SearchHintItem>> imp
         this.inputNow = inputNow;
     }
 
+    public SearchHintDataSource changeInputNow(String inputNow) {
+        this.inputNow = inputNow;
+        return this;
+    }
+
     @Override
     public Observable<List<SearchHintItem>> refresh() throws Exception {
         return TaoKeApi.getSearchHintList(this.inputNow);
