@@ -94,6 +94,18 @@ public class TaoKeTestService implements TaoKeService {
                 taoKeData.body.put("recs", recs);
 
                 return Observable.just(taoKeData);
+            case API_SEARCH_HINT_LIST:
+                taoKeData.header.put("ResultCode", "0000");
+
+                List<Map> recs3 = new ArrayList<>();
+                for (int i = 0; i < 10; i++) {
+                    Map item = new ArrayMap();
+                    item.put("hint", "与" + data + "相关的搜索词" + i);
+                    recs3.add(item);
+                }
+                taoKeData.body.put("recs", recs3);
+
+                return Observable.just(taoKeData);
         }
 
         return Observable.empty();

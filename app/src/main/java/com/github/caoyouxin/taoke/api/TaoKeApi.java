@@ -10,6 +10,7 @@ import com.github.caoyouxin.taoke.model.HelpItem;
 import com.github.caoyouxin.taoke.model.MessageItem;
 import com.github.caoyouxin.taoke.model.Product;
 import com.github.caoyouxin.taoke.model.OrderItem;
+import com.github.caoyouxin.taoke.model.SearchHintItem;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -199,6 +200,23 @@ public class TaoKeApi {
                             FriendItem item = new FriendItem();
                             item.amount = (Double) rec.get("amount");
                             item.name = (String) rec.get("name");
+                            items.add(item);
+                        }
+                    }
+                    return Observable.just(items);
+                });
+    }
+
+    public static Observable<List<SearchHintItem>> getSearchHintList(String inputNow) {
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_SEARCH_HINT_LIST, inputNow, "")
+                .compose(RxHelper.handleResult())
+                .flatMap(taoKeData -> {
+                    List<SearchHintItem> items = new ArrayList<>();
+                    List<Map> recs = (List<Map>) taoKeData.body.get("recs");
+                    if (recs != null) {
+                        for (Map rec : recs) {
+                            SearchHintItem item = new SearchHintItem();
+                            item.hint = (String) rec.get("hint");
                             items.add(item);
                         }
                     }

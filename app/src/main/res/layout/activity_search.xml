@@ -7,6 +7,7 @@
     <include layout="@layout/layout_action_bar" />
 
     <EditText
+        android:id="@+id/search_text"
         android:layout_marginTop="@dimen/len_56"
         android:layout_marginLeft="@dimen/len_16"
         android:layout_marginRight="@dimen/len_16"
@@ -15,7 +16,8 @@
         android:background="@drawable/border_1dp_less_pad"
         android:hint="@string/search_title"
         android:maxLines="1"
-        android:inputType="text"/>
+        android:inputType="text"
+        android:imeOptions="actionSearch"/>
 
     <include layout="@layout/layout_search_history" />
 
