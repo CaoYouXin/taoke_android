@@ -34,7 +34,7 @@ import timber.log.Timber;
 public class ShareHelper {
     private final static ShareListener shareListener = new ShareListener();
 
-    public  static BiliShareConfiguration configuration;
+    public static BiliShareConfiguration configuration;
 
     public static void initialize(Context context) {
         ShareHelper.configuration = new BiliShareConfiguration.Builder(context)
@@ -69,7 +69,7 @@ public class ShareHelper {
 
         @Override
         public void onError(SocializeMedia type, int code, Throwable error) {
-
+            Timber.e(error);
         }
 
         @Override

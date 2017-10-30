@@ -22,6 +22,7 @@ public class ProductDataSource extends RxDataSource<List<Product>> implements ID
     public final static int SORT_SALES = 1;
     public final static int SORT_PRICE_UP = 2;
     public final static int SORT_PRICE_DOWN = 3;
+    public static final int SORT_COMMISSION = 4;
 
     private BrandItem brandItem;
 

@@ -48,6 +48,9 @@ public class ProductListActivity extends BaseActivity {
     @BindView(R.id.sort_price_down)
     IconicsTextView sortPriceDown;
 
+    @BindView(R.id.sort_commission)
+    TextView sortCommission;
+
     @BindView(R.id.smart_refresh_layout)
     SmartRefreshLayout smartRefreshLayout;
 
@@ -80,13 +83,14 @@ public class ProductListActivity extends BaseActivity {
         onBackPressed();
     }
 
-    @OnClick({R.id.sort_multiple_wrapper, R.id.sort_sales_wrapper, R.id.sort_price_wrapper})
+    @OnClick({R.id.sort_multiple_wrapper, R.id.sort_sales_wrapper, R.id.sort_price_wrapper, R.id.sort_commission_wrapper})
     protected void initSortBar(View view) {
         sortMultiple.setTextColor(getResources().getColor(R.color.grey_400));
         sortSales.setTextColor(getResources().getColor(R.color.grey_400));
         sortPrice.setTextColor(getResources().getColor(R.color.grey_400));
         sortPriceUp.setTextColor(getResources().getColor(R.color.grey_400));
         sortPriceDown.setTextColor(getResources().getColor(R.color.grey_400));
+        sortCommission.setTextColor(getResources().getColor(R.color.grey_400));
 
         switch (view.getId()) {
             case R.id.sort_multiple_wrapper:
@@ -106,6 +110,10 @@ public class ProductListActivity extends BaseActivity {
                     sortPriceUp.setTextColor(getResources().getColor(R.color.grey_900));
                 }
                 sortPrice.setTextColor(getResources().getColor(R.color.grey_900));
+                break;
+            case R.id.sort_commission_wrapper:
+                sort = ProductDataSource.SORT_COMMISSION;
+                sortCommission.setTextColor(getResources().getColor(R.color.grey_900));
                 break;
         }
 
