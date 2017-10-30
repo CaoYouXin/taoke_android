@@ -1,90 +1,42 @@
 package com.github.caoyouxin.taoke.ui.activity;
 
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.caoyouxin.taoke.R;
-import com.github.caoyouxin.taoke.adapter.CouponAdapter;
-import com.github.caoyouxin.taoke.adapter.SearchHintAdapter;
-import com.github.caoyouxin.taoke.datasource.CouponDataSource;
-import com.github.caoyouxin.taoke.datasource.ProductDataSource;
-import com.github.caoyouxin.taoke.datasource.SearchHintDataSource;
-import com.github.caoyouxin.taoke.model.CouponItem;
-import com.github.caoyouxin.taoke.model.SearchHintItem;
-import com.github.caoyouxin.taoke.ui.widget.HackyLoadViewFactory;
+import com.github.caoyouxin.taoke.ui.fragment.SearchHintFragment;
+import com.github.caoyouxin.taoke.ui.fragment.SearchHistoryFragment;
+import com.github.caoyouxin.taoke.ui.fragment.SearchResultFragment;
 import com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity;
-import com.mikepenz.iconics.view.IconicsTextView;
-import com.shizhefei.mvc.MVCHelper;
-import com.shizhefei.mvc.MVCNormalHelper;
-import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
-import me.next.tagview.TagCloudView;
 
-public class SearchActivity extends BaseActivity implements TagCloudView.OnTagClickListener, TextView.OnEditorActionListener {
+public class SearchActivity extends BaseActivity implements TextView.OnEditorActionListener {
 
     @BindView(R.id.title)
     TextView title;
 
-    @BindView(R.id.search_history_list)
-    TagCloudView searchHistoryList;
-
-    @BindView(R.id.search_hint_list)
-    RecyclerView searchHintList;
-
-    @BindView(R.id.coupon_list)
-    RecyclerView couponList;
-
     @BindView(R.id.search_text)
     EditText searchText;
 
-    @BindView(R.id.search_result_wrapper)
-    LinearLayout searchResultWrapper;
-
-    @BindView(R.id.search_hint_wrapper)
-    FrameLayout searchHintWrapper;
-
-    @BindView(R.id.sort_multiple)
-    TextView sortMultiple;
-
-    @BindView(R.id.sort_sales)
-    TextView sortSales;
-
-    @BindView(R.id.sort_price)
-    TextView sortPrice;
-
-    @BindView(R.id.sort_price_up)
-    IconicsTextView sortPriceUp;
-
-    @BindView(R.id.sort_price_down)
-    IconicsTextView sortPriceDown;
-
-    @BindView(R.id.sort_commission)
-    TextView sortCommission;
-
-    private int sort;
-
+    private SearchHistoryFragment searchHistoryFragment;
+    private SearchHintFragment searchHintFragment;
+    private SearchResultFragment searchResultFragment;
     private GestureDetector gestureDetector;
-    private SearchHintDataSource searchHintDataSource;
-    private MVCNormalHelper searchHintListHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,8 +46,6 @@ public class SearchActivity extends BaseActivity implements TagCloudView.OnTagCl
 
         ButterKnife.bind(this);
 
-        title.setText(R.string.search_title);
-
         gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onSingleTapUp(MotionEvent e) {
@@ -103,106 +53,11 @@ public class SearchActivity extends BaseActivity implements TagCloudView.OnTagCl
             }
         });
 
+        title.setText(R.string.search_title);
+
         this.searchText.setOnEditorActionListener(this);
 
-        initSearchHistoryList();
-        initSearchHintList();
-        initCouponList();
-    }
-
-    private void initCouponList() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        couponList.setLayoutManager(layoutManager);
-        //couponList.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity()).size(1).build());
-
-        CouponAdapter couponAdapter = new CouponAdapter(this);
-
-        couponList.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener() {
-            @Override
-            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent event) {
-                if (gestureDetector.onTouchEvent(event)) {
-                    View childView = rv.findChildViewUnder(event.getX(), event.getY());
-                    int childPosition = rv.getChildAdapterPosition(childView);
-                    if (-1 < childPosition && childPosition < couponAdapter.getData().size()) {
-                        CouponItem couponItem = couponAdapter.getData().get(childPosition);
-                        Intent intent = new Intent(SearchActivity.this, DetailActivity.class).putExtra(DetailActivity.EXTRA_COUPON_ITEM, couponItem);
-                        SearchActivity.this.startActivity(intent);
-                    }
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        });
-
-        CouponDataSource couponDataSource = new CouponDataSource(this);
-
-        //hacky to remove mvchelper loadview loadmoreview
-        HackyLoadViewFactory hackyLoadViewFactory = new HackyLoadViewFactory();
-        MVCNormalHelper couponListHelper = new MVCNormalHelper(couponList, hackyLoadViewFactory.madeLoadView(), hackyLoadViewFactory.madeLoadMoreView());
-        couponListHelper.setAdapter(couponAdapter);
-        couponListHelper.setDataSource(couponDataSource);
-
-        couponListHelper.refresh();
-    }
-
-    private void initSearchHintList() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        searchHintList.setLayoutManager(layoutManager);
-        searchHintList.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).size(1).build());
-
-        SearchHintAdapter searchHintAdapter = new SearchHintAdapter();
-
-        searchHintList.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener() {
-            @Override
-            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent event) {
-                if (gestureDetector.onTouchEvent(event)) {
-                    View childView = rv.findChildViewUnder(event.getX(), event.getY());
-                    int childPosition = rv.getChildAdapterPosition(childView);
-                    SearchHintItem searchHintItem = searchHintAdapter.getData().get(childPosition);
-                    SearchActivity.this.searchText.setText(searchHintItem.hint);
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        });
-
-        searchHintDataSource = new SearchHintDataSource(this, "");
-
-        searchHintListHelper = new MVCNormalHelper(searchHintList);
-        searchHintListHelper.setAdapter(searchHintAdapter);
-        searchHintListHelper.setDataSource(searchHintDataSource);
-    }
-
-    private void initSearchHistoryList() {
-        List<String> tags = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            tags.add("搜词" + i);
-        }
-
-        searchHistoryList.setTags(tags);
-        searchHistoryList.setOnTagClickListener(this);
-        searchHistoryList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "TagView onClick",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    @Override
-    public void onTagClick(int position) {
-        if (position == -1) {
-            Toast.makeText(getApplicationContext(), "点击末尾文字",
-                    Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(getApplicationContext(), "点击 position : " + position,
-                    Toast.LENGTH_SHORT).show();
-        }
+        this.showSearchHistory();
     }
 
     @OnClick(R.id.back)
@@ -210,55 +65,67 @@ public class SearchActivity extends BaseActivity implements TagCloudView.OnTagCl
         onBackPressed();
     }
 
-    @OnClick({R.id.sort_multiple_wrapper, R.id.sort_sales_wrapper, R.id.sort_price_wrapper, R.id.sort_commission_wrapper})
-    protected void initSortBar(View view) {
-        sortMultiple.setTextColor(getResources().getColor(R.color.grey_400));
-        sortSales.setTextColor(getResources().getColor(R.color.grey_400));
-        sortPrice.setTextColor(getResources().getColor(R.color.grey_400));
-        sortPriceUp.setTextColor(getResources().getColor(R.color.grey_400));
-        sortPriceDown.setTextColor(getResources().getColor(R.color.grey_400));
-        sortCommission.setTextColor(getResources().getColor(R.color.grey_400));
-
-        switch (view.getId()) {
-            case R.id.sort_multiple_wrapper:
-                sort = ProductDataSource.SORT_MULTIPLE;
-                sortMultiple.setTextColor(getResources().getColor(R.color.grey_900));
-                break;
-            case R.id.sort_sales_wrapper:
-                sort = ProductDataSource.SORT_SALES;
-                sortSales.setTextColor(getResources().getColor(R.color.grey_900));
-                break;
-            case R.id.sort_price_wrapper:
-                if (sort == ProductDataSource.SORT_PRICE_UP) {
-                    sort = ProductDataSource.SORT_PRICE_DOWN;
-                    sortPriceDown.setTextColor(getResources().getColor(R.color.grey_900));
-                } else {
-                    sort = ProductDataSource.SORT_PRICE_UP;
-                    sortPriceUp.setTextColor(getResources().getColor(R.color.grey_900));
-                }
-                sortPrice.setTextColor(getResources().getColor(R.color.grey_900));
-                break;
-            case R.id.sort_commission_wrapper:
-                sort = ProductDataSource.SORT_COMMISSION;
-                sortCommission.setTextColor(getResources().getColor(R.color.grey_900));
-                break;
-        }
-    }
-
     @OnTextChanged(R.id.search_text)
     public void onTextChanged(CharSequence text) {
-        this.searchHintDataSource.changeInputNow(text.toString());
-        this.searchHintListHelper.refresh();
-        this.searchResultWrapper.setVisibility(View.INVISIBLE);
-        this.searchHintWrapper.setVisibility(View.VISIBLE);
+        this.showSearchHint(text.toString());
     }
 
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         if(actionId == EditorInfo.IME_ACTION_SEARCH){
-            this.searchResultWrapper.setVisibility(View.VISIBLE);
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+            this.showSearchResult();
             return true;
         }
         return false;
+    }
+
+    private void showSearchHistory() {
+        if (null == this.searchHistoryFragment) {
+            this.searchHistoryFragment = new SearchHistoryFragment().setSearchActivity(this);
+        }
+
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.search_content, this.searchHistoryFragment);
+        ft.commit();
+    }
+
+    private void showSearchResult() {
+        if (null == this.searchResultFragment) {
+            this.searchResultFragment = new SearchResultFragment().setSearchActivity(gestureDetector);
+        }
+
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.search_content, this.searchResultFragment);
+        ft.commit();
+    }
+
+    private void showSearchHint(String inputNow) {
+        if (null == this.searchHintFragment) {
+            this.searchHintFragment = new SearchHintFragment().setSearchActivity(this, gestureDetector);
+        }
+
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment fragmentById = fm.findFragmentById(R.id.search_content);
+
+        if (null != fragmentById && fragmentById instanceof SearchHintFragment) {
+
+            this.searchHintFragment.refresh(inputNow);
+        } else {
+
+            this.searchHintFragment.setInputNow(inputNow);
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.replace(R.id.search_content, this.searchHintFragment);
+            ft.commit();
+        }
+    }
+
+    public void setText(String searchText) {
+        this.searchText.setText(searchText);
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(this.searchText, InputMethodManager.SHOW_IMPLICIT);
     }
 }

@@ -1,22 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginTop="@dimen/len_100"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:visibility="invisible"
-    android:orientation="vertical"
-    android:id="@+id/search_result_wrapper">
-
-    <include layout="@layout/layout_sort_bar" />
+    android:id="@+id/search_hint_wrapper">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/coupon_list"
+        android:id="@+id/search_hint_list"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
         android:background="@color/white"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-</LinearLayout>
+</FrameLayout>
