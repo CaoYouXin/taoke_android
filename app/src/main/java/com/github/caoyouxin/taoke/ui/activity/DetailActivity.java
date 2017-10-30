@@ -75,7 +75,7 @@ public class DetailActivity extends BaseActivity {
             case R.id.detail_view:
                 break;
             case R.id.detail_share:
-                Intent intent = new Intent(this, ShareActivity.class);
+                Intent intent = new Intent(this, ShareActivity.class).putExtra(ShareActivity.EXTRA_COUPON_ITEM, couponItem);
                 startActivity(intent);
                 break;
             case R.id.detail_app:

@@ -57,6 +57,7 @@ dependencies {
     compile 'com.github.apl-devs:appintro:v4.2.2'
     compile 'com.github.javiersantos:AppUpdater:+'
     compile 'com.github.gnastnosaj.BiliShare:library:ef3d740'
+    compile 'com.github.gnastnosaj.Boilerplate:util:3b53858'
 
     compile 'com.github.kingideayou:tagcloudview:1.0.2'
     compile 'com.mikepenz:iconics-views:+@aar'

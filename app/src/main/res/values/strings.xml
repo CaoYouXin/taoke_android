@@ -68,11 +68,13 @@
     <string name="share_title">创建分享</string>
     <string name="share_submit">分享</string>
     <string name="select_images">选择图片</string>
-    <string name="selected_images">已选 %1$d 张</string>
+    <string name="selected_images">已选 %1$s 张</string>
     <string name="edit_share_text">编辑分享文案</string>
     <string name="share_text_only">仅复制文本文案</string>
-    <string name="share_explanation">请不要更改`{}`之间的文字哦~\n\n觅券儿仅提供技术支持，请您自行确保分享内容真实合法（如不使用内部优惠券、好评返现等虚假描述）。</string>
+    <string name="share_rules">请不要更改`{}`之间的文字哦~\n\n觅券儿仅提供技术支持，请您自行确保分享内容真实合法（如不使用内部优惠券、好评返现等虚假描述）。</string>
     <string name="sort_bar_commission">佣金比例</string>
     <string name="search_title">搜索</string>
     <string name="search_history">搜索历史</string>
+    <string name="share_text_hint">请不要更改`{}`之间的文字哦~</string>
+    <string name="share_explanation">觅券儿仅提供技术支持，请您自行确保分享内容真实合法（如不使用内部优惠券、好评返现等虚假描述）。</string>
 </resources>

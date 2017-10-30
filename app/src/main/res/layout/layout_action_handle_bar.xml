@@ -13,18 +13,6 @@
         android:textColor="@color/grey_800"
         android:textSize="@dimen/font_16" />
 
-    <TextView
-        android:id="@+id/handle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right|center_vertical"
-        android:layout_marginRight="@dimen/len_16"
-        android:layout_marginEnd="@dimen/len_16"
-        android:text="@string/submit"
-        android:textColor="@color/grey_800"
-        android:textSize="@dimen/font_16"
-        tools:ignore="RtlHardcoded" />
-
     <com.mikepenz.iconics.view.IconicsTextView
         android:id="@+id/back"
         android:layout_width="wrap_content"
@@ -37,6 +25,17 @@
         android:textColor="@color/grey_800"
         android:textSize="@dimen/font_24"
         tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/handle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|center_vertical"
+        android:layout_marginEnd="@dimen/len_16"
+        android:layout_marginRight="@dimen/len_16"
+        android:text="@string/submit"
+        android:textColor="@color/grey_800"
+        android:textSize="@dimen/font_16" />
 
     <View
         android:layout_width="match_parent"
