@@ -22,6 +22,7 @@ import com.bilibili.socialize.share.core.shareparam.ShareImage;
 import com.bilibili.socialize.share.core.shareparam.ShareParamImage;
 import com.bilibili.socialize.share.core.shareparam.ShareParamText;
 import com.bilibili.socialize.share.download.IImageDownloader;
+import com.bilibili.socialize.share.util.BitmapUtil;
 import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.adapter.ShareImageAdapter;
 import com.github.caoyouxin.taoke.api.RxHelper;
@@ -34,6 +35,7 @@ import com.shizhefei.mvc.MVCHelper;
 import com.shizhefei.mvc.MVCNormalHelper;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -130,7 +132,7 @@ public class ShareActivity extends BaseActivity {
                 if (!text2Share.isEmpty()) {
                     String linkHint = getResources().getString(R.string.share_text_link_hint);
                     String link = getResources().getString(R.string.share_text_link, couponItem.thumb, String.valueOf(couponItem.thumb.hashCode()));
-                    if (text2Share.contains(link)) {
+                    if (text2Share.contains(linkHint)) {
                         text2Share = text2Share.replace(linkHint, link);
                     } else {
                         text2Share += link;
@@ -289,14 +291,18 @@ public class ShareActivity extends BaseActivity {
             canvas.drawBitmap(description, 0, thumbsHeight, null);
 
             return bitmap;
+        }).map(bitmap -> {
+            File cache = BitmapUtil.saveBitmapToExternal(bitmap, ShareHelper.configuration.getImageCachePath(this));
+            File shareImage = new File(cache.getPath() + ".jpg");
+            cache.renameTo(shareImage);
+            return cache;
         })
                 .compose(RxHelper.rxSchedulerHelper())
                 .compose(bindUntilEvent(ActivityEvent.DESTROY))
-                .subscribe(bitmap -> {
-                    if (bitmap != null) {
+                .subscribe(shareImage -> {
+                    if (shareImage != null) {
                         ShareParamImage shareParamImage = new ShareParamImage(getTitle().toString(), "", "");
-                        shareParamImage.setImage(new ShareImage(bitmap));
-                        shareParamImage.setContent("哇咔咔");
+                        shareParamImage.setImage(new ShareImage(shareImage));
                         ShareHelper.share(this, shareParamImage);
                     }
                     dismissDynamicBox(ShareActivity.this);
