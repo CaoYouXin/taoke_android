@@ -24,6 +24,14 @@
     <string name="discover_coupon_price_after">券后价 ¥ %1$s</string>
     <string name="discover_coupon_value">券 | %1$s元&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;余%2$s张</string>
 
+    <string name="sort_bar_multiple">综合</string>
+    <string name="sort_bar_sales">销量</string>
+    <string name="sort_bar_price">价格</string>
+    <string name="sort_bar_commission">佣金比例</string>
+    <string name="product_new">新品</string>
+    <string name="product_price">¥ %1$s</string>
+    <string name="product_sales">月销%1$s笔</string>
+
     <string name="detail">宝贝推广信息</string>
     <string name="detail_view">详情</string>
     <string name="detail_price_after">券后价</string>
@@ -35,6 +43,23 @@
     <string name="detail_commission_hint">该商品可能存在高佣金，加油升级才可查看～</string>
     <string name="detail_share">立即分享</string>
     <string name="detail_app">淘宝打开</string>
+
+    <string name="share_title">创建分享</string>
+    <string name="share_submit">分享</string>
+    <string name="select_images">选择图片</string>
+    <string name="selected_images">已选 %1$s 张</string>
+    <string name="edit_share_text">编辑分享文案</string>
+    <string name="share_text">%1$s\n&#160;&#160;【包邮】\n&#160;&#160;【在售价】%2$s元\n&#160;&#160;【券后价】%3$s元\n&#160;&#160;【下单链接】{分享渠道后自动生成链接与口令}</string>
+    <string name="share_text_link_hint">{分享渠道后自动生成链接与口令}</string>
+    <string name="share_text_link">\n%1$s\n--------------------\n复制这条信息，%2$s，打开【手机淘宝】即可查看</string>
+    <string name="share_text_only">仅复制文本文案</string>
+    <string name="share_text_hint">请不要更改`{}`之间的文字哦~</string>
+    <string name="share_explanation">觅券儿仅提供技术支持，请您自行确保分享内容真实合法（如不使用内部优惠券、好评返现等虚假描述）。</string>
+    <string name="share_qrcode_hint">长按识别二维码</string>
+    <string name="share_price_before">现价&#160;&#160;¥ %1$s</string>
+    <string name="share_coupon">券</string>
+    <string name="share_coupon_value">%1$s元</string>
+    <string name="share_price_after">券后价&#160;¥&#160;%1$s</string>
 
     <string name="account_id">账户ID:  \n头衔</string>
     <string name="new_help">新手引导</string>
@@ -63,14 +88,6 @@
     <string name="select_consigned">已收货</string>
     <string name="select_settled">已结算</string>
 
-    <string name="sort_bar_multiple">综合</string>
-    <string name="sort_bar_sales">销量</string>
-    <string name="sort_bar_price">价格</string>
-    <string name="sort_bar_commission">佣金比例</string>
-    <string name="product_new">新品</string>
-    <string name="product_price">¥ %1$s</string>
-    <string name="product_sales">月销%1$s笔</string>
-
     <string name="order_trade_price">付款金额\n¥ %1$s</string>
     <string name="order_commission_price">成交预估收入\n¥ %1$s</string>
     <string name="order_commission_rate">提成\n%1$s%%</string>
@@ -81,20 +98,4 @@
     <string name="search_title">搜索</string>
     <string name="search_history">搜索历史</string>
 
-    <string name="share_title">创建分享</string>
-    <string name="share_submit">分享</string>
-    <string name="select_images">选择图片</string>
-    <string name="selected_images">已选 %1$s 张</string>
-    <string name="edit_share_text">编辑分享文案</string>
-    <string name="share_text">%1$s\n&#160;&#160;【包邮】\n&#160;&#160;【在售价】%2$s元\n&#160;&#160;【券后价】%3$s元\n&#160;&#160;【下单链接】{分享渠道后自动生成链接与口令}</string>
-    <string name="share_text_link_hint">{分享渠道后自动生成链接与口令}</string>
-    <string name="share_text_link">\n%1$s\n--------------------\n复制这条信息，%2$s，打开【手机淘宝】即可查看</string>
-    <string name="share_text_only">仅复制文本文案</string>
-    <string name="share_text_hint">请不要更改`{}`之间的文字哦~</string>
-    <string name="share_explanation">觅券儿仅提供技术支持，请您自行确保分享内容真实合法（如不使用内部优惠券、好评返现等虚假描述）。</string>
-    <string name="share_qrcode_hint">长按识别二维码</string>
-    <string name="share_price_before">现价&#160;&#160;¥ %1$s</string>
-    <string name="share_coupon">券</string>
-    <string name="share_coupon_value">%1$s元</string>
-    <string name="share_price_after">券后价&#160;¥&#160;%1$s</string>
 </resources>

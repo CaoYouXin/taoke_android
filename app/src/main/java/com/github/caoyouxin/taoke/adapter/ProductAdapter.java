@@ -68,6 +68,8 @@ public class ProductAdapter extends RecyclerView.Adapter implements IDataAdapter
         holder.sales.setText(context.getResources().getString(R.string.product_sales, String.valueOf(item.sales)));
         if (item.isNew) {
             holder.isNew.setVisibility(View.VISIBLE);
+        } else {
+            holder.isNew.setVisibility(View.GONE);
         }
     }
 
