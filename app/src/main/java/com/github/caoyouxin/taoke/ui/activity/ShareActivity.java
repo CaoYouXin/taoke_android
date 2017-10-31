@@ -296,6 +296,7 @@ public class ShareActivity extends BaseActivity {
                     if (bitmap != null) {
                         ShareParamImage shareParamImage = new ShareParamImage(getTitle().toString(), "", "");
                         shareParamImage.setImage(new ShareImage(bitmap));
+                        shareParamImage.setContent("哇咔咔");
                         ShareHelper.share(this, shareParamImage);
                     }
                     dismissDynamicBox(ShareActivity.this);
