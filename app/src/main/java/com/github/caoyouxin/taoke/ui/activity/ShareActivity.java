@@ -3,6 +3,7 @@ package com.github.caoyouxin.taoke.ui.activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -35,9 +36,14 @@ import com.shizhefei.mvc.MVCHelper;
 import com.shizhefei.mvc.MVCNormalHelper;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -258,23 +264,29 @@ public class ShareActivity extends BaseActivity {
         }).map(thumbs -> {
             Bitmap bitmap = null;
 
-            int width = 0;
-            int height = 0;
+            int width = 0, height = 0;
 
             for (String thumb : thumbs) {
                 Bitmap b = BitmapFactory.decodeFile(thumb);
                 if (b.getWidth() > width) {
+                    height = width == 0 ? 0 : b.getWidth() * height / width;
                     width = b.getWidth();
                 }
-                height += b.getHeight();
+                height += width * b.getHeight() / b.getWidth();
 
                 Bitmap origin = bitmap;
                 bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
                 Canvas canvas = new Canvas(bitmap);
                 if (origin != null) {
-                    canvas.drawBitmap(origin, 0, 0, null);
+                    canvas.drawBitmap(origin,
+                            new Rect(0, 0, origin.getWidth(), origin.getHeight()),
+                            new Rect(0, 0, width, width * origin.getHeight() / origin.getWidth()),
+                            null);
                 }
-                canvas.drawBitmap(b, 0, height - b.getHeight(), null);
+                canvas.drawBitmap(b,
+                        new Rect(0, 0, b.getWidth(), b.getHeight()),
+                        new Rect(0, height - width * b.getHeight() / b.getWidth(), width, height),
+                        null);
             }
 
             return bitmap;
@@ -285,17 +297,28 @@ public class ShareActivity extends BaseActivity {
             int descriptionWidth = description.getWidth();
             int descriptionHeight = description.getHeight();
 
-            Bitmap bitmap = Bitmap.createBitmap(Math.max(descriptionWidth, thumbsWidth), thumbsHeight + descriptionHeight, Bitmap.Config.ARGB_8888);
+            int width, height;
+            if (thumbsWidth > descriptionWidth) {
+                width = thumbsWidth;
+                height = thumbsHeight + width * descriptionHeight / descriptionWidth;
+            } else {
+                width = descriptionWidth;
+                height = descriptionHeight + width * thumbsHeight / thumbsWidth;
+            }
+
+            Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(bitmap);
-            canvas.drawBitmap(thumbs, 0, 0, null);
-            canvas.drawBitmap(description, 0, thumbsHeight, null);
+            canvas.drawBitmap(thumbs,
+                    new Rect(0, 0, thumbs.getWidth(), thumbs.getHeight()),
+                    new Rect(0, 0, width, width * thumbs.getHeight() / thumbs.getWidth()),
+                    null);
+            canvas.drawBitmap(description,
+                    new Rect(0, 0, description.getWidth(), description.getHeight()),
+                    new Rect(0, height - width * description.getHeight() / description.getWidth(), width, height),
+                    null);
 
             return bitmap;
-        }).map(bitmap -> {
-            File cache = BitmapUtil.saveBitmapToExternal(bitmap, ShareHelper.configuration.getImageCachePath(this));
-            File shareImage = new File(cache.getPath() + ".jpg");
-            return cache.renameTo(shareImage) ? shareImage : cache;
-        })
+        }).map(bitmap -> ShareActivity.saveBitmapToExternal(bitmap, ShareHelper.configuration.getImageCachePath(this)))
                 .compose(RxHelper.rxSchedulerHelper())
                 .compose(bindUntilEvent(ActivityEvent.DESTROY))
                 .subscribe(shareImage -> {
@@ -309,6 +332,55 @@ public class ShareActivity extends BaseActivity {
                     Timber.e(throwable);
                     dismissDynamicBox(ShareActivity.this);
                 });
+    }
+
+    private static File saveBitmapToExternal(Bitmap bitmap, String targetFileDirPath) {
+        if (bitmap != null && !bitmap.isRecycled()) {
+            File targetFileDir = new File(targetFileDirPath);
+            if (!targetFileDir.exists() && !targetFileDir.mkdirs()) {
+                return null;
+            } else {
+                File targetFile = new File(targetFileDir, UUID.randomUUID().toString() + ".jpg");
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                FileOutputStream fos = null;
+
+                Object var7;
+                try {
+                    fos = new FileOutputStream(targetFile);
+                    baos.writeTo(fos);
+                    return targetFile;
+                } catch (FileNotFoundException var24) {
+                    var24.printStackTrace();
+                    var7 = null;
+                    return (File) var7;
+                } catch (IOException var25) {
+                    var25.printStackTrace();
+                    var7 = null;
+                } finally {
+                    try {
+                        baos.flush();
+                        baos.close();
+                    } catch (IOException var23) {
+                        var23.printStackTrace();
+                    }
+
+                    try {
+                        if (fos != null) {
+                            fos.flush();
+                            fos.close();
+                        }
+                    } catch (IOException var22) {
+                        var22.printStackTrace();
+                    }
+
+                }
+
+                return (File) var7;
+            }
+        } else {
+            return null;
+        }
     }
 
     private Observable<Bitmap> generateShareImageDescription() {
