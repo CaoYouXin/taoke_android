@@ -2,6 +2,7 @@ package com.github.caoyouxin.taoke.ui.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -58,6 +59,8 @@ public class SearchActivity extends BaseActivity implements TextView.OnEditorAct
         this.searchText.setOnEditorActionListener(this);
 
         this.showSearchHistory();
+
+        Snackbar.make(findViewById(android.R.id.content), R.string.app_not_release_hint, Snackbar.LENGTH_LONG).show();
     }
 
     @OnClick(R.id.back)

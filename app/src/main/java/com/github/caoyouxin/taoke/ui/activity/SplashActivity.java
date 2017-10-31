@@ -27,7 +27,7 @@ public class SplashActivity extends BaseActivity {
 
         Snackbar.make(findViewById(android.R.id.content), R.string.app_not_release_hint, Snackbar.LENGTH_LONG).show();
 
-        Observable.timer(3, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
+        Observable.timer(5, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
             if (sharedPreferences.getBoolean(IntroActivity.INTRO_READ, false)) {
                 startActivity(new Intent(this, TaoKeActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));

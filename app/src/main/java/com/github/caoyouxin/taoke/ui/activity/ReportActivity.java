@@ -1,6 +1,7 @@
 package com.github.caoyouxin.taoke.ui.activity;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.TextView;
 
@@ -29,6 +30,8 @@ public class ReportActivity extends BaseActivity {
 
         title.setText(R.string.feedback);
         handle.setText(R.string.submit);
+
+        Snackbar.make(findViewById(android.R.id.content), R.string.app_not_release_hint, Snackbar.LENGTH_LONG).show();
     }
 
     @OnClick(R.id.back)

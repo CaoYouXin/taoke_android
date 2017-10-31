@@ -3,6 +3,7 @@ package com.github.caoyouxin.taoke.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -54,6 +55,8 @@ public class ChartFragment extends Fragment {
             this.userAmount.setText(SpannedTextUtil.buildAmount(getActivity(), R.string.user_amount, "0.00", '¥', 2));
             this.userThisMonthAmount.setText(SpannedTextUtil.buildAmount(getActivity(), R.string.user_this_month_amount, "0.00", '¥', 2));
             this.userLastMonthAmount.setText(SpannedTextUtil.buildAmount(getActivity(), R.string.user_last_month_amount, "120.00", '¥', 2));
+
+            Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.app_not_release_hint, Snackbar.LENGTH_LONG).show();
         }
         return rootView;
     }

@@ -1,6 +1,7 @@
 package com.github.caoyouxin.taoke.ui.activity;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.GestureDetector;
@@ -76,6 +77,8 @@ public class ProductListActivity extends BaseActivity {
         title.setText(brandItem.title);
 
         initRefreshRecyclerView();
+
+        Snackbar.make(findViewById(android.R.id.content), R.string.app_not_release_hint, Snackbar.LENGTH_LONG).show();
     }
 
     @OnClick(R.id.back)

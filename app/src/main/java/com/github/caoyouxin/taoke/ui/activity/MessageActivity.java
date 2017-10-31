@@ -1,6 +1,7 @@
 package com.github.caoyouxin.taoke.ui.activity;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
@@ -41,6 +42,8 @@ public class MessageActivity extends BaseActivity {
         this.title.setText(getIntent().getStringExtra("title"));
 
         this.initMessageList(getIntent().getStringExtra("title"));
+
+        Snackbar.make(findViewById(android.R.id.content), R.string.app_not_release_hint, Snackbar.LENGTH_LONG).show();
     }
 
     private void initMessageList(String type) {

@@ -3,6 +3,7 @@ package com.github.caoyouxin.taoke.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -84,6 +85,8 @@ public class SearchResultFragment extends Fragment {
             }
 
             initCouponList();
+
+            Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.app_not_release_hint, Snackbar.LENGTH_LONG).show();
         }
         return rootView;
     }

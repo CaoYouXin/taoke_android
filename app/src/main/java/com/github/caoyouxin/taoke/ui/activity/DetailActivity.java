@@ -2,6 +2,7 @@ package com.github.caoyouxin.taoke.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
@@ -64,6 +65,8 @@ public class DetailActivity extends BaseActivity {
         couponItem = getIntent().getParcelableExtra(EXTRA_COUPON_ITEM);
 
         initView();
+
+        Snackbar.make(findViewById(android.R.id.content), R.string.app_not_release_hint, Snackbar.LENGTH_LONG).show();
     }
 
     @OnClick({R.id.back, R.id.detail_view, R.id.detail_share, R.id.detail_app})

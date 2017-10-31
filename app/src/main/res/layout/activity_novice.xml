@@ -19,28 +19,28 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/novice1"
+                android:src="@mipmap/splash"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/new_help" />
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/novice2"
+                android:src="@mipmap/splash"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/new_help" />
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/novice3"
+                android:src="@mipmap/splash"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/new_help" />
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/novice4"
+                android:src="@mipmap/splash"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/new_help" />
 
