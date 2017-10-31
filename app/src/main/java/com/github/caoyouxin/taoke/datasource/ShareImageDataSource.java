@@ -9,6 +9,7 @@ import com.github.gnastnosaj.boilerplate.mvchelper.RxDataSource;
 import com.shizhefei.mvc.IDataCacheLoader;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -37,6 +38,7 @@ public class ShareImageDataSource extends RxDataSource<List<ShareImage>> impleme
                         shareImages.add(shareImage);
                     }
                     shareImages.get(0).selected = true;
+                    System.out.println(Arrays.toString(shareImages.toArray()));
                     return shareImages;
                 });
     }

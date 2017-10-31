@@ -63,6 +63,7 @@
                 android:layout_marginTop="@dimen/len_10"
                 android:background="@drawable/share_text_border"
                 android:gravity="top"
+                android:text="@string/share_2_friends"
                 android:inputType="textMultiLine"
                 android:textColor="@color/grey_800"
                 android:textSize="@dimen/font_14" />
@@ -113,6 +114,20 @@
                 android:layout_marginTop="@dimen/len_10"
                 android:text="@string/share_explanation"
                 android:textColor="@color/grey_500" />
+
+            <FrameLayout
+                android:id="@+id/to_share"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/len_100"
+                android:visibility="invisible">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/share_rules"/>
+
+            </FrameLayout>
 
         </LinearLayout>
 

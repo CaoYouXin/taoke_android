@@ -3,6 +3,9 @@ package com.github.caoyouxin.taoke.ui.activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,6 +33,7 @@ import com.shizhefei.mvc.MVCNormalHelper;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -55,6 +59,9 @@ public class ShareActivity extends BaseActivity {
 
     @BindView(R.id.share_text)
     EditText shareText;
+
+    @BindView(R.id.to_share)
+    View toShare;
 
     private CouponItem couponItem;
 
@@ -152,7 +159,7 @@ public class ShareActivity extends BaseActivity {
                     frescoImageDownloader.download(this, shareImage.thumb, ShareHelper.configuration.getImageCachePath(this), new IImageDownloader.OnImageDownloadListener() {
                         @Override
                         public void onStart() {
-
+                            System.out.println("start downloading");
                         }
 
                         @Override
@@ -179,6 +186,7 @@ public class ShareActivity extends BaseActivity {
                     thumbs.add((String) object);
                 }
             }
+            System.out.println(Arrays.toString(thumbs.toArray()));
             return thumbs;
         }).map(thumbs -> {
             Bitmap bitmap = null;
@@ -204,7 +212,29 @@ public class ShareActivity extends BaseActivity {
 
             return bitmap;
         }).map(bitmap -> {
-            //append description
+            Bitmap b = ShareActivity.this.getBitmapFromView(toShare);
+
+            int width = bitmap.getWidth(), height = bitmap.getHeight();
+            if (b.getWidth() > width) {
+                width = b.getWidth();
+                height = width * bitmap.getHeight() / bitmap.getWidth();
+            }
+            height += width * b.getHeight() / b.getWidth();
+
+            Bitmap origin = bitmap;
+            bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            if (origin != null) {
+                canvas.drawBitmap(origin,
+                        new Rect(0, 0, origin.getWidth(), origin.getHeight()),
+                        new Rect(0, 0, width, width * origin.getHeight() / origin.getWidth()),
+                        null);
+            }
+            canvas.drawBitmap(b,
+                    new Rect(0, 0, b.getWidth(), b.getHeight()),
+                    new Rect(0, width * origin.getHeight() / origin.getWidth(), width, height),
+                    null);
+
             return bitmap;
         })
                 .compose(RxHelper.rxSchedulerHelper())
@@ -213,6 +243,7 @@ public class ShareActivity extends BaseActivity {
                     if (bitmap != null) {
                         ShareParamImage shareParamImage = new ShareParamImage(getTitle().toString(), "", "");
                         shareParamImage.setImage(new ShareImage(bitmap));
+                        shareParamImage.setContent("分享图片");
                         ShareHelper.share(this, shareParamImage);
                     }
                     dismissDynamicBox(ShareActivity.this);
@@ -220,5 +251,17 @@ public class ShareActivity extends BaseActivity {
                     Timber.e(throwable);
                     dismissDynamicBox(ShareActivity.this);
                 });
+    }
+
+    private Bitmap getBitmapFromView(View view) {
+        Bitmap returnedBitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(),Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(returnedBitmap);
+        Drawable bgDrawable =view.getBackground();
+        if (bgDrawable!=null)
+            bgDrawable.draw(canvas);
+        else
+            canvas.drawColor(Color.WHITE);
+        view.draw(canvas);
+        return returnedBitmap;
     }
 }
