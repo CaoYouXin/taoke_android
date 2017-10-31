@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">觅券儿</string>
     <string name="app_version">v1.0.0</string>
+    <string name="app_not_release_hint">『我们在测试，当前版本用于接口申请』</string>
 
     <string name="intro_skip">跳过</string>
     <string name="intro_done">立即体验</string>
