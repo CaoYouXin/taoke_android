@@ -294,8 +294,7 @@ public class ShareActivity extends BaseActivity {
         }).map(bitmap -> {
             File cache = BitmapUtil.saveBitmapToExternal(bitmap, ShareHelper.configuration.getImageCachePath(this));
             File shareImage = new File(cache.getPath() + ".jpg");
-            cache.renameTo(shareImage);
-            return cache;
+            return cache.renameTo(shareImage) ? shareImage : cache;
         })
                 .compose(RxHelper.rxSchedulerHelper())
                 .compose(bindUntilEvent(ActivityEvent.DESTROY))
