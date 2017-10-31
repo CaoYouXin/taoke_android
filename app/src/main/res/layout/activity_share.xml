@@ -7,7 +7,7 @@
     <ViewStub
         android:id="@+id/view_stub"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/len_172"
+        android:layout_height="@dimen/len_156"
         android:layout="@layout/layout_share_image_description"
         android:visibility="invisible" />
 

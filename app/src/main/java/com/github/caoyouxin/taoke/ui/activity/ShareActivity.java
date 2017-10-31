@@ -9,7 +9,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.StrikethroughSpan;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.EditText;
@@ -72,6 +74,18 @@ public class ShareActivity extends BaseActivity {
     @Nullable
     @BindView(R.id.desc_title)
     TextView descTitle;
+
+    @Nullable
+    @BindView(R.id.desc_price_before)
+    TextView descPriceBefore;
+
+    @Nullable
+    @BindView(R.id.desc_coupon)
+    TextView descCoupon;
+
+    @Nullable
+    @BindView(R.id.desc_price_after)
+    TextView descPriceAfter;
 
     @Nullable
     @BindView(R.id.desc_qrcode)
@@ -168,6 +182,21 @@ public class ShareActivity extends BaseActivity {
             ButterKnife.bind(this);
 
             descTitle.setText(couponItem.title);
+
+            String text = getResources().getString(R.string.share_price_before, couponItem.priceBefore);
+            SpannableStringBuilder builder = new SpannableStringBuilder(text);
+            StrikethroughSpan strikethroughSpan = new StrikethroughSpan();
+            builder.setSpan(strikethroughSpan, text.indexOf("¥") + 2, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            descPriceBefore.setText(builder);
+
+            descCoupon.setText(getResources().getString(R.string.share_coupon_value, couponItem.value));
+
+            text = getResources().getString(R.string.share_price_after, couponItem.priceAfter);
+            builder = new SpannableStringBuilder(text);
+            ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(getResources().getColor(R.color.orange_800));
+            builder.setSpan(foregroundColorSpan, text.indexOf("¥"), text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            builder.setSpan(new AbsoluteSizeSpan(getResources().getDimensionPixelSize(R.dimen.font_18)), text.indexOf("¥") + 1, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            descPriceAfter.setText(builder);
         }
     }
 

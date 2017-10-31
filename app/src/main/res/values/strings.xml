@@ -79,6 +79,10 @@
     <string name="share_text_hint">请不要更改`{}`之间的文字哦~</string>
     <string name="share_explanation">觅券儿仅提供技术支持，请您自行确保分享内容真实合法（如不使用内部优惠券、好评返现等虚假描述）。</string>
     <string name="share_qrcode_hint">长按识别二维码</string>
+    <string name="share_price_before">现价&#160;&#160;¥ %1$s</string>
+    <string name="share_coupon">券</string>
+    <string name="share_coupon_value">%1$s元</string>
+    <string name="share_price_after">券后价&#160;¥&#160;%1$s</string>
 
     <string name="app_version">v1.0.0</string>
 </resources>
