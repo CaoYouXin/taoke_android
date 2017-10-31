@@ -1,121 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <include layout="@layout/layout_action_handle_bar" />
-
-    <ScrollView
+    <ViewStub
+        android:id="@+id/view_stub"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="@dimen/len_172"
+        android:layout="@layout/layout_share_image_description"
+        android:visibility="invisible" />
 
-        <LinearLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/layout_action_handle_bar" />
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingLeft="@dimen/len_20"
-            android:paddingRight="@dimen/len_20"
-            android:paddingTop="@dimen/len_10">
+            android:layout_height="match_parent">
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/select_images"
-                    android:textColor="@color/grey_800"
-                    android:textSize="@dimen/font_16" />
-
-                <TextView
-                    android:id="@+id/share_image_selected"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:textColor="@color/grey_800"
-                    android:textSize="@dimen/font_16"
-                    tools:text="@string/selected_images" />
-
-            </FrameLayout>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/share_image_list"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/len_100"
-                android:layout_marginTop="@dimen/len_10" />
-
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/len_10"
-                android:gravity="center_vertical"
-                android:text="@string/edit_share_text"
-                android:textColor="@color/grey_800"
-                android:textSize="@dimen/font_16" />
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/len_20"
+                android:paddingRight="@dimen/len_20"
+                android:paddingTop="@dimen/len_10">
 
-            <EditText
-                android:id="@+id/share_text"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/len_100"
-                android:layout_marginTop="@dimen/len_10"
-                android:background="@drawable/share_text_border"
-                android:gravity="top"
-                android:inputType="textMultiLine"
-                android:textColor="@color/grey_800"
-                android:textSize="@dimen/font_14" />
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/len_10">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/share_text_hint"
-                    android:textColor="@color/grey_500" />
-
-                <LinearLayout
-                    android:id="@+id/share_text_only"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end|center_vertical"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <com.mikepenz.iconics.view.IconicsTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="{ion-ios-copy-outline}"
-                        android:textColor="@color/orange_800"
-                        android:textSize="@dimen/font_22"
-                        tools:ignore="HardcodedText" />
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/len_10"
-                        android:layout_marginStart="@dimen/len_10"
-                        android:text="@string/share_text_only"
-                        android:textColor="@color/orange_800" />
+                        android:text="@string/select_images"
+                        android:textColor="@color/grey_800"
+                        android:textSize="@dimen/font_16" />
 
-                </LinearLayout>
+                    <TextView
+                        android:id="@+id/share_image_selected"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:textColor="@color/grey_800"
+                        android:textSize="@dimen/font_16"
+                        tools:text="@string/selected_images" />
 
-            </FrameLayout>
+                </FrameLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/len_10"
-                android:text="@string/share_explanation"
-                android:textColor="@color/grey_500" />
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/share_image_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/len_100"
+                    android:layout_marginTop="@dimen/len_10" />
 
-        </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/len_10"
+                    android:gravity="center_vertical"
+                    android:text="@string/edit_share_text"
+                    android:textColor="@color/grey_800"
+                    android:textSize="@dimen/font_16" />
 
-    </ScrollView>
+                <EditText
+                    android:id="@+id/share_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/len_100"
+                    android:layout_marginTop="@dimen/len_10"
+                    android:background="@drawable/share_text_border"
+                    android:gravity="top"
+                    android:inputType="textMultiLine"
+                    android:textColor="@color/grey_800"
+                    android:textSize="@dimen/font_14" />
 
-</LinearLayout>
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/len_10">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/share_text_hint"
+                        android:textColor="@color/grey_500" />
+
+                    <LinearLayout
+                        android:id="@+id/share_text_only"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center_vertical"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <com.mikepenz.iconics.view.IconicsTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="{ion-ios-copy-outline}"
+                            android:textColor="@color/orange_800"
+                            android:textSize="@dimen/font_22"
+                            tools:ignore="HardcodedText" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/len_10"
+                            android:layout_marginStart="@dimen/len_10"
+                            android:text="@string/share_text_only"
+                            android:textColor="@color/orange_800" />
+
+                    </LinearLayout>
+
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/len_10"
+                    android:text="@string/share_explanation"
+                    android:textColor="@color/grey_500" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+</FrameLayout>

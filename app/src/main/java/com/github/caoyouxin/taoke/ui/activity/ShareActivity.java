@@ -4,13 +4,16 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.view.ViewStub;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bilibili.socialize.share.core.shareparam.ShareImage;
@@ -35,7 +38,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.bingoogolapple.qrcode.zxing.QRCodeEncoder;
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import timber.log.Timber;
 
 public class ShareActivity extends BaseActivity {
@@ -55,6 +60,22 @@ public class ShareActivity extends BaseActivity {
 
     @BindView(R.id.share_text)
     EditText shareText;
+
+    @Nullable
+    @BindView(R.id.view_stub)
+    ViewStub viewStub;
+
+    @Nullable
+    @BindView(R.id.share_image_description)
+    View shareImageDescription;
+
+    @Nullable
+    @BindView(R.id.desc_title)
+    TextView descTitle;
+
+    @Nullable
+    @BindView(R.id.desc_qrcode)
+    ImageView descQRcode;
 
     private CouponItem couponItem;
 
@@ -76,6 +97,8 @@ public class ShareActivity extends BaseActivity {
         handle.setText(R.string.share_submit);
 
         initShareImageList();
+
+        initViewStub();
     }
 
     @OnClick({R.id.back, R.id.handle, R.id.share_text_only})
@@ -139,38 +162,51 @@ public class ShareActivity extends BaseActivity {
         shareImageSelected.setText(builder);
     }
 
-    private void shareImages() {
-        showDynamicBoxCustomView(DYNAMIC_BOX_AV_PACMAN, ShareActivity.this);
+    private void initViewStub() {
+        if (shareImageDescription == null) {
+            viewStub.inflate();
+            ButterKnife.bind(this);
 
+            descTitle.setText(couponItem.title);
+        }
+    }
+
+    private void shareImages() {
         ShareHelper.ShareFrescoImageDownloader frescoImageDownloader = new ShareHelper.ShareFrescoImageDownloader();
 
         List<Observable<String>> observables = new ArrayList<>();
 
         for (com.github.caoyouxin.taoke.model.ShareImage shareImage : shareImageAdapter.getData()) {
             if (shareImage.selected) {
-                Observable observable = Observable.create(subscriber -> {
-                    frescoImageDownloader.download(this, shareImage.thumb, ShareHelper.configuration.getImageCachePath(this), new IImageDownloader.OnImageDownloadListener() {
-                        @Override
-                        public void onStart() {
+                Observable observable = Observable.create(subscriber ->
+                        frescoImageDownloader.download(this, shareImage.thumb, ShareHelper.configuration.getImageCachePath(this), new IImageDownloader.OnImageDownloadListener() {
+                            @Override
+                            public void onStart() {
 
-                        }
+                            }
 
-                        @Override
-                        public void onSuccess(String s) {
-                            subscriber.onNext(s);
-                            subscriber.onComplete();
-                        }
+                            @Override
+                            public void onSuccess(String s) {
+                                subscriber.onNext(s);
+                                subscriber.onComplete();
+                            }
 
-                        @Override
-                        public void onFailed(String s) {
-                            subscriber.onError(new Throwable(s));
-                        }
-                    });
-                });
+                            @Override
+                            public void onFailed(String s) {
+                                subscriber.onError(new Throwable(s));
+                            }
+                        })
+                );
 
                 observables.add(observable);
             }
         }
+
+        if (observables.isEmpty()) {
+            return;
+        }
+
+        showDynamicBoxCustomView(DYNAMIC_BOX_AV_PACMAN, ShareActivity.this);
 
         Observable.zip(observables, objects -> {
             List<String> thumbs = new ArrayList<>();
@@ -203,8 +239,18 @@ public class ShareActivity extends BaseActivity {
             }
 
             return bitmap;
-        }).map(bitmap -> {
-            //append description
+        }).zipWith(generateShareImageDescription(), (thumbs, description) -> {
+            int thumbsWidth = thumbs.getWidth();
+            int thumbsHeight = thumbs.getHeight();
+
+            int descriptionWidth = description.getWidth();
+            int descriptionHeight = description.getHeight();
+
+            Bitmap bitmap = Bitmap.createBitmap(Math.max(descriptionWidth, thumbsWidth), thumbsHeight + descriptionHeight, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            canvas.drawBitmap(thumbs, 0, 0, null);
+            canvas.drawBitmap(description, 0, thumbsHeight, null);
+
             return bitmap;
         })
                 .compose(RxHelper.rxSchedulerHelper())
@@ -220,5 +266,20 @@ public class ShareActivity extends BaseActivity {
                     Timber.e(throwable);
                     dismissDynamicBox(ShareActivity.this);
                 });
+    }
+
+    private Observable<Bitmap> generateShareImageDescription() {
+        return Observable.<Bitmap>create(subscriber -> {
+            try {
+                descQRcode.setImageBitmap(QRCodeEncoder.syncEncodeQRCode(couponItem.thumb, descQRcode.getWidth()));
+                Bitmap bitmap = Bitmap.createBitmap(shareImageDescription.getWidth(), shareImageDescription.getHeight(), Bitmap.Config.ARGB_8888);
+                Canvas canvas = new Canvas(bitmap);
+                shareImageDescription.draw(canvas);
+                subscriber.onNext(bitmap);
+                subscriber.onComplete();
+            } catch (Exception e) {
+                subscriber.onError(e);
+            }
+        }).subscribeOn(AndroidSchedulers.mainThread());
     }
 }
