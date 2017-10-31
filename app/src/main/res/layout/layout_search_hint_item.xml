@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/len_52"
+    android:paddingTop="@dimen/len_8"
+    android:paddingBottom="@dimen/len_8"
+    android:paddingLeft="@dimen/len_36"
+    android:paddingRight="@dimen/len_36">
+
+    <TextView
+        android:id="@+id/search_hint_text"
+        android:gravity="left|center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="RtlHardcoded" />
+
+</FrameLayout>

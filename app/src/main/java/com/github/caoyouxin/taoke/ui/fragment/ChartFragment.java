@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.ui.activity.OrdersActivity;
+import com.github.caoyouxin.taoke.util.SpannedTextUtil;
 
 import org.w3c.dom.Text;
 
@@ -50,18 +51,11 @@ public class ChartFragment extends Fragment {
                 //restore
             }
 
-            this.userAmount.setText(this.buildAmount(R.string.user_amount, "0.00"));
-            this.userThisMonthAmount.setText(this.buildAmount(R.string.user_this_month_amount, "0.00"));
-            this.userLastMonthAmount.setText(this.buildAmount(R.string.user_last_month_amount, "120.00"));
+            this.userAmount.setText(SpannedTextUtil.buildAmount(getActivity(), R.string.user_amount, "0.00", '¥', 2));
+            this.userThisMonthAmount.setText(SpannedTextUtil.buildAmount(getActivity(), R.string.user_this_month_amount, "0.00", '¥', 2));
+            this.userLastMonthAmount.setText(SpannedTextUtil.buildAmount(getActivity(), R.string.user_last_month_amount, "120.00", '¥', 2));
         }
         return rootView;
-    }
-
-    private SpannableStringBuilder buildAmount(final int id, final String amount) {
-        String text = getActivity().getResources().getString(id, amount);
-        SpannableStringBuilder builder = new SpannableStringBuilder(text);
-        builder.setSpan(new AbsoluteSizeSpan(getActivity().getResources().getDimensionPixelSize(R.dimen.font_28)), text.indexOf('¥') + 2, text.indexOf('.'), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        return builder;
     }
 
     @OnClick(R.id.orders_detail)

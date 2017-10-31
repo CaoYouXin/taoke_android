@@ -28,6 +28,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support:recyclerview-v7:26.+'
+    compile 'com.android.support:cardview-v7:26.+'
     compile 'com.android.support:design:26.+'
     compile 'com.android.support:percent:26.+'
     compile 'com.android.support:multidex:1.0.1'
@@ -58,6 +59,7 @@ dependencies {
     compile 'com.github.gnastnosaj.BiliShare:library:ef3d740'
     compile 'com.github.gnastnosaj.Boilerplate:util:3b53858'
 
+    compile 'com.github.kingideayou:tagcloudview:1.0.2'
     compile 'com.mikepenz:iconics-views:+@aar'
     compile 'com.mikepenz:fontawesome-typeface:+@aar'
     compile 'com.mikepenz:material-design-iconic-typeface:+@aar'

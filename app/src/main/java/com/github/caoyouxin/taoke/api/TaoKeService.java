@@ -23,6 +23,8 @@ public interface TaoKeService {
     String API_COUPON_SHARE_IMAGE_LIST = "couponShareImageList";
     String API_PRODUCT_LIST = "productList";
     String API_ORDER_LIST = "orderList";
+    String API_FRIENDS_LIST = "friendsList";
+    java.lang.String API_SEARCH_HINT_LIST = "searchHintList";
 
     @FormUrlEncoded
     @POST("/api/{api}")

@@ -18,6 +18,7 @@ import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.model.M;
 import com.github.caoyouxin.taoke.model.MessageItem;
 import com.github.caoyouxin.taoke.model.OrderItem;
+import com.github.caoyouxin.taoke.util.SpannedTextUtil;
 import com.shizhefei.mvc.IDataAdapter;
 
 import java.util.ArrayList;
@@ -75,19 +76,12 @@ public class OrderAdapter extends RecyclerView.Adapter implements IDataAdapter<L
                 break;
         }
         String tradePrice = item.itemTradePrice.toString();
-        holder.orderTradePrice.setText(this.buildAmount(R.string.order_trade_price, tradePrice.substring(0, tradePrice.indexOf('.') + 3), '¥', 2));
+        holder.orderTradePrice.setText(SpannedTextUtil.buildAmount(this.context, R.string.order_trade_price, tradePrice.substring(0, tradePrice.indexOf('.') + 3), '¥', 2));
         String commissionPrice = String.valueOf(item.itemTradePrice * item.commission);
-        holder.orderCommissionPrice.setText(this.buildAmount(R.string.order_commission_price, commissionPrice.substring(0, commissionPrice.indexOf('.') + 3), '¥', 2));
+        holder.orderCommissionPrice.setText(SpannedTextUtil.buildAmount(this.context, R.string.order_commission_price, commissionPrice.substring(0, commissionPrice.indexOf('.') + 3), '¥', 2));
         String commissionRate = String.valueOf(item.commission * 100);
-        holder.orderCommissionRate.setText(this.buildAmount(R.string.order_commission_rate, commissionRate.substring(0, commissionRate.indexOf('.') + 3), '\n', 1));
+        holder.orderCommissionRate.setText(SpannedTextUtil.buildAmount(this.context, R.string.order_commission_rate, commissionRate.substring(0, commissionRate.indexOf('.') + 3), '\n', 1));
         holder.orderCreateTime.setText(item.dateStr + " 创建");
-    }
-
-    private SpannableStringBuilder buildAmount(final int id, final String textV, final char start, final int offset) {
-        String text = this.context.getResources().getString(id, textV);
-        SpannableStringBuilder builder = new SpannableStringBuilder(text);
-        builder.setSpan(new AbsoluteSizeSpan(this.context.getResources().getDimensionPixelSize(R.dimen.font_28)), text.indexOf(start) + offset, text.indexOf('.'), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        return builder;
     }
 
     @Override
