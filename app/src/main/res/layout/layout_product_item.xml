@@ -46,6 +46,8 @@
                 android:layout_marginTop="@dimen/len_6"
                 android:background="@color/pink_100"
                 android:paddingEnd="@dimen/len_4"
+                android:paddingLeft="@dimen/len_4"
+                android:paddingRight="@dimen/len_4"
                 android:paddingStart="@dimen/len_4"
                 android:text="@string/product_new"
                 android:textColor="@color/orange_900"

@@ -12,4 +12,6 @@
         android:right="1px"
         android:top="1px" />
 
+    <solid android:color="@color/trans" />
+
 </shape>

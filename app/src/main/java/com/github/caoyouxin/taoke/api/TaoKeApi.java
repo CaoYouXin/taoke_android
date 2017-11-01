@@ -1,5 +1,8 @@
 package com.github.caoyouxin.taoke.api;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
 import com.github.caoyouxin.taoke.datasource.OrderDataSource;
 import com.github.caoyouxin.taoke.model.BrandItem;
 import com.github.caoyouxin.taoke.model.CouponItem;
@@ -11,6 +14,7 @@ import com.github.caoyouxin.taoke.model.MessageItem;
 import com.github.caoyouxin.taoke.model.Product;
 import com.github.caoyouxin.taoke.model.OrderItem;
 import com.github.caoyouxin.taoke.model.SearchHintItem;
+import com.github.gnastnosaj.boilerplate.Boilerplate;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,6 +28,78 @@ import io.reactivex.Observable;
  */
 
 public class TaoKeApi {
+    public final static String PREF_ACCESS_TOKEN = "access_token";
+    public final static String PREF_CUST_ID = "cust_id";
+
+    private static String accessToken;
+    private static String custId;
+
+    public static Observable<TaoKeData> verification(String phone) {
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_VERIFICATION, null, null)
+                .compose(RxHelper.handleResult());
+    }
+
+    public static Observable<TaoKeData> signUp(String phone, String verificationCode, String password) {
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_SIGN_UP, null, null)
+                .compose(RxHelper.handleResult())
+                .map(taoKeData -> {
+                    accessToken = (String) taoKeData.body.get(PREF_ACCESS_TOKEN);
+                    custId = (String) taoKeData.body.get(PREF_CUST_ID);
+                    cacheCustInfo();
+                    return taoKeData;
+                });
+    }
+
+    public static Observable<TaoKeData> signIn(String phone, String password) {
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_SIGN_IN, null, null)
+                .compose(RxHelper.handleResult())
+                .map(taoKeData -> {
+                    accessToken = (String) taoKeData.body.get(PREF_ACCESS_TOKEN);
+                    custId = (String) taoKeData.body.get(PREF_CUST_ID);
+                    cacheCustInfo();
+                    return taoKeData;
+                });
+    }
+
+    public static Observable<TaoKeData> resetPassword(String phone, String verificationCode, String password) {
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_RESET_PASSWORD, null, null)
+                .compose(RxHelper.handleResult())
+                .map(taoKeData -> {
+                    accessToken = (String) taoKeData.body.get(PREF_ACCESS_TOKEN);
+                    custId = (String) taoKeData.body.get(PREF_CUST_ID);
+                    cacheCustInfo();
+                    return taoKeData;
+                });
+    }
+
+    public static void cacheCustInfo() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Boilerplate.getInstance());
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(PREF_ACCESS_TOKEN, accessToken);
+        editor.putString(PREF_CUST_ID, custId);
+        editor.apply();
+    }
+
+    public static boolean restoreCustInfo() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Boilerplate.getInstance());
+        if (sharedPreferences.contains(PREF_ACCESS_TOKEN)) {
+            accessToken = sharedPreferences.getString(PREF_ACCESS_TOKEN, null);
+            custId = sharedPreferences.getString(PREF_CUST_ID, null);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static void clearCustInfo() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Boilerplate.getInstance());
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
+        accessToken = null;
+        custId = null;
+    }
+
     public static Observable<List<BrandItem>> getBrandList() {
         return TaoKeRetrofit.getService().tao(TaoKeService.API_BRAND_LIST)
                 .compose(RxHelper.handleResult())
