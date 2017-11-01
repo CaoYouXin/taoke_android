@@ -99,7 +99,7 @@ public class ResetPasswordActivity extends BaseActivity {
             case R.id.back:
                 onBackPressed();
                 break;
-            case R.id.verification_code_resend:
+            case R.id.verification_code_send:
                 verificationCodeSend();
                 break;
             case R.id.password_visiable:
