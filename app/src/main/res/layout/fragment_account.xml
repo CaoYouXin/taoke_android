@@ -74,6 +74,7 @@
             android:layout_height="10dp" />
 
         <Button
+            android:id="@+id/sign_out"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:text="@string/exit"

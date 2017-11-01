@@ -2,9 +2,7 @@ package com.github.caoyouxin.taoke.api;
 
 import android.support.v4.util.ArrayMap;
 
-import com.github.caoyouxin.taoke.datasource.OrderDataSource;
 import com.github.caoyouxin.taoke.model.M;
-import com.github.caoyouxin.taoke.model.MessageItem;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,7 +14,6 @@ import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.Path;
 
-import static com.github.caoyouxin.taoke.datasource.OrderDataSource.*;
 import static com.github.caoyouxin.taoke.datasource.OrderDataSource.FetchType.*;
 
 /**
@@ -30,6 +27,24 @@ public class TaoKeTestService implements TaoKeService {
         taoKeData.header = new ArrayMap<>();
         taoKeData.body = new ArrayMap<>();
         switch (api) {
+            case API_VERIFICATION:
+                taoKeData.header.put("ResultCode", "0000");
+                return Observable.just(taoKeData);
+            case API_SIGN_IN:
+                taoKeData.header.put("ResultCode", "0000");
+                taoKeData.body.put("access_token", "sadfasdfd");
+                taoKeData.body.put("cust_id", "asdfasdf");
+                return Observable.just(taoKeData);
+            case API_SIGN_UP:
+                taoKeData.header.put("ResultCode", "0000");
+                taoKeData.body.put("access_token", "sadfasdfd");
+                taoKeData.body.put("cust_id", "asdfasdf");
+                return Observable.just(taoKeData);
+            case API_RESET_PASSWORD:
+                taoKeData.header.put("ResultCode", "0000");
+                taoKeData.body.put("access_token", "sadfasdfd");
+                taoKeData.body.put("cust_id", "asdfasdf");
+                return Observable.just(taoKeData);
             case API_MESSAGE_LIST:
                 taoKeData.header.put("ResultCode", "0000");
 

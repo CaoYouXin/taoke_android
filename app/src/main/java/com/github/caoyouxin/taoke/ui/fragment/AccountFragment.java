@@ -1,5 +1,7 @@
 package com.github.caoyouxin.taoke.ui.fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -20,11 +22,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.github.caoyouxin.taoke.R;
+import com.github.caoyouxin.taoke.api.TaoKeApi;
 import com.github.caoyouxin.taoke.ui.activity.AboutActivity;
 import com.github.caoyouxin.taoke.ui.activity.FriendsActivity;
 import com.github.caoyouxin.taoke.ui.activity.HelpReportActivity;
 import com.github.caoyouxin.taoke.ui.activity.NoviceActivity;
 import com.github.caoyouxin.taoke.ui.activity.ShareActivity;
+import com.github.caoyouxin.taoke.ui.activity.SplashActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -64,7 +68,7 @@ public class AccountFragment extends Fragment {
         accountId.setText(span);
     }
 
-    @OnClick({R.id.account_btn_about, R.id.account_btn_help_report, R.id.account_btn_newer_guide, R.id.account_btn_share_cmd, R.id.account_btn_friends})
+    @OnClick({R.id.account_btn_about, R.id.account_btn_help_report, R.id.account_btn_newer_guide, R.id.account_btn_share_cmd, R.id.account_btn_friends, R.id.sign_out})
     protected void onToolClick(View view) {
         Intent intent = null;
         switch (view.getId()) {
@@ -83,6 +87,12 @@ public class AccountFragment extends Fragment {
             case R.id.account_btn_share_cmd:
                 intent = new Intent(getActivity(), ShareActivity.class);
                 break;
+            case R.id.sign_out:
+                new AlertDialog.Builder(getActivity()).setPositiveButton(R.string.sign_out, (DialogInterface dialog, int which) -> {
+                    startActivity(new Intent(getActivity(), SplashActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                    TaoKeApi.clearCustInfo();
+                }).setNegativeButton(R.string.sign_out_cancel, (DialogInterface dialog, int which) -> dialog.dismiss()).setMessage(R.string.sign_out_confirm).show();
+                return;
         }
         if (intent != null) {
             getActivity().startActivity(intent);

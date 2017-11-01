@@ -26,8 +26,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:paddingEnd="@dimen/len_20"
                 android:paddingLeft="@dimen/len_20"
                 android:paddingRight="@dimen/len_20"
+                android:paddingStart="@dimen/len_20"
                 android:paddingTop="@dimen/len_10">
 
                 <FrameLayout

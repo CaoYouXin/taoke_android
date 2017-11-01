@@ -59,7 +59,7 @@ dependencies {
     compile 'com.github.gnastnosaj.BiliShare:library:ef3d740'
     compile 'com.github.gnastnosaj.Boilerplate:util:3b53858'
 
-    compile 'com.github.kingideayou:tagcloudview:1.0.2'
+    compile 'com.drivemode:TypefaceHelper:1.2.0@aar'
     compile 'com.mikepenz:iconics-views:+@aar'
     compile 'com.mikepenz:fontawesome-typeface:+@aar'
     compile 'com.mikepenz:material-design-iconic-typeface:+@aar'
@@ -73,6 +73,7 @@ dependencies {
     compile 'com.yqritc:recyclerview-flexibledivider:+'
     compile 'com.yanyusong.y_divideritemdecoration:y_divideritemdecoration:2.0'
     compile 'com.akexorcist:RoundCornerProgressBar:2.0.3'
+    compile 'com.github.kingideayou:tagcloudview:1.0.2'
     compile 'com.google.zxing:core:3.3.1'
     compile 'cn.bingoogolapple:bga-qrcodecore:1.1.9@aar'
     compile 'cn.bingoogolapple:bga-zxing:1.1.9@aar'
