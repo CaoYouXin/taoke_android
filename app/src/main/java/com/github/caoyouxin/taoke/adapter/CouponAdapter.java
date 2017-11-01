@@ -27,6 +27,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by jasontsang on 10/24/17.
@@ -68,7 +69,10 @@ public class CouponAdapter extends RecyclerView.Adapter implements IDataAdapter<
         holder.earn.setText(context.getResources().getString(R.string.discover_coupon_earn, item.earn));
         holder.value.setText(context.getResources().getString(R.string.discover_coupon_value, item.value, String.valueOf(item.left)));
 
-        Observable.intervalRange(0, 20, 500, 50, TimeUnit.MILLISECONDS)
+        if (holder.progressDisposable != null && !holder.progressDisposable.isDisposed()) {
+            holder.progressDisposable.dispose();
+        }
+        holder.progressDisposable = Observable.intervalRange(0, 20, 200, 50, TimeUnit.MILLISECONDS)
                 .map(aLong -> {
                     float result = interpolator.getInterpolation((float) aLong / 20);
                     float progress = result * ((float) item.left * 100) / item.total;
@@ -92,6 +96,9 @@ public class CouponAdapter extends RecyclerView.Adapter implements IDataAdapter<
     public void onViewRecycled(RecyclerView.ViewHolder viewHolder) {
         super.onViewRecycled(viewHolder);
         ViewHolder holder = (ViewHolder) viewHolder;
+        if (holder.progressDisposable != null && !holder.progressDisposable.isDisposed()) {
+            holder.progressDisposable.dispose();
+        }
         holder.progress.setProgress(0);
     }
 
@@ -136,6 +143,8 @@ public class CouponAdapter extends RecyclerView.Adapter implements IDataAdapter<
 
         @BindView(R.id.coupon_progress)
         RoundCornerProgressBar progress;
+
+        Disposable progressDisposable;
 
         public ViewHolder(View itemView) {
             super(itemView);
