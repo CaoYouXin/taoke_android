@@ -1,9 +1,11 @@
 package com.github.caoyouxin.taoke.ui.activity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -326,9 +328,17 @@ public class ShareActivity extends BaseActivity {
                 .compose(bindUntilEvent(ActivityEvent.DESTROY))
                 .subscribe(shareImage -> {
                     if (shareImage != null) {
-                        ShareParamImage shareParamImage = new ShareParamImage(getTitle().toString(), "", "");
-                        shareParamImage.setImage(new ShareImage(shareImage));
-                        ShareHelper.share(this, shareParamImage);
+                        Intent intent = new Intent("android.intent.action.SEND");
+                        intent.putExtra("android.intent.extra.STREAM", Uri.fromFile(shareImage));
+//                        intent.putExtra("android.intent.extra.SUBJECT", ShareActivity.this.getTitle());
+//                        intent.putExtra("android.intent.extra.TEXT", "分享文字");
+                        intent.setType("image/*");
+                        Intent chooser = Intent.createChooser(intent, ShareActivity.this.getResources().getString(com.bilibili.socialize.share.R.string.bili_share_sdk_share_to));
+                        ShareActivity.this.startActivity(chooser);
+
+//                        ShareParamImage shareParamImage = new ShareParamImage(getTitle().toString(), "", "");
+//                        shareParamImage.setImage(new ShareImage(shareImage));
+//                        ShareHelper.share(this, shareParamImage);
                     }
                     dismissDynamicBox(ShareActivity.this);
                 }, throwable -> {
