@@ -51,7 +51,8 @@
     <string name="discover_coupon">好券直播</string>
 
     <string name="discover_coupon_earn">赚 ¥ %1$s</string>
-    <string name="discover_coupon_price_before">现价 ¥ %1$s&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;月销量 %2$s 件</string>
+    <string name="discover_coupon_price_before">现价 ¥ %1$s</string>
+    <string name="discover_coupon_sales_status">月销量 %1$s 件</string>
     <string name="discover_coupon_price_after">券后价 ¥ %1$s</string>
     <string name="discover_coupon_value">券 | %1$s元&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;余%2$s张</string>
 
