@@ -1,11 +1,9 @@
 package com.github.caoyouxin.taoke.ui.activity;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -39,11 +37,7 @@ import com.shizhefei.mvc.MVCHelper;
 import com.shizhefei.mvc.MVCNormalHelper;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -323,77 +317,20 @@ public class ShareActivity extends BaseActivity {
                     null);
 
             return bitmap;
-        }).map(bitmap -> ShareActivity.saveBitmapToExternal(bitmap, ShareHelper.configuration.getImageCachePath(this)))
+        }).map(bitmap -> BitmapUtil.saveBitmapToExternal(bitmap, new File(ShareHelper.configuration.getImageCachePath(this), UUID.randomUUID().toString().concat(".jpg"))))
                 .compose(RxHelper.rxSchedulerHelper())
                 .compose(bindUntilEvent(ActivityEvent.DESTROY))
                 .subscribe(shareImage -> {
                     if (shareImage != null) {
-                        Intent intent = new Intent("android.intent.action.SEND");
-                        intent.putExtra("android.intent.extra.STREAM", Uri.fromFile(shareImage));
-//                        intent.putExtra("android.intent.extra.SUBJECT", ShareActivity.this.getTitle());
-//                        intent.putExtra("android.intent.extra.TEXT", "分享文字");
-                        intent.setType("image/*");
-                        Intent chooser = Intent.createChooser(intent, ShareActivity.this.getResources().getString(com.bilibili.socialize.share.R.string.bili_share_sdk_share_to));
-                        ShareActivity.this.startActivity(chooser);
-
-//                        ShareParamImage shareParamImage = new ShareParamImage(getTitle().toString(), "", "");
-//                        shareParamImage.setImage(new ShareImage(shareImage));
-//                        ShareHelper.share(this, shareParamImage);
+                        ShareParamImage shareParamImage = new ShareParamImage();
+                        shareParamImage.setImage(new ShareImage(shareImage));
+                        ShareHelper.share(this, shareParamImage);
                     }
                     dismissDynamicBox(ShareActivity.this);
                 }, throwable -> {
                     Timber.e(throwable);
                     dismissDynamicBox(ShareActivity.this);
                 });
-    }
-
-    private static File saveBitmapToExternal(Bitmap bitmap, String targetFileDirPath) {
-        if (bitmap != null && !bitmap.isRecycled()) {
-            File targetFileDir = new File(targetFileDirPath);
-            if (!targetFileDir.exists() && !targetFileDir.mkdirs()) {
-                return null;
-            } else {
-                File targetFile = new File(targetFileDir, UUID.randomUUID().toString() + ".jpg");
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                FileOutputStream fos = null;
-
-                Object var7;
-                try {
-                    fos = new FileOutputStream(targetFile);
-                    baos.writeTo(fos);
-                    return targetFile;
-                } catch (FileNotFoundException var24) {
-                    var24.printStackTrace();
-                    var7 = null;
-                    return (File) var7;
-                } catch (IOException var25) {
-                    var25.printStackTrace();
-                    var7 = null;
-                } finally {
-                    try {
-                        baos.flush();
-                        baos.close();
-                    } catch (IOException var23) {
-                        var23.printStackTrace();
-                    }
-
-                    try {
-                        if (fos != null) {
-                            fos.flush();
-                            fos.close();
-                        }
-                    } catch (IOException var22) {
-                        var22.printStackTrace();
-                    }
-
-                }
-
-                return (File) var7;
-            }
-        } else {
-            return null;
-        }
     }
 
     private Observable<Bitmap> generateShareImageDescription() {
