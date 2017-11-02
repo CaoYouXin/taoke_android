@@ -57,7 +57,8 @@ public class CouponAdapter extends RecyclerView.Adapter implements IDataAdapter<
         ViewHolder holder = (ViewHolder) viewHolder;
         holder.thumb.setImageURI(item.thumb);
         holder.title.setText(item.title);
-        holder.priceBefore.setText(context.getResources().getString(R.string.discover_coupon_price_before, item.priceBefore, String.valueOf(item.sales)));
+        holder.priceBefore.setText(context.getResources().getString(R.string.discover_coupon_price_before, item.priceBefore));
+        holder.salesStatus.setText(context.getResources().getString(R.string.discover_coupon_sales_status, String.valueOf(item.sales)));
 
         String text = context.getResources().getString(R.string.discover_coupon_price_after, item.priceAfter);
         SpannableStringBuilder builder = new SpannableStringBuilder(text);
@@ -131,6 +132,9 @@ public class CouponAdapter extends RecyclerView.Adapter implements IDataAdapter<
 
         @BindView(R.id.coupon_price_before)
         TextView priceBefore;
+
+        @BindView(R.id.coupon_sales_status)
+        TextView salesStatus;
 
         @BindView(R.id.coupon_price_after)
         TextView priceAfter;
