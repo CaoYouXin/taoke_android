@@ -79,8 +79,10 @@
             <com.mikepenz.iconics.view.IconicsTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingEnd="@dimen/len_6"
                 android:paddingLeft="@dimen/len_6"
                 android:paddingRight="@dimen/len_6"
+                android:paddingStart="@dimen/len_6"
                 android:paddingTop="@dimen/len_10"
                 android:text="{typ-message-typing}"
                 android:textColor="@color/grey_600"
@@ -107,8 +109,10 @@
             <com.mikepenz.iconics.view.IconicsTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingEnd="@dimen/len_6"
                 android:paddingLeft="@dimen/len_6"
                 android:paddingRight="@dimen/len_6"
+                android:paddingStart="@dimen/len_6"
                 android:paddingTop="@dimen/len_10"
                 android:text="{typ-user-outline}"
                 android:textColor="@color/grey_600"

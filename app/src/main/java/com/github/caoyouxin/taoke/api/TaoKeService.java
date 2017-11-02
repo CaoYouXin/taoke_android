@@ -13,6 +13,10 @@ import retrofit2.http.Path;
  */
 
 public interface TaoKeService {
+    String API_VERIFICATION = "verification";
+    String API_SIGN_IN = "signIn";
+    String API_SIGN_UP = "signUp";
+    String API_RESET_PASSWORD = "resetPassword";
 
     String API_HELP_LIST = "helpList";
     String API_BRAND_LIST = "brandList";
@@ -24,7 +28,7 @@ public interface TaoKeService {
     String API_PRODUCT_LIST = "productList";
     String API_ORDER_LIST = "orderList";
     String API_FRIENDS_LIST = "friendsList";
-    java.lang.String API_SEARCH_HINT_LIST = "searchHintList";
+    String API_SEARCH_HINT_LIST = "searchHintList";
 
     @FormUrlEncoded
     @POST("/api/{api}")
