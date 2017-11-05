@@ -16,14 +16,13 @@ public class RxHelper {
         return upstream -> upstream.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
-    public static <T extends TaoKeData> ObservableTransformer<T, T> handleResult() {
+    static <T extends TaoKeData> ObservableTransformer<T, T> handleResult() {
         return upstream ->
                 upstream.flatMap(t -> {
-                    String resultCode = (String) t.header.get("ResultCode");
-                    if (!TextUtils.isEmpty(resultCode) && resultCode.equals("0000")) {
+                    if (t.code.equals(2000)) {
                         return Observable.just(t);
                     } else {
-                        String message = (String) t.header.get("Message");
+                        String message = (String) t.body.get("msg");
                         if (TextUtils.isEmpty(message)) {
                             throw new ApiException();
                         } else {

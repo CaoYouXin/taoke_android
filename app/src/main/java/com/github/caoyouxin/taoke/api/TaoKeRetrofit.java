@@ -20,7 +20,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class TaoKeRetrofit {
-    public final static String HOST = "https://127.0.0.1:8081";
+    public final static String HOST = "http://192.168.1.102:8080/";
 
     private static TaoKeRetrofit instance;
 
@@ -30,8 +30,8 @@ public class TaoKeRetrofit {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .retryOnConnectionFailure(true)
-                .hostnameVerifier((hostname, session) -> true)
-                .sslSocketFactory(createSSLSocketFactory())
+//                .hostnameVerifier((hostname, session) -> true)
+//                .sslSocketFactory(createSSLSocketFactory())
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -41,8 +41,8 @@ public class TaoKeRetrofit {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        //service = retrofit.create(TaoKeService.class);
-        service = new TaoKeTestService();
+        service = retrofit.create(TaoKeService.class);
+//        service = new TaoKeTestService();
     }
 
     public static TaoKeService getService() {

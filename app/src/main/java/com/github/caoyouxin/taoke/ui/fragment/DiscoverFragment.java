@@ -88,6 +88,7 @@ public class DiscoverFragment extends Fragment {
 
     private MVCHelper brandListHelper;
     private MVCHelper couponListHelper;
+    private CouponDataSource couponDataSource;
 
     private GestureDetector gestureDetector = new GestureDetector(getActivity(), new GestureDetector.SimpleOnGestureListener() {
         @Override
@@ -245,14 +246,17 @@ public class DiscoverFragment extends Fragment {
                 .compose(RxHelper.rxSchedulerHelper())
                 .subscribe(tabs -> {
                     for (CouponTab tab : tabs) {
-                        couponTab.addTab(couponTab.newTab().setText(tab.title));
+                        couponTab.addTab(couponTab.newTab().setText(tab.name));
                     }
                     couponTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                         @Override
                         public void onTabSelected(TabLayout.Tab tab) {
+                            CouponTab couponTab = tabs.get(DiscoverFragment.this.couponTab.getSelectedTabPosition());
                             appBarLayout.setExpanded(false, true);
                             couponList.scrollToPosition(0);
                             RxBus.getInstance().post(RecyclerViewAppBarBehavior.RecyclerViewScrollEvent.class, new RecyclerViewAppBarBehavior.RecyclerViewScrollEvent());
+
+                            couponDataSource.setCid(couponTab.cid);
                             couponListHelper.refresh();
                         }
 
@@ -295,7 +299,7 @@ public class DiscoverFragment extends Fragment {
             }
         });
 
-        CouponDataSource couponDataSource = new CouponDataSource(getActivity());
+        couponDataSource = new CouponDataSource(getActivity());
 
         //hacky to remove mvchelper loadview loadmoreview
         HackyLoadViewFactory hackyLoadViewFactory = new HackyLoadViewFactory();

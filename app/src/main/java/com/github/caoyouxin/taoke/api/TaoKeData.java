@@ -9,7 +9,7 @@ import java.util.Map;
  */
 
 public class TaoKeData {
-    public Map<String, Object> header;
+    public Integer code;
     public Map<String, Object> body;
 
     @Override

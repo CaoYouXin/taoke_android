@@ -39,4 +39,10 @@ public class CouponDataSource extends RxDataSource<List<CouponItem>> implements 
     public List<CouponItem> loadCache(boolean isEmpty) {
         return null;
     }
+
+    private String cid;
+
+    public void setCid(String cid) {
+        this.cid = cid;
+    }
 }

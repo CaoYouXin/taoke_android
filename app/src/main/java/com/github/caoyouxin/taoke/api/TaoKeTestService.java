@@ -11,7 +11,9 @@ import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Observable;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
+import retrofit2.http.Header;
 import retrofit2.http.Path;
 
 import static com.github.caoyouxin.taoke.datasource.OrderDataSource.FetchType.*;
@@ -22,7 +24,7 @@ import static com.github.caoyouxin.taoke.datasource.OrderDataSource.FetchType.*;
 
 public class TaoKeTestService implements TaoKeService {
     @Override
-    public Observable<TaoKeData> tao(@Path("api") String api, @Field("data") String data, @Field("signature") String signature) {
+    public Observable<TaoKeData> tao(@Path("api") String api, @Body Object data, @Header("auth") String auth) {
         TaoKeData taoKeData = new TaoKeData();
         taoKeData.header = new ArrayMap<>();
         taoKeData.body = new ArrayMap<>();
@@ -72,7 +74,7 @@ public class TaoKeTestService implements TaoKeService {
                 };
 
                 String[] randomCandidates = new String[0];
-                switch (valueOf(data)) {
+                switch (valueOf(data.toString())) {
                     case ALL:
                         randomCandidates = new String[]{"已支付", "已结算", "已收货", "已失效"};
                         break;
@@ -157,8 +159,8 @@ public class TaoKeTestService implements TaoKeService {
                 List<Map> tabs = new ArrayList<>();
                 for (int i = 0; i < couponTitles.length; i++) {
                     Map tab = new ArrayMap();
-                    tab.put("type", i);
-                    tab.put("title", couponTitles[i]);
+                    tab.put("cid", i + "");
+                    tab.put("name", couponTitles[i]);
                     tabs.add(tab);
                 }
                 taoKeData.body.put("recs", tabs);

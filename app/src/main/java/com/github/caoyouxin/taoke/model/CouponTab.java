@@ -5,6 +5,6 @@ package com.github.caoyouxin.taoke.model;
  */
 
 public class CouponTab {
-    public int type;
-    public String title;
+    public String cid;
+    public String name;
 }

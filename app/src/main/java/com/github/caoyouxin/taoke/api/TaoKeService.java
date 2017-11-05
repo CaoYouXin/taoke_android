@@ -1,9 +1,11 @@
 package com.github.caoyouxin.taoke.api;
 
 import io.reactivex.Observable;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -14,13 +16,13 @@ import retrofit2.http.Path;
 
 public interface TaoKeService {
     String API_VERIFICATION = "verification";
-    String API_SIGN_IN = "signIn";
+    String API_SIGN_IN = "tbk/user/login";
     String API_SIGN_UP = "signUp";
     String API_RESET_PASSWORD = "resetPassword";
 
     String API_HELP_LIST = "helpList";
     String API_BRAND_LIST = "brandList";
-    String API_COUPON_TAB = "couponTabList";
+    String API_COUPON_TAB = "home/cate/list";
     String API_COUPON_LIST = "couponList";
     String API_MESSAGE_LIST = "messageList";
     String API_COUPON_DETAIL = "couponDetail";
@@ -30,11 +32,10 @@ public interface TaoKeService {
     String API_FRIENDS_LIST = "friendsList";
     String API_SEARCH_HINT_LIST = "searchHintList";
 
-    @FormUrlEncoded
-    @POST("/api/{api}")
-    Observable<TaoKeData> tao(@Path("api") String api, @Field("data") String data, @Field("signature") String signature);
+    @POST("api/{api}")
+    Observable<TaoKeData> tao(@Path("api") String api, @Body Object data, @Header("auth") String auth);
 
     @Headers("Cache-Control: public, max-age=86400")
-    @GET("/api/{api}")
+    @GET("api/{api}")
     Observable<TaoKeData> tao(@Path("api") String api);
 }
