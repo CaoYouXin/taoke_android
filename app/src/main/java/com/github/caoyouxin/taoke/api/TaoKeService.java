@@ -23,7 +23,7 @@ public interface TaoKeService {
     String API_HELP_LIST = "helpList";
     String API_BRAND_LIST = "brandList";
     String API_COUPON_TAB = "home/cate/list";
-    String API_COUPON_LIST = "couponList";
+    String API_COUPON_LIST = "tbk/coupon/{cid}/{pNo}";
     String API_MESSAGE_LIST = "messageList";
     String API_COUPON_DETAIL = "couponDetail";
     String API_COUPON_SHARE_IMAGE_LIST = "couponShareImageList";
@@ -34,6 +34,10 @@ public interface TaoKeService {
 
     @POST("api/{api}")
     Observable<TaoKeData> tao(@Path("api") String api, @Body Object data, @Header("auth") String auth);
+
+    @Headers("Cache-Control: public, max-age=86400")
+    @GET("api/{api}")
+    Observable<TaoKeData> tao(@Path("api") String api, @Header("auth") String auth);
 
     @Headers("Cache-Control: public, max-age=86400")
     @GET("api/{api}")

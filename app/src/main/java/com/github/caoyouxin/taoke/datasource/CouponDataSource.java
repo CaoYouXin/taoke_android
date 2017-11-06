@@ -22,7 +22,7 @@ public class CouponDataSource extends RxDataSource<List<CouponItem>> implements 
 
     @Override
     public Observable<List<CouponItem>> refresh() throws Exception {
-        return TaoKeApi.getCouponList();
+        return TaoKeApi.getCouponList(this.cid, this.pageNo + "");
     }
 
     @Override
@@ -41,8 +41,11 @@ public class CouponDataSource extends RxDataSource<List<CouponItem>> implements 
     }
 
     private String cid;
+    private Long pageNo;
 
     public void setCid(String cid) {
         this.cid = cid;
+        this.pageNo = 1L;
     }
+
 }

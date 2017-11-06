@@ -19,9 +19,11 @@ import com.github.caoyouxin.taoke.model.UserRegisterSubmit;
 import com.github.caoyouxin.taoke.util.StringUtils;
 import com.github.gnastnosaj.boilerplate.Boilerplate;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import io.reactivex.Observable;
@@ -160,28 +162,32 @@ public class TaoKeApi {
                 });
     }
 
-    public static Observable<List<CouponItem>> getCouponList() {
-        return TaoKeRetrofit.getService().tao(TaoKeService.API_COUPON_LIST)
+    public static Observable<List<CouponItem>> getCouponList(String cid, String pageNo) {
+        return TaoKeRetrofit.getService().tao(
+                TaoKeService.API_COUPON_LIST.replace("{cid}", cid).replace("{pNo}", pageNo), accessToken
+        )
                 .compose(RxHelper.handleResult())
                 .map(taoKeData -> {
+                    System.out.println(taoKeData.toString());
                     List<CouponItem> items = new ArrayList<>();
-//                    List<Map> recs = (List<Map>) taoKeData.body.get("recs");
-//                    if (recs != null) {
-//                        for (Map rec : recs) {
-//                            CouponItem item = new CouponItem();
-//                            item.id = (int) rec.get("id");
-//                            item.thumb = (String) rec.get("thumb");
-//                            item.title = (String) rec.get("title");
-//                            item.priceBefore = (String) rec.get("priceBefore");
-//                            item.sales = (int) rec.get("sales");
-//                            item.priceAfter = (String) rec.get("priceAfter");
-//                            item.value = (String) rec.get("value");
-//                            item.total = (int) rec.get("total");
-//                            item.left = (int) rec.get("left");
-//                            item.earn = (String) rec.get("earn");
-//                            items.add(item);
-//                        }
-//                    }
+                    List<Map> recs = taoKeData.getList();
+                    for (Map rec : recs) {
+                        CouponItem item = new CouponItem();
+                        item.id = ((Double) rec.get("numIid")).longValue();
+                        item.thumb = (String) rec.get("pictUrl");
+                        item.title = (String) rec.get("title");
+                        item.priceBefore = (String) rec.get("zkFinalPrice");
+                        item.sales = ((Double) rec.get("volume")).longValue();
+                        item.value = (String) rec.get("couponInfo");
+                        item.total = ((Double) rec.get("couponTotalCount")).longValue();
+                        item.left = ((Double) rec.get("couponRemainCount")).longValue();
+                        int start = item.value.indexOf('减') + 1;
+                        int end = item.value.indexOf('元', start);
+                        double couponPrice = Double.parseDouble(item.priceBefore) - Double.parseDouble(item.value.substring(start, end));
+                        item.priceAfter = String.format(Locale.ENGLISH, "%.2f", couponPrice);
+                        item.earn = String.format(Locale.ENGLISH, "%.2f", Double.parseDouble((String) rec.get("commissionRate")) * couponPrice / 100);
+                        items.add(item);
+                    }
                     return items;
                 });
     }

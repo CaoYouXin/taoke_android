@@ -46,6 +46,7 @@ import com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.shizhefei.mvc.MVCHelper;
 import com.shizhefei.mvc.MVCNormalHelper;
 import com.trello.rxlifecycle2.android.ActivityEvent;
@@ -53,6 +54,8 @@ import com.yanyusong.y_divideritemdecoration.Y_Divider;
 import com.yanyusong.y_divideritemdecoration.Y_DividerBuilder;
 import com.yanyusong.y_divideritemdecoration.Y_DividerItemDecoration;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeoutException;
 
 import butterknife.BindView;
@@ -89,8 +92,9 @@ public class DiscoverFragment extends Fragment {
 
     View rootView;
 
-    private MVCHelper brandListHelper;
-    private MVCHelper couponListHelper;
+    private MVCHelper<List<BrandItem>> brandListHelper;
+    private MVCHelper<List<CouponItem>> couponListHelper;
+
     private CouponDataSource couponDataSource;
 
     private GestureDetector gestureDetector = new GestureDetector(getActivity(), new GestureDetector.SimpleOnGestureListener() {
@@ -113,15 +117,15 @@ public class DiscoverFragment extends Fragment {
 
             initSlider();
 
-            initBrandList();
-
-            initCouponTab();
-
-            initCouponList();
-
             initFloatingActionButton();
 
             initRefreshLayout();
+
+            initBrandList();
+
+            initCouponList();
+
+            initCouponTab();
 
         }
         sliderLayout.setDuration(4000);
@@ -186,8 +190,6 @@ public class DiscoverFragment extends Fragment {
             }
         });
 
-//        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.HORIZONTAL);
-//        brandList.addItemDecoration(dividerItemDecoration);
         brandList.addItemDecoration(new Y_DividerItemDecoration(getActivity()) {
             @Override
             public Y_Divider getDivider(int itemPosition) {
@@ -233,13 +235,11 @@ public class DiscoverFragment extends Fragment {
 
         BrandDataSource brandDataSource = new BrandDataSource(getActivity());
 
-        //hacky to remove mvchelper loadview loadmoreview
         HackyLoadViewFactory hackyLoadViewFactory = new HackyLoadViewFactory();
-        brandListHelper = new MVCNormalHelper(brandList, hackyLoadViewFactory.madeLoadView(), hackyLoadViewFactory.madeLoadMoreView());
+        brandListHelper = new MVCNormalHelper<>(brandList, hackyLoadViewFactory.madeLoadView(), hackyLoadViewFactory.madeLoadMoreView());
         brandListHelper.setAdapter(brandAdapter);
         brandListHelper.setDataSource(brandDataSource);
-
-        brandListHelper.refresh();
+//        brandListHelper.refresh();
     }
 
     private void initCouponTab() {
@@ -247,19 +247,18 @@ public class DiscoverFragment extends Fragment {
                 .compose(((BaseActivity) getActivity()).bindUntilEvent(ActivityEvent.DESTROY))
                 .compose(RxHelper.rxSchedulerHelper())
                 .subscribe(tabs -> {
+                    couponTab.removeAllTabs();
                     for (CouponTab tab : tabs) {
                         couponTab.addTab(couponTab.newTab().setText(tab.name));
                     }
                     couponTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                         @Override
                         public void onTabSelected(TabLayout.Tab tab) {
-                            CouponTab couponTab = tabs.get(DiscoverFragment.this.couponTab.getSelectedTabPosition());
-                            appBarLayout.setExpanded(false, true);
                             couponList.scrollToPosition(0);
+                            appBarLayout.setExpanded(false, true);
                             RxBus.getInstance().post(RecyclerViewAppBarBehavior.RecyclerViewScrollEvent.class, new RecyclerViewAppBarBehavior.RecyclerViewScrollEvent());
-
-                            couponDataSource.setCid(couponTab.cid);
-                            couponListHelper.refresh();
+                            CouponTab couponTab = tabs.get(DiscoverFragment.this.couponTab.getSelectedTabPosition());
+                            couponTabSelected(couponTab);
                         }
 
                         @Override
@@ -272,6 +271,10 @@ public class DiscoverFragment extends Fragment {
 
                         }
                     });
+
+                    if (!tabs.isEmpty()) {
+                        couponTabSelected(tabs.get(0));
+                    }
                 }, throwable -> {
                     if (throwable instanceof TimeoutException) {
                         Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.sign_in_fail_timeout, Snackbar.LENGTH_LONG).show();
@@ -283,14 +286,17 @@ public class DiscoverFragment extends Fragment {
                 });
     }
 
+    private void couponTabSelected(CouponTab couponTab) {
+        couponDataSource.setCid(couponTab.cid);
+        couponListHelper.refresh();
+    }
+
     private void initCouponList() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         couponList.setLayoutManager(layoutManager);
-        //couponList.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity()).size(1).build());
 
         CouponAdapter couponAdapter = new CouponAdapter(getActivity());
-
         couponList.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener() {
             @Override
             public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent event) {
@@ -308,16 +314,12 @@ public class DiscoverFragment extends Fragment {
                 }
             }
         });
-
         couponDataSource = new CouponDataSource(getActivity());
 
-        //hacky to remove mvchelper loadview loadmoreview
         HackyLoadViewFactory hackyLoadViewFactory = new HackyLoadViewFactory();
-        couponListHelper = new MVCNormalHelper(couponList, hackyLoadViewFactory.madeLoadView(), hackyLoadViewFactory.madeLoadMoreView());
+        couponListHelper = new MVCNormalHelper<>(couponList, hackyLoadViewFactory.madeLoadView(), hackyLoadViewFactory.madeLoadMoreView());
         couponListHelper.setAdapter(couponAdapter);
         couponListHelper.setDataSource(couponDataSource);
-
-        couponListHelper.refresh();
     }
 
     private void initFloatingActionButton() {
@@ -349,10 +351,14 @@ public class DiscoverFragment extends Fragment {
 
     private void initRefreshLayout() {
         smartRefreshLayout.setOnRefreshListener(refreshlayout -> {
+            brandListHelper.refresh();
+            initCouponTab();
             refreshlayout.finishRefresh(2000);
         });
-        smartRefreshLayout.setOnLoadmoreListener(refreshlayout -> {
-            refreshlayout.finishLoadmore(2000);
+        smartRefreshLayout.setOnLoadmoreListener(refreshLayout -> {
+            couponListHelper.loadMore();
+            refreshLayout.finishLoadmore(2000);
         });
     }
+
 }

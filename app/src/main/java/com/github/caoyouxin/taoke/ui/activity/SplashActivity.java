@@ -54,8 +54,6 @@ public class SplashActivity extends BaseActivity {
 
         ButterKnife.bind(this);
 
-        Snackbar.make(findViewById(android.R.id.content), R.string.app_not_release_hint, Snackbar.LENGTH_LONG).show();
-
         TypefaceHelper.getInstance().setTypeface(slogen, "fonts/LingWaiTC-Medium.otf");
         TypefaceHelper.getInstance().setTypeface(appName, "fonts/LingWaiTC-Medium.otf");
 

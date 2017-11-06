@@ -8,15 +8,15 @@ import android.os.Parcelable;
  */
 
 public class CouponItem implements Parcelable {
-    public int id;
+    public Long id;
     public String thumb;
     public String title;
     public String priceBefore;
-    public int sales;
+    public Long sales;
     public String priceAfter;
     public String value;
-    public int total;
-    public int left;
+    public Long total;
+    public Long left;
     public String earn;
 
     @Override
@@ -26,31 +26,31 @@ public class CouponItem implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.id);
+        dest.writeLong(this.id);
         dest.writeString(this.thumb);
         dest.writeString(this.title);
         dest.writeString(this.priceBefore);
-        dest.writeInt(this.sales);
+        dest.writeLong(this.sales);
         dest.writeString(this.priceAfter);
         dest.writeString(this.value);
-        dest.writeInt(this.total);
-        dest.writeInt(this.left);
+        dest.writeLong(this.total);
+        dest.writeLong(this.left);
         dest.writeString(this.earn);
     }
 
     public CouponItem() {
     }
 
-    protected CouponItem(Parcel in) {
-        this.id = in.readInt();
+    private CouponItem(Parcel in) {
+        this.id = in.readLong();
         this.thumb = in.readString();
         this.title = in.readString();
         this.priceBefore = in.readString();
-        this.sales = in.readInt();
+        this.sales = in.readLong();
         this.priceAfter = in.readString();
         this.value = in.readString();
-        this.total = in.readInt();
-        this.left = in.readInt();
+        this.total = in.readLong();
+        this.left = in.readLong();
         this.earn = in.readString();
     }
 
