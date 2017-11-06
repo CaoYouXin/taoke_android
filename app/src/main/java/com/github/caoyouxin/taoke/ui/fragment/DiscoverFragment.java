@@ -25,6 +25,7 @@ import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.adapter.BrandAdapter;
 import com.github.caoyouxin.taoke.adapter.CouponAdapter;
+import com.github.caoyouxin.taoke.api.ApiException;
 import com.github.caoyouxin.taoke.datasource.BrandDataSource;
 import com.github.caoyouxin.taoke.model.BrandItem;
 import com.github.caoyouxin.taoke.model.CouponItem;
@@ -51,6 +52,8 @@ import com.trello.rxlifecycle2.android.ActivityEvent;
 import com.yanyusong.y_divideritemdecoration.Y_Divider;
 import com.yanyusong.y_divideritemdecoration.Y_DividerBuilder;
 import com.yanyusong.y_divideritemdecoration.Y_DividerItemDecoration;
+
+import java.util.concurrent.TimeoutException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -120,7 +123,6 @@ public class DiscoverFragment extends Fragment {
 
             initRefreshLayout();
 
-            Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.app_not_release_hint, Snackbar.LENGTH_LONG).show();
         }
         sliderLayout.setDuration(4000);
         return rootView;
@@ -270,6 +272,14 @@ public class DiscoverFragment extends Fragment {
 
                         }
                     });
+                }, throwable -> {
+                    if (throwable instanceof TimeoutException) {
+                        Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.sign_in_fail_timeout, Snackbar.LENGTH_LONG).show();
+                    } else if (throwable instanceof ApiException) {
+                        Snackbar.make(getActivity().findViewById(android.R.id.content), getResources().getString(R.string.sign_in_fail_message, throwable.getMessage()), Snackbar.LENGTH_LONG).show();
+                    } else {
+                        Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.sign_in_fail_network, Snackbar.LENGTH_LONG).show();
+                    }
                 });
     }
 

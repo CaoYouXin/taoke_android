@@ -22,7 +22,7 @@ public class RxHelper {
                     if (t.code.equals(2000)) {
                         return Observable.just(t);
                     } else {
-                        String message = (String) t.body.get("msg");
+                        String message = (String) t.getMap().get("msg");
                         if (TextUtils.isEmpty(message)) {
                             throw new ApiException();
                         } else {

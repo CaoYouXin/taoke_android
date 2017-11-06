@@ -64,7 +64,7 @@ public class SplashActivity extends BaseActivity {
         appName.animate().alpha(1).setDuration(1500);
         copyright.animate().alpha(1).setDuration(1500);
 
-        if (TaoKeApi.restoreCustInfo()) {
+        if (TaoKeApi.restoreToken()) {
             Observable.timer(3, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
                 if (sharedPreferences.getBoolean(IntroActivity.INTRO_READ, false)) {

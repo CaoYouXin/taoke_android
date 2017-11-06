@@ -15,9 +15,9 @@ import retrofit2.http.Path;
  */
 
 public interface TaoKeService {
-    String API_VERIFICATION = "verification";
+    String API_VERIFICATION = "/tbk/phone/verify";
     String API_SIGN_IN = "tbk/user/login";
-    String API_SIGN_UP = "signUp";
+    String API_SIGN_UP = "tbk/user/register";
     String API_RESET_PASSWORD = "resetPassword";
 
     String API_HELP_LIST = "helpList";

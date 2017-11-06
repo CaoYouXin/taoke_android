@@ -20,7 +20,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class TaoKeRetrofit {
-    public final static String HOST = "http://192.168.1.102:8080/";
+    private final static String HOST = "http://192.168.0.112:8080/";
 
     private static TaoKeRetrofit instance;
 
@@ -45,7 +45,7 @@ public class TaoKeRetrofit {
 //        service = new TaoKeTestService();
     }
 
-    public static TaoKeService getService() {
+    static TaoKeService getService() {
         if (instance == null) {
             instance = new TaoKeRetrofit();
         }
@@ -60,7 +60,7 @@ public class TaoKeRetrofit {
             sc.init(null, new TrustManager[]{new TrustAllCerts()}, new SecureRandom());
 
             ssfFactory = sc.getSocketFactory();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
 
         return ssfFactory;
