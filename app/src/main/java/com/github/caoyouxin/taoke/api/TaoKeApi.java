@@ -13,6 +13,7 @@ import com.github.caoyouxin.taoke.model.MessageItem;
 import com.github.caoyouxin.taoke.model.Product;
 import com.github.caoyouxin.taoke.model.OrderItem;
 import com.github.caoyouxin.taoke.model.SearchHintItem;
+import com.github.caoyouxin.taoke.model.ShareSubmit;
 import com.github.caoyouxin.taoke.model.UserLoginSubmit;
 import com.github.caoyouxin.taoke.model.UserRegisterSubmit;
 import com.github.caoyouxin.taoke.util.StringUtils;
@@ -298,5 +299,11 @@ public class TaoKeApi {
 //                    }
                     return Observable.just(items);
                 });
+    }
+
+    public static Observable<String> getLink(String couponClickUrl, String title) {
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_GET_SHARE_LINK, new ShareSubmit(title, couponClickUrl), accessToken)
+                .compose(RxHelper.handleResult())
+                .flatMap(taoKeData -> Observable.just(taoKeData.body.toString()));
     }
 }

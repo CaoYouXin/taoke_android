@@ -25,12 +25,11 @@ public interface TaoKeService {
     String API_COUPON_TAB = "home/cate/list";
     String API_COUPON_LIST = "tbk/coupon/{cid}/{pNo}";
     String API_MESSAGE_LIST = "messageList";
-    String API_COUPON_DETAIL = "couponDetail";
-    String API_COUPON_SHARE_IMAGE_LIST = "couponShareImageList";
     String API_PRODUCT_LIST = "productList";
     String API_ORDER_LIST = "orderList";
     String API_FRIENDS_LIST = "friendsList";
     String API_SEARCH_HINT_LIST = "searchHintList";
+    String API_GET_SHARE_LINK = "tbk/url/trans";
 
     @POST("api/{api}")
     Observable<TaoKeData> tao(@Path("api") String api, @Body Object data, @Header("auth") String auth);

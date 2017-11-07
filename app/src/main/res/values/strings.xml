@@ -129,5 +129,11 @@
 
     <string name="search_title">搜索</string>
     <string name="search_history">搜索历史</string>
+    <string name="atleast_select_one">请至少选择一张图片分享</string>
+    <string name="atleast_share_one">分享文案不要留空</string>
+    <string name="fail_message">操作失败，%s</string>
+    <string name="fail_timeout">操作失败，网络连接超时...</string>
+    <string name="fail_network">操作失败，网络连接异常...</string>
+    <string name="fail_unknown">操作失败，发生未知异常...</string>
 
 </resources>

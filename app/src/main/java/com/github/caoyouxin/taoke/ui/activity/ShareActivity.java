@@ -1,5 +1,8 @@
 package com.github.caoyouxin.taoke.ui.activity;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -27,7 +30,9 @@ import com.bilibili.socialize.share.download.IImageDownloader;
 import com.bilibili.socialize.share.util.BitmapUtil;
 import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.adapter.ShareImageAdapter;
+import com.github.caoyouxin.taoke.api.ApiException;
 import com.github.caoyouxin.taoke.api.RxHelper;
+import com.github.caoyouxin.taoke.api.TaoKeApi;
 import com.github.caoyouxin.taoke.datasource.ShareImageDataSource;
 import com.github.caoyouxin.taoke.model.CouponItem;
 import com.github.caoyouxin.taoke.ui.widget.HackyLoadViewFactory;
@@ -41,6 +46,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,6 +55,7 @@ import butterknife.OnClick;
 import cn.bingoogolapple.qrcode.zxing.QRCodeEncoder;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
 public class ShareActivity extends BaseActivity {
@@ -97,7 +105,7 @@ public class ShareActivity extends BaseActivity {
     ImageView descQRcode;
 
     private CouponItem couponItem;
-
+    private String link;
     private ShareImageAdapter shareImageAdapter;
 
     @Override
@@ -119,8 +127,6 @@ public class ShareActivity extends BaseActivity {
         initShareImageList();
 
         initViewStub();
-
-        Snackbar.make(findViewById(android.R.id.content), R.string.app_not_release_hint, Snackbar.LENGTH_LONG).show();
     }
 
     @OnClick({R.id.back, R.id.handle, R.id.share_text_only})
@@ -130,23 +136,67 @@ public class ShareActivity extends BaseActivity {
                 onBackPressed();
                 break;
             case R.id.handle:
-                shareImages();
+                shareText(false);
                 break;
             case R.id.share_text_only:
-                String text2Share = shareText.getText().toString().trim();
-                if (!text2Share.isEmpty()) {
-//                    String linkHint = getResources().getString(R.string.share_text_link_hint);
-//                    String link = getResources().getString(R.string.share_text_link, couponItem.thumb, String.valueOf(couponItem.thumb.hashCode()));
-//                    if (text2Share.contains(linkHint)) {
-//                        text2Share = text2Share.replace(linkHint, link);
-//                    } else {
-//                        text2Share += link;
-//                    }
-                    ShareParamText shareParamText = new ShareParamText(getResources().getString(R.string.share_title), text2Share);
-                    ShareHelper.share(ShareActivity.this, shareParamText);
-                }
+                shareText(true);
                 break;
         }
+    }
+
+    public void shareText(boolean isShareTextOnly) {
+        String text2Share = shareText.getText().toString().trim();
+        if (text2Share.isEmpty()) {
+            Snackbar.make(findViewById(android.R.id.content), R.string.atleast_share_one, Snackbar.LENGTH_LONG).show();
+            return;
+        }
+
+        Consumer<String> linkConsumer = link -> {
+            ShareActivity.this.link = link;
+            String finalText2Share = text2Share;
+            String linkHint = getResources().getString(R.string.share_text_link_hint);
+            if (text2Share.contains(linkHint)) {
+                finalText2Share = text2Share.replace(linkHint, link);
+            } else {
+                finalText2Share += link;
+            }
+
+            ClipboardManager cmb = (ClipboardManager) ShareActivity.this.getSystemService(ShareActivity.this.CLIPBOARD_SERVICE);
+            cmb.setText(finalText2Share);
+
+            if (isShareTextOnly) {
+
+                ShareParamText shareParamText = new ShareParamText(getResources().getString(R.string.share_title), finalText2Share);
+                ShareHelper.share(ShareActivity.this, shareParamText);
+            } else {
+
+                shareImages();
+            }
+        };
+
+        if (null != this.link && !this.link.isEmpty()) {
+            try {
+                linkConsumer.accept(this.link);
+            } catch (Exception e) {
+                Snackbar.make(findViewById(android.R.id.content), R.string.fail_unknown, Snackbar.LENGTH_LONG).show();
+                return;
+            }
+            return;
+        }
+
+        TaoKeApi.getLink(couponItem.getCouponClickUrl(), couponItem.getTitle())
+                .timeout(10, TimeUnit.SECONDS)
+                .compose(RxHelper.rxSchedulerHelper())
+                .compose(bindUntilEvent(ActivityEvent.DESTROY))
+                .subscribe(linkConsumer, throwable -> {
+                    if (throwable instanceof TimeoutException) {
+                        Snackbar.make(findViewById(android.R.id.content), R.string.fail_timeout, Snackbar.LENGTH_LONG).show();
+                    } else if (throwable instanceof ApiException) {
+                        Snackbar.make(findViewById(android.R.id.content), getResources().getString(R.string.fail_message, throwable.getMessage()), Snackbar.LENGTH_LONG).show();
+                    } else {
+                        Snackbar.make(findViewById(android.R.id.content), R.string.fail_network, Snackbar.LENGTH_LONG).show();
+                    }
+                });
     }
 
     @Override
@@ -167,9 +217,8 @@ public class ShareActivity extends BaseActivity {
         shareImageAdapter = new ShareImageAdapter(this);
         ShareImageDataSource shareImageDataSource = new ShareImageDataSource(this, couponItem);
 
-        //hacky to remove mvchelper loadview loadmoreview
         HackyLoadViewFactory hackyLoadViewFactory = new HackyLoadViewFactory();
-        MVCHelper mvcHelper = new MVCNormalHelper(shareImageList, hackyLoadViewFactory.madeLoadView(), hackyLoadViewFactory.madeLoadMoreView());
+        MVCHelper<List<com.github.caoyouxin.taoke.model.ShareImage>> mvcHelper = new MVCNormalHelper<>(shareImageList, hackyLoadViewFactory.madeLoadView(), hackyLoadViewFactory.madeLoadMoreView());
         mvcHelper.setAdapter(shareImageAdapter);
         mvcHelper.setDataSource(shareImageDataSource);
 
@@ -247,6 +296,7 @@ public class ShareActivity extends BaseActivity {
         }
 
         if (observables.isEmpty()) {
+            Snackbar.make(findViewById(android.R.id.content), R.string.atleast_select_one, Snackbar.LENGTH_LONG).show();
             return;
         }
 
