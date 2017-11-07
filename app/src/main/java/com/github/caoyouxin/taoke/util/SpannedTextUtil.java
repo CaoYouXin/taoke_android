@@ -20,4 +20,10 @@ public class SpannedTextUtil {
         return builder;
     }
 
+    public static SpannableStringBuilder buildAmount(final Context context, final String text, final char start, final int offset) {
+        SpannableStringBuilder builder = new SpannableStringBuilder(text);
+        builder.setSpan(new AbsoluteSizeSpan(context.getResources().getDimensionPixelSize(R.dimen.font_28)), text.indexOf(start) + offset, text.indexOf('.'), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return builder;
+    }
+
 }

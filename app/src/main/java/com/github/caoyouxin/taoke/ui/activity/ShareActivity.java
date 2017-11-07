@@ -114,7 +114,7 @@ public class ShareActivity extends BaseActivity {
 
         title.setText(R.string.share_title);
         handle.setText(R.string.share_submit);
-        shareText.setText(getResources().getString(R.string.share_text, couponItem.title, couponItem.priceBefore, couponItem.priceAfter));
+        shareText.setText(getResources().getString(R.string.share_text, couponItem.getTitle(), couponItem.getZkFinalPrice(), couponItem.getCouponPrice()));
 
         initShareImageList();
 
@@ -135,13 +135,13 @@ public class ShareActivity extends BaseActivity {
             case R.id.share_text_only:
                 String text2Share = shareText.getText().toString().trim();
                 if (!text2Share.isEmpty()) {
-                    String linkHint = getResources().getString(R.string.share_text_link_hint);
-                    String link = getResources().getString(R.string.share_text_link, couponItem.thumb, String.valueOf(couponItem.thumb.hashCode()));
-                    if (text2Share.contains(linkHint)) {
-                        text2Share = text2Share.replace(linkHint, link);
-                    } else {
-                        text2Share += link;
-                    }
+//                    String linkHint = getResources().getString(R.string.share_text_link_hint);
+//                    String link = getResources().getString(R.string.share_text_link, couponItem.thumb, String.valueOf(couponItem.thumb.hashCode()));
+//                    if (text2Share.contains(linkHint)) {
+//                        text2Share = text2Share.replace(linkHint, link);
+//                    } else {
+//                        text2Share += link;
+//                    }
                     ShareParamText shareParamText = new ShareParamText(getResources().getString(R.string.share_title), text2Share);
                     ShareHelper.share(ShareActivity.this, shareParamText);
                 }
@@ -196,17 +196,17 @@ public class ShareActivity extends BaseActivity {
             viewStub.inflate();
             ButterKnife.bind(this);
 
-            descTitle.setText(couponItem.title);
+            descTitle.setText(couponItem.getTitle());
 
-            String text = getResources().getString(R.string.share_price_before, couponItem.priceBefore);
+            String text = getResources().getString(R.string.share_price_before, couponItem.getZkFinalPrice());
             SpannableStringBuilder builder = new SpannableStringBuilder(text);
             StrikethroughSpan strikethroughSpan = new StrikethroughSpan();
             builder.setSpan(strikethroughSpan, text.indexOf("¥") + 2, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             descPriceBefore.setText(builder);
 
-            descCoupon.setText(getResources().getString(R.string.share_coupon_value, couponItem.value));
+            descCoupon.setText(getResources().getString(R.string.share_coupon_value, couponItem.getCouponInfo()));
 
-            text = getResources().getString(R.string.share_price_after, couponItem.priceAfter);
+            text = getResources().getString(R.string.share_price_after, couponItem.getCouponPrice());
             builder = new SpannableStringBuilder(text);
             ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(getResources().getColor(R.color.orange_800));
             builder.setSpan(foregroundColorSpan, text.indexOf("¥"), text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -336,7 +336,7 @@ public class ShareActivity extends BaseActivity {
     private Observable<Bitmap> generateShareImageDescription() {
         return Observable.<Bitmap>create(subscriber -> {
             try {
-                descQRcode.setImageBitmap(QRCodeEncoder.syncEncodeQRCode(couponItem.thumb, descQRcode.getWidth()));
+                descQRcode.setImageBitmap(QRCodeEncoder.syncEncodeQRCode(couponItem.getCouponClickUrl(), descQRcode.getWidth()));
                 Bitmap bitmap = Bitmap.createBitmap(shareImageDescription.getWidth(), shareImageDescription.getHeight(), Bitmap.Config.ARGB_8888);
                 Canvas canvas = new Canvas(bitmap);
                 shareImageDescription.draw(canvas);

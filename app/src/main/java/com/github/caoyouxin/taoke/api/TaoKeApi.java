@@ -6,7 +6,6 @@ import android.preference.PreferenceManager;
 import com.github.caoyouxin.taoke.datasource.OrderDataSource;
 import com.github.caoyouxin.taoke.model.BrandItem;
 import com.github.caoyouxin.taoke.model.CouponItem;
-import com.github.caoyouxin.taoke.model.CouponItemDetail;
 import com.github.caoyouxin.taoke.model.CouponTab;
 import com.github.caoyouxin.taoke.model.FriendItem;
 import com.github.caoyouxin.taoke.model.HelpItem;
@@ -19,9 +18,7 @@ import com.github.caoyouxin.taoke.model.UserRegisterSubmit;
 import com.github.caoyouxin.taoke.util.StringUtils;
 import com.github.gnastnosaj.boilerplate.Boilerplate;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -168,24 +165,38 @@ public class TaoKeApi {
         )
                 .compose(RxHelper.handleResult())
                 .map(taoKeData -> {
-                    System.out.println(taoKeData.toString());
                     List<CouponItem> items = new ArrayList<>();
                     List<Map> recs = taoKeData.getList();
                     for (Map rec : recs) {
                         CouponItem item = new CouponItem();
-                        item.id = ((Double) rec.get("numIid")).longValue();
-                        item.thumb = (String) rec.get("pictUrl");
-                        item.title = (String) rec.get("title");
-                        item.priceBefore = (String) rec.get("zkFinalPrice");
-                        item.sales = ((Double) rec.get("volume")).longValue();
-                        item.value = (String) rec.get("couponInfo");
-                        item.total = ((Double) rec.get("couponTotalCount")).longValue();
-                        item.left = ((Double) rec.get("couponRemainCount")).longValue();
-                        int start = item.value.indexOf('减') + 1;
-                        int end = item.value.indexOf('元', start);
-                        double couponPrice = Double.parseDouble(item.priceBefore) - Double.parseDouble(item.value.substring(start, end));
-                        item.priceAfter = String.format(Locale.ENGLISH, "%.2f", couponPrice);
-                        item.earn = String.format(Locale.ENGLISH, "%.2f", Double.parseDouble((String) rec.get("commissionRate")) * couponPrice / 100);
+
+                        item.setCategory(((Double) rec.get("category")).longValue());
+                        item.setCouponRemainCount(((Double) rec.get("couponRemainCount")).longValue());
+                        item.setCouponTotalCount(((Double) rec.get("couponTotalCount")).longValue());
+                        item.setUserType(((Double) rec.get("userType")).longValue());
+                        item.setNumIid(((Double) rec.get("numIid")).longValue());
+                        item.setSellerId(((Double) rec.get("sellerId")).longValue());
+                        item.setVolume(((Double) rec.get("volume")).longValue());
+                        item.setSmallImages((List<String>) rec.get("smallImages"));
+                        item.setCommissionRate((String) rec.get("commissionRate"));
+                        item.setCouponClickUrl((String) rec.get("couponClickUrl"));
+                        item.setCouponEndTime((String) rec.get("couponEndTime"));
+                        item.setCouponInfo((String) rec.get("couponInfo"));
+                        item.setCouponStartTime((String) rec.get("couponStartTime"));
+                        item.setZkFinalPrice((String) rec.get("zkFinalPrice"));
+                        item.setItemUrl((String) rec.get("itemUrl"));
+                        item.setNick((String) rec.get("nick"));
+                        item.setPictUrl((String) rec.get("pictUrl"));
+                        item.setTitle((String) rec.get("title"));
+                        item.setShopTitle((String) rec.get("shopTitle"));
+                        item.setItemDescription((String) rec.get("itemDescription"));
+                        
+                        int start = item.getCouponInfo().indexOf('减') + 1;
+                        int end = item.getCouponInfo().indexOf('元', start);
+                        double couponPrice = Double.parseDouble(item.getZkFinalPrice()) - Double.parseDouble(item.getCouponInfo().substring(start, end));
+                        item.setCouponPrice(String.format(Locale.ENGLISH, "%.2f", couponPrice));
+                        item.setEarnPrice(String.format(Locale.ENGLISH, "%.2f", Double.parseDouble((String) rec.get("commissionRate")) * couponPrice / 100));
+
                         items.add(item);
                     }
                     return items;
@@ -208,30 +219,6 @@ public class TaoKeApi {
 //                    }
                     return items;
                 });
-    }
-
-    public static Observable<CouponItemDetail> getCouponDetail(CouponItem couponItem) {
-        return TaoKeRetrofit.getService().tao(TaoKeService.API_COUPON_DETAIL + "/" + couponItem.id)
-                .compose(RxHelper.handleResult())
-                .map(taoKeData -> {
-                    CouponItemDetail couponItemDetail = new CouponItemDetail();
-//                    couponItemDetail.thumb = (String) taoKeData.body.get("thumb");
-//                    couponItemDetail.title = (String) taoKeData.body.get("title");
-//                    couponItemDetail.priceAfter = (String) taoKeData.body.get("priceAfter");
-//                    couponItemDetail.priceBefore = (String) taoKeData.body.get("priceBefore");
-//                    couponItemDetail.sales = (int) taoKeData.body.get("sales");
-//                    couponItemDetail.coupon = (String) taoKeData.body.get("coupon");
-//                    couponItemDetail.couponRequirement = (String) taoKeData.body.get("couponRequirement");
-//                    couponItemDetail.commissionPercent = (String) taoKeData.body.get("commissionPercent");
-//                    couponItemDetail.commission = (String) taoKeData.body.get("commission");
-                    return couponItemDetail;
-                });
-    }
-
-    public static Observable<List<String>> getCouponShareImageList(CouponItem couponItem) {
-        return TaoKeRetrofit.getService().tao(TaoKeService.API_COUPON_SHARE_IMAGE_LIST + "/" + couponItem.id)
-                .compose(RxHelper.handleResult())
-                .map(taoKeData -> (List<String>) taoKeData.getMap().get("images"));
     }
 
     public static Observable<List<MessageItem>> getMessageList(String type) {

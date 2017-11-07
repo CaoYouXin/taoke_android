@@ -9,7 +9,7 @@
     <string name="sign_in_fail_timeout">登录失败，网络连接超时...</string>
     <string name="sign_in_fail_network">登录失败，网络连接异常...</string>
     <string name="sign_up">注册</string>
-    <string name="copy_right">Copyright&#169;觅券儿科技股份有限公司 版权所有</string>
+    <string name="copy_right">Copyright&#169;云南升玥信息技术有限公司 版权所有</string>
     <string name="back">返回</string>
     <string name="phone_prefix">+86</string>
     <string name="phone_hint">请输入手机号码</string>
@@ -70,8 +70,8 @@
     <string name="detail_price_unit">¥</string>
     <string name="detail_price_before">现价&#160;¥ %1$s</string>
     <string name="detail_sales">已售%1$s件</string>
-    <string name="detail_coupon">优惠券 %1$s元（满%2$s使用）</string>
-    <string name="detail_commission">通用佣金 %1$s（预计&#160;¥%2$s）</string>
+    <string name="detail_coupon">优惠券 %1$s</string>
+    <string name="detail_commission">预计赚 ¥%1$s</string>
     <string name="detail_commission_hint">该商品可能存在高佣金，加油升级才可查看～</string>
     <string name="detail_share">立即分享</string>
     <string name="detail_app">淘宝打开</string>
@@ -81,7 +81,7 @@
     <string name="select_images">选择图片</string>
     <string name="selected_images">已选 %1$s 张</string>
     <string name="edit_share_text">编辑分享文案</string>
-    <string name="share_text">%1$s\n&#160;&#160;【包邮】\n&#160;&#160;【在售价】%2$s元\n&#160;&#160;【券后价】%3$s元\n&#160;&#160;【下单链接】{分享渠道后自动生成链接与口令}</string>
+    <string name="share_text">%1$s\n&#160;&#160;【在售价】%2$s元\n&#160;&#160;【券后价】%3$s元\n&#160;&#160;【下单链接】{分享渠道后自动生成链接与口令}</string>
     <string name="share_text_link_hint">{分享渠道后自动生成链接与口令}</string>
     <string name="share_text_link">\n%1$s\n--------------------\n复制这条信息，%2$s，打开【手机淘宝】即可查看</string>
     <string name="share_text_only">仅复制文本文案</string>

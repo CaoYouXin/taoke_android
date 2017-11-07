@@ -12,10 +12,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.adapter.CouponAdapter;
@@ -23,18 +20,13 @@ import com.github.caoyouxin.taoke.datasource.CouponDataSource;
 import com.github.caoyouxin.taoke.datasource.ProductDataSource;
 import com.github.caoyouxin.taoke.model.CouponItem;
 import com.github.caoyouxin.taoke.ui.activity.DetailActivity;
-import com.github.caoyouxin.taoke.ui.activity.SearchActivity;
 import com.github.caoyouxin.taoke.ui.widget.HackyLoadViewFactory;
 import com.mikepenz.iconics.view.IconicsTextView;
 import com.shizhefei.mvc.MVCNormalHelper;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import me.next.tagview.TagCloudView;
 
 /**
  * Created by jasontsang on 10/24/17.

@@ -27,7 +27,8 @@ public class CouponDataSource extends RxDataSource<List<CouponItem>> implements 
 
     @Override
     public Observable<List<CouponItem>> loadMore() throws Exception {
-        return null;
+        this.pageNo++;
+        return TaoKeApi.getCouponList(this.cid, this.pageNo + "");
     }
 
     @Override

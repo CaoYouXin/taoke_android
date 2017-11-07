@@ -2,20 +2,29 @@ package com.github.caoyouxin.taoke.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StrikethroughSpan;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.BaseSliderView;
+import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.api.RxHelper;
 import com.github.caoyouxin.taoke.api.TaoKeApi;
 import com.github.caoyouxin.taoke.model.CouponItem;
+import com.github.caoyouxin.taoke.ui.widget.HackyTextSliderView;
+import com.github.caoyouxin.taoke.util.SpannedTextUtil;
 import com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,8 +40,8 @@ public class DetailActivity extends BaseActivity {
     @BindView(R.id.title)
     TextView title;
 
-    @BindView(R.id.detail_thumb)
-    SimpleDraweeView detailThumb;
+    @BindView(R.id.slider_layout)
+    SliderLayout sliderLayout;
 
     @BindView(R.id.detail_title)
     TextView detailTitle;
@@ -52,6 +61,9 @@ public class DetailActivity extends BaseActivity {
     @BindView(R.id.detail_commission)
     TextView detailCommission;
 
+    @BindView(R.id.detail_description)
+    TextView detailDescription;
+
     private CouponItem couponItem;
 
     @Override
@@ -65,8 +77,12 @@ public class DetailActivity extends BaseActivity {
         couponItem = getIntent().getParcelableExtra(EXTRA_COUPON_ITEM);
 
         initView();
+    }
 
-        Snackbar.make(findViewById(android.R.id.content), R.string.app_not_release_hint, Snackbar.LENGTH_LONG).show();
+    @Override
+    public void onStop() {
+        sliderLayout.stopAutoCycle();
+        super.onStop();
     }
 
     @OnClick({R.id.back, R.id.detail_view, R.id.detail_share, R.id.detail_app})
@@ -86,37 +102,57 @@ public class DetailActivity extends BaseActivity {
         }
     }
 
+    private void initSlider() {
+        DisplayMetrics dMetrics = new DisplayMetrics();
+        this.getWindowManager().getDefaultDisplay().getMetrics(dMetrics);
+        int sliderLayoutWidth = dMetrics.widthPixels;
+        int sliderLayoutHeight = sliderLayoutWidth * 9 / 10;
+        LinearLayout.LayoutParams itemViewParams = new LinearLayout.LayoutParams(sliderLayoutWidth, sliderLayoutHeight);
+        sliderLayout.setLayoutParams(itemViewParams);
+        updateSlider();
+    }
+
+    private void updateSlider() {
+        sliderLayout.removeAllSliders();
+        List<String> thumbs = new ArrayList<>(couponItem.getSmallImages());
+        thumbs.add(0, couponItem.getPictUrl());
+        for (String thumb : thumbs) {
+            TextSliderView textSliderView = new HackyTextSliderView(this);
+            textSliderView.image(thumb).setScaleType(BaseSliderView.ScaleType.CenterCrop);
+            sliderLayout.addSlider(textSliderView);
+        }
+    }
+
     private void initView() {
         title.setText(R.string.detail);
 
-        TaoKeApi.getCouponDetail(couponItem)
-                .compose(RxHelper.rxSchedulerHelper())
-                .subscribe(couponItemDetail -> {
-                    detailThumb.setImageURI(couponItemDetail.thumb);
-                    detailTitle.setText(couponItemDetail.title);
-                    priceAfter.setText(couponItemDetail.priceAfter);
+        initSlider();
 
-                    String text = getResources().getString(R.string.detail_price_before, couponItemDetail.priceBefore);
-                    SpannableStringBuilder builder = new SpannableStringBuilder(text);
-                    StrikethroughSpan strikethroughSpan = new StrikethroughSpan();
-                    builder.setSpan(strikethroughSpan, text.indexOf("¥") + 2, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    priceBefore.setText(builder);
+        detailTitle.setText(couponItem.getTitle());
+        priceAfter.setText(
+                SpannedTextUtil.buildAmount(this, "¥ " + couponItem.getCouponPrice(), '¥', 2)
+        );
 
-                    detailSales.setText(getResources().getString(R.string.detail_sales, String.valueOf(couponItemDetail.sales)));
+        String text = getResources().getString(R.string.detail_price_before, couponItem.getZkFinalPrice());
+        SpannableStringBuilder builder = new SpannableStringBuilder(text);
+        StrikethroughSpan strikethroughSpan = new StrikethroughSpan();
+        builder.setSpan(strikethroughSpan, text.indexOf("¥") + 2, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        priceBefore.setText(builder);
 
-                    text = getResources().getString(R.string.detail_coupon, couponItemDetail.coupon, couponItemDetail.couponRequirement);
-                    builder = new SpannableStringBuilder(text);
-                    ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(getResources().getColor(R.color.orange_800));
-                    builder.setSpan(foregroundColorSpan, text.lastIndexOf(" ") + 1, text.indexOf("元"), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    foregroundColorSpan = new ForegroundColorSpan(getResources().getColor(R.color.grey_500));
-                    builder.setSpan(foregroundColorSpan, text.indexOf("（"), text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    detailCoupon.setText(builder);
+        detailSales.setText(getResources().getString(R.string.detail_sales, String.valueOf(couponItem.getVolume())));
 
-                    text = getResources().getString(R.string.detail_commission, couponItemDetail.commissionPercent, couponItemDetail.commission);
-                    builder = new SpannableStringBuilder(text);
-                    foregroundColorSpan = new ForegroundColorSpan(getResources().getColor(R.color.grey_500));
-                    builder.setSpan(foregroundColorSpan, text.indexOf("（"), text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    detailCommission.setText(builder);
-                });
+        text = getResources().getString(R.string.detail_coupon, couponItem.getCouponInfo());
+        builder = new SpannableStringBuilder(text);
+        ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(getResources().getColor(R.color.orange_800));
+        builder.setSpan(foregroundColorSpan, text.indexOf('满'), text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        detailCoupon.setText(builder);
+
+        text = getResources().getString(R.string.detail_commission, couponItem.getEarnPrice());
+        builder = new SpannableStringBuilder(text);
+        foregroundColorSpan = new ForegroundColorSpan(getResources().getColor(R.color.grey_500));
+        builder.setSpan(foregroundColorSpan, text.indexOf("¥"), text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        detailCommission.setText(builder);
+
+        detailDescription.setText(couponItem.getItemDescription());
     }
 }

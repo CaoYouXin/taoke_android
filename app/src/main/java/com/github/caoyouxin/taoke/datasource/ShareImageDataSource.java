@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.internal.operators.observable.ObservableJust;
 
 /**
  * Created by jasontsang on 10/24/17.
@@ -29,18 +30,16 @@ public class ShareImageDataSource extends RxDataSource<List<ShareImage>> impleme
 
     @Override
     public Observable<List<ShareImage>> refresh() throws Exception {
-        return TaoKeApi.getCouponShareImageList(couponItem)
-                .map(thumbs -> {
-                    List<ShareImage> shareImages = new ArrayList<>();
-                    for (String thumb : thumbs) {
-                        ShareImage shareImage = new ShareImage();
-                        shareImage.thumb = thumb;
-                        shareImages.add(shareImage);
-                    }
-                    shareImages.get(0).selected = true;
-                    System.out.println(Arrays.toString(shareImages.toArray()));
-                    return shareImages;
-                });
+        List<ShareImage> shareImages = new ArrayList<>();
+        List<String> thumbs = new ArrayList<>(this.couponItem.getSmallImages());
+        thumbs.add(0, this.couponItem.getPictUrl());
+        for (String thumb : thumbs) {
+            ShareImage shareImage = new ShareImage();
+            shareImage.thumb = thumb;
+            shareImages.add(shareImage);
+        }
+        shareImages.get(0).selected = true;
+        return new ObservableJust<>(shareImages);
     }
 
     @Override

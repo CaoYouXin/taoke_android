@@ -23,17 +23,10 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <android.support.percent.PercentFrameLayout
+                <com.daimajia.slider.library.SliderLayout
+                    android:id="@+id/slider_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <com.facebook.drawee.view.SimpleDraweeView
-                        android:id="@+id/detail_thumb"
-                        app:layout_aspectRatio="150%"
-                        app:layout_widthPercent="100%"
-                        fresco:actualImageScaleType="centerCrop" />
-
-                </android.support.percent.PercentFrameLayout>
+                    android:layout_height="0dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -82,6 +75,18 @@
                     </LinearLayout>
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/detail_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="@dimen/len_12"
+                    android:paddingLeft="@dimen/len_12"
+                    android:paddingRight="@dimen/len_12"
+                    android:paddingStart="@dimen/len_12"
+                    android:textColor="@color/orange_800"
+                    android:textSize="@dimen/font_12"
+                    android:background="@color/white"/>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -107,23 +112,14 @@
                         android:textSize="@dimen/font_12" />
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/len_6"
-                        android:layout_marginLeft="@dimen/len_8"
-                        android:layout_marginRight="@dimen/len_6"
-                        android:layout_marginStart="@dimen/len_8"
-                        android:text="@string/detail_price_unit"
-                        android:textColor="@color/orange_800"
-                        android:textSize="@dimen/font_12" />
-
-                    <TextView
                         android:id="@+id/detail_price_after"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/orange_800"
-                        android:textSize="@dimen/font_22"
-                        tools:text="19.0" />
+                        android:paddingLeft="@dimen/len_10"
+                        android:paddingStart="@dimen/len_10"
+                        tools:ignore="RtlSymmetry" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -209,16 +205,6 @@
                             tools:text="@string/detail_commission" />
                     </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingEnd="@dimen/len_16"
-                        android:paddingLeft="@dimen/len_16"
-                        android:paddingRight="@dimen/len_16"
-                        android:paddingStart="@dimen/len_16"
-                        android:text="@string/detail_commission_hint"
-                        android:textColor="@color/orange_800"
-                        android:textSize="@dimen/font_12" />
                 </LinearLayout>
 
                 <View
