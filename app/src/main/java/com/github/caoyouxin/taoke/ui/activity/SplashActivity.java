@@ -7,9 +7,9 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.drivemode.android.typeface.TypefaceHelper;
 import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.api.TaoKeApi;
 import com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity;
@@ -34,7 +34,7 @@ public class SplashActivity extends BaseActivity {
     TextView slogen;
 
     @BindView(R.id.app_name)
-    TextView appName;
+    ImageView appName;
 
     @BindView(R.id.sign_up)
     Button signUp;
@@ -54,8 +54,7 @@ public class SplashActivity extends BaseActivity {
 
         ButterKnife.bind(this);
 
-        TypefaceHelper.getInstance().setTypeface(slogen, "fonts/LingWaiTC-Medium.otf");
-        TypefaceHelper.getInstance().setTypeface(appName, "fonts/LingWaiTC-Medium.otf");
+        Snackbar.make(findViewById(android.R.id.content), R.string.app_not_release_hint, Snackbar.LENGTH_LONG).show();
 
         splash.animate().scaleX(1.2f).scaleY(1.2f).setDuration(1500);
         //slogen.animate().alpha(1).setDuration(1500);

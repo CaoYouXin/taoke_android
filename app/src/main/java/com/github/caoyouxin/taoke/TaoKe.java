@@ -2,7 +2,6 @@ package com.github.caoyouxin.taoke;
 
 import android.app.Application;
 
-import com.drivemode.android.typeface.TypefaceHelper;
 import com.github.caoyouxin.taoke.util.ShareHelper;
 import com.github.gnastnosaj.boilerplate.Boilerplate;
 
@@ -52,6 +51,5 @@ public class TaoKe extends Application {
         });
 
         ShareHelper.initialize(this);
-        TypefaceHelper.initialize(this);
     }
 }

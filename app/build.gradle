@@ -59,7 +59,6 @@ dependencies {
     compile 'com.github.gnastnosaj.BiliShare:library:bad078d'
     compile 'com.github.gnastnosaj.Boilerplate:util:3b53858'
 
-    compile 'com.drivemode:TypefaceHelper:1.2.0@aar'
     compile 'com.mikepenz:iconics-views:+@aar'
     compile 'com.mikepenz:fontawesome-typeface:+@aar'
     compile 'com.mikepenz:material-design-iconic-typeface:+@aar'
