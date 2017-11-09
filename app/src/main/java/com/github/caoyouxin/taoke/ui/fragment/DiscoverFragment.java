@@ -273,11 +273,11 @@ public class DiscoverFragment extends Fragment {
                     }
                 }, throwable -> {
                     if (throwable instanceof TimeoutException) {
-                        Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.sign_in_fail_timeout, Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.fail_timeout, Snackbar.LENGTH_LONG).show();
                     } else if (throwable instanceof ApiException) {
-                        Snackbar.make(getActivity().findViewById(android.R.id.content), getResources().getString(R.string.sign_in_fail_message, throwable.getMessage()), Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(getActivity().findViewById(android.R.id.content), getResources().getString(R.string.fail_message, throwable.getMessage()), Snackbar.LENGTH_LONG).show();
                     } else {
-                        Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.sign_in_fail_network, Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.fail_network, Snackbar.LENGTH_LONG).show();
                     }
                 });
     }

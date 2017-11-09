@@ -88,7 +88,7 @@ public class OrdersActivity extends BaseActivity {
 
         this.onClick(selectEffective);
 
-        Snackbar.make(findViewById(android.R.id.content), R.string.app_not_release_hint, Snackbar.LENGTH_LONG).show();
+        Snackbar.make(findViewById(android.R.id.content), R.string.orders_list_explaination, Snackbar.LENGTH_LONG).show();
     }
 
     private void initOrderList() {

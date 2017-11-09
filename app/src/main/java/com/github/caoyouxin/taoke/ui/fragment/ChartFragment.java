@@ -56,7 +56,6 @@ public class ChartFragment extends Fragment {
             this.userThisMonthAmount.setText(SpannedTextUtil.buildAmount(getActivity(), R.string.user_this_month_amount, "0.00", '¥', 2));
             this.userLastMonthAmount.setText(SpannedTextUtil.buildAmount(getActivity(), R.string.user_last_month_amount, "120.00", '¥', 2));
 
-            Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.app_not_release_hint, Snackbar.LENGTH_LONG).show();
         }
         return rootView;
     }

@@ -20,7 +20,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class TaoKeRetrofit {
-    private final static String HOST = "http://192.168.0.112:8080/";
+    private final static String HOST = "http://192.168.1.102:8080/";
 //    private final static String HOST = "http://120.78.194.198:8080/";
 
     private static TaoKeRetrofit instance;

@@ -54,8 +54,6 @@ public class SplashActivity extends BaseActivity {
 
         ButterKnife.bind(this);
 
-        Snackbar.make(findViewById(android.R.id.content), R.string.app_not_release_hint, Snackbar.LENGTH_LONG).show();
-
         splash.animate().scaleX(1.2f).scaleY(1.2f).setDuration(1500);
         //slogen.animate().alpha(1).setDuration(1500);
         appName.animate().alpha(1).setDuration(1500);

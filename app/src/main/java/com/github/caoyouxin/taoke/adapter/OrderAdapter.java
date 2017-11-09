@@ -2,21 +2,13 @@ package com.github.caoyouxin.taoke.adapter;
 
 import android.content.Context;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
-import android.text.style.AbsoluteSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.github.caoyouxin.taoke.R;
-import com.github.caoyouxin.taoke.model.M;
-import com.github.caoyouxin.taoke.model.MessageItem;
 import com.github.caoyouxin.taoke.model.OrderItem;
 import com.github.caoyouxin.taoke.util.SpannedTextUtil;
 import com.shizhefei.mvc.IDataAdapter;
@@ -47,7 +39,6 @@ public class OrderAdapter extends RecyclerView.Adapter implements IDataAdapter<L
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         OrderItem item = data.get(position);
         ViewHolder holder = (ViewHolder) viewHolder;
-        holder.orderImageUrl.setImageURI(item.itemImgUrl);
         holder.orderItemName.setText(item.itemName);
         holder.orderItemStoreName.setText("所属店铺: " + item.itemStoreName);
         holder.orderStatus.setText(item.status);
@@ -77,8 +68,8 @@ public class OrderAdapter extends RecyclerView.Adapter implements IDataAdapter<L
         }
         String tradePrice = item.itemTradePrice.toString();
         holder.orderTradePrice.setText(SpannedTextUtil.buildAmount(this.context, R.string.order_trade_price, tradePrice.substring(0, tradePrice.indexOf('.') + 3), '¥', 2));
-        holder.orderCommissionPrice.setText(SpannedTextUtil.buildAmount(this.context, R.string.order_commission_price, item.commissionPrice, '¥', 2));
-        holder.orderCommissionRate.setText(SpannedTextUtil.buildAmount(this.context, R.string.order_commission_rate, item.commission.replace("%", "").trim(), '\n', 1));
+        holder.orderEstimateEffect.setText(SpannedTextUtil.buildAmount(this.context, R.string.order_estimate_effect, item.estimateEffect, '¥', 2));
+        holder.orderEstimateIncome.setText(SpannedTextUtil.buildAmount(this.context, R.string.order_estimate_income, item.estimateIncome, '¥', 2));
         holder.orderCreateTime.setText(item.dateStr + " 创建");
     }
 
@@ -108,9 +99,6 @@ public class OrderAdapter extends RecyclerView.Adapter implements IDataAdapter<L
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.order_img_url)
-        SimpleDraweeView orderImageUrl;
-
         @BindView(R.id.order_item_name)
         TextView orderItemName;
 
@@ -123,11 +111,11 @@ public class OrderAdapter extends RecyclerView.Adapter implements IDataAdapter<L
         @BindView(R.id.order_trade_price)
         TextView orderTradePrice;
 
-        @BindView(R.id.order_commission_price)
-        TextView orderCommissionPrice;
+        @BindView(R.id.order_estimate_effect)
+        TextView orderEstimateEffect;
 
-        @BindView(R.id.order_commission_rate)
-        TextView orderCommissionRate;
+        @BindView(R.id.order_estimate_income)
+        TextView orderEstimateIncome;
 
         @BindView(R.id.order_create_time)
         TextView orderCreateTime;

@@ -12,12 +12,12 @@ import java.util.Date;
 public class OrderItem implements Comparable<OrderItem> {
     public String itemName;
     public String itemStoreName;
-    public String itemImgUrl;
     public String status;
     public String itemTradePrice;
     public String commission;
     public String dateStr;
-    public String commissionPrice;
+    public String estimateEffect;
+    public String estimateIncome;
 
     private Date date;
 

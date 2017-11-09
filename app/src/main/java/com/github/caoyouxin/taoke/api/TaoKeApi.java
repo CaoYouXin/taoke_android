@@ -245,7 +245,7 @@ public class TaoKeApi {
     public static Observable<List<OrderItem>> getOrderList(OrderDataSource.FetchType type, Integer pageNo) {
         return TaoKeRetrofit.getService().tao(
                 TaoKeService.API_ORDER_LIST.replace("{type}", "" + type.getType())
-                    .replace("{pageNo}", "" + pageNo),
+                        .replace("{pageNo}", "" + pageNo),
                 accessToken)
                 .compose(RxHelper.handleResult())
                 .map(taoKeData -> {
@@ -258,10 +258,8 @@ public class TaoKeApi {
                         item.status = (String) rec.get("orderStatus");
                         item.itemTradePrice = (String) rec.get("payedAmount");
                         item.commission = (String) rec.get("commissionRate");
-                        item.commissionPrice = (String) rec.get("estimateIncome");
-                        if (item.commissionPrice.trim().isEmpty()) {
-                            item.commissionPrice = (String) rec.get("estimateEffect");
-                        }
+                        item.estimateIncome = (String) rec.get("estimateIncome");
+                        item.estimateEffect = (String) rec.get("estimateEffect");
                         items.add(item);
                     }
                     return items;
