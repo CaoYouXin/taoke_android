@@ -203,18 +203,18 @@ public class CouponItem implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(this.category);
-        dest.writeLong(this.couponRemainCount);
-        dest.writeLong(this.couponTotalCount);
+        dest.writeLong(null != this.couponRemainCount ? this.couponRemainCount : 0L);
+        dest.writeLong(null != this.couponTotalCount ? this.couponTotalCount : 0L);
         dest.writeLong(this.userType);
         dest.writeLong(this.numIid);
         dest.writeLong(this.sellerId);
         dest.writeLong(this.volume);
         dest.writeArray(this.smallImages.toArray());
         dest.writeString(this.commissionRate);
-        dest.writeString(this.couponClickUrl);
-        dest.writeString(this.couponEndTime);
-        dest.writeString(this.couponInfo);
-        dest.writeString(this.couponStartTime);
+        dest.writeString(null != this.couponClickUrl ? this.couponClickUrl : "");
+        dest.writeString(null != this.couponEndTime ? this.couponEndTime : "");
+        dest.writeString(null != this.couponInfo ? this.couponInfo : "");
+        dest.writeString(null != this.couponStartTime ? this.couponStartTime : "");
         dest.writeString(this.zkFinalPrice);
         dest.writeString(this.itemUrl);
         dest.writeString(this.nick);
@@ -222,8 +222,9 @@ public class CouponItem implements Parcelable {
         dest.writeString(this.title);
         dest.writeString(this.shopTitle);
         dest.writeString(this.itemDescription);
-        dest.writeString(this.couponPrice);
+        dest.writeString(null != this.couponPrice ? this.couponPrice : "");
         dest.writeString(this.earnPrice);
+        dest.writeString(null != this.tkLink ? this.tkLink : "");
     }
 
     public CouponItem() {
@@ -252,6 +253,7 @@ public class CouponItem implements Parcelable {
         this.itemDescription=source.readString();
         this.couponPrice=source.readString();
         this.earnPrice=source.readString();
+        this.tkLink=source.readString();
     }
 
     public static final Parcelable.Creator<CouponItem> CREATOR = new Parcelable.Creator<CouponItem>() {
@@ -288,5 +290,34 @@ public class CouponItem implements Parcelable {
 
     public void setTkLink(String tkLink) {
         this.tkLink = tkLink;
+    }
+
+    @Override
+    public String toString() {
+        return "CouponItem{" +
+                "category=" + category +
+                ", commissionRate='" + commissionRate + '\'' +
+                ", couponClickUrl='" + couponClickUrl + '\'' +
+                ", couponEndTime='" + couponEndTime + '\'' +
+                ", couponInfo='" + couponInfo + '\'' +
+                ", couponRemainCount=" + couponRemainCount +
+                ", couponStartTime='" + couponStartTime + '\'' +
+                ", couponTotalCount=" + couponTotalCount +
+                ", itemDescription='" + itemDescription + '\'' +
+                ", itemUrl='" + itemUrl + '\'' +
+                ", nick='" + nick + '\'' +
+                ", numIid=" + numIid +
+                ", pictUrl='" + pictUrl + '\'' +
+                ", sellerId=" + sellerId +
+                ", shopTitle='" + shopTitle + '\'' +
+                ", smallImages=" + smallImages +
+                ", title='" + title + '\'' +
+                ", userType=" + userType +
+                ", volume=" + volume +
+                ", zkFinalPrice='" + zkFinalPrice + '\'' +
+                ", couponPrice='" + couponPrice + '\'' +
+                ", earnPrice='" + earnPrice + '\'' +
+                ", tkLink='" + tkLink + '\'' +
+                '}';
     }
 }

@@ -9,6 +9,7 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.StrikethroughSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,13 +85,13 @@ public class ProductAdapter extends RecyclerView.Adapter implements IDataAdapter
             builder.setSpan(foregroundColorSpan, 0, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             AbsoluteSizeSpan absoluteSizeSpan = new AbsoluteSizeSpan(context.getResources().getDimensionPixelSize(R.dimen.font_12));
             builder.setSpan(absoluteSizeSpan, 0, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            holder.price.getPaint().setFlags(Paint. STRIKE_THRU_TEXT_FLAG|Paint.ANTI_ALIAS_FLAG);
+            StrikethroughSpan strikethroughSpan = new StrikethroughSpan();
+            builder.setSpan(strikethroughSpan, 0, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             holder.price.setText(builder);
         } else {
             holder.couponPrice.setVisibility(View.GONE);
             holder.coupon.setVisibility(View.GONE);
 
-            holder.price.getPaint().setFlags(0);
             holder.price.setText(context.getResources().getString(R.string.product_price, item.getZkFinalPrice()));
         }
     }

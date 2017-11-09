@@ -76,6 +76,9 @@ public class DetailActivity extends BaseActivity {
     @BindView(R.id.detail_description)
     TextView detailDescription;
 
+    @BindView(R.id.coupon_price_wrapper)
+    LinearLayout linearLayout;
+
     private CouponItem couponItem;
 
     @Override
@@ -117,7 +120,10 @@ public class DetailActivity extends BaseActivity {
     }
 
     private void openTaobao() {
-        String taokeUrl = null != couponItem.getCouponClickUrl() ? couponItem.getCouponClickUrl() : couponItem.getTkLink();
+        String taokeUrl = couponItem.getCouponClickUrl();
+        if (null == taokeUrl || taokeUrl.isEmpty()) {
+            taokeUrl = couponItem.getTkLink();
+        }
         if (null == taokeUrl || taokeUrl.isEmpty()) {
             Snackbar.make(findViewById(android.R.id.content), R.string.fail_unknown, Snackbar.LENGTH_LONG).show();
             return;
@@ -194,27 +200,37 @@ public class DetailActivity extends BaseActivity {
         initSlider();
 
         detailTitle.setText(couponItem.getTitle());
-        priceAfter.setText(
-                SpannedTextUtil.buildAmount(this, "¥ " + couponItem.getCouponPrice(), '¥', 2)
-        );
 
-        String text = getResources().getString(R.string.detail_price_before, couponItem.getZkFinalPrice());
-        SpannableStringBuilder builder = new SpannableStringBuilder(text);
-        StrikethroughSpan strikethroughSpan = new StrikethroughSpan();
-        builder.setSpan(strikethroughSpan, text.indexOf("¥") + 2, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        priceBefore.setText(builder);
+        if (null == couponItem.getCouponPrice() || couponItem.getCouponPrice().isEmpty()) {
+            linearLayout.setVisibility(View.GONE);
+            detailCoupon.setVisibility(View.GONE);
+
+            priceBefore.setText(
+                    SpannedTextUtil.buildAmount(this, getResources().getString(R.string.detail_price_before, couponItem.getZkFinalPrice()), '¥', 2)
+            );
+        } else {
+            priceAfter.setText(
+                    SpannedTextUtil.buildAmount(this, "¥ " + couponItem.getCouponPrice(), '¥', 2)
+            );
+
+            String text = getResources().getString(R.string.detail_coupon, couponItem.getCouponInfo());
+            SpannableStringBuilder builder = new SpannableStringBuilder(text);
+            ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(getResources().getColor(R.color.orange_800));
+            builder.setSpan(foregroundColorSpan, text.indexOf('满'), text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            detailCoupon.setText(builder);
+
+            text = getResources().getString(R.string.detail_price_before, couponItem.getZkFinalPrice());
+            builder = new SpannableStringBuilder(text);
+            StrikethroughSpan strikethroughSpan = new StrikethroughSpan();
+            builder.setSpan(strikethroughSpan, text.indexOf("¥") + 2, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            priceBefore.setText(builder);
+        }
 
         detailSales.setText(getResources().getString(R.string.detail_sales, String.valueOf(couponItem.getVolume())));
 
-        text = getResources().getString(R.string.detail_coupon, couponItem.getCouponInfo());
-        builder = new SpannableStringBuilder(text);
-        ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(getResources().getColor(R.color.orange_800));
-        builder.setSpan(foregroundColorSpan, text.indexOf('满'), text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        detailCoupon.setText(builder);
-
-        text = getResources().getString(R.string.detail_commission, couponItem.getEarnPrice());
-        builder = new SpannableStringBuilder(text);
-        foregroundColorSpan = new ForegroundColorSpan(getResources().getColor(R.color.grey_500));
+        String text = getResources().getString(R.string.detail_commission, couponItem.getEarnPrice());
+        SpannableStringBuilder builder = new SpannableStringBuilder(text);
+        ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(getResources().getColor(R.color.grey_500));
         builder.setSpan(foregroundColorSpan, text.indexOf("¥"), text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         detailCommission.setText(builder);
 
