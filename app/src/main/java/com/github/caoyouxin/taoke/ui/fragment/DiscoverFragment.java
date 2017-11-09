@@ -101,6 +101,28 @@ public class DiscoverFragment extends Fragment {
         }
     });
 
+    private List<CouponTab> tabs;
+    private TabLayout.OnTabSelectedListener onTabSelectedListener = new TabLayout.OnTabSelectedListener() {
+        @Override
+        public void onTabSelected(TabLayout.Tab tab) {
+            couponList.scrollToPosition(0);
+            appBarLayout.setExpanded(false, true);
+            RxBus.getInstance().post(RecyclerViewAppBarBehavior.RecyclerViewScrollEvent.class, new RecyclerViewAppBarBehavior.RecyclerViewScrollEvent());
+            CouponTab couponTab = tabs.get(DiscoverFragment.this.couponTab.getSelectedTabPosition());
+            couponTabSelected(couponTab);
+        }
+
+        @Override
+        public void onTabUnselected(TabLayout.Tab tab) {
+
+        }
+
+        @Override
+        public void onTabReselected(TabLayout.Tab tab) {
+
+        }
+    };
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -265,30 +287,15 @@ public class DiscoverFragment extends Fragment {
                 .compose(((BaseActivity) getActivity()).bindUntilEvent(ActivityEvent.DESTROY))
                 .compose(RxHelper.rxSchedulerHelper())
                 .subscribe(tabs -> {
+                    DiscoverFragment.this.tabs = tabs;
+                    couponTab.removeOnTabSelectedListener(onTabSelectedListener);
+
                     couponTab.removeAllTabs();
                     for (CouponTab tab : tabs) {
                         couponTab.addTab(couponTab.newTab().setText(tab.name));
                     }
-                    couponTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-                        @Override
-                        public void onTabSelected(TabLayout.Tab tab) {
-                            couponList.scrollToPosition(0);
-                            appBarLayout.setExpanded(false, true);
-                            RxBus.getInstance().post(RecyclerViewAppBarBehavior.RecyclerViewScrollEvent.class, new RecyclerViewAppBarBehavior.RecyclerViewScrollEvent());
-                            CouponTab couponTab = tabs.get(DiscoverFragment.this.couponTab.getSelectedTabPosition());
-                            couponTabSelected(couponTab);
-                        }
 
-                        @Override
-                        public void onTabUnselected(TabLayout.Tab tab) {
-
-                        }
-
-                        @Override
-                        public void onTabReselected(TabLayout.Tab tab) {
-
-                        }
-                    });
+                    couponTab.addOnTabSelectedListener(onTabSelectedListener);
 
                     if (!tabs.isEmpty()) {
                         couponTabSelected(tabs.get(0));
