@@ -20,12 +20,13 @@ public interface TaoKeService {
     String API_SIGN_UP = "tbk/user/register";
     String API_RESET_PASSWORD = "resetPassword";
 
+    String API_BANNER_LIST = "home/banner/list";
     String API_HELP_LIST = "helpList";
     String API_BRAND_LIST = "brandList";
     String API_COUPON_TAB = "home/cate/list";
     String API_COUPON_LIST = "tbk/coupon/{cid}/{pNo}";
     String API_MESSAGE_LIST = "messageList";
-    String API_PRODUCT_LIST = "productList";
+    String API_PRODUCT_LIST = "tbk/fav/{favId}/list/{pageNo}";
     String API_ORDER_LIST = "tbk/order/list/{type}/{pageNo}";
     String API_FRIENDS_LIST = "friendsList";
     String API_SEARCH_HINT_LIST = "searchHintList";

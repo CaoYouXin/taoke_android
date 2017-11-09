@@ -59,7 +59,7 @@
     <string name="sort_bar_multiple">综合</string>
     <string name="sort_bar_sales">销量</string>
     <string name="sort_bar_price">价格</string>
-    <string name="sort_bar_commission">佣金比例</string>
+    <string name="sort_bar_commission">佣金</string>
     <string name="product_new">新品</string>
     <string name="product_price">¥ %1$s</string>
     <string name="product_sales">月销%1$s笔</string>
@@ -136,5 +136,6 @@
     <string name="fail_network">操作失败，网络连接异常...</string>
     <string name="fail_unknown">操作失败，发生未知异常...</string>
     <string name="orders_list_explaination">只有已结算订单才会计算预估收入</string>
+    <string name="share_earn">分享赚 ¥ %1$s</string>
 
 </resources>

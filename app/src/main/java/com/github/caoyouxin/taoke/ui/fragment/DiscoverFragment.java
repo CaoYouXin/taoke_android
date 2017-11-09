@@ -33,6 +33,7 @@ import com.github.caoyouxin.taoke.model.CouponTab;
 import com.github.caoyouxin.taoke.api.RxHelper;
 import com.github.caoyouxin.taoke.api.TaoKeApi;
 import com.github.caoyouxin.taoke.datasource.CouponDataSource;
+import com.github.caoyouxin.taoke.model.HomeBtn;
 import com.github.caoyouxin.taoke.ui.activity.DetailActivity;
 import com.github.caoyouxin.taoke.ui.activity.NoviceActivity;
 import com.github.caoyouxin.taoke.ui.activity.ProductListActivity;
@@ -158,19 +159,40 @@ public class DiscoverFragment extends Fragment {
     }
 
     private void updateSlider() {
-        sliderLayout.removeAllSliders();
-        TextSliderView textSliderView = new HackyTextSliderView(getActivity());
-        textSliderView.image(R.mipmap.splash).setScaleType(BaseSliderView.ScaleType.CenterCrop);
-        sliderLayout.addSlider(textSliderView);
-        textSliderView = new HackyTextSliderView(getActivity());
-        textSliderView.image(R.mipmap.splash).setScaleType(BaseSliderView.ScaleType.CenterCrop);
-        sliderLayout.addSlider(textSliderView);
-        textSliderView = new HackyTextSliderView(getActivity());
-        textSliderView.image(R.mipmap.splash).setScaleType(BaseSliderView.ScaleType.CenterCrop);
-        sliderLayout.addSlider(textSliderView);
-        textSliderView = new HackyTextSliderView(getActivity());
-        textSliderView.image(R.mipmap.splash).setScaleType(BaseSliderView.ScaleType.CenterCrop);
-        sliderLayout.addSlider(textSliderView);
+        TaoKeApi.getBannerList()
+                .compose(((BaseActivity) getActivity()).bindUntilEvent(ActivityEvent.DESTROY))
+                .compose(RxHelper.rxSchedulerHelper())
+                .subscribe(banners -> {
+                    sliderLayout.removeAllSliders();
+                    for (HomeBtn banner : banners) {
+                        TextSliderView textSliderView = new HackyTextSliderView(getActivity());
+                        textSliderView.image(banner.imgUrl).setScaleType(BaseSliderView.ScaleType.CenterCrop)
+                                .setOnSliderClickListener(getOnSliderClickListener(banner));
+                        sliderLayout.addSlider(textSliderView);
+                    }
+                }, throwable -> {
+                    if (throwable instanceof TimeoutException) {
+                        Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.fail_timeout, Snackbar.LENGTH_LONG).show();
+                    } else if (throwable instanceof ApiException) {
+                        Snackbar.make(getActivity().findViewById(android.R.id.content), getResources().getString(R.string.fail_message, throwable.getMessage()), Snackbar.LENGTH_LONG).show();
+                    } else {
+                        Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.fail_network, Snackbar.LENGTH_LONG).show();
+                    }
+                });
+    }
+
+    private BaseSliderView.OnSliderClickListener getOnSliderClickListener(HomeBtn homeBtn) {
+        return slider -> {
+            switch (homeBtn.openType) {
+                case 1 << 2:
+                    Intent intent = new Intent(getActivity(), ProductListActivity.class)
+                            .putExtra(ProductListActivity.EXTRA_BRAND_ITEM, new BrandItem(homeBtn.name, homeBtn.ext));
+                    getActivity().startActivity(intent);
+                    break;
+                default:
+                    Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.fail_unknown, Snackbar.LENGTH_LONG).show();
+            }
+        };
     }
 
     private void initBrandList() {
@@ -346,10 +368,11 @@ public class DiscoverFragment extends Fragment {
     }
 
     private void initRefreshLayout() {
-        smartRefreshLayout.setOnRefreshListener(refreshlayout -> {
+        smartRefreshLayout.setOnRefreshListener(refreshLayout -> {
+            updateSlider();
             brandListHelper.refresh();
             initCouponTab();
-            refreshlayout.finishRefresh(2000);
+            refreshLayout.finishRefresh(2000);
         });
         smartRefreshLayout.setOnLoadmoreListener(refreshLayout -> {
             couponListHelper.loadMore();

@@ -33,6 +33,7 @@ public class CouponItem implements Parcelable {
     private String zkFinalPrice;
     private String couponPrice;
     private String earnPrice;
+    private String tkLink;
 
     public Long getCategory() {
         return category;
@@ -279,5 +280,13 @@ public class CouponItem implements Parcelable {
 
     public void setEarnPrice(String earnPrice) {
         this.earnPrice = earnPrice;
+    }
+
+    public String getTkLink() {
+        return tkLink;
+    }
+
+    public void setTkLink(String tkLink) {
+        this.tkLink = tkLink;
     }
 }

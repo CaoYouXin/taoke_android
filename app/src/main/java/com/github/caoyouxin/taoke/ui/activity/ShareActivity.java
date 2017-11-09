@@ -184,7 +184,13 @@ public class ShareActivity extends BaseActivity {
             return;
         }
 
-        TaoKeApi.getLink(couponItem.getCouponClickUrl(), couponItem.getTitle())
+        String userLink = null != couponItem.getCouponClickUrl() ? couponItem.getCouponClickUrl() : couponItem.getTkLink();
+        if (null == userLink || userLink.isEmpty()) {
+            Snackbar.make(findViewById(android.R.id.content), R.string.fail_unknown, Snackbar.LENGTH_LONG).show();
+            return;
+        }
+
+        TaoKeApi.getLink(userLink, couponItem.getTitle())
                 .timeout(10, TimeUnit.SECONDS)
                 .compose(RxHelper.rxSchedulerHelper())
                 .compose(bindUntilEvent(ActivityEvent.DESTROY))

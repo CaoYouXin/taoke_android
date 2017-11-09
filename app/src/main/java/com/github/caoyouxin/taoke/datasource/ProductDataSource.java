@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.github.caoyouxin.taoke.api.TaoKeApi;
 import com.github.caoyouxin.taoke.model.BrandItem;
-import com.github.caoyouxin.taoke.model.Product;
+import com.github.caoyouxin.taoke.model.CouponItem;
 import com.github.gnastnosaj.boilerplate.mvchelper.RxDataSource;
 import com.shizhefei.mvc.IDataCacheLoader;
 
@@ -16,7 +16,7 @@ import io.reactivex.Observable;
  * Created by jasontsang on 10/2/17.
  */
 
-public class ProductDataSource extends RxDataSource<List<Product>> implements IDataCacheLoader<List<Product>> {
+public class ProductDataSource extends RxDataSource<List<CouponItem>> implements IDataCacheLoader<List<CouponItem>> {
 
     public final static int SORT_MULTIPLE = 0;
     public final static int SORT_SALES = 1;
@@ -27,19 +27,22 @@ public class ProductDataSource extends RxDataSource<List<Product>> implements ID
     private BrandItem brandItem;
 
     private int sort;
+    private int pageNo;
 
     public ProductDataSource(Context context, BrandItem brandItem) {
         super(context);
         this.brandItem = brandItem;
+        this.sort = 0;
+        this.pageNo = 1;
     }
 
     @Override
-    public Observable<List<Product>> refresh() throws Exception {
-        return TaoKeApi.getProductList(brandItem);
+    public Observable<List<CouponItem>> refresh() throws Exception {
+        return TaoKeApi.getProductList(brandItem, this.pageNo, this.sort);
     }
 
     @Override
-    public Observable<List<Product>> loadMore() throws Exception {
+    public Observable<List<CouponItem>> loadMore() throws Exception {
         return null;
     }
 
@@ -49,11 +52,12 @@ public class ProductDataSource extends RxDataSource<List<Product>> implements ID
     }
 
     @Override
-    public List<Product> loadCache(boolean isEmpty) {
+    public List<CouponItem> loadCache(boolean isEmpty) {
         return null;
     }
 
     public void setSort(int sort) {
         this.sort = sort;
+        this.pageNo = 1;
     }
 }

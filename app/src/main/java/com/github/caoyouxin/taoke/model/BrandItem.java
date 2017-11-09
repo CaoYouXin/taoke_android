@@ -8,11 +8,12 @@ import android.os.Parcelable;
  */
 
 public class BrandItem implements Parcelable {
-    public int type;
+    public String favId;
     public String title;
-    public String thumb;
 
-    public BrandItem() {
+    public BrandItem(String title, String favId) {
+        this.favId = favId;
+        this.title = title;
     }
 
     @Override
@@ -22,15 +23,13 @@ public class BrandItem implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.type);
         dest.writeString(this.title);
-        dest.writeString(this.thumb);
+        dest.writeString(this.favId);
     }
 
     protected BrandItem(Parcel in) {
-        this.type = in.readInt();
         this.title = in.readString();
-        this.thumb = in.readString();
+        this.favId = in.readString();
     }
 
     public static final Creator<BrandItem> CREATOR = new Creator<BrandItem>() {

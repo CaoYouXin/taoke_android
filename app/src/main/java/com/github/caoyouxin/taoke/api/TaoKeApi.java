@@ -9,6 +9,7 @@ import com.github.caoyouxin.taoke.model.CouponItem;
 import com.github.caoyouxin.taoke.model.CouponTab;
 import com.github.caoyouxin.taoke.model.FriendItem;
 import com.github.caoyouxin.taoke.model.HelpItem;
+import com.github.caoyouxin.taoke.model.HomeBtn;
 import com.github.caoyouxin.taoke.model.MessageItem;
 import com.github.caoyouxin.taoke.model.Product;
 import com.github.caoyouxin.taoke.model.OrderItem;
@@ -31,7 +32,9 @@ import io.reactivex.Observable;
  */
 
 public class TaoKeApi {
+
     private final static String PREF_ACCESS_TOKEN = "token";
+    private final static String CDN_HOST = "http://192.168.1.102:8070/";
 
     private static String accessToken;
 
@@ -101,6 +104,23 @@ public class TaoKeApi {
 
     // **** user apis above *******************************************
 
+    public static Observable<List<HomeBtn>> getBannerList() {
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_BANNER_LIST)
+                .compose(RxHelper.handleResult())
+                .map(taoKeData -> {
+                    List<HomeBtn> items = new ArrayList<>();
+                    for (Map rec : taoKeData.getList()) {
+                        HomeBtn item = new HomeBtn();
+                        item.imgUrl = CDN_HOST + rec.get("imgUrl");
+                        item.name = (String) rec.get("name");
+                        item.openType = ((Double) rec.get("openType")).intValue();
+                        item.ext = (String) rec.get("ext");
+                        items.add(item);
+                    }
+                    return items;
+                });
+    }
+
     public static Observable<List<BrandItem>> getBrandList() {
         return TaoKeRetrofit.getService().tao(TaoKeService.API_BRAND_LIST)
                 .compose(RxHelper.handleResult())
@@ -120,24 +140,60 @@ public class TaoKeApi {
                 });
     }
 
-    public static Observable<List<Product>> getProductList(BrandItem brandItem) {
-        return TaoKeRetrofit.getService().tao(TaoKeService.API_PRODUCT_LIST + "/" + brandItem.type)
+    public static Observable<List<CouponItem>> getProductList(BrandItem brandItem, int pageNo, int sort) {
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_PRODUCT_LIST.replace("{favId}", brandItem.favId).replace("{pageNo}", "" + pageNo), accessToken)
                 .compose(RxHelper.handleResult())
                 .map(taoKeData -> {
-                    List<Product> items = new ArrayList<>();
-//                    List<Map> recs = (List<Map>) taoKeData.body.get("recs");
-//                    if (recs != null) {
-//                        for (Map rec : recs) {
-//                            Product item = new Product();
-//                            item.id = (int) rec.get("id");
-//                            item.thumb = (String) rec.get("thumb");
-//                            item.title = (String) rec.get("title");
-//                            item.isNew = (boolean) rec.get("isNew");
-//                            item.price = (String) rec.get("price");
-//                            item.sales = (int) rec.get("sales");
-//                            items.add(item);
+                    List<CouponItem> items = new ArrayList<>();
+                    List<Map> recs = taoKeData.getList();
+                    for (Map rec : recs) {
+                        CouponItem item = new CouponItem();
+
+                        item.setTkLink((String) rec.get("clickUrl"));
+                        item.setCategory(((Double) rec.get("category")).longValue());
+                        item.setUserType(((Double) rec.get("userType")).longValue());
+                        item.setNumIid(((Double) rec.get("numIid")).longValue());
+                        item.setSellerId(((Double) rec.get("sellerId")).longValue());
+                        item.setVolume(((Double) rec.get("volume")).longValue());
+                        item.setSmallImages((List<String>) rec.get("smallImages"));
+
+                        item.setCommissionRate((String) rec.get("tkRate"));
+//                        if (null == item.getCommissionRate() || Double.parseDouble(item.getCommissionRate()) < 0.001) {
+//                            item.setCommissionRate((String) rec.get("commissionRate"));
 //                        }
-//                    }
+
+                        item.setZkFinalPrice((String) rec.get("zkFinalPriceWap"));
+//                        if (null == item.getZkFinalPrice() || Double.parseDouble(item.getZkFinalPrice()) < 0.001) {
+//                            item.setZkFinalPrice((String) rec.get("zkFinalPrice"));
+//                        }
+
+                        item.setItemUrl((String) rec.get("itemUrl"));
+                        item.setNick((String) rec.get("nick"));
+                        item.setPictUrl((String) rec.get("pictUrl"));
+                        item.setTitle((String) rec.get("title"));
+                        item.setShopTitle((String) rec.get("shopTitle"));
+                        item.setItemDescription((String) rec.get("itemDescription"));
+
+                        item.setCouponInfo((String) rec.get("couponInfo"));
+                        if (null != item.getCouponInfo()) {
+                            item.setCouponClickUrl((String) rec.get("couponClickUrl"));
+                            item.setCouponRemainCount(((Double) rec.get("couponRemainCount")).longValue());
+                            item.setCouponTotalCount(((Double) rec.get("couponTotalCount")).longValue());
+                            item.setCouponEndTime((String) rec.get("couponEndTime"));
+                            item.setCouponStartTime((String) rec.get("couponStartTime"));
+
+                            int start = item.getCouponInfo().indexOf('减') + 1;
+                            int end = item.getCouponInfo().indexOf('元', start);
+                            double couponPrice = Double.parseDouble(item.getZkFinalPrice()) - Double.parseDouble(item.getCouponInfo().substring(start, end));
+                            item.setCouponPrice(String.format(Locale.ENGLISH, "%.2f", couponPrice));
+
+                            item.setEarnPrice(String.format(Locale.ENGLISH, "%.2f", Double.parseDouble(item.getCommissionRate()) * couponPrice / 100));
+                        } else {
+                            item.setEarnPrice(String.format(Locale.ENGLISH, "%.2f", Double.parseDouble(item.getZkFinalPrice()) * Double.parseDouble(item.getCommissionRate()) / 100));
+                        }
+
+                        items.add(item);
+                    }
                     return items;
                 });
     }

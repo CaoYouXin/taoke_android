@@ -34,7 +34,7 @@ public class BrandAdapter extends RecyclerView.Adapter implements IDataAdapter<L
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         BrandItem item = data.get(position);
         ViewHolder holder = (ViewHolder) viewHolder;
-        holder.thumb.setImageURI(item.thumb);
+        holder.thumb.setImageURI(item.title);
     }
 
     @Override

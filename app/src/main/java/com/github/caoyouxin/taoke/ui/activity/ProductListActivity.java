@@ -1,7 +1,7 @@
 package com.github.caoyouxin.taoke.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.GestureDetector;
@@ -13,12 +13,15 @@ import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.adapter.ProductAdapter;
 import com.github.caoyouxin.taoke.datasource.ProductDataSource;
 import com.github.caoyouxin.taoke.model.BrandItem;
+import com.github.caoyouxin.taoke.model.CouponItem;
 import com.github.caoyouxin.taoke.ui.widget.HackyLoadViewFactory;
 import com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity;
 import com.mikepenz.iconics.view.IconicsTextView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.shizhefei.mvc.MVCHelper;
 import com.shizhefei.mvc.MVCNormalHelper;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,7 +65,7 @@ public class ProductListActivity extends BaseActivity {
 
     private int sort;
 
-    private MVCHelper mvcHelper;
+    private MVCHelper<List<CouponItem>> mvcHelper;
     private ProductDataSource productDataSource;
 
     @Override
@@ -78,7 +81,6 @@ public class ProductListActivity extends BaseActivity {
 
         initRefreshRecyclerView();
 
-        Snackbar.make(findViewById(android.R.id.content), R.string.app_not_release_hint, Snackbar.LENGTH_LONG).show();
     }
 
     @OnClick(R.id.back)
@@ -150,7 +152,9 @@ public class ProductListActivity extends BaseActivity {
                     View childView = rv.findChildViewUnder(event.getX(), event.getY());
                     int childPosition = rv.getChildAdapterPosition(childView);
                     if (-1 < childPosition && childPosition < productAdapter.getData().size()) {
-
+                        CouponItem couponItem = productAdapter.getData().get(childPosition);
+                        Intent intent = new Intent(ProductListActivity.this, DetailActivity.class).putExtra(DetailActivity.EXTRA_COUPON_ITEM, couponItem);
+                        ProductListActivity.this.startActivity(intent);
                     }
                     return false;
                 }
@@ -167,16 +171,16 @@ public class ProductListActivity extends BaseActivity {
         });
 
         HackyLoadViewFactory hackyLoadViewFactory = new HackyLoadViewFactory();
-        mvcHelper = new MVCNormalHelper(recyclerView, hackyLoadViewFactory.madeLoadView(), hackyLoadViewFactory.madeLoadMoreView());
+        mvcHelper = new MVCNormalHelper<>(recyclerView, hackyLoadViewFactory.madeLoadView(), hackyLoadViewFactory.madeLoadMoreView());
 
         productDataSource = new ProductDataSource(this, brandItem);
         mvcHelper.setAdapter(productAdapter);
         mvcHelper.setDataSource(productDataSource);
         mvcHelper.refresh();
 
-        smartRefreshLayout.setOnRefreshListener(refreshlayout -> {
+        smartRefreshLayout.setOnRefreshListener(refreshLayout -> {
             mvcHelper.refresh();
-            refreshlayout.finishRefresh(2000);
+            refreshLayout.finishRefresh(2000);
         });
     }
 }
