@@ -26,7 +26,7 @@
         android:layout_marginBottom="@dimen/len_16"
         android:layout_marginEnd="@dimen/len_24"
         android:layout_marginRight="@dimen/len_24"
-        android:background="@drawable/border_1dp_less_pad"
+        android:background="@drawable/border_1px_trans_pad"
         android:text="@string/withdraw"
         android:textColor="@color/white" />
 

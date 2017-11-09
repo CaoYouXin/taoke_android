@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@drawable/border_1dp_white_pad"
+                android:background="@drawable/no_border_white_pad"
                 android:text="@string/select_payed"
                 android:textColor="@color/black_alpha_176" />
 
@@ -41,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@drawable/border_1dp_white_pad"
+                android:background="@drawable/no_border_white_pad"
                 android:text="@string/select_consigned"
                 android:textColor="@color/black_alpha_176" />
 
@@ -57,7 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@drawable/border_1dp_white_pad"
+                android:background="@drawable/no_border_white_pad"
                 android:text="@string/select_settled"
                 android:textColor="@color/black_alpha_176" />
 

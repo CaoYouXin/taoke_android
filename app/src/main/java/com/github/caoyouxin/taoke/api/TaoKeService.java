@@ -26,7 +26,7 @@ public interface TaoKeService {
     String API_COUPON_LIST = "tbk/coupon/{cid}/{pNo}";
     String API_MESSAGE_LIST = "messageList";
     String API_PRODUCT_LIST = "productList";
-    String API_ORDER_LIST = "orderList";
+    String API_ORDER_LIST = "tbk/order/list/{type}/{pageNo}";
     String API_FRIENDS_LIST = "friendsList";
     String API_SEARCH_HINT_LIST = "searchHintList";
     String API_GET_SHARE_LINK = "tbk/url/trans";

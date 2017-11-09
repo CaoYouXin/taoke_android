@@ -14,9 +14,10 @@ public class OrderItem implements Comparable<OrderItem> {
     public String itemStoreName;
     public String itemImgUrl;
     public String status;
-    public Double itemTradePrice;
-    public Double commission;
+    public String itemTradePrice;
+    public String commission;
     public String dateStr;
+    public String commissionPrice;
 
     private Date date;
 

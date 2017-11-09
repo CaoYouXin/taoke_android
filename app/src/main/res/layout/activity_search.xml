@@ -12,7 +12,7 @@
         android:layout_margin="@dimen/len_16"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/border_1dp_less_pad"
+        android:background="@drawable/border_1px_less_pad"
         android:hint="@string/search_title"
         android:maxLines="1"
         android:inputType="text"

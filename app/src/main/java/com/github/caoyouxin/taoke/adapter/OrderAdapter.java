@@ -52,22 +52,22 @@ public class OrderAdapter extends RecyclerView.Adapter implements IDataAdapter<L
         holder.orderItemStoreName.setText("所属店铺: " + item.itemStoreName);
         holder.orderStatus.setText(item.status);
         switch (item.status) {
-            case "已支付":
-            case "已收货":
+            case "订单付款":
+            case "订单收货":
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                     holder.orderStatus.setBackground(this.context.getResources().getDrawable(R.drawable.bg_blue_round_corner));
                 } else {
                     holder.orderStatus.setBackgroundColor(this.context.getResources().getColor(R.color.blue_500));
                 }
                 break;
-            case "已结算":
+            case "订单结算":
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                     holder.orderStatus.setBackground(this.context.getResources().getDrawable(R.drawable.bg_green_round_corner));
                 } else {
                     holder.orderStatus.setBackgroundColor(this.context.getResources().getColor(R.color.green_500));
                 }
                 break;
-            case "已失效":
+            case "订单失效":
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                     holder.orderStatus.setBackground(this.context.getResources().getDrawable(R.drawable.bg_grey_round_corner));
                 } else {
@@ -77,10 +77,8 @@ public class OrderAdapter extends RecyclerView.Adapter implements IDataAdapter<L
         }
         String tradePrice = item.itemTradePrice.toString();
         holder.orderTradePrice.setText(SpannedTextUtil.buildAmount(this.context, R.string.order_trade_price, tradePrice.substring(0, tradePrice.indexOf('.') + 3), '¥', 2));
-        String commissionPrice = String.valueOf(item.itemTradePrice * item.commission);
-        holder.orderCommissionPrice.setText(SpannedTextUtil.buildAmount(this.context, R.string.order_commission_price, commissionPrice.substring(0, commissionPrice.indexOf('.') + 3), '¥', 2));
-        String commissionRate = String.valueOf(item.commission * 100);
-        holder.orderCommissionRate.setText(SpannedTextUtil.buildAmount(this.context, R.string.order_commission_rate, commissionRate.substring(0, commissionRate.indexOf('.') + 3), '\n', 1));
+        holder.orderCommissionPrice.setText(SpannedTextUtil.buildAmount(this.context, R.string.order_commission_price, item.commissionPrice, '¥', 2));
+        holder.orderCommissionRate.setText(SpannedTextUtil.buildAmount(this.context, R.string.order_commission_rate, item.commission.replace("%", "").trim(), '\n', 1));
         holder.orderCreateTime.setText(item.dateStr + " 创建");
     }
 

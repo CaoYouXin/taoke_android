@@ -191,7 +191,7 @@ public class TaoKeApi {
                         item.setTitle((String) rec.get("title"));
                         item.setShopTitle((String) rec.get("shopTitle"));
                         item.setItemDescription((String) rec.get("itemDescription"));
-                        
+
                         int start = item.getCouponInfo().indexOf('减') + 1;
                         int end = item.getCouponInfo().indexOf('元', start);
                         double couponPrice = Double.parseDouble(item.getZkFinalPrice()) - Double.parseDouble(item.getCouponInfo().substring(start, end));
@@ -242,26 +242,28 @@ public class TaoKeApi {
                 });
     }
 
-    public static Observable<List<OrderItem>> getOrderList(OrderDataSource.FetchType type) {
-        return TaoKeRetrofit.getService().tao(TaoKeService.API_ORDER_LIST, type.toString(), "")
+    public static Observable<List<OrderItem>> getOrderList(OrderDataSource.FetchType type, Integer pageNo) {
+        return TaoKeRetrofit.getService().tao(
+                TaoKeService.API_ORDER_LIST.replace("{type}", "" + type.getType())
+                    .replace("{pageNo}", "" + pageNo),
+                accessToken)
                 .compose(RxHelper.handleResult())
                 .map(taoKeData -> {
                     List<OrderItem> items = new ArrayList<>();
-//                    List<Map> recs = (List<Map>) taoKeData.body.get("recs");
-//                    if (recs != null) {
-//                        for (Map rec : recs) {
-//                            OrderItem item = new OrderItem();
-//                            item.itemName = (String) rec.get("item_name");
-//                            item.itemStoreName = (String) rec.get("item_store");
-//                            item.dateStr = (String) rec.get("date");
-//                            item.itemImgUrl = (String) rec.get("thumb");
-//                            item.status = (String) rec.get("status");
-//                            item.itemTradePrice = (Double) rec.get("price");
-//                            item.commission = (Double) rec.get("commission");
-//                            items.add(item);
-//                        }
-//                    }
-//                    Collections.sort(items);
+                    for (Map rec : taoKeData.getList()) {
+                        OrderItem item = new OrderItem();
+                        item.itemName = (String) rec.get("itemTitle");
+                        item.itemStoreName = (String) rec.get("shopTitle");
+                        item.dateStr = (String) rec.get("createTime");
+                        item.status = (String) rec.get("orderStatus");
+                        item.itemTradePrice = (String) rec.get("payedAmount");
+                        item.commission = (String) rec.get("commissionRate");
+                        item.commissionPrice = (String) rec.get("estimateIncome");
+                        if (item.commissionPrice.trim().isEmpty()) {
+                            item.commissionPrice = (String) rec.get("estimateEffect");
+                        }
+                        items.add(item);
+                    }
                     return items;
                 });
     }

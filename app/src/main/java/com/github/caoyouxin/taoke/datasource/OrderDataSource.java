@@ -18,35 +18,48 @@ import io.reactivex.Observable;
 
 public class OrderDataSource extends RxDataSource<List<OrderItem>> implements IDataCacheLoader<List<OrderItem>> {
 
-    public static enum FetchType {
-        ALL,
-        ALL_EFFECTIVE,
-        INEFFECTIVE,
-        EFFECTIVE_PAYED,
-        EFFECTIVE_CONSIGNED,
-        EFFECTIVE_SETTLED
+    public enum FetchType {
+        ALL(1),
+        ALL_EFFECTIVE(2),
+        INEFFECTIVE(6),
+        EFFECTIVE_PAYED(3),
+        EFFECTIVE_CONSIGNED(4),
+        EFFECTIVE_SETTLED(5);
+
+        int type;
+
+        FetchType(int type) {
+            this.type = type;
+        }
+
+        public int getType() {
+            return this.type;
+        }
     }
 
     private FetchType type;
+    private Integer pageNo;
 
     public OrderDataSource(Context context, FetchType type) {
         super(context);
         this.type = type;
+        this.pageNo = 1;
     }
 
     public OrderDataSource changeFetchType(FetchType type) {
         this.type = type;
+        this.pageNo = 1;
         return this;
     }
 
     @Override
     public Observable<List<OrderItem>> refresh() throws Exception {
-        return TaoKeApi.getOrderList(this.type);
+        return TaoKeApi.getOrderList(this.type, this.pageNo);
     }
 
     @Override
     public Observable<List<OrderItem>> loadMore() throws Exception {
-        return null;
+        return TaoKeApi.getOrderList(this.type, ++this.pageNo);
     }
 
     @Override
