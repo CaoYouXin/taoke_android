@@ -2,6 +2,9 @@ package com.github.caoyouxin.taoke;
 
 import android.app.Application;
 
+import com.alibaba.baichuan.android.trade.AlibcTradeSDK;
+import com.alibaba.baichuan.android.trade.callback.AlibcTradeInitCallback;
+import com.alibaba.baichuan.trade.biz.core.taoke.AlibcTaokeParams;
 import com.github.caoyouxin.taoke.util.ShareHelper;
 import com.github.gnastnosaj.boilerplate.Boilerplate;
 
@@ -51,5 +54,41 @@ public class TaoKe extends Application {
         });
 
         ShareHelper.initialize(this);
+
+        AlibcTradeSDK.asyncInit(this, new AlibcTradeInitCallback() {
+            @Override
+            public void onSuccess() {
+                //初始化成功，设置相关的全局配置参数
+
+                // 是否使用支付宝
+                AlibcTradeSDK.setShouldUseAlipay(false);
+
+                // 设置是否使用同步淘客打点
+                AlibcTradeSDK.setSyncForTaoke(true);
+
+                // 是否走强制H5的逻辑，为true时全部页面均为H5打开
+                AlibcTradeSDK.setForceH5(false);
+
+                // 设置全局淘客参数，方便开发者用同一个淘客参数，不需要在show接口重复传入
+//                AlibcTradeSDK.setTaokeParams(new AlibcTaokeParams());
+
+                // 设置渠道信息(如果有渠道专享价，需要设置)
+//                AlibcTradeSDK.setChannel(typeName, channelName);
+
+                // ...
+            }
+
+            @Override
+            public void onFailure(int code, String msg) {
+                //初始化失败，可以根据code和msg判断失败原因，详情参见错误说明
+                System.err.println(String.format("百川初始化失败, code=%d, msg=%s", code, msg));
+            }
+        });
+    }
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        AlibcTradeSDK.destory();
     }
 }

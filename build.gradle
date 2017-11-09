@@ -21,7 +21,6 @@ allprojects {
         mavenCentral()
         maven { url "https://jitpack.io" }
         maven { url "https://dl.bintray.com/thelasterstar/maven/" }
-        maven { url "http://repo.baichuan-android.taobao.com/content/groups/BaichuanRepositories/" }
     }
 }
 

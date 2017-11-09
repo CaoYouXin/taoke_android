@@ -67,6 +67,7 @@ public class ProductListActivity extends BaseActivity {
 
     private MVCHelper<List<CouponItem>> mvcHelper;
     private ProductDataSource productDataSource;
+    private ProductAdapter productAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,13 +127,13 @@ public class ProductListActivity extends BaseActivity {
     }
 
     private void sort() {
-        productDataSource.setSort(sort);
+        productDataSource.setSort(sort).setCache(productAdapter.getData());
         mvcHelper.refresh();
         smartRefreshLayout.finishRefresh(2000);
     }
 
     private void initRefreshRecyclerView() {
-        ProductAdapter productAdapter = new ProductAdapter(this);
+        productAdapter = new ProductAdapter(this);
 
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         staggeredGridLayoutManager.setItemPrefetchEnabled(false);

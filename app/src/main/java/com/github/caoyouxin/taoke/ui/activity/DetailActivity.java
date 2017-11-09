@@ -2,6 +2,7 @@ package com.github.caoyouxin.taoke.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
@@ -11,6 +12,15 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.alibaba.baichuan.android.trade.AlibcTrade;
+import com.alibaba.baichuan.android.trade.callback.AlibcTradeCallback;
+import com.alibaba.baichuan.android.trade.model.AlibcShowParams;
+import com.alibaba.baichuan.android.trade.model.OpenType;
+import com.alibaba.baichuan.android.trade.page.AlibcBasePage;
+import com.alibaba.baichuan.android.trade.page.AlibcDetailPage;
+import com.alibaba.baichuan.android.trade.page.AlibcPage;
+import com.alibaba.baichuan.trade.biz.context.AlibcTradeResult;
+import com.alibaba.baichuan.trade.biz.core.taoke.AlibcTaokeParams;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
@@ -24,7 +34,9 @@ import com.github.caoyouxin.taoke.util.SpannedTextUtil;
 import com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -92,14 +104,67 @@ public class DetailActivity extends BaseActivity {
                 onBackPressed();
                 break;
             case R.id.detail_view:
+                openDetail();
                 break;
             case R.id.detail_share:
                 Intent intent = new Intent(this, ShareActivity.class).putExtra(ShareActivity.EXTRA_COUPON_ITEM, couponItem);
                 startActivity(intent);
                 break;
             case R.id.detail_app:
+                openTaobao();
                 break;
         }
+    }
+
+    private void openTaobao() {
+        String taokeUrl = null != couponItem.getCouponClickUrl() ? couponItem.getCouponClickUrl() : couponItem.getTkLink();
+        if (null == taokeUrl || taokeUrl.isEmpty()) {
+            Snackbar.make(findViewById(android.R.id.content), R.string.fail_unknown, Snackbar.LENGTH_LONG).show();
+            return;
+        }
+        AlibcBasePage tradePage = new AlibcPage(taokeUrl);// 页面打开方式
+        AlibcShowParams showParams = new AlibcShowParams(OpenType.Native, false);
+        // 淘宝客参数
+        AlibcTaokeParams taokeParams = new AlibcTaokeParams();
+        taokeParams.setPid("mm_126702819_39168038_145972940");
+        // 提供给三方传递配置参数
+        Map<String, String> trackParam = new HashMap<>();
+        AlibcTrade.show(this, tradePage, showParams, taokeParams, trackParam, new AlibcTradeCallback() {
+
+            @Override
+            public void onTradeSuccess(AlibcTradeResult alibcTradeResult) {
+                System.out.println(alibcTradeResult);
+            }
+
+            @Override
+            public void onFailure(int code, String msg) {
+                //打开电商组件，用户操作中错误信息回调。code：错误码；msg：错误信息
+                System.err.println(String.format("百川电商组件调用失败, code=%d, msg=%s", code, msg));
+            }
+        });
+    }
+
+    private void openDetail() {
+        AlibcBasePage detailPage = new AlibcDetailPage("" + couponItem.getNumIid());
+        AlibcShowParams showParams = new AlibcShowParams(OpenType.H5, false);
+        // 淘宝客参数
+        AlibcTaokeParams taokeParams = new AlibcTaokeParams();
+        taokeParams.setPid("mm_126702819_39168038_145972940");
+        // 提供给三方传递配置参数
+        Map<String, String> trackParam = new HashMap<>();
+        AlibcTrade.show(this, detailPage, showParams, taokeParams, trackParam, new AlibcTradeCallback() {
+
+            @Override
+            public void onTradeSuccess(AlibcTradeResult alibcTradeResult) {
+                System.out.println(alibcTradeResult);
+            }
+
+            @Override
+            public void onFailure(int code, String msg) {
+                //打开电商组件，用户操作中错误信息回调。code：错误码；msg：错误信息
+                System.err.println(String.format("百川电商组件调用失败, code=%d, msg=%s", code, msg));
+            }
+        });
     }
 
     private void initSlider() {

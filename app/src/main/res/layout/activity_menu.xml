@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/small_margin_size"
+        android:layout_marginRight="@dimen/small_margin_size"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/alisdk_btn_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/large_margin_size"
+            android:onClick="login"
+            android:text="@string/login_test" />
+
+        <Button
+            android:id="@+id/alisdk_btn_logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small_margin_size"
+            android:onClick="logout"
+            android:text="@string/logout_test" />
+
+        <Button
+            android:id="@+id/alisdk_btn_transaction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small_margin_size"
+            android:onClick="trade"
+            android:text="@string/transaction_test" />
+
+        <Button
+            android:id="@+id/alisdk_btn_mine"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small_margin_size"
+            android:onClick="orderAndCart"
+            android:text="@string/mine_test" />
+
+        <Button
+            android:id="@+id/alisdk_btn_webview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small_margin_size"
+            android:onClick="webview"
+            android:text="@string/webview_test" />
+    </LinearLayout>
+
+
+
+</RelativeLayout>

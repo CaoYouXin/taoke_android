@@ -8,7 +8,11 @@ import com.github.caoyouxin.taoke.model.CouponItem;
 import com.github.gnastnosaj.boilerplate.mvchelper.RxDataSource;
 import com.shizhefei.mvc.IDataCacheLoader;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import io.reactivex.Observable;
 
@@ -28,17 +32,27 @@ public class ProductDataSource extends RxDataSource<List<CouponItem>> implements
 
     private int sort;
     private int pageNo;
+    private List<CouponItem> cache;
+    private Comparator<? super CouponItem> sortFunction;
 
     public ProductDataSource(Context context, BrandItem brandItem) {
         super(context);
         this.brandItem = brandItem;
-        this.sort = 0;
-        this.pageNo = 1;
+        this.setSort(ProductDataSource.SORT_MULTIPLE);
     }
 
     @Override
     public Observable<List<CouponItem>> refresh() throws Exception {
-        return TaoKeApi.getProductList(brandItem, this.pageNo, this.sort);
+        if (null != this.cache) {
+            Collections.sort(this.cache, sortFunction);
+            Observable<List<CouponItem>> just = Observable.just(new ArrayList<>(this.cache));
+            this.cache = null;
+            return just;
+        }
+        return TaoKeApi.getProductList(brandItem, this.pageNo, this.sort).map(list -> {
+            Collections.sort(list, sortFunction);
+            return list;
+        });
     }
 
     @Override
@@ -56,8 +70,34 @@ public class ProductDataSource extends RxDataSource<List<CouponItem>> implements
         return null;
     }
 
-    public void setSort(int sort) {
+    public ProductDataSource setSort(int sort) {
         this.sort = sort;
         this.pageNo = 1;
+
+        switch (this.sort) {
+            case ProductDataSource.SORT_MULTIPLE:
+                this.sortFunction = (item1, item2) -> (int) (Double.parseDouble(item2.getZkFinalPrice())
+                        + Double.parseDouble(item2.getEarnPrice()) + item2.getVolume() - item1.getVolume()
+                        - Double.parseDouble(item1.getZkFinalPrice()) - Double.parseDouble(item1.getEarnPrice()));
+                break;
+            case ProductDataSource.SORT_COMMISSION:
+                this.sortFunction = (item1, item2) -> (int) (Double.parseDouble(item2.getEarnPrice()) - Double.parseDouble(item1.getEarnPrice()));
+                break;
+            case ProductDataSource.SORT_SALES:
+                this.sortFunction = (item1, item2) -> (int) (item2.getVolume() - item1.getVolume());
+                break;
+            case ProductDataSource.SORT_PRICE_DOWN:
+                this.sortFunction = (item1, item2) -> (int) (Double.parseDouble(item2.getZkFinalPrice()) - Double.parseDouble(item1.getZkFinalPrice()));
+                break;
+            case ProductDataSource.SORT_PRICE_UP:
+                this.sortFunction = (item1, item2) -> (int) (Double.parseDouble(item1.getZkFinalPrice()) - Double.parseDouble(item2.getZkFinalPrice()));
+                break;
+        }
+        return this;
+    }
+
+    public ProductDataSource setCache(List<CouponItem> cache) {
+        this.cache = cache;
+        return this;
     }
 }

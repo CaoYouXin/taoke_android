@@ -87,7 +87,10 @@ public class ProductAdapter extends RecyclerView.Adapter implements IDataAdapter
             holder.price.getPaint().setFlags(Paint. STRIKE_THRU_TEXT_FLAG|Paint.ANTI_ALIAS_FLAG);
             holder.price.setText(builder);
         } else {
+            holder.couponPrice.setVisibility(View.GONE);
+            holder.coupon.setVisibility(View.GONE);
 
+            holder.price.getPaint().setFlags(0);
             holder.price.setText(context.getResources().getString(R.string.product_price, item.getZkFinalPrice()));
         }
     }
