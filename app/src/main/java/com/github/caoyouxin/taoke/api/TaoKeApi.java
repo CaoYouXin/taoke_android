@@ -424,4 +424,22 @@ public class TaoKeApi {
                     return Observable.just(items);
                 });
     }
+
+    public static Observable<String> getUserAmount() {
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_USER_AMOUNT, accessToken)
+                .compose(RxHelper.handleResult())
+                .flatMap(taoKeData -> Observable.just(taoKeData.body.toString()));
+    }
+
+    public static Observable<String> getThisMonthEstimate() {
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_THIS_MOUNT_ESTIMATE, accessToken)
+                .compose(RxHelper.handleResult())
+                .flatMap(taoKeData -> Observable.just(taoKeData.body.toString()));
+    }
+
+    public static Observable<String> getLastMonthEstimate() {
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_LAST_MOUNT_ESTIMATE, accessToken)
+                .compose(RxHelper.handleResult())
+                .flatMap(taoKeData -> Observable.just(taoKeData.body.toString()));
+    }
 }
