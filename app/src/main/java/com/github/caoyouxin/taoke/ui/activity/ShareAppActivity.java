@@ -259,7 +259,8 @@ public class ShareAppActivity extends BaseActivity {
     private Observable<Bitmap> generateShareImageDescription() {
         return Observable.<Bitmap>create(subscriber -> {
             try {
-                descQrCode.setImageBitmap(QRCodeEncoder.syncEncodeQRCode(String.format("http://www.baidu.com?q=%d", TaoKeApi.userId), descQrCode.getWidth()));
+//                descQrCode.setImageBitmap(QRCodeEncoder.syncEncodeQRCode(String.format("http://www.baidu.com?q=%d", TaoKeApi.userId), descQrCode.getWidth()));
+                descQrCode.setImageBitmap(QRCodeEncoder.syncEncodeQRCode("https://www.baidu.com/s?tn=mswin_oem_dg&ie=utf-16&word=%E8%A7%85%E5%88%B8%E5%84%BF", descQrCode.getWidth()));
                 Bitmap bitmap = Bitmap.createBitmap(shareImageQrDesc.getWidth(), shareImageQrDesc.getHeight(), Bitmap.Config.ARGB_8888);
                 Canvas canvas = new Canvas(bitmap);
                 shareImageQrDesc.draw(canvas);
