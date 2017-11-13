@@ -22,13 +22,14 @@ public interface TaoKeService {
 
     String API_BANNER_LIST = "home/banner/list";
     String API_COUPON_TAB = "home/cate/list";
-
     String API_BRAND_LIST = "brandList";
-    String API_MESSAGE_LIST = "messageList";
+
     String API_SEARCH_HINT_LIST = "searchHintList";
 
-    String API_FRIENDS_LIST = "tbk/team/list";
+    String API_MESSAGE_LIST = "msg/list/{pageNo}";
+    String API_REPORT = "msg/feedback";
 
+    String API_FRIENDS_LIST = "tbk/team/list";
     String API_COUPON_LIST = "tbk/coupon/{cid}/{pNo}";
     String API_PRODUCT_LIST = "tbk/fav/{favId}/list/{pageNo}";
     String API_ORDER_LIST = "tbk/order/list/{type}/{pageNo}";
@@ -36,9 +37,8 @@ public interface TaoKeService {
 
     String API_HELP_LIST = "app/help/list";
     String API_NOVICE_LIST = "app/guide/list";
-
-    String API_REPORT = "msg/feedback";
     String API_SHARE_APP_LIST = "app/share/img/url/list";
+
 
     String API_USER_AMOUNT = "tbk/candraw";
     String API_THIS_MOUNT_ESTIMATE = "tbk/estimate/this";

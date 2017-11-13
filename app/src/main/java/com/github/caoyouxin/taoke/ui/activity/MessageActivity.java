@@ -51,7 +51,7 @@ public class MessageActivity extends BaseActivity {
 //        messageList.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).size(1).build());
 
         MessageAdapter messageAdapter = new MessageAdapter();
-        MessageDataSource messageDataSource = new MessageDataSource(this, type);
+        MessageDataSource messageDataSource = new MessageDataSource(this);
 
         MVCHelper messageListHelper = new MVCNormalHelper(messageList);
         messageListHelper.setAdapter(messageAdapter);

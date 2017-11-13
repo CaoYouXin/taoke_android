@@ -308,22 +308,20 @@ public class TaoKeApi {
                 });
     }
 
-    public static Observable<List<MessageItem>> getMessageList(String type) {
-        return TaoKeRetrofit.getService().tao(TaoKeService.API_MESSAGE_LIST, type, "")
+    public static Observable<List<MessageItem>> getMessageList(int pageNo) {
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_MESSAGE_LIST.replace("{pageNo}", "" + pageNo), accessToken)
                 .compose(RxHelper.handleResult())
                 .map(taoKeData -> {
                     List<MessageItem> items = new ArrayList<>();
-//                    List<Map> recs = (List<Map>) taoKeData.body.get("recs");
-//                    if (recs != null) {
-//                        for (Map rec : recs) {
-//                            MessageItem item = new MessageItem();
-//                            item.title = (String) rec.get("title");
-//                            item.dateStr = (String) rec.get("date");
-//                            item.content = (String) rec.get("content");
-//                            items.add(item);
-//                        }
-//                    }
-//                    Collections.sort(items);
+                    List<Map> recs = taoKeData.getList();
+                    for (Map rec : recs) {
+                        MessageItem item = new MessageItem();
+                        item.dateStr = (String) rec.get("createTime");
+                        Map message = (Map) rec.get("message");
+                        item.title = (String) message.get("title");
+                        item.content = (String) message.get("content");
+                        items.add(item);
+                    }
                     return items;
                 });
     }
