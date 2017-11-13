@@ -35,9 +35,14 @@ import io.reactivex.Observable;
 public class TaoKeApi {
 
     private final static String PREF_ACCESS_TOKEN = "token";
+    private final static String PREF_USER = "user";
+    private final static String PREF_USER_NAME = "name";
+    private final static String PREF_USER_PID = "aliPid";
     private final static String CDN_HOST = "http://192.168.0.104:8070/";
 
     private static String accessToken;
+    public static String userName;
+    public static String aliPID;
 
     // **** user apis below *******************************************
 
@@ -51,7 +56,7 @@ public class TaoKeApi {
                 new UserRegisterSubmit(verificationCode, phone, StringUtils.toMD5HexString(password), name), null)
                 .compose(RxHelper.handleResult())
                 .map(taoKeData -> {
-                    accessToken = (String) taoKeData.getMap().get(PREF_ACCESS_TOKEN);
+                    readToken(taoKeData);
                     cacheToken();
                     return taoKeData;
                 });
@@ -62,26 +67,36 @@ public class TaoKeApi {
                 new UserLoginSubmit(phone, StringUtils.toMD5HexString(password)), null)
                 .compose(RxHelper.handleResult())
                 .map(taoKeData -> {
-                    accessToken = (String) taoKeData.getMap().get(PREF_ACCESS_TOKEN);
+                    readToken(taoKeData);
                     cacheToken();
                     return taoKeData;
                 });
     }
 
     public static Observable<TaoKeData> resetPassword(String phone, String verificationCode, String password) {
-        return TaoKeRetrofit.getService().tao(TaoKeService.API_RESET_PASSWORD, new UserResetPwdSubmit(phone, verificationCode, password), null)
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_RESET_PASSWORD,
+                new UserResetPwdSubmit(phone, verificationCode, StringUtils.toMD5HexString(password)), null)
                 .compose(RxHelper.handleResult())
                 .map(taoKeData -> {
-                    accessToken = (String) taoKeData.getMap().get(PREF_ACCESS_TOKEN);
+                    readToken(taoKeData);
                     cacheToken();
                     return taoKeData;
                 });
+    }
+
+    private static void readToken(TaoKeData taoKeData) {
+        accessToken = (String) taoKeData.getMap().get(PREF_ACCESS_TOKEN);
+        Map user = (Map) taoKeData.getMap().get(PREF_USER);
+        userName = (String) user.get(PREF_USER_NAME);
+        aliPID = (String) user.get(PREF_USER_PID);
     }
 
     private static void cacheToken() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Boilerplate.getInstance());
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(PREF_ACCESS_TOKEN, accessToken);
+        editor.putString(PREF_USER_NAME, userName);
+        editor.putString(PREF_USER_PID, aliPID);
         editor.apply();
     }
 
@@ -89,6 +104,8 @@ public class TaoKeApi {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Boilerplate.getInstance());
         if (sharedPreferences.contains(PREF_ACCESS_TOKEN)) {
             accessToken = sharedPreferences.getString(PREF_ACCESS_TOKEN, null);
+            userName = sharedPreferences.getString(PREF_USER_NAME, null);
+            aliPID = sharedPreferences.getString(PREF_USER_PID, null);
             return true;
         } else {
             return false;
@@ -363,5 +380,18 @@ public class TaoKeApi {
         return TaoKeRetrofit.getService().tao(TaoKeService.API_GET_SHARE_LINK, new ShareSubmit(title, couponClickUrl), accessToken)
                 .compose(RxHelper.handleResult())
                 .flatMap(taoKeData -> Observable.just(taoKeData.body.toString()));
+    }
+
+    public static Observable<List<String>> getNoviceImgList() {
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_NOVICE_LIST)
+                .compose(RxHelper.handleResult())
+                .flatMap(taoKeData -> {
+                    List<Map> recs = taoKeData.getList();
+                    List<String> items = new ArrayList<>();
+                    for (Map rec : recs) {
+                        items.add(CDN_HOST + rec.get("imgUrl"));
+                    }
+                    return Observable.just(items);
+                });
     }
 }

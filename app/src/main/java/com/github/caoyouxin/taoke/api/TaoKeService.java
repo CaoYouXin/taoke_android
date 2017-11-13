@@ -31,6 +31,7 @@ public interface TaoKeService {
     String API_FRIENDS_LIST = "friendsList";
     String API_SEARCH_HINT_LIST = "searchHintList";
     String API_GET_SHARE_LINK = "tbk/url/trans";
+    String API_NOVICE_LIST = "app/guide/list";
 
     @POST("api/{api}")
     Observable<TaoKeData> tao(@Path("api") String api, @Body Object data, @Header("auth") String auth);

@@ -161,7 +161,7 @@
     <string name="order_estimate_effect">效果预估\n¥ %1$s</string>
     <string name="order_estimate_income">预估收入\n¥ %1$s</string>
 
-    <string name="friends">我的朋友们</string>
+    <string name="friends">我的团队</string>
     <string name="friends_amount">贡献 %1$s 元</string>
 
     <string name="search_title">搜索</string>

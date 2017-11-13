@@ -54,15 +54,15 @@ public class AccountFragment extends Fragment {
 
             this.initAccountId();
 
-            Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.app_not_release_hint, Snackbar.LENGTH_LONG).show();
         }
         return rootView;
     }
 
     private void initAccountId() {
-        SpannableString span = new SpannableString("账户ID:  954382491\n淘客954382491");
-        span.setSpan(new RelativeSizeSpan(1.36f), 17, 28, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        span.setSpan(new ForegroundColorSpan(Color.DKGRAY), 0, 16, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        String source = "账户ID:\n" + TaoKeApi.userName;
+        SpannableString span = new SpannableString(source);
+        span.setSpan(new RelativeSizeSpan(1.36f), 6, source.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        span.setSpan(new ForegroundColorSpan(Color.DKGRAY), 0, 6, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         accountId.setText(span);
     }
 

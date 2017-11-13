@@ -14,7 +14,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
         android:text="{ion-person-stalker}"
-        android:textColor="@color/blue_600"
+        android:textColor="@color/deep_orange_500"
         android:textSize="@dimen/font_28"
         tools:ignore="HardcodedText" />
 
