@@ -1,11 +1,7 @@
 package com.github.caoyouxin.taoke.ui.activity;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.drawable.Animatable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +12,6 @@ import android.widget.TextView;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.controller.BaseControllerListener;
 import com.facebook.drawee.interfaces.DraweeController;
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.image.ImageInfo;
 import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.api.ApiException;
@@ -82,7 +77,7 @@ public class NoviceActivity extends BaseActivity {
                                         .setControllerListener(new BaseControllerListener<ImageInfo>() {
                                             @Override
                                             public void onFinalImageSet(String id, @Nullable ImageInfo imageInfo, @Nullable Animatable anim) {
-                                                child.setOriginalSize(imageInfo.getWidth(), imageInfo.getHeight());
+                                                child.setOriginalSizeAccordingToWidth(imageInfo.getWidth(), imageInfo.getHeight());
                                             }
 
                                             @Override

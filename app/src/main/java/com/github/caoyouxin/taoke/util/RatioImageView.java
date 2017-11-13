@@ -3,6 +3,8 @@ package com.github.caoyouxin.taoke.util;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -13,6 +15,7 @@ public class RatioImageView extends SimpleDraweeView {
 
     private int originalWidth;
     private int originalHeight;
+    private boolean according2width = true;
 
     public RatioImageView(Context context) {
         super(context);
@@ -26,9 +29,10 @@ public class RatioImageView extends SimpleDraweeView {
         super(context, attrs, defStyleAttr);
     }
 
-    public void setOriginalSize(int originalWidth, int originalHeight) {
+    public void setOriginalSizeAccordingToWidth(int originalWidth, int originalHeight) {
         this.originalWidth = originalWidth;
         this.originalHeight = originalHeight;
+        this.according2width = true;
 
         ViewGroup.LayoutParams layoutParams = getLayoutParams();
         if (layoutParams != null) {
@@ -44,6 +48,25 @@ public class RatioImageView extends SimpleDraweeView {
         }
     }
 
+    public void setOriginalSizeAccordingToHeight(int originalWidth, int originalHeight) {
+        this.originalWidth = originalWidth;
+        this.originalHeight = originalHeight;
+        this.according2width = false;
+
+        ViewGroup.LayoutParams layoutParams = getLayoutParams();
+        if (layoutParams != null) {
+            float ratio = (float) originalWidth / (float) originalHeight;
+
+            int height = layoutParams.height;
+
+            if (height > 0) {
+                layoutParams.width = (int) ((float) height * ratio);
+            }
+
+            setLayoutParams(layoutParams);
+        }
+    }
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         if (originalWidth > 0 && originalHeight > 0) {
@@ -52,8 +75,14 @@ public class RatioImageView extends SimpleDraweeView {
             int width = MeasureSpec.getSize(widthMeasureSpec);
             int height = MeasureSpec.getSize(heightMeasureSpec);
 
-            if (width > 0) {
-                height = (int) ((float) width / ratio);
+            if (this.according2width) {
+                if (width > 0) {
+                    height = (int) ((float) width / ratio);
+                }
+            } else {
+                if (height > 0) {
+                    width = (int) ((float) height * ratio);
+                }
             }
 
             setMeasuredDimension(width, height);

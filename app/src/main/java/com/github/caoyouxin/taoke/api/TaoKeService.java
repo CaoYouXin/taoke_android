@@ -38,6 +38,7 @@ public interface TaoKeService {
     String API_NOVICE_LIST = "app/guide/list";
 
     String API_REPORT = "msg/feedback";
+    String API_SHARE_APP_LIST = "app/share/img/url/list";
 
     @POST("api/{api}")
     Observable<TaoKeData> tao(@Path("api") String api, @Body Object data, @Header("auth") String auth);

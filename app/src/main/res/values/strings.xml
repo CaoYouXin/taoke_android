@@ -119,6 +119,7 @@
     <string name="selected_images">已选 %1$s 张</string>
     <string name="edit_share_text">编辑分享文案</string>
     <string name="share_text">%1$s\n&#160;&#160;【在售价】%2$s元\n&#160;&#160;【券后价】%3$s元\n&#160;&#160;【下单链接】{分享渠道后自动生成链接与口令}</string>
+    <string name="share_app_text">%1$s\n&#160;&#160;【在售价】%2$s元\n&#160;&#160;【券后价】%3$s元\n&#160;&#160;【下单链接】{分享渠道后自动生成链接与口令}</string>
     <string name="share_text_link_hint">{分享渠道后自动生成链接与口令}</string>
     <string name="share_text_link">\n%1$s\n--------------------\n复制这条信息，%2$s，打开【手机淘宝】即可查看</string>
     <string name="share_text_only">仅复制文本文案</string>
@@ -127,7 +128,7 @@
     <string name="share_qrcode_hint">长按识别二维码</string>
     <string name="share_price_before">现价&#160;&#160;¥ %1$s</string>
     <string name="share_coupon">券</string>
-    <string name="share_coupon_value">%1$s元</string>
+    <string name="share_coupon_value">%1$s</string>
     <string name="share_price_after">券后价&#160;¥&#160;%1$s</string>
 
     <string name="account_id">账户ID:  \n头衔</string>
@@ -175,5 +176,7 @@
     <string name="orders_list_explaination">只有已结算订单才会计算预估收入</string>
     <string name="share_earn">分享赚 ¥ %1$s</string>
     <string name="need_report_content">反馈内容不能为空</string>
+    <string name="select_template">选择模板</string>
+    <string name="share_code">邀请码\n -&gt;%1$s&lt;-\n识别二维码可打开含有邀请码的网页</string>
 
 </resources>

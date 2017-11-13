@@ -24,6 +24,7 @@ import com.github.caoyouxin.taoke.ui.activity.FriendsActivity;
 import com.github.caoyouxin.taoke.ui.activity.HelpReportActivity;
 import com.github.caoyouxin.taoke.ui.activity.NoviceActivity;
 import com.github.caoyouxin.taoke.ui.activity.ShareActivity;
+import com.github.caoyouxin.taoke.ui.activity.ShareAppActivity;
 import com.github.caoyouxin.taoke.ui.activity.SplashActivity;
 
 import butterknife.BindView;
@@ -83,7 +84,7 @@ public class AccountFragment extends Fragment {
                 intent = new Intent(getActivity(), FriendsActivity.class);
                 break;
             case R.id.account_btn_share_cmd:
-                intent = new Intent(getActivity(), ShareActivity.class);
+                intent = new Intent(getActivity(), ShareAppActivity.class);
                 break;
             case R.id.sign_out:
                 new AlertDialog.Builder(getActivity()).setPositiveButton(R.string.sign_out, (DialogInterface dialog, int which) -> {

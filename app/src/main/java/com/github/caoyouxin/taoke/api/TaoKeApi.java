@@ -14,6 +14,7 @@ import com.github.caoyouxin.taoke.model.MessageItem;
 import com.github.caoyouxin.taoke.model.Product;
 import com.github.caoyouxin.taoke.model.OrderItem;
 import com.github.caoyouxin.taoke.model.SearchHintItem;
+import com.github.caoyouxin.taoke.model.ShareImage;
 import com.github.caoyouxin.taoke.model.ShareSubmit;
 import com.github.caoyouxin.taoke.model.UserLoginSubmit;
 import com.github.caoyouxin.taoke.model.UserRegisterSubmit;
@@ -38,11 +39,15 @@ public class TaoKeApi {
     private final static String PREF_USER = "user";
     private final static String PREF_USER_NAME = "name";
     private final static String PREF_USER_PID = "aliPid";
-    private final static String CDN_HOST = "http://192.168.0.104:8070/";
+    private final static String PREF_USER_ID = "id";
+    private final static String PREF_USER_SHARE_CODE = "code";
+    private final static String CDN_HOST = "http://192.168.1.103:8070/";
 
     private static String accessToken;
     public static String userName;
     public static String aliPID;
+    public static Long userId;
+    public static String shareCode;
 
     // **** user apis below *******************************************
 
@@ -89,6 +94,8 @@ public class TaoKeApi {
         Map user = (Map) taoKeData.getMap().get(PREF_USER);
         userName = (String) user.get(PREF_USER_NAME);
         aliPID = (String) user.get(PREF_USER_PID);
+        userId = ((Double) user.get(PREF_USER_ID)).longValue();
+        shareCode = (String) user.get(PREF_USER_SHARE_CODE);
     }
 
     private static void cacheToken() {
@@ -97,6 +104,8 @@ public class TaoKeApi {
         editor.putString(PREF_ACCESS_TOKEN, accessToken);
         editor.putString(PREF_USER_NAME, userName);
         editor.putString(PREF_USER_PID, aliPID);
+        editor.putString(PREF_USER_ID, userId + "");
+        editor.putString(PREF_USER_SHARE_CODE, null == shareCode ? "" : shareCode);
         editor.apply();
     }
 
@@ -106,6 +115,8 @@ public class TaoKeApi {
             accessToken = sharedPreferences.getString(PREF_ACCESS_TOKEN, null);
             userName = sharedPreferences.getString(PREF_USER_NAME, null);
             aliPID = sharedPreferences.getString(PREF_USER_PID, null);
+            userId = Long.parseLong(sharedPreferences.getString(PREF_USER_ID, "0"));
+            shareCode = sharedPreferences.getString(PREF_USER_SHARE_CODE, "");
             return true;
         } else {
             return false;
@@ -396,5 +407,21 @@ public class TaoKeApi {
     public static Observable<TaoKeData> sendReport(String reportContent) {
         return TaoKeRetrofit.getService().tao(TaoKeService.API_REPORT, reportContent, accessToken)
                 .compose(RxHelper.handleResult());
+    }
+
+    public static Observable<List<ShareImage>> getShareAppImageList() {
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_SHARE_APP_LIST)
+                .compose(RxHelper.handleResult())
+                .flatMap(taoKeData -> {
+                    List<ShareImage> items = new ArrayList<>();
+                    List<Map> recs = taoKeData.getList();
+                    for (Map rec : recs) {
+                        ShareImage shareImage = new ShareImage();
+                        shareImage.selected = false;
+                        shareImage.thumb = CDN_HOST + rec.get("imgUrl");
+                        items.add(shareImage);
+                    }
+                    return Observable.just(items);
+                });
     }
 }
