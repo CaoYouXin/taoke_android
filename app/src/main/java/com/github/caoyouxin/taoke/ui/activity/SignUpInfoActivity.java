@@ -93,6 +93,7 @@ public class SignUpInfoActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         phone = getIntent().getStringExtra(EXTRA_PHONE);
+        countDown();
 
         TextWatcher textWatcher = new TextWatcher() {
             @Override
@@ -121,18 +122,7 @@ public class SignUpInfoActivity extends BaseActivity {
 
     private void verificationCodeResend() {
         if (verificationCodeResend.getText().equals(getResources().getString(R.string.verification_code_resend))) {
-            verificationCodeResend.setTextColor(getResources().getColor(R.color.grey_400));
-            Observable.intervalRange(1, 60, 0, 1, TimeUnit.SECONDS)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .compose(bindUntilEvent(ActivityEvent.DESTROY))
-                    .subscribe(aLong -> {
-                        if (aLong == 60) {
-                            verificationCodeResend.setText(getResources().getString(R.string.verification_code_resend));
-                            verificationCodeResend.setTextColor(Color.BLACK);
-                        } else {
-                            verificationCodeResend.setText(60 - aLong + "s");
-                        }
-                    });
+            countDown();
             TaoKeApi.verification(phone)
                     .timeout(10, TimeUnit.SECONDS)
                     .compose(RxHelper.rxSchedulerHelper())
@@ -154,6 +144,21 @@ public class SignUpInfoActivity extends BaseActivity {
         }
     }
 
+    private void countDown() {
+        verificationCodeResend.setTextColor(getResources().getColor(R.color.grey_400));
+        Observable.intervalRange(1, 60, 0, 1, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(bindUntilEvent(ActivityEvent.DESTROY))
+                .subscribe(aLong -> {
+                    if (aLong == 60) {
+                        verificationCodeResend.setText(getResources().getString(R.string.verification_code_resend));
+                        verificationCodeResend.setTextColor(Color.BLACK);
+                    } else {
+                        verificationCodeResend.setText(60 - aLong + "s");
+                    }
+                });
+    }
+
     private void signUpFinish() {
         String vcode = verificationCode.getEditableText().toString().trim();
         if (vcode.length() != 6) {
@@ -165,10 +170,11 @@ public class SignUpInfoActivity extends BaseActivity {
             password.requestFocus();
             return;
         }
-        if (TextUtils.isEmpty(nick.getEditableText().toString().trim())) {
-            nick.requestFocus();
-            return;
-        }
+        String name = nick.getEditableText().toString().trim();
+//        if (TextUtils.isEmpty(name)) {
+//            nick.requestFocus();
+//            return;
+//        }
 
         verificationCode.setEnabled(false);
         password.setEnabled(false);
@@ -176,7 +182,7 @@ public class SignUpInfoActivity extends BaseActivity {
         signUpFinish.setVisibility(View.INVISIBLE);
         progress.setVisibility(View.VISIBLE);
 
-        TaoKeApi.signUp(phone, vcode, pwd)
+        TaoKeApi.signUp(phone, vcode, pwd, name)
                 .timeout(10, TimeUnit.SECONDS)
                 .compose(RxHelper.rxSchedulerHelper())
                 .compose(bindUntilEvent(ActivityEvent.DESTROY))

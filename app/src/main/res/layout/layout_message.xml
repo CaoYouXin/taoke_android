@@ -18,7 +18,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/black_alpha_64"
-        android:layout_margin="@dimen/len_8"
+        android:layout_marginTop="@dimen/len_8"
+        android:layout_marginBottom="@dimen/len_8"
         android:textSize="@dimen/font_14"/>
 
     <TextView

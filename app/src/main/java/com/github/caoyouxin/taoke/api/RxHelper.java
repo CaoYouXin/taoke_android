@@ -26,6 +26,7 @@ public class RxHelper {
     static <T extends TaoKeData> ObservableTransformer<T, T> handleResult() {
         return upstream ->
                 upstream.flatMap(t -> {
+                    System.out.println(t.toString());
                     if (t.code.equals(2000)) {
                         return Observable.just(t);
                     } else if (t.code.equals(4010)) {

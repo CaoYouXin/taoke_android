@@ -79,6 +79,9 @@ public class DetailActivity extends BaseActivity {
     @BindView(R.id.coupon_price_wrapper)
     LinearLayout linearLayout;
 
+    @BindView(R.id.detail_coupon_wrapper)
+    LinearLayout detailCouponWrapper;
+
     private CouponItem couponItem;
 
     @Override
@@ -203,11 +206,12 @@ public class DetailActivity extends BaseActivity {
 
         if (null == couponItem.getCouponPrice() || couponItem.getCouponPrice().isEmpty()) {
             linearLayout.setVisibility(View.GONE);
-            detailCoupon.setVisibility(View.GONE);
+            detailCouponWrapper.setVisibility(View.GONE);
 
-            priceBefore.setText(
-                    SpannedTextUtil.buildAmount(this, getResources().getString(R.string.detail_price_before, couponItem.getZkFinalPrice()), '¥', 2)
-            );
+            SpannableStringBuilder builder = SpannedTextUtil.buildAmount(this, getResources().getString(R.string.detail_price_before, couponItem.getZkFinalPrice()), '¥', 2);
+            ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(getResources().getColor(R.color.orange_800));
+            builder.setSpan(foregroundColorSpan, builder.toString().indexOf('¥'), builder.toString().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            priceBefore.setText(builder);
         } else {
             priceAfter.setText(
                     SpannedTextUtil.buildAmount(this, "¥ " + couponItem.getCouponPrice(), '¥', 2)

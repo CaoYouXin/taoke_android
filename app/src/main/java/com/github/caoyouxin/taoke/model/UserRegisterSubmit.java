@@ -8,18 +8,20 @@ public class UserRegisterSubmit {
     public String code;
     public User user;
 
-    public UserRegisterSubmit(String code, String phone, String pwd) {
+    public UserRegisterSubmit(String code, String phone, String pwd, String name) {
         this.code = code;
-        this.user = new User(phone, pwd);
+        this.user = new User(phone, pwd, name);
     }
 
     private static class User {
         public String phone;
         public String pwd;
+        public String name;
 
-        public User(String phone, String pwd) {
+        public User(String phone, String pwd, String name) {
             this.phone = phone;
             this.pwd = pwd;
+            this.name = name;
         }
     }
 }

@@ -17,6 +17,7 @@ import com.github.caoyouxin.taoke.model.SearchHintItem;
 import com.github.caoyouxin.taoke.model.ShareSubmit;
 import com.github.caoyouxin.taoke.model.UserLoginSubmit;
 import com.github.caoyouxin.taoke.model.UserRegisterSubmit;
+import com.github.caoyouxin.taoke.model.UserResetPwdSubmit;
 import com.github.caoyouxin.taoke.util.StringUtils;
 import com.github.gnastnosaj.boilerplate.Boilerplate;
 
@@ -34,7 +35,7 @@ import io.reactivex.Observable;
 public class TaoKeApi {
 
     private final static String PREF_ACCESS_TOKEN = "token";
-    private final static String CDN_HOST = "http://192.168.1.102:8070/";
+    private final static String CDN_HOST = "http://192.168.0.104:8070/";
 
     private static String accessToken;
 
@@ -45,9 +46,9 @@ public class TaoKeApi {
                 .compose(RxHelper.handleResult());
     }
 
-    public static Observable<TaoKeData> signUp(String phone, String verificationCode, String password) {
+    public static Observable<TaoKeData> signUp(String phone, String verificationCode, String password, String name) {
         return TaoKeRetrofit.getService().tao(TaoKeService.API_SIGN_UP,
-                new UserRegisterSubmit(verificationCode, phone, StringUtils.toMD5HexString(password)), null)
+                new UserRegisterSubmit(verificationCode, phone, StringUtils.toMD5HexString(password), name), null)
                 .compose(RxHelper.handleResult())
                 .map(taoKeData -> {
                     accessToken = (String) taoKeData.getMap().get(PREF_ACCESS_TOKEN);
@@ -68,7 +69,7 @@ public class TaoKeApi {
     }
 
     public static Observable<TaoKeData> resetPassword(String phone, String verificationCode, String password) {
-        return TaoKeRetrofit.getService().tao(TaoKeService.API_RESET_PASSWORD, null, null)
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_RESET_PASSWORD, new UserResetPwdSubmit(phone, verificationCode, password), null)
                 .compose(RxHelper.handleResult())
                 .map(taoKeData -> {
                     accessToken = (String) taoKeData.getMap().get(PREF_ACCESS_TOKEN);
