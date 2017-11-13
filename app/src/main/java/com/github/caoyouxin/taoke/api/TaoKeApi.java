@@ -284,15 +284,15 @@ public class TaoKeApi {
                 .compose(RxHelper.handleResult())
                 .map(taoKeData -> {
                     List<HelpItem> items = new ArrayList<>();
-//                    List<Map> recs = (List<Map>) taoKeData.body.get("recs");
-//                    if (recs != null) {
-//                        for (Map rec : recs) {
-//                            HelpItem item = new HelpItem();
-//                            item.q = "Q: " + (String) rec.get("q");
-//                            item.a = (String) rec.get("a");
-//                            items.add(item);
-//                        }
-//                    }
+                    List<Map> recs = taoKeData.getList();
+                    if (recs != null) {
+                        for (Map rec : recs) {
+                            HelpItem item = new HelpItem();
+                            item.q = "Q: " + rec.get("question");
+                            item.a = (String) rec.get("answer");
+                            items.add(item);
+                        }
+                    }
                     return items;
                 });
     }
@@ -393,5 +393,10 @@ public class TaoKeApi {
                     }
                     return Observable.just(items);
                 });
+    }
+
+    public static Observable<TaoKeData> sendReport(String reportContent) {
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_REPORT, reportContent, accessToken)
+                .compose(RxHelper.handleResult());
     }
 }

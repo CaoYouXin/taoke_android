@@ -174,5 +174,6 @@
     <string name="fail_unknown">操作失败，发生未知异常...</string>
     <string name="orders_list_explaination">只有已结算订单才会计算预估收入</string>
     <string name="share_earn">分享赚 ¥ %1$s</string>
+    <string name="need_report_content">反馈内容不能为空</string>
 
 </resources>

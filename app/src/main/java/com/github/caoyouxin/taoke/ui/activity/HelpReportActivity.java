@@ -6,6 +6,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +23,8 @@ import com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity;
 import com.shizhefei.mvc.MVCHelper;
 import com.shizhefei.mvc.MVCNormalHelper;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -69,7 +72,6 @@ public class HelpReportActivity extends BaseActivity {
 
         initHelpList();
 
-        Snackbar.make(findViewById(android.R.id.content), R.string.app_not_release_hint, Snackbar.LENGTH_LONG).show();
     }
 
     private void initHelpList() {
@@ -104,7 +106,7 @@ public class HelpReportActivity extends BaseActivity {
 
         HelpDataSource helpDataSource = new HelpDataSource(this);
 
-        MVCHelper helpListHelper = new MVCNormalHelper(helpList);
+        MVCHelper<List<HelpItem>> helpListHelper = new MVCNormalHelper<>(helpList);
         helpListHelper.setAdapter(helpAdapter);
         helpListHelper.setDataSource(helpDataSource);
 
@@ -130,5 +132,26 @@ public class HelpReportActivity extends BaseActivity {
                 Intent intent = new Intent(this, ReportActivity.class);
                 startActivity(intent);
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        if (keyCode == KeyEvent.KEYCODE_BACK )
+        {
+            if (this.isReadingHelp) {
+                this.helpList.setVisibility(View.VISIBLE);
+                this.reportEntry.setVisibility(View.VISIBLE);
+                this.helpContent.setVisibility(View.GONE);
+                this.helpQ.setText("");
+                this.helpA.setText("");
+                this.isReadingHelp = false;
+                return false;
+            }
+            onBackPressed();
+            return false;
+        }
+
+        return true;
     }
 }

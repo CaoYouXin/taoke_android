@@ -1,12 +1,32 @@
 package com.github.caoyouxin.taoke.ui.activity;
 
+import android.graphics.drawable.Animatable;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.controller.BaseControllerListener;
+import com.facebook.drawee.interfaces.DraweeController;
+import com.facebook.imagepipeline.image.ImageInfo;
 import com.github.caoyouxin.taoke.R;
+import com.github.caoyouxin.taoke.api.ApiException;
+import com.github.caoyouxin.taoke.api.RxHelper;
+import com.github.caoyouxin.taoke.api.TaoKeApi;
+import com.github.caoyouxin.taoke.util.RatioImageView;
 import com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity;
+import com.trello.rxlifecycle2.android.ActivityEvent;
+
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+
+import javax.annotation.Nullable;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,6 +40,9 @@ public class ReportActivity extends BaseActivity {
     @BindView(R.id.handle)
     TextView handle;
 
+    @BindView(R.id.report_text)
+    EditText reportText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,12 +53,45 @@ public class ReportActivity extends BaseActivity {
 
         title.setText(R.string.feedback);
         handle.setText(R.string.submit);
-
-        Snackbar.make(findViewById(android.R.id.content), R.string.app_not_release_hint, Snackbar.LENGTH_LONG).show();
     }
 
-    @OnClick(R.id.back)
+    @OnClick({R.id.back, R.id.handle})
     protected void onBackClick(View view) {
-        onBackPressed();
+        switch (view.getId()) {
+            case R.id.back:
+                onBackPressed();
+                break;
+            case R.id.handle:
+                onSubmitReport();
+                break;
+        }
+    }
+
+    private void onSubmitReport() {
+        String reportContent = reportText.getText().toString().trim();
+        if (TextUtils.isEmpty(reportContent)) {
+            Snackbar.make(findViewById(android.R.id.content), R.string.need_report_content, Snackbar.LENGTH_LONG).show();
+            reportText.requestFocus();
+            return;
+        }
+
+        TaoKeApi.sendReport(reportContent)
+                .timeout(10, TimeUnit.SECONDS)
+                .compose(RxHelper.rxSchedulerHelper())
+                .compose(bindUntilEvent(ActivityEvent.DESTROY))
+                .subscribe(
+                        taoKeData -> {
+
+                        },
+                        throwable -> {
+                            if (throwable instanceof TimeoutException) {
+                                Snackbar.make(findViewById(android.R.id.content), R.string.fail_timeout, Snackbar.LENGTH_LONG).show();
+                            } else if (throwable instanceof ApiException) {
+                                Snackbar.make(findViewById(android.R.id.content), getResources().getString(R.string.fail_message, throwable.getMessage()), Snackbar.LENGTH_LONG).show();
+                            } else {
+                                Snackbar.make(findViewById(android.R.id.content), R.string.fail_network, Snackbar.LENGTH_LONG).show();
+                            }
+                        }
+                );
     }
 }

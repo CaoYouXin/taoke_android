@@ -21,17 +21,22 @@ public interface TaoKeService {
     String API_RESET_PASSWORD = "tbk/user/reset/pwd";
 
     String API_BANNER_LIST = "home/banner/list";
-    String API_HELP_LIST = "helpList";
-    String API_BRAND_LIST = "brandList";
     String API_COUPON_TAB = "home/cate/list";
-    String API_COUPON_LIST = "tbk/coupon/{cid}/{pNo}";
+
+    String API_BRAND_LIST = "brandList";
     String API_MESSAGE_LIST = "messageList";
-    String API_PRODUCT_LIST = "tbk/fav/{favId}/list/{pageNo}";
-    String API_ORDER_LIST = "tbk/order/list/{type}/{pageNo}";
     String API_FRIENDS_LIST = "friendsList";
     String API_SEARCH_HINT_LIST = "searchHintList";
+
+    String API_COUPON_LIST = "tbk/coupon/{cid}/{pNo}";
+    String API_PRODUCT_LIST = "tbk/fav/{favId}/list/{pageNo}";
+    String API_ORDER_LIST = "tbk/order/list/{type}/{pageNo}";
     String API_GET_SHARE_LINK = "tbk/url/trans";
+
+    String API_HELP_LIST = "app/help/list";
     String API_NOVICE_LIST = "app/guide/list";
+
+    String API_REPORT = "msg/feedback";
 
     @POST("api/{api}")
     Observable<TaoKeData> tao(@Path("api") String api, @Body Object data, @Header("auth") String auth);
