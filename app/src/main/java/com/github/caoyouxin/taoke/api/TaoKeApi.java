@@ -342,19 +342,17 @@ public class TaoKeApi {
     }
 
     public static Observable<List<FriendItem>> getFriendsList() {
-        return TaoKeRetrofit.getService().tao(TaoKeService.API_FRIENDS_LIST)
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_FRIENDS_LIST, accessToken)
                 .compose(RxHelper.handleResult())
                 .flatMap(taoKeData -> {
                     List<FriendItem> items = new ArrayList<>();
-//                    List<Map> recs = (List<Map>) taoKeData.body.get("recs");
-//                    if (recs != null) {
-//                        for (Map rec : recs) {
-//                            FriendItem item = new FriendItem();
-//                            item.amount = (Double) rec.get("amount");
-//                            item.name = (String) rec.get("name");
-//                            items.add(item);
-//                        }
-//                    }
+                    List<Map> recs = taoKeData.getList();
+                    for (Map rec : recs) {
+                        FriendItem item = new FriendItem();
+                        item.amount = (String) rec.get("commit");
+                        item.name = (String) rec.get("name");
+                        items.add(item);
+                    }
                     return Observable.just(items);
                 });
     }

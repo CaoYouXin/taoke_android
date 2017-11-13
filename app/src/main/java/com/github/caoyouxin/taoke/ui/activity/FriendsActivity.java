@@ -13,11 +13,14 @@ import com.github.caoyouxin.taoke.adapter.FriendAdapter;
 import com.github.caoyouxin.taoke.adapter.HelpAdapter;
 import com.github.caoyouxin.taoke.datasource.FriendDataSource;
 import com.github.caoyouxin.taoke.datasource.HelpDataSource;
+import com.github.caoyouxin.taoke.model.FriendItem;
 import com.github.caoyouxin.taoke.model.HelpItem;
 import com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity;
 import com.shizhefei.mvc.MVCHelper;
 import com.shizhefei.mvc.MVCNormalHelper;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,7 +46,6 @@ public class FriendsActivity extends BaseActivity {
 
         this.initFriendsList();
 
-        Snackbar.make(findViewById(android.R.id.content), R.string.app_not_release_hint, Snackbar.LENGTH_LONG).show();
     }
 
     private void initFriendsList() {
@@ -55,7 +57,7 @@ public class FriendsActivity extends BaseActivity {
         FriendAdapter friendAdapter = new FriendAdapter(this);
         FriendDataSource friendDataSource = new FriendDataSource(this);
 
-        MVCHelper friendsListHelper = new MVCNormalHelper(friendsList);
+        MVCHelper<List<FriendItem>> friendsListHelper = new MVCNormalHelper<>(friendsList);
         friendsListHelper.setAdapter(friendAdapter);
         friendsListHelper.setDataSource(friendDataSource);
 
