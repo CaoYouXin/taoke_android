@@ -1,40 +1,36 @@
 package com.github.caoyouxin.taoke.ui.fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.Animatable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
-import android.text.style.AbsoluteSizeSpan;
-import android.text.style.ForegroundColorSpan;
+import android.text.InputFilter;
+import android.text.InputType;
+import android.text.Spanned;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.facebook.drawee.backends.pipeline.Fresco;
-import com.facebook.drawee.controller.BaseControllerListener;
-import com.facebook.drawee.interfaces.DraweeController;
-import com.facebook.imagepipeline.image.ImageInfo;
 import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.api.ApiException;
 import com.github.caoyouxin.taoke.api.RxHelper;
 import com.github.caoyouxin.taoke.api.TaoKeApi;
-import com.github.caoyouxin.taoke.ui.activity.NoviceActivity;
 import com.github.caoyouxin.taoke.ui.activity.OrdersActivity;
-import com.github.caoyouxin.taoke.util.RatioImageView;
+import com.github.caoyouxin.taoke.ui.activity.SplashActivity;
 import com.github.caoyouxin.taoke.util.SpannedTextUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
-import org.w3c.dom.Text;
-
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
@@ -61,6 +57,8 @@ public class ChartFragment extends Fragment {
     SmartRefreshLayout smartRefreshLayout;
 
     View rootView;
+
+    private Double userAmountNum;
 
     @Nullable
     @Override
@@ -91,6 +89,7 @@ public class ChartFragment extends Fragment {
                 .subscribe(
                         taoKeData -> {
                             userAmount.setText(SpannedTextUtil.buildAmount(getActivity(), R.string.user_amount, taoKeData, '¥', 2));
+                            userAmountNum = Double.parseDouble(taoKeData);
                         },
                         throwable -> {
                             if (throwable instanceof TimeoutException) {
@@ -126,7 +125,7 @@ public class ChartFragment extends Fragment {
     }
 
     private void initLastMonthEstimate() {
-        TaoKeApi.getUserAmount()
+        TaoKeApi.getLastMonthEstimate()
                 .timeout(10, TimeUnit.SECONDS)
                 .compose(RxHelper.rxSchedulerHelper())
                 .compose(((RxAppCompatActivity) getActivity()).bindUntilEvent(ActivityEvent.DESTROY))
@@ -146,10 +145,95 @@ public class ChartFragment extends Fragment {
                 );
     }
 
-    @OnClick(R.id.orders_detail)
+    private static class DecimalDigitsInputFilter implements InputFilter {
+
+        private EditText context;
+
+        public DecimalDigitsInputFilter(EditText context) {
+            this.context = context;
+        }
+
+        @Override
+        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+            String examStr = this.context.getText().toString() + source.toString();
+            int indexOfDot = examStr.indexOf('.');
+            if (-1 == indexOfDot) {
+                try {
+                    Integer.parseInt(examStr);
+                    return null;
+                } catch (Exception e) {
+                    return "";
+                }
+            } else {
+                String beforeDot = examStr.substring(0, indexOfDot);
+                String afterDot = examStr.substring(indexOfDot + 1);
+
+                if (afterDot.length() > 2) {
+                    return "";
+                }
+
+                if (TextUtils.isEmpty(afterDot)) {
+                    return null;
+                }
+
+                try {
+                    Integer.parseInt(beforeDot);
+                    Integer.parseInt(afterDot);
+                    return null;
+                } catch (Exception e) {
+                    return "";
+                }
+            }
+        }
+    }
+
+    @OnClick({R.id.orders_detail, R.id.withdraw})
     public void onClick(View view) {
-        Intent intent = new Intent(getActivity(), OrdersActivity.class);
-        getActivity().startActivity(intent);
+        switch (view.getId()) {
+            case R.id.orders_detail:
+                Intent intent = new Intent(getActivity(), OrdersActivity.class);
+                getActivity().startActivity(intent);
+                break;
+            case R.id.withdraw:
+                if (this.userAmountNum < 10.0) {
+                    new AlertDialog.Builder(getActivity()).setMessage(R.string.user_amount_threshold).show();
+                    return;
+                }
+
+                EditText input = new EditText(getActivity());
+                input.setFilters(new InputFilter[]{new DecimalDigitsInputFilter(input)});
+                input.setInputType(InputType.TYPE_CLASS_PHONE | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                input.setHint(R.string.how_much_to_withdraw);
+
+                new AlertDialog.Builder(getActivity()).setView(input).setPositiveButton(R.string.withdraw, (DialogInterface dialog, int which) -> {
+                    double withdraw = Double.parseDouble(input.getEditableText().toString().trim());
+                    if (withdraw > userAmountNum) {
+                        new AlertDialog.Builder(getActivity()).setMessage(R.string.user_amount_not_enough).show();
+                        return;
+                    }
+
+                    TaoKeApi.sendWithdraw(String.format(Locale.ENGLISH, "%.2f", withdraw))
+                            .timeout(10, TimeUnit.SECONDS)
+                            .compose(RxHelper.rxSchedulerHelper())
+                            .compose(((RxAppCompatActivity) getActivity()).bindUntilEvent(ActivityEvent.DESTROY))
+                            .subscribe(
+                                    taoKeData -> {
+                                        Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.withdraw_record_created, Snackbar.LENGTH_LONG).show();
+                                    },
+                                    throwable -> {
+                                        if (throwable instanceof TimeoutException) {
+                                            Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.fail_timeout, Snackbar.LENGTH_LONG).show();
+                                        } else if (throwable instanceof ApiException) {
+                                            Snackbar.make(getActivity().findViewById(android.R.id.content), getResources().getString(R.string.fail_message, throwable.getMessage()), Snackbar.LENGTH_LONG).show();
+                                        } else {
+                                            Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.fail_network, Snackbar.LENGTH_LONG).show();
+                                        }
+                                    }
+                            );
+                }).setNegativeButton(R.string.cancel, (DialogInterface dialog, int which) -> dialog.dismiss())
+                        .setMessage(R.string.withdraw_description).show();
+                break;
+        }
     }
 
     private void initRefreshLayout() {

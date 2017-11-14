@@ -438,4 +438,11 @@ public class TaoKeApi {
                 .compose(RxHelper.handleResult())
                 .flatMap(taoKeData -> Observable.just(taoKeData.body.toString()));
     }
+
+    public static Observable<Void> sendWithdraw(String withdraw) {
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_SEND_WITHDRAW
+                .replace("{amount}", withdraw), accessToken)
+                .compose(RxHelper.handleResult())
+                .flatMap(taoKeData -> Observable.just(null));
+    }
 }

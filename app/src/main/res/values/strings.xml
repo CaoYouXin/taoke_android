@@ -68,7 +68,7 @@
     <string name="reset_password_fail_network">重置密码失败，网络连接异常...</string>
     <string name="sign_out">注销</string>
     <string name="sign_out_confirm">确认注销吗？</string>
-    <string name="sign_out_cancel">取消</string>
+    <string name="cancel">取消</string>
 
     <string name="intro_skip">跳过</string>
     <string name="intro_done">立即体验</string>
@@ -186,5 +186,10 @@
     <string name="qq_hint">请输入QQ号，特殊可选</string>
     <string name="wechat_hint">请输入微信号，特殊可选</string>
     <string name="announcement_hint">请说明您申请代理赚钱的理由</string>
+    <string name="user_amount_not_enough">可提现金额不足</string>
+    <string name="how_much_to_withdraw">请输入提现金额</string>
+    <string name="withdraw_record_created">已经为您创建提现申请记录，工作人员会及时与您取得联系</string>
+    <string name="withdraw_description">在此创建提现申请，工作人员会及时与您取得联系</string>
+    <string name="user_amount_threshold">至少10元才可提现</string>
 
 </resources>

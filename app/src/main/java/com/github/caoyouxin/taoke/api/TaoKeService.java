@@ -39,7 +39,7 @@ public interface TaoKeService {
     String API_NOVICE_LIST = "app/guide/list";
     String API_SHARE_APP_LIST = "app/share/img/url/list";
 
-
+    String API_SEND_WITHDRAW = "tbk/withdraw/{amount}";
     String API_USER_AMOUNT = "tbk/candraw";
     String API_THIS_MOUNT_ESTIMATE = "tbk/estimate/this";
     String API_LAST_MOUNT_ESTIMATE = "tbk/estimate/that";

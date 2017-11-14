@@ -17,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.api.TaoKeApi;
@@ -26,7 +25,6 @@ import com.github.caoyouxin.taoke.ui.activity.EnrollActivity;
 import com.github.caoyouxin.taoke.ui.activity.FriendsActivity;
 import com.github.caoyouxin.taoke.ui.activity.HelpReportActivity;
 import com.github.caoyouxin.taoke.ui.activity.NoviceActivity;
-import com.github.caoyouxin.taoke.ui.activity.ShareActivity;
 import com.github.caoyouxin.taoke.ui.activity.ShareAppActivity;
 import com.github.caoyouxin.taoke.ui.activity.SplashActivity;
 
@@ -100,7 +98,7 @@ public class AccountFragment extends Fragment {
                 new AlertDialog.Builder(getActivity()).setPositiveButton(R.string.sign_out, (DialogInterface dialog, int which) -> {
                     startActivity(new Intent(getActivity(), SplashActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                     TaoKeApi.clearToken();
-                }).setNegativeButton(R.string.sign_out_cancel, (DialogInterface dialog, int which) -> dialog.dismiss()).setMessage(R.string.sign_out_confirm).show();
+                }).setNegativeButton(R.string.cancel, (DialogInterface dialog, int which) -> dialog.dismiss()).setMessage(R.string.sign_out_confirm).show();
                 return;
         }
         if (intent != null) {
