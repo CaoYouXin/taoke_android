@@ -16,8 +16,11 @@ import com.github.caoyouxin.taoke.adapter.SearchHintAdapter;
 import com.github.caoyouxin.taoke.datasource.SearchHintDataSource;
 import com.github.caoyouxin.taoke.model.SearchHintItem;
 import com.github.caoyouxin.taoke.ui.activity.SearchActivity;
+import com.github.caoyouxin.taoke.ui.widget.HackyLoadViewFactory;
 import com.shizhefei.mvc.MVCNormalHelper;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,7 +37,7 @@ public class SearchHintFragment extends Fragment {
     RecyclerView searchHintList;
 
     private SearchHintDataSource searchHintDataSource;
-    private MVCNormalHelper searchHintListHelper;
+    private MVCNormalHelper<List<SearchHintItem>> searchHintListHelper;
 
     private String inputNow;
     private SearchActivity context;
@@ -87,7 +90,8 @@ public class SearchHintFragment extends Fragment {
 
         searchHintDataSource = new SearchHintDataSource(getActivity(), this.inputNow);
 
-        searchHintListHelper = new MVCNormalHelper(searchHintList);
+        HackyLoadViewFactory hackyLoadViewFactory = new HackyLoadViewFactory();
+        searchHintListHelper = new MVCNormalHelper<>(searchHintList, hackyLoadViewFactory.madeLoadView(), hackyLoadViewFactory.madeLoadMoreView());
         searchHintListHelper.setAdapter(searchHintAdapter);
         searchHintListHelper.setDataSource(searchHintDataSource);
         this.searchHintListHelper.refresh();

@@ -367,19 +367,58 @@ public class TaoKeApi {
     }
 
     public static Observable<List<SearchHintItem>> getSearchHintList(String inputNow) {
-        return TaoKeRetrofit.getService().tao(TaoKeService.API_SEARCH_HINT_LIST, inputNow, "")
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_HINT_LIST.replace("{keyword}", inputNow))
                 .compose(RxHelper.handleResult())
                 .flatMap(taoKeData -> {
                     List<SearchHintItem> items = new ArrayList<>();
-//                    List<Map> recs = (List<Map>) taoKeData.body.get("recs");
-//                    if (recs != null) {
-//                        for (Map rec : recs) {
-//                            SearchHintItem item = new SearchHintItem();
-//                            item.hint = (String) rec.get("hint");
-//                            items.add(item);
-//                        }
-//                    }
+                    for (String hint : taoKeData.getStringList()) {
+                        SearchHintItem item = new SearchHintItem();
+                        item.hint = hint;
+                        items.add(item);
+                    }
                     return Observable.just(items);
+                });
+    }
+
+    public static Observable<List<CouponItem>> getSearchList(String inputNow) {
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_SEARCH_LIST.replace("{keyword}", inputNow), accessToken)
+                .compose(RxHelper.handleResult())
+                .map(taoKeData -> {
+                    List<CouponItem> items = new ArrayList<>();
+                    List<Map> recs = taoKeData.getList();
+                    for (Map rec : recs) {
+                        CouponItem item = new CouponItem();
+
+                        item.setCategory(((Double) rec.get("category")).longValue());
+                        item.setCouponRemainCount(((Double) rec.get("couponRemainCount")).longValue());
+                        item.setCouponTotalCount(((Double) rec.get("couponTotalCount")).longValue());
+                        item.setUserType(((Double) rec.get("userType")).longValue());
+                        item.setNumIid(((Double) rec.get("numIid")).longValue());
+                        item.setSellerId(((Double) rec.get("sellerId")).longValue());
+                        item.setVolume(((Double) rec.get("volume")).longValue());
+                        item.setSmallImages((List<String>) rec.get("smallImages"));
+                        item.setCommissionRate((String) rec.get("commissionRate"));
+                        item.setCouponClickUrl((String) rec.get("couponClickUrl"));
+                        item.setCouponEndTime((String) rec.get("couponEndTime"));
+                        item.setCouponInfo((String) rec.get("couponInfo"));
+                        item.setCouponStartTime((String) rec.get("couponStartTime"));
+                        item.setZkFinalPrice((String) rec.get("zkFinalPrice"));
+                        item.setItemUrl((String) rec.get("itemUrl"));
+                        item.setNick((String) rec.get("nick"));
+                        item.setPictUrl((String) rec.get("pictUrl"));
+                        item.setTitle((String) rec.get("title"));
+                        item.setShopTitle((String) rec.get("shopTitle"));
+                        item.setItemDescription((String) rec.get("itemDescription"));
+
+                        int start = item.getCouponInfo().indexOf('减') + 1;
+                        int end = item.getCouponInfo().indexOf('元', start);
+                        double couponPrice = Double.parseDouble(item.getZkFinalPrice()) - Double.parseDouble(item.getCouponInfo().substring(start, end));
+                        item.setCouponPrice(String.format(Locale.ENGLISH, "%.2f", couponPrice));
+                        item.setEarnPrice(String.format(Locale.ENGLISH, "%.2f", Double.parseDouble((String) rec.get("commissionRate")) * couponPrice / 100));
+
+                        items.add(item);
+                    }
+                    return items;
                 });
     }
 

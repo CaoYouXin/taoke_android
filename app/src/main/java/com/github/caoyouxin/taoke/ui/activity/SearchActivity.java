@@ -75,10 +75,12 @@ public class SearchActivity extends BaseActivity implements TextView.OnEditorAct
 
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-        if(actionId == EditorInfo.IME_ACTION_SEARCH){
+        if(actionId == EditorInfo.IME_ACTION_SEARCH
+                || actionId == EditorInfo.IME_ACTION_DONE
+                || actionId == EditorInfo.IME_ACTION_GO){
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-            this.showSearchResult();
+            this.showSearchResult(v.getText().toString());
             return true;
         }
         return false;
@@ -95,15 +97,24 @@ public class SearchActivity extends BaseActivity implements TextView.OnEditorAct
         ft.commit();
     }
 
-    private void showSearchResult() {
+    private void showSearchResult(String inputNow) {
         if (null == this.searchResultFragment) {
             this.searchResultFragment = new SearchResultFragment().setSearchActivity(gestureDetector);
         }
 
         FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.search_content, this.searchResultFragment);
-        ft.commit();
+        Fragment fragmentById = fm.findFragmentById(R.id.search_content);
+
+        if (null != fragmentById && fragmentById instanceof SearchResultFragment) {
+
+            this.searchResultFragment.setSearchKeywordAndUpdate(inputNow);
+        } else {
+
+            this.searchResultFragment.setSearchKeyword(inputNow);
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.replace(R.id.search_content, this.searchResultFragment);
+            ft.commit();
+        }
     }
 
     private void showSearchHint(String inputNow) {

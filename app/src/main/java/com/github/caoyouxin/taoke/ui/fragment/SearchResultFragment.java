@@ -18,11 +18,14 @@ import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.adapter.CouponAdapter;
 import com.github.caoyouxin.taoke.datasource.CouponDataSource;
 import com.github.caoyouxin.taoke.datasource.ProductDataSource;
+import com.github.caoyouxin.taoke.datasource.SearchCouponDataSource;
 import com.github.caoyouxin.taoke.model.CouponItem;
 import com.github.caoyouxin.taoke.ui.activity.DetailActivity;
 import com.github.caoyouxin.taoke.ui.widget.HackyLoadViewFactory;
 import com.mikepenz.iconics.view.IconicsTextView;
 import com.shizhefei.mvc.MVCNormalHelper;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,8 +60,24 @@ public class SearchResultFragment extends Fragment {
 
     View rootView;
 
-    private int sort;
+    private int sort = SearchCouponDataSource.SORT_MULTIPLE;
     private GestureDetector gestureDetector;
+
+    private String searchKeyword;
+
+    public void setSearchKeyword(String searchKeyword) {
+        this.searchKeyword = searchKeyword;
+    }
+
+    public void setSearchKeywordAndUpdate(String searchKeyword) {
+        this.searchKeyword = searchKeyword;
+        this.couponDataSource.setCache(null).setSort(SearchCouponDataSource.SORT_MULTIPLE).setKeyword(searchKeyword);
+        this.couponListHelper.refresh();
+    }
+
+    private CouponAdapter couponAdapter;
+    private SearchCouponDataSource couponDataSource;
+    private MVCNormalHelper<List<CouponItem>> couponListHelper;
 
     public SearchResultFragment setSearchActivity(GestureDetector gestureDetector) {
         this.gestureDetector = gestureDetector;
@@ -78,7 +97,6 @@ public class SearchResultFragment extends Fragment {
 
             initCouponList();
 
-            Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.app_not_release_hint, Snackbar.LENGTH_LONG).show();
         }
         return rootView;
     }
@@ -87,9 +105,8 @@ public class SearchResultFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         couponList.setLayoutManager(layoutManager);
-        //couponList.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity()).size(1).build());
 
-        CouponAdapter couponAdapter = new CouponAdapter(getActivity());
+        couponAdapter = new CouponAdapter(getActivity());
 
         couponList.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener() {
             @Override
@@ -109,11 +126,11 @@ public class SearchResultFragment extends Fragment {
             }
         });
 
-        CouponDataSource couponDataSource = new CouponDataSource(getActivity());
+        couponDataSource = new SearchCouponDataSource(getActivity());
+        couponDataSource.setKeyword(this.searchKeyword).setSort(SearchCouponDataSource.SORT_MULTIPLE).setCache(null);
 
-        //hacky to remove mvchelper loadview loadmoreview
         HackyLoadViewFactory hackyLoadViewFactory = new HackyLoadViewFactory();
-        MVCNormalHelper couponListHelper = new MVCNormalHelper(couponList, hackyLoadViewFactory.madeLoadView(), hackyLoadViewFactory.madeLoadMoreView());
+        couponListHelper = new MVCNormalHelper<>(couponList, hackyLoadViewFactory.madeLoadView(), hackyLoadViewFactory.madeLoadMoreView());
         couponListHelper.setAdapter(couponAdapter);
         couponListHelper.setDataSource(couponDataSource);
 
@@ -131,28 +148,31 @@ public class SearchResultFragment extends Fragment {
 
         switch (view.getId()) {
             case R.id.sort_multiple_wrapper:
-                sort = ProductDataSource.SORT_MULTIPLE;
+                sort = SearchCouponDataSource.SORT_MULTIPLE;
                 sortMultiple.setTextColor(getResources().getColor(R.color.grey_900));
                 break;
             case R.id.sort_sales_wrapper:
-                sort = ProductDataSource.SORT_SALES;
+                sort = SearchCouponDataSource.SORT_SALES;
                 sortSales.setTextColor(getResources().getColor(R.color.grey_900));
                 break;
             case R.id.sort_price_wrapper:
-                if (sort == ProductDataSource.SORT_PRICE_UP) {
-                    sort = ProductDataSource.SORT_PRICE_DOWN;
+                if (sort == SearchCouponDataSource.SORT_PRICE_UP) {
+                    sort = SearchCouponDataSource.SORT_PRICE_DOWN;
                     sortPriceDown.setTextColor(getResources().getColor(R.color.grey_900));
                 } else {
-                    sort = ProductDataSource.SORT_PRICE_UP;
+                    sort = SearchCouponDataSource.SORT_PRICE_UP;
                     sortPriceUp.setTextColor(getResources().getColor(R.color.grey_900));
                 }
                 sortPrice.setTextColor(getResources().getColor(R.color.grey_900));
                 break;
             case R.id.sort_commission_wrapper:
-                sort = ProductDataSource.SORT_COMMISSION;
+                sort = SearchCouponDataSource.SORT_COMMISSION;
                 sortCommission.setTextColor(getResources().getColor(R.color.grey_900));
                 break;
         }
+
+        couponDataSource.setSort(sort).setCache(couponAdapter.getData());
+        couponListHelper.refresh();
     }
 
 }
