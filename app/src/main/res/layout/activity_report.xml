@@ -9,10 +9,12 @@
     <EditText
         android:id="@+id/report_text"
         android:gravity="top"
+        android:minLines="3"
+        android:maxLines="30"
         android:scrollbars="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:inputType="text"
+        android:inputType="textMultiLine"
         android:background="@drawable/border_1px_with_pad"/>
 
 </LinearLayout>

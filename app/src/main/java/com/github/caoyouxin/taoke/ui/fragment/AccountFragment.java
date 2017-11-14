@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.api.TaoKeApi;
 import com.github.caoyouxin.taoke.ui.activity.AboutActivity;
+import com.github.caoyouxin.taoke.ui.activity.EnrollActivity;
 import com.github.caoyouxin.taoke.ui.activity.FriendsActivity;
 import com.github.caoyouxin.taoke.ui.activity.HelpReportActivity;
 import com.github.caoyouxin.taoke.ui.activity.NoviceActivity;
@@ -78,8 +79,8 @@ public class AccountFragment extends Fragment {
                     Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.already_enrolled, Snackbar.LENGTH_LONG).show();
                     return;
                 }
-                Toast.makeText(getActivity(), "clicked enroll", Toast.LENGTH_LONG).show();
-                return;
+                intent = new Intent(getActivity(), EnrollActivity.class);
+                break;
             case R.id.account_btn_newer_guide:
                 intent = new Intent(getActivity(), NoviceActivity.class);
                 break;
