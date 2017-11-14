@@ -7,6 +7,7 @@ import com.github.caoyouxin.taoke.datasource.OrderDataSource;
 import com.github.caoyouxin.taoke.model.BrandItem;
 import com.github.caoyouxin.taoke.model.CouponItem;
 import com.github.caoyouxin.taoke.model.CouponTab;
+import com.github.caoyouxin.taoke.model.EnrollSubmit;
 import com.github.caoyouxin.taoke.model.FriendItem;
 import com.github.caoyouxin.taoke.model.HelpItem;
 import com.github.caoyouxin.taoke.model.HomeBtn;
@@ -48,6 +49,7 @@ public class TaoKeApi {
     public static String aliPID;
     public static Long userId;
     public static String shareCode;
+    public static EnrollSubmit enrollSubmit;
 
     // **** user apis below *******************************************
 
@@ -439,10 +441,14 @@ public class TaoKeApi {
                 .flatMap(taoKeData -> Observable.just(taoKeData.body.toString()));
     }
 
-    public static Observable<Void> sendWithdraw(String withdraw) {
+    public static Observable<TaoKeData> sendWithdraw(String withdraw) {
         return TaoKeRetrofit.getService().tao(TaoKeService.API_SEND_WITHDRAW
                 .replace("{amount}", withdraw), accessToken)
-                .compose(RxHelper.handleResult())
-                .flatMap(taoKeData -> Observable.just(null));
+                .compose(RxHelper.handleResult());
+    }
+
+    public static Observable<TaoKeData> enroll(EnrollSubmit enrollSubmit) {
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_ENROLL, enrollSubmit, accessToken)
+                .compose(RxHelper.handleResult());
     }
 }

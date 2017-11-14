@@ -18,6 +18,7 @@ import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.api.ApiException;
 import com.github.caoyouxin.taoke.api.RxHelper;
 import com.github.caoyouxin.taoke.api.TaoKeApi;
+import com.github.caoyouxin.taoke.model.EnrollSubmit;
 import com.github.caoyouxin.taoke.util.RegUtils;
 import com.github.gnastnosaj.boilerplate.util.keyboard.BaseActivity;
 import com.trello.rxlifecycle2.android.ActivityEvent;
@@ -40,6 +41,9 @@ public class EnrollActivity extends BaseActivity {
 
     @BindView(R.id.enroll)
     TextView enroll;
+
+    @BindView(R.id.name)
+    EditText name;
 
     @BindView(R.id.alipay)
     EditText alipay;
@@ -74,7 +78,8 @@ public class EnrollActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (!TextUtils.isEmpty(alipay.getEditableText().toString().trim()) && (
+                if (!TextUtils.isEmpty(name.getEditableText().toString().trim())
+                        && !TextUtils.isEmpty(alipay.getEditableText().toString().trim()) && (
                         !TextUtils.isEmpty(qq.getEditableText().toString().trim()) ||
                                 !TextUtils.isEmpty(wechat.getEditableText().toString().trim())
                         ) && !TextUtils.isEmpty(announcement.getEditableText().toString().trim())) {
@@ -85,9 +90,18 @@ public class EnrollActivity extends BaseActivity {
             }
         };
 
+        name.addTextChangedListener(textWatcher);
         alipay.addTextChangedListener(textWatcher);
         qq.addTextChangedListener(textWatcher);
         wechat.addTextChangedListener(textWatcher);
+        announcement.addTextChangedListener(textWatcher);
+
+        EnrollSubmit enrollSubmit = EnrollSubmit.get();
+        name.setText(enrollSubmit.realName);
+        alipay.setText(enrollSubmit.aliPayId);
+        qq.setText(enrollSubmit.qqId);
+        wechat.setText(enrollSubmit.weChatId);
+        announcement.setText(enrollSubmit.announcement);
     }
 
     @OnClick({R.id.back, R.id.enroll})
@@ -103,51 +117,66 @@ public class EnrollActivity extends BaseActivity {
     }
 
     private void enroll() {
-//        String phoneNo = phone.getEditableText().toString().trim();
-//        if (TextUtils.isEmpty(phoneNo) || !RegUtils.isMobile(phoneNo)) {
-//            phone.requestFocus();
-//            return;
-//        }
-//        String pwd = password.getEditableText().toString().trim();
-//        if (pwd.length() < 6) {
-//            password.requestFocus();
-//            return;
-//        }
+        String nameStr = name.getEditableText().toString().trim();
+        if (TextUtils.isEmpty(nameStr)) {
+            name.requestFocus();
+            return;
+        }
+        String alipayId = alipay.getEditableText().toString().trim();
+        if (TextUtils.isEmpty(alipayId)) {
+            alipay.requestFocus();
+            return;
+        }
+        String qqId = qq.getEditableText().toString().trim();
+        String wechatId = wechat.getEditableText().toString().trim();
+        if (TextUtils.isEmpty(qqId) && TextUtils.isEmpty(wechatId)) {
+            if (TextUtils.isEmpty(qqId)) {
+                qq.requestFocus();
+            } else {
+                wechat.requestFocus();
+            }
+            return;
+        }
+        String announcementText = announcement.getEditableText().toString().trim();
+        if (TextUtils.isEmpty(announcementText)) {
+            announcement.requestFocus();
+            return;
+        }
 
         alipay.setEnabled(false);
         qq.setEnabled(false);
         wechat.setEnabled(false);
+        announcement.setEnabled(false);
         enroll.setVisibility(View.INVISIBLE);
         progress.setVisibility(View.VISIBLE);
 
-//        TaoKeApi.signIn(phoneNo, pwd)
-//                .timeout(10, TimeUnit.SECONDS)
-//                .compose(RxHelper.rxSchedulerHelper())
-//                .compose(bindUntilEvent(ActivityEvent.DESTROY))
-//                .subscribe(
-//                        taoKeData -> {
-//                            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-//                            if (sharedPreferences.getBoolean(IntroActivity.INTRO_READ, false)) {
-//                                startActivity(new Intent(this, TaoKeActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-//                            } else {
-//                                startActivity(new Intent(this, IntroActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-//                            }
-//                        },
-//                        throwable -> {
-////                            phone.setEnabled(true);
-////                            password.setEnabled(true);
-////                            signIn.setVisibility(View.VISIBLE);
-//                            progress.setVisibility(View.INVISIBLE);
-//
-//                            if (throwable instanceof TimeoutException) {
-//                                Snackbar.make(progress, R.string.fail_timeout, Snackbar.LENGTH_LONG).show();
-//                            } else if (throwable instanceof ApiException) {
-//                                Snackbar.make(progress, getResources().getString(R.string.fail_message, throwable.getMessage()), Snackbar.LENGTH_LONG).show();
-//                            } else {
-//                                Snackbar.make(progress, R.string.fail_network, Snackbar.LENGTH_LONG).show();
-//                            }
-//                        }
-//                );
+        final EnrollSubmit enrollSubmit = new EnrollSubmit(nameStr, alipayId, qqId, wechatId, announcementText);
+        TaoKeApi.enroll(enrollSubmit)
+                .timeout(10, TimeUnit.SECONDS)
+                .compose(RxHelper.rxSchedulerHelper())
+                .compose(bindUntilEvent(ActivityEvent.DESTROY))
+                .subscribe(
+                        taoKeData -> {
+                            enrollSubmit.persist();
+                            onBackPressed();
+                        },
+                        throwable -> {
+                            alipay.setEnabled(true);
+                            qq.setEnabled(true);
+                            wechat.setEnabled(true);
+                            announcement.setEnabled(true);
+                            enroll.setVisibility(View.VISIBLE);
+                            progress.setVisibility(View.INVISIBLE);
+
+                            if (throwable instanceof TimeoutException) {
+                                Snackbar.make(progress, R.string.fail_timeout, Snackbar.LENGTH_LONG).show();
+                            } else if (throwable instanceof ApiException) {
+                                Snackbar.make(progress, getResources().getString(R.string.fail_message, throwable.getMessage()), Snackbar.LENGTH_LONG).show();
+                            } else {
+                                Snackbar.make(progress, R.string.fail_network, Snackbar.LENGTH_LONG).show();
+                            }
+                        }
+                );
     }
 
     @Override

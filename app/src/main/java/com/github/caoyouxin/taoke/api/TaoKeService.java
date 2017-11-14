@@ -44,6 +44,8 @@ public interface TaoKeService {
     String API_THIS_MOUNT_ESTIMATE = "tbk/estimate/this";
     String API_LAST_MOUNT_ESTIMATE = "tbk/estimate/that";
 
+    String API_ENROLL = "tbk/user/apply/4/agent";
+
     @POST("api/{api}")
     Observable<TaoKeData> tao(@Path("api") String api, @Body Object data, @Header("auth") String auth);
 

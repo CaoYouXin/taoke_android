@@ -191,5 +191,6 @@
     <string name="withdraw_record_created">已经为您创建提现申请记录，工作人员会及时与您取得联系</string>
     <string name="withdraw_description">在此创建提现申请，工作人员会及时与您取得联系</string>
     <string name="user_amount_threshold">至少10元才可提现</string>
+    <string name="name_hint">请输入您的真实姓名</string>
 
 </resources>
