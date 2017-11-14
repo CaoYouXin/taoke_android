@@ -19,8 +19,10 @@ import com.github.caoyouxin.taoke.model.OrderItem;
 import com.github.caoyouxin.taoke.ui.widget.HackyLoadViewFactory;
 import com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.shizhefei.mvc.IDataAdapter;
 import com.shizhefei.mvc.MVCHelper;
 import com.shizhefei.mvc.MVCNormalHelper;
+import com.shizhefei.mvc.OnStateChangeListener;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.util.List;
@@ -98,6 +100,8 @@ public class OrdersActivity extends BaseActivity {
 
         this.initRefreshLayout();
 
+        createDynamicBox(findViewById(R.id.order_list));
+
         Snackbar.make(findViewById(android.R.id.content), R.string.orders_list_explaination, Snackbar.LENGTH_LONG).show();
     }
 
@@ -114,6 +118,27 @@ public class OrdersActivity extends BaseActivity {
         this.orderListHelper = new MVCNormalHelper<>(this.orderList, hackyLoadViewFactory.madeLoadView(), hackyLoadViewFactory.madeLoadMoreView());
         this.orderListHelper.setAdapter(orderAdapter);
         this.orderListHelper.setDataSource(this.orderDataSource);
+        this.orderListHelper.setOnStateChangeListener(new OnStateChangeListener<List<OrderItem>>() {
+            @Override
+            public void onStartLoadMore(IDataAdapter<List<OrderItem>> adapter) {
+
+            }
+
+            @Override
+            public void onEndLoadMore(IDataAdapter<List<OrderItem>> adapter, List<OrderItem> result) {
+
+            }
+
+            @Override
+            public void onStartRefresh(IDataAdapter<List<OrderItem>> adapter) {
+                showDynamicBoxCustomView(DYNAMIC_BOX_MK_LINESPINNER, OrdersActivity.this);
+            }
+
+            @Override
+            public void onEndRefresh(IDataAdapter<List<OrderItem>> adapter, List<OrderItem> result) {
+                dismissDynamicBox(OrdersActivity.this);
+            }
+        });
 
         this.orderListHelper.refresh();
     }

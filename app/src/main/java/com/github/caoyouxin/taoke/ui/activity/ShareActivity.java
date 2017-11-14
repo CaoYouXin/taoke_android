@@ -17,6 +17,7 @@ import android.text.SpannableStringBuilder;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StrikethroughSpan;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.EditText;
@@ -60,6 +61,7 @@ import timber.log.Timber;
 
 public class ShareActivity extends BaseActivity {
     public final static String EXTRA_COUPON_ITEM = "couponItem";
+    private final static String MY_DYN_VIEW_TAG = "WAITING_FOR_DOWNLOAD";
 
     @BindView(R.id.title)
     TextView title;
@@ -107,6 +109,7 @@ public class ShareActivity extends BaseActivity {
     private CouponItem couponItem;
     private String link;
     private ShareImageAdapter shareImageAdapter;
+    private boolean busy = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,8 +121,6 @@ public class ShareActivity extends BaseActivity {
 
         couponItem = getIntent().getParcelableExtra(EXTRA_COUPON_ITEM);
 
-        createDynamicBox();
-
         title.setText(R.string.share_title);
         handle.setText(R.string.share_submit);
         shareText.setText(getResources().getString(R.string.share_text, couponItem.getTitle(), couponItem.getZkFinalPrice(), couponItem.getCouponPrice()));
@@ -127,18 +128,32 @@ public class ShareActivity extends BaseActivity {
         initShareImageList();
 
         initViewStub();
+
+        createDynamicBox();
+
+//        createDynamicBox().addCustomView(
+//                LayoutInflater.from(this).inflate(R.layout.dyn_waiting_for_download, null), MY_DYN_VIEW_TAG
+//        );
     }
 
     @OnClick({R.id.back, R.id.handle, R.id.share_text_only})
     protected void onBackClick(View view) {
+        if (this.busy) {
+            return;
+        }
+
         switch (view.getId()) {
             case R.id.back:
                 onBackPressed();
                 break;
             case R.id.handle:
+                showDynamicBoxCustomView(DYNAMIC_BOX_MK_LINESPINNER, ShareActivity.this);
+                this.busy = true;
                 shareText(false);
                 break;
             case R.id.share_text_only:
+                showDynamicBoxCustomView(DYNAMIC_BOX_MK_LINESPINNER, ShareActivity.this);
+                this.busy = true;
                 shareText(true);
                 break;
         }
@@ -148,6 +163,8 @@ public class ShareActivity extends BaseActivity {
         String text2Share = shareText.getText().toString().trim();
         if (text2Share.isEmpty()) {
             Snackbar.make(findViewById(android.R.id.content), R.string.atleast_share_one, Snackbar.LENGTH_LONG).show();
+            dismissDynamicBox(ShareActivity.this);
+            this.busy = false;
             return;
         }
 
@@ -168,6 +185,8 @@ public class ShareActivity extends BaseActivity {
 
                 ShareParamText shareParamText = new ShareParamText(getResources().getString(R.string.share_title), finalText2Share);
                 ShareHelper.share(ShareActivity.this, shareParamText);
+                dismissDynamicBox(ShareActivity.this);
+                ShareActivity.this.busy = false;
             } else {
 
                 shareImages();
@@ -179,14 +198,20 @@ public class ShareActivity extends BaseActivity {
                 linkConsumer.accept(this.link);
             } catch (Exception e) {
                 Snackbar.make(findViewById(android.R.id.content), R.string.fail_unknown, Snackbar.LENGTH_LONG).show();
+                dismissDynamicBox(ShareActivity.this);
+                this.busy = false;
                 return;
             }
+            dismissDynamicBox(ShareActivity.this);
+            this.busy = false;
             return;
         }
 
         String userLink = null != couponItem.getCouponClickUrl() ? couponItem.getCouponClickUrl() : couponItem.getTkLink();
         if (null == userLink || userLink.isEmpty()) {
             Snackbar.make(findViewById(android.R.id.content), R.string.fail_unknown, Snackbar.LENGTH_LONG).show();
+            dismissDynamicBox(ShareActivity.this);
+            this.busy = false;
             return;
         }
 
@@ -202,6 +227,8 @@ public class ShareActivity extends BaseActivity {
                     } else {
                         Snackbar.make(findViewById(android.R.id.content), R.string.fail_network, Snackbar.LENGTH_LONG).show();
                     }
+                    dismissDynamicBox(ShareActivity.this);
+                    ShareActivity.this.busy = false;
                 });
     }
 
@@ -303,10 +330,10 @@ public class ShareActivity extends BaseActivity {
 
         if (observables.isEmpty()) {
             Snackbar.make(findViewById(android.R.id.content), R.string.atleast_select_one, Snackbar.LENGTH_LONG).show();
+            dismissDynamicBox(ShareActivity.this);
+            this.busy = false;
             return;
         }
-
-        showDynamicBoxCustomView(DYNAMIC_BOX_AV_PACMAN, ShareActivity.this);
 
         Observable.zip(observables, objects -> {
             List<String> thumbs = new ArrayList<>();
@@ -383,9 +410,11 @@ public class ShareActivity extends BaseActivity {
                         ShareHelper.share(this, shareParamImage);
                     }
                     dismissDynamicBox(ShareActivity.this);
+                    ShareActivity.this.busy = false;
                 }, throwable -> {
                     Timber.e(throwable);
                     dismissDynamicBox(ShareActivity.this);
+                    ShareActivity.this.busy = false;
                 });
     }
 

@@ -77,6 +77,7 @@ public class ShareAppActivity extends BaseActivity {
     TextView shareCode;
 
     private ShareAppImageAdapter shareImageAdapter;
+    private boolean busy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,11 +99,17 @@ public class ShareAppActivity extends BaseActivity {
 
     @OnClick({R.id.back, R.id.handle})
     protected void onBackClick(View view) {
+        if (this.busy) {
+            return;
+        }
+
         switch (view.getId()) {
             case R.id.back:
                 onBackPressed();
                 break;
             case R.id.handle:
+                showDynamicBoxCustomView(DYNAMIC_BOX_MK_LINESPINNER, ShareAppActivity.this);
+                this.busy = true;
                 shareImages();
                 break;
         }
@@ -170,10 +177,10 @@ public class ShareAppActivity extends BaseActivity {
 
         if (observables.isEmpty()) {
             Snackbar.make(findViewById(android.R.id.content), R.string.atleast_select_one, Snackbar.LENGTH_LONG).show();
+            dismissDynamicBox(ShareAppActivity.this);
+            this.busy = false;
             return;
         }
-
-        showDynamicBoxCustomView(DYNAMIC_BOX_AV_PACMAN, ShareAppActivity.this);
 
         Observable.zip(observables, objects -> {
             List<String> thumbs = new ArrayList<>();
@@ -250,9 +257,11 @@ public class ShareAppActivity extends BaseActivity {
                         ShareHelper.share(this, shareParamImage);
                     }
                     dismissDynamicBox(ShareAppActivity.this);
+                    ShareAppActivity.this.busy = false;
                 }, throwable -> {
                     Timber.e(throwable);
                     dismissDynamicBox(ShareAppActivity.this);
+                    ShareAppActivity.this.busy = false;
                 });
     }
 
