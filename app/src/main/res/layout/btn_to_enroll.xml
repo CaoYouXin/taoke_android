@@ -5,7 +5,7 @@
     android:layout_height="50dp"
     android:orientation="horizontal"
     android:background="@drawable/tab_ripple"
-    android:id="@+id/account_btn_friends">
+    android:id="@+id/account_btn_enroll">
 
     <com.mikepenz.iconics.view.IconicsTextView
         android:layout_width="25dp"
@@ -13,8 +13,8 @@
         android:layout_height="match_parent"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
-        android:text="{ion-person-stalker}"
-        android:textColor="@color/deep_orange_300"
+        android:text="{ion-fork-repo}"
+        android:textColor="@color/blue_grey_600"
         android:textSize="@dimen/font_28"
         tools:ignore="HardcodedText" />
 
@@ -26,7 +26,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:textSize="@dimen/font_18"
-        android:text="@string/friends" />
+        android:text="@string/enroll" />
 
     <com.mikepenz.iconics.view.IconicsTextView
         android:layout_width="wrap_content"

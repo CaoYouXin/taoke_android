@@ -27,7 +27,6 @@ public class AboutActivity extends BaseActivity {
 
         title.setText(R.string.about);
 
-        Snackbar.make(findViewById(android.R.id.content), R.string.app_not_release_hint, Snackbar.LENGTH_LONG).show();
     }
 
     @OnClick(R.id.back)

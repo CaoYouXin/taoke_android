@@ -179,5 +179,7 @@
     <string name="select_template">选择模板</string>
     <string name="share_code">邀请码\n -&gt;%1$s&lt;-\n识别二维码可打开含有邀请码的网页</string>
     <string name="waiting_for_download">您要分享的图片正在下载中，文案已经复制到粘贴板</string>
+    <string name="enroll">申请代理</string>
+    <string name="already_enrolled">您已经是代理了，无需再申请</string>
 
 </resources>

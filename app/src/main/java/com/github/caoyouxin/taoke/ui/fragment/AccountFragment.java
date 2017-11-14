@@ -10,12 +10,14 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.api.TaoKeApi;
@@ -67,10 +69,17 @@ public class AccountFragment extends Fragment {
         accountId.setText(span);
     }
 
-    @OnClick({R.id.account_btn_about, R.id.account_btn_help_report, R.id.account_btn_newer_guide, R.id.account_btn_share_cmd, R.id.account_btn_friends, R.id.sign_out})
+    @OnClick({R.id.account_btn_enroll, R.id.account_btn_about, R.id.account_btn_help_report, R.id.account_btn_newer_guide, R.id.account_btn_share_cmd, R.id.account_btn_friends, R.id.sign_out})
     protected void onToolClick(View view) {
         Intent intent = null;
         switch (view.getId()) {
+            case R.id.account_btn_enroll:
+                if (!(TextUtils.isEmpty(TaoKeApi.aliPID) || TextUtils.isEmpty(TaoKeApi.shareCode))) {
+                    Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.already_enrolled, Snackbar.LENGTH_LONG).show();
+                    return;
+                }
+                Toast.makeText(getActivity(), "clicked enroll", Toast.LENGTH_LONG).show();
+                return;
             case R.id.account_btn_newer_guide:
                 intent = new Intent(getActivity(), NoviceActivity.class);
                 break;
