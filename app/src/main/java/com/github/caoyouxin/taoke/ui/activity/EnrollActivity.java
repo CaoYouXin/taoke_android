@@ -50,6 +50,9 @@ public class EnrollActivity extends BaseActivity {
     @BindView(R.id.wechat)
     EditText wechat;
 
+    @BindView(R.id.announcement)
+    EditText announcement;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +77,7 @@ public class EnrollActivity extends BaseActivity {
                 if (!TextUtils.isEmpty(alipay.getEditableText().toString().trim()) && (
                         !TextUtils.isEmpty(qq.getEditableText().toString().trim()) ||
                                 !TextUtils.isEmpty(wechat.getEditableText().toString().trim())
-                        )) {
+                        ) && !TextUtils.isEmpty(announcement.getEditableText().toString().trim())) {
                     enroll.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
                 } else {
                     enroll.setTextColor(getResources().getColor(R.color.colorPrimary));
@@ -149,6 +152,6 @@ public class EnrollActivity extends BaseActivity {
 
     @Override
     public int[] hideSoftByEditViewIds() {
-        return new int[]{R.id.alipay, R.id.qq, R.id.wechat};
+        return new int[]{R.id.alipay, R.id.qq, R.id.wechat, R.id.announcement};
     }
 }

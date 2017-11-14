@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StrikethroughSpan;
 import android.util.DisplayMetrics;
@@ -82,6 +83,12 @@ public class DetailActivity extends BaseActivity {
     @BindView(R.id.detail_coupon_wrapper)
     LinearLayout detailCouponWrapper;
 
+    @BindView(R.id.buyer_wrapper)
+    LinearLayout buyerWrapper;
+
+    @BindView(R.id.agent_detail_share)
+    TextView agentDetailShare;
+
     private CouponItem couponItem;
 
     @Override
@@ -95,6 +102,14 @@ public class DetailActivity extends BaseActivity {
         couponItem = getIntent().getParcelableExtra(EXTRA_COUPON_ITEM);
 
         initView();
+
+        if (TextUtils.isEmpty(TaoKeApi.aliPID)) {
+            agentDetailShare.setVisibility(View.GONE);
+            buyerWrapper.setVisibility(View.VISIBLE);
+        } else {
+            buyerWrapper.setVisibility(View.GONE);
+            agentDetailShare.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -103,7 +118,7 @@ public class DetailActivity extends BaseActivity {
         super.onStop();
     }
 
-    @OnClick({R.id.back, R.id.detail_view, R.id.detail_share, R.id.detail_app})
+    @OnClick({R.id.back, R.id.detail_view, R.id.detail_share, R.id.detail_app, R.id.agent_detail_share})
     protected void onBackClick(View view) {
         switch (view.getId()) {
             case R.id.back:
@@ -113,8 +128,11 @@ public class DetailActivity extends BaseActivity {
                 openDetail();
                 break;
             case R.id.detail_share:
-                Intent intent = new Intent(this, ShareActivity.class).putExtra(ShareActivity.EXTRA_COUPON_ITEM, couponItem);
-                startActivity(intent);
+                startActivity(new Intent(this, EnrollActivity.class));
+                break;
+            case R.id.agent_detail_share:
+                startActivity(new Intent(this, ShareActivity.class)
+                        .putExtra(ShareActivity.EXTRA_COUPON_ITEM, couponItem));
                 break;
             case R.id.detail_app:
                 openTaobao();

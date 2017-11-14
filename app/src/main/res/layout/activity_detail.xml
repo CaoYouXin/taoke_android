@@ -221,12 +221,14 @@
         </ScrollView>
 
         <LinearLayout
+            android:id="@+id/buyer_wrapper"
             android:layout_width="match_parent"
             android:layout_height="@dimen/len_48"
             android:layout_gravity="bottom"
             android:background="@color/orange_a700"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/detail_share"
@@ -251,6 +253,17 @@
                 android:text="@string/detail_app"
                 android:textColor="@color/white" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/agent_detail_share"
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/len_48"
+            android:gravity="center"
+            android:text="@string/detail_share"
+            android:textColor="@color/white"
+            android:background="@color/orange_a700"
+            android:visibility="gone"/>
 
     </FrameLayout>
 </LinearLayout>
