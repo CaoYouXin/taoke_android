@@ -29,6 +29,7 @@ import com.github.caoyouxin.taoke.ui.activity.NoviceActivity;
 import com.github.caoyouxin.taoke.ui.activity.OrdersActivity;
 import com.github.caoyouxin.taoke.util.RatioImageView;
 import com.github.caoyouxin.taoke.util.SpannedTextUtil;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
@@ -56,6 +57,9 @@ public class ChartFragment extends Fragment {
     @BindView(R.id.user_last_month_amount)
     TextView userLastMonthAmount;
 
+    @BindView(R.id.smart_refresh_layout)
+    SmartRefreshLayout smartRefreshLayout;
+
     View rootView;
 
     @Nullable
@@ -72,6 +76,8 @@ public class ChartFragment extends Fragment {
             this.initUserAmount();
             this.initThisMonthEstimate();
             this.initLastMonthEstimate();
+
+            this.initRefreshLayout();
 
         }
         return rootView;
@@ -144,6 +150,18 @@ public class ChartFragment extends Fragment {
     public void onClick(View view) {
         Intent intent = new Intent(getActivity(), OrdersActivity.class);
         getActivity().startActivity(intent);
+    }
+
+    private void initRefreshLayout() {
+        smartRefreshLayout.setOnRefreshListener(refreshLayout -> {
+            initUserAmount();
+            initLastMonthEstimate();
+            initThisMonthEstimate();
+            refreshLayout.finishRefresh(2000);
+        });
+        smartRefreshLayout.setOnLoadmoreListener(refreshLayout -> {
+            refreshLayout.finishLoadmore(false);
+        });
     }
 
 }

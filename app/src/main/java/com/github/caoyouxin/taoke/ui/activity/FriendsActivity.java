@@ -15,7 +15,9 @@ import com.github.caoyouxin.taoke.datasource.FriendDataSource;
 import com.github.caoyouxin.taoke.datasource.HelpDataSource;
 import com.github.caoyouxin.taoke.model.FriendItem;
 import com.github.caoyouxin.taoke.model.HelpItem;
+import com.github.caoyouxin.taoke.ui.widget.HackyLoadViewFactory;
 import com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.shizhefei.mvc.MVCHelper;
 import com.shizhefei.mvc.MVCNormalHelper;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
@@ -34,6 +36,11 @@ public class FriendsActivity extends BaseActivity {
     @BindView(R.id.friends_list)
     RecyclerView friendsList;
 
+    @BindView(R.id.smart_refresh_layout)
+    SmartRefreshLayout smartRefreshLayout;
+
+    private MVCHelper<List<FriendItem>> friendsListHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +52,7 @@ public class FriendsActivity extends BaseActivity {
         title.setText(R.string.friends);
 
         this.initFriendsList();
+        this.initRefreshLayout();
 
     }
 
@@ -57,7 +65,8 @@ public class FriendsActivity extends BaseActivity {
         FriendAdapter friendAdapter = new FriendAdapter(this);
         FriendDataSource friendDataSource = new FriendDataSource(this);
 
-        MVCHelper<List<FriendItem>> friendsListHelper = new MVCNormalHelper<>(friendsList);
+        HackyLoadViewFactory hackyLoadViewFactory = new HackyLoadViewFactory();
+        friendsListHelper = new MVCNormalHelper<>(friendsList, hackyLoadViewFactory.madeLoadView(), hackyLoadViewFactory.madeLoadMoreView());
         friendsListHelper.setAdapter(friendAdapter);
         friendsListHelper.setDataSource(friendDataSource);
 
@@ -68,4 +77,15 @@ public class FriendsActivity extends BaseActivity {
     protected void onBackClick(View view) {
         onBackPressed();
     }
+
+    private void initRefreshLayout() {
+        smartRefreshLayout.setOnRefreshListener(refreshLayout -> {
+            friendsListHelper.refresh();
+            refreshLayout.finishRefresh(2000);
+        });
+        smartRefreshLayout.setOnLoadmoreListener(refreshLayout -> {
+            refreshLayout.finishLoadmore(false);
+        });
+    }
+
 }

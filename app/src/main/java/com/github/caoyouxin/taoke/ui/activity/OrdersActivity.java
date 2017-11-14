@@ -15,10 +15,15 @@ import com.github.caoyouxin.taoke.adapter.OrderAdapter;
 import com.github.caoyouxin.taoke.datasource.HelpDataSource;
 import com.github.caoyouxin.taoke.datasource.OrderDataSource;
 import com.github.caoyouxin.taoke.model.HelpItem;
+import com.github.caoyouxin.taoke.model.OrderItem;
+import com.github.caoyouxin.taoke.ui.widget.HackyLoadViewFactory;
 import com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.shizhefei.mvc.MVCHelper;
 import com.shizhefei.mvc.MVCNormalHelper;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,12 +67,15 @@ public class OrdersActivity extends BaseActivity {
     @BindView(R.id.order_list)
     RecyclerView orderList;
 
+    @BindView(R.id.smart_refresh_layout)
+    SmartRefreshLayout smartRefreshLayout;
+
     private TextView[] resetSelectViews;
     private View[] resetSelectedViews;
     private TextView[] resetSubSelectViews;
     private int selectedSubId = 0;
 
-    private MVCHelper orderListHelper;
+    private MVCHelper<List<OrderItem>> orderListHelper;
     private OrderDataSource orderDataSource;
 
     @Override
@@ -88,6 +96,8 @@ public class OrdersActivity extends BaseActivity {
 
         this.onClick(selectEffective);
 
+        this.initRefreshLayout();
+
         Snackbar.make(findViewById(android.R.id.content), R.string.orders_list_explaination, Snackbar.LENGTH_LONG).show();
     }
 
@@ -100,7 +110,8 @@ public class OrdersActivity extends BaseActivity {
         OrderAdapter orderAdapter = new OrderAdapter(this);
         this.orderDataSource = new OrderDataSource(this, OrderDataSource.FetchType.ALL_EFFECTIVE);
 
-        this.orderListHelper = new MVCNormalHelper(this.orderList);
+        HackyLoadViewFactory hackyLoadViewFactory = new HackyLoadViewFactory();
+        this.orderListHelper = new MVCNormalHelper<>(this.orderList, hackyLoadViewFactory.madeLoadView(), hackyLoadViewFactory.madeLoadMoreView());
         this.orderListHelper.setAdapter(orderAdapter);
         this.orderListHelper.setDataSource(this.orderDataSource);
 
@@ -191,6 +202,17 @@ public class OrdersActivity extends BaseActivity {
                 resetSubSelectView.setTextColor(this.getResources().getColor(R.color.black_alpha_176));
             }
         }
+    }
+
+    private void initRefreshLayout() {
+        smartRefreshLayout.setOnRefreshListener(refreshLayout -> {
+            orderListHelper.refresh();
+            refreshLayout.finishRefresh(2000);
+        });
+        smartRefreshLayout.setOnLoadmoreListener(refreshLayout -> {
+            orderListHelper.loadMore();
+            refreshLayout.finishLoadmore(2000);
+        });
     }
 
 }

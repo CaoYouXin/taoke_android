@@ -57,6 +57,8 @@ public class OrderDataSource extends RxDataSource<List<OrderItem>> implements ID
 
     @Override
     public Observable<List<OrderItem>> refresh() throws Exception {
+        this.pageNo = 1;
+        this.isHasMore = true;
         return TaoKeApi.getOrderList(this.type, this.pageNo).map(list -> {
             if (list.size() < 10) {
                 isHasMore = false;
