@@ -75,22 +75,37 @@ public class ProductDataSource extends RxDataSource<List<CouponItem>> implements
         this.pageNo = 1;
 
         switch (this.sort) {
-            case ProductDataSource.SORT_MULTIPLE:
-                this.sortFunction = (item1, item2) -> (int) (Double.parseDouble(item2.getZkFinalPrice())
-                        + Double.parseDouble(item2.getEarnPrice()) + item2.getVolume() - item1.getVolume()
-                        - Double.parseDouble(item1.getZkFinalPrice()) - Double.parseDouble(item1.getEarnPrice()));
+            case SORT_MULTIPLE:
+                this.sortFunction = (item1, item2) -> {
+                    double v = Double.parseDouble(item2.getZkFinalPrice())
+                            + Double.parseDouble(item2.getEarnPrice()) + item2.getVolume() - item1.getVolume()
+                            - Double.parseDouble(item1.getZkFinalPrice()) - Double.parseDouble(item1.getEarnPrice());
+                    return v > 0 ? 1 : v < 0 ? -1 : 0;
+                };
                 break;
-            case ProductDataSource.SORT_COMMISSION:
-                this.sortFunction = (item1, item2) -> (int) (Double.parseDouble(item2.getEarnPrice()) - Double.parseDouble(item1.getEarnPrice()));
+            case SORT_COMMISSION:
+                this.sortFunction = (item1, item2) -> {
+                    double v = Double.parseDouble(item2.getEarnPrice()) - Double.parseDouble(item1.getEarnPrice());
+                    return v > 0 ? 1 : v < 0 ? -1 : 0;
+                };
                 break;
-            case ProductDataSource.SORT_SALES:
-                this.sortFunction = (item1, item2) -> (int) (item2.getVolume() - item1.getVolume());
+            case SORT_SALES:
+                this.sortFunction = (item1, item2) -> {
+                    long l = item2.getVolume() - item1.getVolume();
+                    return l > 0 ? 1 : l < 0 ? -1 : 0;
+                };
                 break;
-            case ProductDataSource.SORT_PRICE_DOWN:
-                this.sortFunction = (item1, item2) -> (int) (Double.parseDouble(item2.getZkFinalPrice()) - Double.parseDouble(item1.getZkFinalPrice()));
+            case SORT_PRICE_DOWN:
+                this.sortFunction = (item1, item2) -> {
+                    double v = Double.parseDouble(item2.getZkFinalPrice()) - Double.parseDouble(item1.getZkFinalPrice());
+                    return v > 0 ? 1 : v < 0 ? -1 : 0;
+                };
                 break;
-            case ProductDataSource.SORT_PRICE_UP:
-                this.sortFunction = (item1, item2) -> (int) (Double.parseDouble(item1.getZkFinalPrice()) - Double.parseDouble(item2.getZkFinalPrice()));
+            case SORT_PRICE_UP:
+                this.sortFunction = (item1, item2) -> {
+                    double v = Double.parseDouble(item1.getZkFinalPrice()) - Double.parseDouble(item2.getZkFinalPrice());
+                    return v > 0 ? 1 : v < 0 ? -1 : 0;
+                };
                 break;
         }
         return this;

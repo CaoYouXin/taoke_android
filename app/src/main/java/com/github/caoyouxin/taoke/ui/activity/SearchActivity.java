@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.github.caoyouxin.taoke.R;
+import com.github.caoyouxin.taoke.model.SearchHistory;
 import com.github.caoyouxin.taoke.ui.fragment.SearchHintFragment;
 import com.github.caoyouxin.taoke.ui.fragment.SearchHistoryFragment;
 import com.github.caoyouxin.taoke.ui.fragment.SearchResultFragment;
@@ -38,6 +39,7 @@ public class SearchActivity extends BaseActivity implements TextView.OnEditorAct
     private SearchHintFragment searchHintFragment;
     private SearchResultFragment searchResultFragment;
     private GestureDetector gestureDetector;
+    private SearchHistory searchHistory = new SearchHistory();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +62,12 @@ public class SearchActivity extends BaseActivity implements TextView.OnEditorAct
 
         this.showSearchHistory();
 
-        Snackbar.make(findViewById(android.R.id.content), R.string.app_not_release_hint, Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        this.searchHistory.persist();
     }
 
     @OnClick(R.id.back)
@@ -80,7 +87,9 @@ public class SearchActivity extends BaseActivity implements TextView.OnEditorAct
                 || actionId == EditorInfo.IME_ACTION_GO){
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-            this.showSearchResult(v.getText().toString());
+            String keyword = v.getText().toString();
+            this.showSearchResult(keyword);
+            this.searchHistory.add(keyword);
             return true;
         }
         return false;
@@ -91,6 +100,7 @@ public class SearchActivity extends BaseActivity implements TextView.OnEditorAct
             this.searchHistoryFragment = new SearchHistoryFragment().setSearchActivity(this);
         }
 
+        this.searchHistoryFragment.setHistory(searchHistory.get());
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.search_content, this.searchHistoryFragment);
@@ -99,7 +109,7 @@ public class SearchActivity extends BaseActivity implements TextView.OnEditorAct
 
     private void showSearchResult(String inputNow) {
         if (null == this.searchResultFragment) {
-            this.searchResultFragment = new SearchResultFragment().setSearchActivity(gestureDetector);
+            this.searchResultFragment = new SearchResultFragment().setSearchActivity(gestureDetector, this);
         }
 
         FragmentManager fm = getSupportFragmentManager();
@@ -141,5 +151,10 @@ public class SearchActivity extends BaseActivity implements TextView.OnEditorAct
         this.searchText.setText(searchText);
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(this.searchText, InputMethodManager.SHOW_IMPLICIT);
+    }
+
+    public void clearHistory() {
+        this.searchHistory.clear();
+        this.searchHistory.persist();
     }
 }

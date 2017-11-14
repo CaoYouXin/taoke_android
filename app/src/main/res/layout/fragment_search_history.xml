@@ -16,6 +16,7 @@
         android:layout_marginStart="@dimen/len_16" />
 
     <com.mikepenz.iconics.view.IconicsTextView
+        android:id="@+id/clear_history"
         android:layout_gravity="right"
         android:layout_marginRight="@dimen/len_16"
         android:layout_marginEnd="@dimen/len_16"
@@ -26,7 +27,7 @@
         android:layout_marginLeft="10dp"
         android:text="{ion-trash-a}"
         android:textColor="@color/grey_500"
-        android:textSize="@dimen/font_16"
+        android:textSize="@dimen/font_28"
         tools:ignore="HardcodedText,RtlHardcoded" />
 
     <me.next.tagview.TagCloudView

@@ -20,16 +20,23 @@ import com.github.caoyouxin.taoke.datasource.CouponDataSource;
 import com.github.caoyouxin.taoke.datasource.ProductDataSource;
 import com.github.caoyouxin.taoke.datasource.SearchCouponDataSource;
 import com.github.caoyouxin.taoke.model.CouponItem;
+import com.github.caoyouxin.taoke.model.OrderItem;
 import com.github.caoyouxin.taoke.ui.activity.DetailActivity;
+import com.github.caoyouxin.taoke.ui.activity.OrdersActivity;
+import com.github.caoyouxin.taoke.ui.activity.SearchActivity;
 import com.github.caoyouxin.taoke.ui.widget.HackyLoadViewFactory;
 import com.mikepenz.iconics.view.IconicsTextView;
+import com.shizhefei.mvc.IDataAdapter;
 import com.shizhefei.mvc.MVCNormalHelper;
+import com.shizhefei.mvc.OnStateChangeListener;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity.DYNAMIC_BOX_MK_LINESPINNER;
 
 /**
  * Created by jasontsang on 10/24/17.
@@ -62,7 +69,7 @@ public class SearchResultFragment extends Fragment {
 
     private int sort = SearchCouponDataSource.SORT_MULTIPLE;
     private GestureDetector gestureDetector;
-
+    private SearchActivity context;
     private String searchKeyword;
 
     public void setSearchKeyword(String searchKeyword) {
@@ -79,8 +86,9 @@ public class SearchResultFragment extends Fragment {
     private SearchCouponDataSource couponDataSource;
     private MVCNormalHelper<List<CouponItem>> couponListHelper;
 
-    public SearchResultFragment setSearchActivity(GestureDetector gestureDetector) {
+    public SearchResultFragment setSearchActivity(GestureDetector gestureDetector, SearchActivity context) {
         this.gestureDetector = gestureDetector;
+        this.context = context;
         return this;
     }
 
@@ -96,6 +104,8 @@ public class SearchResultFragment extends Fragment {
             }
 
             initCouponList();
+
+            context.createDynamicBox(context, rootView.findViewById(R.id.coupon_list));
 
         }
         return rootView;
@@ -127,13 +137,39 @@ public class SearchResultFragment extends Fragment {
         });
 
         couponDataSource = new SearchCouponDataSource(getActivity());
-        couponDataSource.setKeyword(this.searchKeyword).setSort(SearchCouponDataSource.SORT_MULTIPLE).setCache(null);
 
         HackyLoadViewFactory hackyLoadViewFactory = new HackyLoadViewFactory();
         couponListHelper = new MVCNormalHelper<>(couponList, hackyLoadViewFactory.madeLoadView(), hackyLoadViewFactory.madeLoadMoreView());
         couponListHelper.setAdapter(couponAdapter);
         couponListHelper.setDataSource(couponDataSource);
+        couponListHelper.setOnStateChangeListener(new OnStateChangeListener<List<CouponItem>>() {
+            @Override
+            public void onStartLoadMore(IDataAdapter<List<CouponItem>> adapter) {
 
+            }
+
+            @Override
+            public void onEndLoadMore(IDataAdapter<List<CouponItem>> adapter, List<CouponItem> result) {
+
+            }
+
+            @Override
+            public void onStartRefresh(IDataAdapter<List<CouponItem>> adapter) {
+                context.showDynamicBoxCustomView(DYNAMIC_BOX_MK_LINESPINNER, context);
+            }
+
+            @Override
+            public void onEndRefresh(IDataAdapter<List<CouponItem>> adapter, List<CouponItem> result) {
+                context.dismissDynamicBox(context);
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        couponDataSource.setKeyword(this.searchKeyword).setSort(SearchCouponDataSource.SORT_MULTIPLE).setCache(null);
         couponListHelper.refresh();
     }
 

@@ -2,6 +2,7 @@ package com.github.caoyouxin.taoke.api;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 
 import com.github.caoyouxin.taoke.datasource.OrderDataSource;
 import com.github.caoyouxin.taoke.model.BrandItem;
@@ -367,6 +368,10 @@ public class TaoKeApi {
     }
 
     public static Observable<List<SearchHintItem>> getSearchHintList(String inputNow) {
+        if (TextUtils.isEmpty(inputNow)) {
+            return Observable.just(new ArrayList<>());
+        }
+
         return TaoKeRetrofit.getService().tao(TaoKeService.API_HINT_LIST.replace("{keyword}", inputNow))
                 .compose(RxHelper.handleResult())
                 .flatMap(taoKeData -> {

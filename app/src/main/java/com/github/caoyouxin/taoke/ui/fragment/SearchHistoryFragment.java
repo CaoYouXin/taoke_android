@@ -27,6 +27,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import me.next.tagview.TagCloudView;
 
 /**
@@ -64,21 +65,18 @@ public class SearchHistoryFragment extends Fragment implements TagCloudView.OnTa
         return rootView;
     }
 
-    private void initSearchHintList() {
-        tags = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            tags.add("搜词" + i);
-        }
 
+
+    private void initSearchHintList() {
         searchHistoryList.setTags(tags);
         searchHistoryList.setOnTagClickListener(this);
-        searchHistoryList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getActivity().getApplicationContext(), "TagView onClick",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
+    }
+
+    @OnClick(R.id.clear_history)
+    public void onClick(View view) {
+        this.tags = new ArrayList<>();
+        searchHistoryList.setTags(tags);
+        this.context.clearHistory();
     }
 
     @Override
@@ -86,4 +84,7 @@ public class SearchHistoryFragment extends Fragment implements TagCloudView.OnTa
         this.context.setText(this.tags.get(position));
     }
 
+    public void setHistory(List<String> strings) {
+        this.tags = strings;
+    }
 }
