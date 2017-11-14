@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.model.BrandItem;
+import com.github.caoyouxin.taoke.model.HomeBtn;
 import com.shizhefei.mvc.IDataAdapter;
 
 import java.util.ArrayList;
@@ -20,9 +21,9 @@ import butterknife.ButterKnife;
  * Created by jasontsang on 10/24/17.
  */
 
-public class BrandAdapter extends RecyclerView.Adapter implements IDataAdapter<List<BrandItem>> {
+public class BrandAdapter extends RecyclerView.Adapter implements IDataAdapter<List<HomeBtn>> {
 
-    private List<BrandItem> data = new ArrayList<>();
+    private List<HomeBtn> data = new ArrayList<>();
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -32,9 +33,9 @@ public class BrandAdapter extends RecyclerView.Adapter implements IDataAdapter<L
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-        BrandItem item = data.get(position);
+        HomeBtn item = data.get(position);
         ViewHolder holder = (ViewHolder) viewHolder;
-        holder.thumb.setImageURI(item.title);
+        holder.thumb.setImageURI(item.imgUrl);
     }
 
     @Override
@@ -43,7 +44,7 @@ public class BrandAdapter extends RecyclerView.Adapter implements IDataAdapter<L
     }
 
     @Override
-    public void notifyDataChanged(List<BrandItem> data, boolean isRefresh) {
+    public void notifyDataChanged(List<HomeBtn> data, boolean isRefresh) {
         if (isRefresh) {
             this.data.clear();
         }
@@ -52,7 +53,7 @@ public class BrandAdapter extends RecyclerView.Adapter implements IDataAdapter<L
     }
 
     @Override
-    public List<BrandItem> getData() {
+    public List<HomeBtn> getData() {
         return data;
     }
 

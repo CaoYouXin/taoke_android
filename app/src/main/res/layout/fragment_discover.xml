@@ -35,7 +35,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp" />
 
-                    <include layout="@layout/layout_discover_tool" />
+                    <!--<include layout="@layout/layout_discover_tool" />-->
 
                     <View
                         android:layout_width="match_parent"

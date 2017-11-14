@@ -89,7 +89,7 @@ public class DiscoverFragment extends Fragment {
 
     View rootView;
 
-    private MVCHelper<List<BrandItem>> brandListHelper;
+    private MVCHelper<List<HomeBtn>> brandListHelper;
     private MVCHelper<List<CouponItem>> couponListHelper;
 
     private CouponDataSource couponDataSource;
@@ -151,18 +151,18 @@ public class DiscoverFragment extends Fragment {
         return rootView;
     }
 
-    @OnClick({R.id.tool_collection, R.id.tool_coupon, R.id.tool_11, R.id.tool_convert, R.id.tool_novice})
-    protected void onToolClick(View view) {
-        Intent intent = null;
-        switch (view.getId()) {
-            case R.id.tool_novice:
-                intent = new Intent(getActivity(), NoviceActivity.class);
-                break;
-        }
-        if (intent != null) {
-            getActivity().startActivity(intent);
-        }
-    }
+//    @OnClick({R.id.tool_collection, R.id.tool_coupon, R.id.tool_11, R.id.tool_convert, R.id.tool_novice})
+//    protected void onToolClick(View view) {
+//        Intent intent = null;
+//        switch (view.getId()) {
+//            case R.id.tool_novice:
+//                intent = new Intent(getActivity(), NoviceActivity.class);
+//                break;
+//        }
+//        if (intent != null) {
+//            getActivity().startActivity(intent);
+//        }
+//    }
 
     @Override
     public void onStop() {
@@ -204,17 +204,7 @@ public class DiscoverFragment extends Fragment {
     }
 
     private BaseSliderView.OnSliderClickListener getOnSliderClickListener(HomeBtn homeBtn) {
-        return slider -> {
-            switch (homeBtn.openType) {
-                case 1 << 2:
-                    Intent intent = new Intent(getActivity(), ProductListActivity.class)
-                            .putExtra(ProductListActivity.EXTRA_BRAND_ITEM, new BrandItem(homeBtn.name, homeBtn.ext));
-                    getActivity().startActivity(intent);
-                    break;
-                default:
-                    Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.fail_unknown, Snackbar.LENGTH_LONG).show();
-            }
-        };
+        return ignored -> openHomeBtn(homeBtn);
     }
 
     private void initBrandList() {
@@ -262,9 +252,8 @@ public class DiscoverFragment extends Fragment {
                     View childView = rv.findChildViewUnder(event.getX(), event.getY());
                     int childPosition = rv.getChildAdapterPosition(childView);
                     if (-1 < childPosition && childPosition < brandAdapter.getData().size()) {
-                        BrandItem brandItem = brandAdapter.getData().get(childPosition);
-                        Intent intent = new Intent(getActivity(), ProductListActivity.class).putExtra(ProductListActivity.EXTRA_BRAND_ITEM, brandItem);
-                        getActivity().startActivity(intent);
+                        HomeBtn homeBtn = brandAdapter.getData().get(childPosition);
+                        openHomeBtn(homeBtn);
                     }
                     return true;
                 } else {
@@ -279,7 +268,19 @@ public class DiscoverFragment extends Fragment {
         brandListHelper = new MVCNormalHelper<>(brandList, hackyLoadViewFactory.madeLoadView(), hackyLoadViewFactory.madeLoadMoreView());
         brandListHelper.setAdapter(brandAdapter);
         brandListHelper.setDataSource(brandDataSource);
-//        brandListHelper.refresh();
+        brandListHelper.refresh();
+    }
+
+    private void openHomeBtn(HomeBtn homeBtn) {
+        switch (homeBtn.openType) {
+            case 1 << 2:
+                Intent intent = new Intent(getActivity(), ProductListActivity.class)
+                        .putExtra(ProductListActivity.EXTRA_BRAND_ITEM, new BrandItem(homeBtn.name, homeBtn.ext));
+                getActivity().startActivity(intent);
+                break;
+            default:
+                Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.fail_unknown, Snackbar.LENGTH_LONG).show();
+        }
     }
 
     private void initCouponTab() {

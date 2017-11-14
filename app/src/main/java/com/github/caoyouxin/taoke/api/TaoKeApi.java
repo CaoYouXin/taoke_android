@@ -150,21 +150,19 @@ public class TaoKeApi {
                 });
     }
 
-    public static Observable<List<BrandItem>> getBrandList() {
+    public static Observable<List<HomeBtn>> getBrandList() {
         return TaoKeRetrofit.getService().tao(TaoKeService.API_BRAND_LIST)
                 .compose(RxHelper.handleResult())
                 .map(taoKeData -> {
-                    List<BrandItem> items = new ArrayList<>();
-//                    List<Map> recs = (List<Map>) taoKeData.body.get("recs");
-//                    if (recs != null) {
-//                        for (Map rec : recs) {
-//                            BrandItem item = new BrandItem();
-//                            item.type = (int) rec.get("type");
-//                            item.title = (String) rec.get("title");
-//                            item.thumb = (String) rec.get("thumb");
-//                            items.add(item);
-//                        }
-//                    }
+                    List<HomeBtn> items = new ArrayList<>();
+                    for (Map rec : taoKeData.getList()) {
+                        HomeBtn item = new HomeBtn();
+                        item.imgUrl = CDN_HOST + rec.get("imgUrl");
+                        item.name = (String) rec.get("name");
+                        item.openType = ((Double) rec.get("openType")).intValue();
+                        item.ext = (String) rec.get("ext");
+                        items.add(item);
+                    }
                     return items;
                 });
     }
