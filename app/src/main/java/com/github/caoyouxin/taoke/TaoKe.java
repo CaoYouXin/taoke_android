@@ -1,6 +1,7 @@
 package com.github.caoyouxin.taoke;
 
 import android.app.Application;
+import android.widget.Toast;
 
 import com.alibaba.baichuan.android.trade.AlibcTradeSDK;
 import com.alibaba.baichuan.android.trade.callback.AlibcTradeInitCallback;
@@ -59,6 +60,7 @@ public class TaoKe extends Application {
             @Override
             public void onSuccess() {
                 //初始化成功，设置相关的全局配置参数
+                Toast.makeText(TaoKe.this, "初始化成功", Toast.LENGTH_LONG).show();
 
                 // 是否使用支付宝
                 AlibcTradeSDK.setShouldUseAlipay(false);
@@ -81,7 +83,7 @@ public class TaoKe extends Application {
             @Override
             public void onFailure(int code, String msg) {
                 //初始化失败，可以根据code和msg判断失败原因，详情参见错误说明
-                System.err.println(String.format("百川初始化失败, code=%d, msg=%s", code, msg));
+                Toast.makeText(TaoKe.this, String.format("百川初始化失败, code=%d, msg=%s", code, msg), Toast.LENGTH_LONG).show();
             }
         });
     }
