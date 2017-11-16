@@ -59,9 +59,9 @@ public class TaoKeApi {
                 .compose(RxHelper.handleResult());
     }
 
-    public static Observable<TaoKeData> signUp(String phone, String verificationCode, String password, String name) {
+    public static Observable<TaoKeData> signUp(String phone, String verificationCode, String password, String name, String invitation) {
         return TaoKeRetrofit.getService().tao(TaoKeService.API_SIGN_UP,
-                new UserRegisterSubmit(verificationCode, phone, StringUtils.toMD5HexString(password), name), null)
+                new UserRegisterSubmit(verificationCode, invitation, phone, StringUtils.toMD5HexString(password), name), null)
                 .compose(RxHelper.handleResult())
                 .map(taoKeData -> {
                     readToken(taoKeData);

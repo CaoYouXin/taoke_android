@@ -7,9 +7,11 @@ package com.github.caoyouxin.taoke.model;
 public class UserRegisterSubmit {
     public String code;
     public User user;
+    public String invitation;
 
-    public UserRegisterSubmit(String code, String phone, String pwd, String name) {
+    public UserRegisterSubmit(String code, String invitation, String phone, String pwd, String name) {
         this.code = code;
+        this.invitation = invitation;
         this.user = new User(phone, pwd, name);
     }
 

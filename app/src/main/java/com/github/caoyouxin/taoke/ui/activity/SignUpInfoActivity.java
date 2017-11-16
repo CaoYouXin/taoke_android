@@ -52,6 +52,9 @@ public class SignUpInfoActivity extends BaseActivity {
     @BindView(R.id.nick_name)
     EditText nick;
 
+    @BindView(R.id.invitation_code)
+    EditText invitationCode;
+
     @BindView(R.id.sign_up_finish)
     TextView signUpFinish;
 
@@ -108,7 +111,8 @@ public class SignUpInfoActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (verificationCode.getEditableText().toString().trim().length() == 6 && password.getEditableText().toString().trim().length() >= 6 && !TextUtils.isEmpty(nick.getEditableText().toString().trim())) {
+                if (verificationCode.getEditableText().toString().trim().length() == 6
+                        && password.getEditableText().toString().trim().length() >= 6) {
                     signUpFinish.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
                 } else {
                     signUpFinish.setTextColor(getResources().getColor(R.color.colorPrimary));
@@ -171,6 +175,7 @@ public class SignUpInfoActivity extends BaseActivity {
             return;
         }
         String name = nick.getEditableText().toString().trim();
+        String invitation = invitationCode.getEditableText().toString().trim();
 //        if (TextUtils.isEmpty(name)) {
 //            nick.requestFocus();
 //            return;
@@ -179,10 +184,11 @@ public class SignUpInfoActivity extends BaseActivity {
         verificationCode.setEnabled(false);
         password.setEnabled(false);
         nick.setEnabled(false);
+        invitationCode.setEnabled(false);
         signUpFinish.setVisibility(View.INVISIBLE);
         progress.setVisibility(View.VISIBLE);
 
-        TaoKeApi.signUp(phone, vcode, pwd, name)
+        TaoKeApi.signUp(phone, vcode, pwd, name, invitation)
                 .timeout(10, TimeUnit.SECONDS)
                 .compose(RxHelper.rxSchedulerHelper())
                 .compose(bindUntilEvent(ActivityEvent.DESTROY))
