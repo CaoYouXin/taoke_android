@@ -18,6 +18,7 @@ import com.github.caoyouxin.taoke.model.OrderItem;
 import com.github.caoyouxin.taoke.model.SearchHintItem;
 import com.github.caoyouxin.taoke.model.ShareImage;
 import com.github.caoyouxin.taoke.model.ShareSubmit;
+import com.github.caoyouxin.taoke.model.ShareView;
 import com.github.caoyouxin.taoke.model.UserLoginSubmit;
 import com.github.caoyouxin.taoke.model.UserRegisterSubmit;
 import com.github.caoyouxin.taoke.model.UserResetPwdSubmit;
@@ -427,10 +428,16 @@ public class TaoKeApi {
                 });
     }
 
-    public static Observable<String> getLink(String couponClickUrl, String title) {
+    public static Observable<ShareView> getLink(String couponClickUrl, String title) {
         return TaoKeRetrofit.getService().tao(TaoKeService.API_GET_SHARE_LINK, new ShareSubmit(title, couponClickUrl), accessToken)
                 .compose(RxHelper.handleResult())
-                .flatMap(taoKeData -> Observable.just(taoKeData.body.toString()));
+                .map(taoKeData -> {
+                    ShareView shareView = new ShareView();
+                    Map rec = taoKeData.getMap();
+                    shareView.shortUrl = (String) rec.get("shortUrl");
+                    shareView.tPwd = (String) rec.get("tPwd");
+                    return shareView;
+                });
     }
 
     public static Observable<List<String>> getNoviceImgList() {

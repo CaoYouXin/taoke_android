@@ -36,6 +36,7 @@ import com.github.caoyouxin.taoke.api.RxHelper;
 import com.github.caoyouxin.taoke.api.TaoKeApi;
 import com.github.caoyouxin.taoke.datasource.ShareImageDataSource;
 import com.github.caoyouxin.taoke.model.CouponItem;
+import com.github.caoyouxin.taoke.model.ShareView;
 import com.github.caoyouxin.taoke.ui.widget.HackyLoadViewFactory;
 import com.github.caoyouxin.taoke.util.ShareHelper;
 import com.github.gnastnosaj.boilerplate.util.keyboard.BaseActivity;
@@ -107,7 +108,7 @@ public class ShareActivity extends BaseActivity {
     ImageView descQRcode;
 
     private CouponItem couponItem;
-    private String link;
+    private ShareView link;
     private ShareImageAdapter shareImageAdapter;
     private boolean busy = false;
 
@@ -131,9 +132,6 @@ public class ShareActivity extends BaseActivity {
 
         createDynamicBox();
 
-//        createDynamicBox().addCustomView(
-//                LayoutInflater.from(this).inflate(R.layout.dyn_waiting_for_download, null), MY_DYN_VIEW_TAG
-//        );
     }
 
     @OnClick({R.id.back, R.id.handle, R.id.share_text_only})
@@ -144,6 +142,7 @@ public class ShareActivity extends BaseActivity {
 
         switch (view.getId()) {
             case R.id.back:
+                this.link = null;
                 onBackPressed();
                 break;
             case R.id.handle:
@@ -168,12 +167,12 @@ public class ShareActivity extends BaseActivity {
             return;
         }
 
-        Consumer<String> linkConsumer = link -> {
+        Consumer<ShareView> linkConsumer = link -> {
             ShareActivity.this.link = link;
             String finalText2Share = text2Share;
             String linkHint = getResources().getString(R.string.share_text_link_hint);
             if (text2Share.contains(linkHint)) {
-                finalText2Share = text2Share.replace(linkHint, link);
+                finalText2Share = text2Share.replace(linkHint, link.toString());
             } else {
                 finalText2Share += link;
             }
@@ -189,11 +188,11 @@ public class ShareActivity extends BaseActivity {
                 ShareActivity.this.busy = false;
             } else {
 
-                shareImages();
+                shareImages(link.shortUrl);
             }
         };
 
-        if (null != this.link && !this.link.isEmpty()) {
+        if (null != this.link) {
             try {
                 linkConsumer.accept(this.link);
             } catch (Exception e) {
@@ -297,7 +296,7 @@ public class ShareActivity extends BaseActivity {
         }
     }
 
-    private void shareImages() {
+    private void shareImages(String shortUrl) {
         ShareHelper.ShareFrescoImageDownloader frescoImageDownloader = new ShareHelper.ShareFrescoImageDownloader();
 
         List<Observable<String>> observables = new ArrayList<>();
@@ -372,7 +371,7 @@ public class ShareActivity extends BaseActivity {
             }
 
             return bitmap;
-        }).zipWith(generateShareImageDescription(), (thumbs, description) -> {
+        }).zipWith(generateShareImageDescription(shortUrl), (thumbs, description) -> {
             int thumbsWidth = thumbs.getWidth();
             int thumbsHeight = thumbs.getHeight();
 
@@ -418,10 +417,10 @@ public class ShareActivity extends BaseActivity {
                 });
     }
 
-    private Observable<Bitmap> generateShareImageDescription() {
+    private Observable<Bitmap> generateShareImageDescription(String shortUrl) {
         return Observable.<Bitmap>create(subscriber -> {
             try {
-                descQRcode.setImageBitmap(QRCodeEncoder.syncEncodeQRCode(couponItem.getCouponClickUrl(), descQRcode.getWidth()));
+                descQRcode.setImageBitmap(QRCodeEncoder.syncEncodeQRCode(shortUrl, descQRcode.getWidth()));
                 Bitmap bitmap = Bitmap.createBitmap(shareImageDescription.getWidth(), shareImageDescription.getHeight(), Bitmap.Config.ARGB_8888);
                 Canvas canvas = new Canvas(bitmap);
                 shareImageDescription.draw(canvas);
