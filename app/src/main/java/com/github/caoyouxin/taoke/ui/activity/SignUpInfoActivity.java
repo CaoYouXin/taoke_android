@@ -205,6 +205,7 @@ public class SignUpInfoActivity extends BaseActivity {
                             verificationCode.setEnabled(true);
                             password.setEnabled(true);
                             nick.setEnabled(true);
+                            invitationCode.setEnabled(true);
                             signUpFinish.setVisibility(View.VISIBLE);
                             progress.setVisibility(View.INVISIBLE);
 
@@ -221,7 +222,6 @@ public class SignUpInfoActivity extends BaseActivity {
 
     @Override
     public int[] hideSoftByEditViewIds() {
-        int[] ids = {R.id.password, R.id.nick_name};
-        return ids;
+        return new int[]{R.id.password, R.id.nick_name, R.id.invitation_code};
     }
 }
