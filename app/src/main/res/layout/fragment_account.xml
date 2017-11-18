@@ -52,12 +52,20 @@
                 android:layout_height="1dp"
                 android:background="@color/grey_300" />
 
+            <LinearLayout
+                android:id="@+id/enroll_wrapper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
             <include layout="@layout/btn_to_enroll" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/grey_300" />
+
+            </LinearLayout>
 
             <include layout="@layout/btn_my_friends" />
 

@@ -2,9 +2,6 @@ package com.github.caoyouxin.taoke.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
-import android.text.style.AbsoluteSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +9,6 @@ import android.widget.TextView;
 
 import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.model.FriendItem;
-import com.github.caoyouxin.taoke.model.HelpItem;
 import com.github.caoyouxin.taoke.util.SpannedTextUtil;
 import com.shizhefei.mvc.IDataAdapter;
 

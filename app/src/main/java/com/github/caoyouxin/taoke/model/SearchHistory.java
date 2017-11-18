@@ -7,7 +7,6 @@ import android.text.TextUtils;
 import com.github.gnastnosaj.boilerplate.Boilerplate;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**

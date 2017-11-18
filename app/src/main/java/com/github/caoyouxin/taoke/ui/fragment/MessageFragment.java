@@ -1,39 +1,27 @@
 package com.github.caoyouxin.taoke.ui.fragment;
 
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.RelativeSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.adapter.MessageAdapter;
 import com.github.caoyouxin.taoke.datasource.MessageDataSource;
 import com.github.caoyouxin.taoke.model.MessageItem;
-import com.github.caoyouxin.taoke.ui.activity.MessageActivity;
 import com.github.caoyouxin.taoke.ui.widget.HackyLoadViewFactory;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.shizhefei.mvc.MVCHelper;
 import com.shizhefei.mvc.MVCNormalHelper;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by jasontsang on 10/24/17.

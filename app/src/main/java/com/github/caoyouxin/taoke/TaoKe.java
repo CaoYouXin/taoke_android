@@ -5,7 +5,6 @@ import android.widget.Toast;
 
 import com.alibaba.baichuan.android.trade.AlibcTradeSDK;
 import com.alibaba.baichuan.android.trade.callback.AlibcTradeInitCallback;
-import com.alibaba.baichuan.trade.biz.core.taoke.AlibcTaokeParams;
 import com.github.caoyouxin.taoke.util.ShareHelper;
 import com.github.gnastnosaj.boilerplate.Boilerplate;
 
@@ -53,7 +52,7 @@ public class TaoKe extends Application {
             }
             Timber.w(e, "Undeliverable exception received, not sure what to do");
         });
-
+        
         ShareHelper.initialize(this);
 
         AlibcTradeSDK.asyncInit(this, new AlibcTradeInitCallback() {

@@ -2,10 +2,7 @@ package com.github.caoyouxin.taoke.model;
 
 import android.support.annotation.NonNull;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Comparator;
 import java.util.Date;
 
 /**

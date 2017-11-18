@@ -3,7 +3,6 @@ package com.github.caoyouxin.taoke.datasource;
 import android.content.Context;
 
 import com.github.caoyouxin.taoke.api.TaoKeApi;
-import com.github.caoyouxin.taoke.model.MessageItem;
 import com.github.caoyouxin.taoke.model.OrderItem;
 import com.github.gnastnosaj.boilerplate.mvchelper.RxDataSource;
 import com.shizhefei.mvc.IDataCacheLoader;

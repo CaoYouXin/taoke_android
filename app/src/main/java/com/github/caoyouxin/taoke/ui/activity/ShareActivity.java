@@ -1,8 +1,6 @@
 package com.github.caoyouxin.taoke.ui.activity;
 
-import android.content.ClipData;
 import android.content.ClipboardManager;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -17,7 +15,6 @@ import android.text.SpannableStringBuilder;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StrikethroughSpan;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.EditText;

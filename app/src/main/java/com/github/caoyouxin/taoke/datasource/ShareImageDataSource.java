@@ -2,14 +2,12 @@ package com.github.caoyouxin.taoke.datasource;
 
 import android.content.Context;
 
-import com.github.caoyouxin.taoke.api.TaoKeApi;
 import com.github.caoyouxin.taoke.model.CouponItem;
 import com.github.caoyouxin.taoke.model.ShareImage;
 import com.github.gnastnosaj.boilerplate.mvchelper.RxDataSource;
 import com.shizhefei.mvc.IDataCacheLoader;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import io.reactivex.Observable;

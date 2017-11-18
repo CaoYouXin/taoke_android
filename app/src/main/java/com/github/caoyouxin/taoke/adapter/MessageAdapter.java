@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.github.caoyouxin.taoke.R;
-import com.github.caoyouxin.taoke.model.HelpItem;
 import com.github.caoyouxin.taoke.model.M;
 import com.github.caoyouxin.taoke.model.MessageItem;
 import com.shizhefei.mvc.IDataAdapter;

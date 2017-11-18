@@ -1,7 +1,6 @@
 package com.github.caoyouxin.taoke.adapter;
 
 import android.content.Context;
-import android.graphics.Paint;
 import android.graphics.drawable.Animatable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;

@@ -1,20 +1,15 @@
 package com.github.caoyouxin.taoke.ui.activity;
 
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
 import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.adapter.FriendAdapter;
-import com.github.caoyouxin.taoke.adapter.HelpAdapter;
 import com.github.caoyouxin.taoke.datasource.FriendDataSource;
-import com.github.caoyouxin.taoke.datasource.HelpDataSource;
 import com.github.caoyouxin.taoke.model.FriendItem;
-import com.github.caoyouxin.taoke.model.HelpItem;
 import com.github.caoyouxin.taoke.ui.widget.HackyLoadViewFactory;
 import com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;

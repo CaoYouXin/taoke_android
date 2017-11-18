@@ -7,15 +7,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.github.caoyouxin.taoke.R;
-import com.github.caoyouxin.taoke.model.M;
-import com.github.caoyouxin.taoke.model.MessageItem;
 import com.github.caoyouxin.taoke.model.SearchHintItem;
 import com.shizhefei.mvc.IDataAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindInt;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

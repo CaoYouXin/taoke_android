@@ -16,7 +16,6 @@ import com.github.caoyouxin.taoke.api.RxHelper;
 import com.github.caoyouxin.taoke.api.TaoKeApi;
 import com.github.caoyouxin.taoke.util.RegUtils;
 import com.github.gnastnosaj.boilerplate.util.keyboard.BaseActivity;
-
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import java.util.concurrent.TimeUnit;

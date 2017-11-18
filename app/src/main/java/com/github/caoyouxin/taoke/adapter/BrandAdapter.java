@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.github.caoyouxin.taoke.R;
-import com.github.caoyouxin.taoke.model.BrandItem;
 import com.github.caoyouxin.taoke.model.HomeBtn;
 import com.shizhefei.mvc.IDataAdapter;
 

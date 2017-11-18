@@ -1,26 +1,14 @@
 package com.github.caoyouxin.taoke.ui.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
 
 import com.github.caoyouxin.taoke.R;
-import com.github.caoyouxin.taoke.adapter.SearchHintAdapter;
-import com.github.caoyouxin.taoke.datasource.SearchHintDataSource;
-import com.github.caoyouxin.taoke.model.SearchHintItem;
 import com.github.caoyouxin.taoke.ui.activity.SearchActivity;
-import com.shizhefei.mvc.MVCNormalHelper;
-import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;

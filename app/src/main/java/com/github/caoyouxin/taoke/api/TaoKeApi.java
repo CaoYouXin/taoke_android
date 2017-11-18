@@ -13,7 +13,6 @@ import com.github.caoyouxin.taoke.model.FriendItem;
 import com.github.caoyouxin.taoke.model.HelpItem;
 import com.github.caoyouxin.taoke.model.HomeBtn;
 import com.github.caoyouxin.taoke.model.MessageItem;
-import com.github.caoyouxin.taoke.model.Product;
 import com.github.caoyouxin.taoke.model.OrderItem;
 import com.github.caoyouxin.taoke.model.SearchHintItem;
 import com.github.caoyouxin.taoke.model.ShareImage;
@@ -44,6 +43,7 @@ public class TaoKeApi {
     private final static String PREF_USER_PID = "aliPid";
     private final static String PREF_USER_ID = "id";
     private final static String PREF_USER_SHARE_CODE = "code";
+    private static final String PREF_CANDIDATE = "candidate";
     private final static String CDN_HOST = "http://192.168.0.103:8070/";
 //    private final static String CDN_HOST = "http://server.tkmqr.com:8070/";
 
@@ -52,7 +52,7 @@ public class TaoKeApi {
     public static String aliPID;
     public static Long userId;
     public static String shareCode;
-    public static EnrollSubmit enrollSubmit;
+    public static Boolean candidate;
 
     // **** user apis below *******************************************
 
@@ -95,8 +95,10 @@ public class TaoKeApi {
     }
 
     private static void readToken(TaoKeData taoKeData) {
-        accessToken = (String) taoKeData.getMap().get(PREF_ACCESS_TOKEN);
-        Map user = (Map) taoKeData.getMap().get(PREF_USER);
+        Map rec = taoKeData.getMap();
+        accessToken = (String) rec.get(PREF_ACCESS_TOKEN);
+        candidate = (Boolean) rec.get(PREF_CANDIDATE);
+        Map user = (Map) rec.get(PREF_USER);
         userName = (String) user.get(PREF_USER_NAME);
         aliPID = (String) user.get(PREF_USER_PID);
         userId = ((Double) user.get(PREF_USER_ID)).longValue();
@@ -109,8 +111,9 @@ public class TaoKeApi {
         editor.putString(PREF_ACCESS_TOKEN, accessToken);
         editor.putString(PREF_USER_NAME, userName);
         editor.putString(PREF_USER_PID, aliPID);
-        editor.putString(PREF_USER_ID, userId + "");
-        editor.putString(PREF_USER_SHARE_CODE, null == shareCode ? "" : shareCode);
+        editor.putLong(PREF_USER_ID, userId);
+        editor.putString(PREF_USER_SHARE_CODE, shareCode);
+        editor.putBoolean(PREF_CANDIDATE, candidate);
         editor.apply();
     }
 
@@ -119,9 +122,10 @@ public class TaoKeApi {
         if (sharedPreferences.contains(PREF_ACCESS_TOKEN)) {
             accessToken = sharedPreferences.getString(PREF_ACCESS_TOKEN, null);
             userName = sharedPreferences.getString(PREF_USER_NAME, null);
-            aliPID = sharedPreferences.getString(PREF_USER_PID, null);
-            userId = Long.parseLong(sharedPreferences.getString(PREF_USER_ID, "0"));
+            aliPID = sharedPreferences.getString(PREF_USER_PID, "");
+            userId = sharedPreferences.getLong(PREF_USER_ID, 0L);
             shareCode = sharedPreferences.getString(PREF_USER_SHARE_CODE, "");
+            candidate = sharedPreferences.getBoolean(PREF_CANDIDATE, false);
             return true;
         } else {
             return false;
@@ -134,6 +138,11 @@ public class TaoKeApi {
         editor.clear();
         editor.apply();
         accessToken = null;
+        userName = null;
+        aliPID = null;
+        userId = null;
+        shareCode = null;
+        candidate = null;
     }
 
     // **** user apis above *******************************************

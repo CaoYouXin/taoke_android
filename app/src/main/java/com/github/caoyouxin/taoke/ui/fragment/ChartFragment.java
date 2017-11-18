@@ -15,16 +15,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.api.ApiException;
 import com.github.caoyouxin.taoke.api.RxHelper;
 import com.github.caoyouxin.taoke.api.TaoKeApi;
 import com.github.caoyouxin.taoke.ui.activity.OrdersActivity;
-import com.github.caoyouxin.taoke.ui.activity.SplashActivity;
 import com.github.caoyouxin.taoke.util.SpannedTextUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.trello.rxlifecycle2.android.ActivityEvent;

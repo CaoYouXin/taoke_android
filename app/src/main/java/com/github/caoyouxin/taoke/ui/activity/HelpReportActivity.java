@@ -2,7 +2,6 @@ package com.github.caoyouxin.taoke.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
@@ -14,9 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.caoyouxin.taoke.R;
-import com.github.caoyouxin.taoke.adapter.CouponAdapter;
 import com.github.caoyouxin.taoke.adapter.HelpAdapter;
-import com.github.caoyouxin.taoke.datasource.CouponDataSource;
 import com.github.caoyouxin.taoke.datasource.HelpDataSource;
 import com.github.caoyouxin.taoke.model.HelpItem;
 import com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity;

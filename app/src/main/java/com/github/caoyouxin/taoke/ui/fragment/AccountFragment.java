@@ -16,6 +16,7 @@ import android.text.style.RelativeSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.caoyouxin.taoke.R;
@@ -41,6 +42,9 @@ public class AccountFragment extends Fragment {
     @BindView(R.id.account_id)
     TextView accountId;
 
+    @BindView(R.id.enroll_wrapper)
+    LinearLayout enrollWrapper;
+
     View rootView;
 
     @Nullable
@@ -56,6 +60,9 @@ public class AccountFragment extends Fragment {
 
             this.initAccountId();
 
+            if (!TaoKeApi.candidate) {
+                enrollWrapper.setVisibility(View.GONE);
+            }
         }
         return rootView;
     }
