@@ -47,16 +47,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="10dp" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/grey_300" />
-
             <LinearLayout
                 android:id="@+id/enroll_wrapper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey_300" />
 
             <include layout="@layout/btn_to_enroll" />
 
@@ -64,8 +64,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/grey_300" />
-
-            </LinearLayout>
 
             <include layout="@layout/btn_my_friends" />
 
@@ -77,6 +75,8 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="10dp" />
+
+            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"

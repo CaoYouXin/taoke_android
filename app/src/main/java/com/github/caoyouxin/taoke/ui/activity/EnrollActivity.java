@@ -175,6 +175,6 @@ public class EnrollActivity extends BaseActivity {
 
     @Override
     public int[] hideSoftByEditViewIds() {
-        return new int[]{R.id.alipay, R.id.qq, R.id.wechat, R.id.announcement};
+        return new int[]{R.id.name, R.id.alipay, R.id.qq, R.id.wechat, R.id.announcement};
     }
 }
