@@ -1,18 +1,31 @@
 package com.github.caoyouxin.taoke;
 
+import android.app.AlertDialog;
 import android.app.Application;
+import android.content.Context;
+import android.content.Intent;
 import android.widget.Toast;
 
+import com.ali.auth.third.ui.LoginActivity;
 import com.alibaba.baichuan.android.trade.AlibcTradeSDK;
 import com.alibaba.baichuan.android.trade.callback.AlibcTradeInitCallback;
+import com.github.caoyouxin.taoke.api.TaoKeApi;
+import com.github.caoyouxin.taoke.api.UnAuthException;
+import com.github.caoyouxin.taoke.ui.activity.SplashActivity;
 import com.github.caoyouxin.taoke.util.ShareHelper;
 import com.github.gnastnosaj.boilerplate.Boilerplate;
+import com.github.gnastnosaj.boilerplate.mvchelper.RxDataSource;
 
 import java.io.IOException;
 import java.net.SocketException;
 
+import io.reactivex.Observable;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.exceptions.UndeliverableException;
+import io.reactivex.functions.Function;
 import io.reactivex.plugins.RxJavaPlugins;
+import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
@@ -52,7 +65,20 @@ public class TaoKe extends Application {
             }
             Timber.w(e, "Undeliverable exception received, not sure what to do");
         });
-        
+
+        RxDataSource.addHook((context, observable) -> observable.observeOn(AndroidSchedulers.mainThread()).onErrorReturn(o -> {
+            if (o instanceof UnAuthException) {
+                System.out.println("Tua");
+                new AlertDialog.Builder(context).setPositiveButton(R.string.re_login_confirm,
+                        (dialog, witch) -> {
+                            TaoKeApi.clearToken();
+                            context.startActivity(new Intent(context, SplashActivity.class)
+                                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                        }).setMessage(R.string.re_login_hint).show();
+            }
+            return o;
+        }).subscribeOn(Schedulers.io()));
+
         ShareHelper.initialize(this);
 
         AlibcTradeSDK.asyncInit(this, new AlibcTradeInitCallback() {

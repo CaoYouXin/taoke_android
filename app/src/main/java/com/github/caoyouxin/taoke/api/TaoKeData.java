@@ -2,6 +2,8 @@ package com.github.caoyouxin.taoke.api;
 
 import com.google.gson.Gson;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,4 +31,5 @@ public class TaoKeData {
     public List<String> getStringList() {
         return (List<String>) body;
     }
+
 }
