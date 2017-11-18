@@ -18,8 +18,10 @@ import com.github.caoyouxin.taoke.ui.widget.HackyLoadViewFactory;
 import com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity;
 import com.mikepenz.iconics.view.IconicsTextView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.shizhefei.mvc.IDataAdapter;
 import com.shizhefei.mvc.MVCHelper;
 import com.shizhefei.mvc.MVCNormalHelper;
+import com.shizhefei.mvc.OnStateChangeListener;
 
 import java.util.List;
 
@@ -82,6 +84,7 @@ public class ProductListActivity extends BaseActivity {
 
         initRefreshRecyclerView();
 
+        createDynamicBox(findViewById(R.id.recycler_view));
     }
 
     @OnClick(R.id.back)
@@ -177,6 +180,27 @@ public class ProductListActivity extends BaseActivity {
         productDataSource = new ProductDataSource(this, brandItem);
         mvcHelper.setAdapter(productAdapter);
         mvcHelper.setDataSource(productDataSource);
+        mvcHelper.setOnStateChangeListener(new OnStateChangeListener<List<CouponItem>>() {
+            @Override
+            public void onStartLoadMore(IDataAdapter<List<CouponItem>> adapter) {
+
+            }
+
+            @Override
+            public void onEndLoadMore(IDataAdapter<List<CouponItem>> adapter, List<CouponItem> result) {
+
+            }
+
+            @Override
+            public void onStartRefresh(IDataAdapter<List<CouponItem>> adapter) {
+                showDynamicBoxCustomView(DYNAMIC_BOX_MK_LINESPINNER, ProductListActivity.this);
+            }
+
+            @Override
+            public void onEndRefresh(IDataAdapter<List<CouponItem>> adapter, List<CouponItem> result) {
+                dismissDynamicBox(ProductListActivity.this);
+            }
+        });
         mvcHelper.refresh();
 
         smartRefreshLayout.setOnRefreshListener(refreshLayout -> {

@@ -224,7 +224,6 @@ public class TaoKeApi {
                             item.setEarnPrice(String.format(Locale.ENGLISH, "%.2f", Double.parseDouble(item.getZkFinalPrice()) * Double.parseDouble(item.getCommissionRate()) / 100));
                         }
 
-                        System.out.println(item.getTkLink());
                         items.add(item);
                     }
                     return items;

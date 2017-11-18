@@ -35,6 +35,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import mehdi.sakout.dynamicbox.DynamicBox;
 
 import static com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity.DYNAMIC_BOX_MK_LINESPINNER;
 
@@ -71,6 +72,7 @@ public class SearchResultFragment extends Fragment {
     private GestureDetector gestureDetector;
     private SearchActivity context;
     private String searchKeyword;
+    private DynamicBox dynamicBox;
 
     public void setSearchKeyword(String searchKeyword) {
         this.searchKeyword = searchKeyword;
@@ -105,7 +107,7 @@ public class SearchResultFragment extends Fragment {
 
             initCouponList();
 
-            context.createDynamicBox(context, rootView.findViewById(R.id.coupon_list));
+            dynamicBox = context.createDynamicBox(context, rootView.findViewById(R.id.coupon_list));
 
         }
         return rootView;
@@ -155,12 +157,12 @@ public class SearchResultFragment extends Fragment {
 
             @Override
             public void onStartRefresh(IDataAdapter<List<CouponItem>> adapter) {
-                context.showDynamicBoxCustomView(DYNAMIC_BOX_MK_LINESPINNER, context);
+                dynamicBox.showCustomView(DYNAMIC_BOX_MK_LINESPINNER);
             }
 
             @Override
             public void onEndRefresh(IDataAdapter<List<CouponItem>> adapter, List<CouponItem> result) {
-                context.dismissDynamicBox(context);
+                dynamicBox.hideAll();
             }
         });
     }
