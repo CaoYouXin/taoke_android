@@ -44,7 +44,8 @@ public class TaoKeApi {
     private final static String PREF_USER_PID = "aliPid";
     private final static String PREF_USER_ID = "id";
     private final static String PREF_USER_SHARE_CODE = "code";
-    private final static String CDN_HOST = "http://server.tkmqr.com:8070/";
+    private final static String CDN_HOST = "http://192.168.0.103:8070/";
+//    private final static String CDN_HOST = "http://server.tkmqr.com:8070/";
 
     private static String accessToken;
     public static String userName;

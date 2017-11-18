@@ -87,7 +87,7 @@ public class TaoKeActivity extends BaseActivity {
     private void showTabContent(int tabId) {
         if (pages == null) {
             pages = new ArrayMap<>();
-            pages.put(tabDiscover.getId(), new DiscoverFragment());
+            pages.put(tabDiscover.getId(), new DiscoverFragment().setTaokeActivity(this));
             pages.put(tabChart.getId(), new ChartFragment());
             pages.put(tabMessage.getId(), new MessageFragment());
             pages.put(tabAccount.getId(), new AccountFragment());

@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -34,9 +35,12 @@ import com.github.caoyouxin.taoke.api.RxHelper;
 import com.github.caoyouxin.taoke.api.TaoKeApi;
 import com.github.caoyouxin.taoke.datasource.CouponDataSource;
 import com.github.caoyouxin.taoke.model.HomeBtn;
+import com.github.caoyouxin.taoke.model.OrderItem;
 import com.github.caoyouxin.taoke.ui.activity.DetailActivity;
 import com.github.caoyouxin.taoke.ui.activity.NoviceActivity;
+import com.github.caoyouxin.taoke.ui.activity.OrdersActivity;
 import com.github.caoyouxin.taoke.ui.activity.ProductListActivity;
+import com.github.caoyouxin.taoke.ui.activity.TaoKeActivity;
 import com.github.caoyouxin.taoke.ui.widget.HackyLoadViewFactory;
 import com.github.caoyouxin.taoke.ui.widget.HackyTextSliderView;
 import com.github.caoyouxin.taoke.ui.widget.RecyclerViewAppBarBehavior;
@@ -45,8 +49,10 @@ import com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.shizhefei.mvc.IDataAdapter;
 import com.shizhefei.mvc.MVCHelper;
 import com.shizhefei.mvc.MVCNormalHelper;
+import com.shizhefei.mvc.OnStateChangeListener;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 import com.yanyusong.y_divideritemdecoration.Y_Divider;
 import com.yanyusong.y_divideritemdecoration.Y_DividerBuilder;
@@ -59,6 +65,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import mehdi.sakout.dynamicbox.DynamicBox;
+
+import static com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity.DYNAMIC_BOX_MK_LINESPINNER;
 
 /**
  * Created by jasontsang on 10/24/17.
@@ -123,6 +132,14 @@ public class DiscoverFragment extends Fragment {
         }
     };
 
+    private TaoKeActivity context;
+    private DynamicBox dynamicBox;
+
+    public DiscoverFragment setTaokeActivity(TaoKeActivity context) {
+        this.context = context;
+        return this;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -146,6 +163,7 @@ public class DiscoverFragment extends Fragment {
 
             initCouponTab();
 
+            this.dynamicBox = context.createDynamicBox(context, rootView.findViewById(R.id.coupon_list));
         }
         sliderLayout.setDuration(4000);
         return rootView;
@@ -346,6 +364,27 @@ public class DiscoverFragment extends Fragment {
         couponListHelper = new MVCNormalHelper<>(couponList, hackyLoadViewFactory.madeLoadView(), hackyLoadViewFactory.madeLoadMoreView());
         couponListHelper.setAdapter(couponAdapter);
         couponListHelper.setDataSource(couponDataSource);
+        couponListHelper.setOnStateChangeListener(new OnStateChangeListener<List<CouponItem>>() {
+            @Override
+            public void onStartLoadMore(IDataAdapter<List<CouponItem>> adapter) {
+
+            }
+
+            @Override
+            public void onEndLoadMore(IDataAdapter<List<CouponItem>> adapter, List<CouponItem> result) {
+
+            }
+
+            @Override
+            public void onStartRefresh(IDataAdapter<List<CouponItem>> adapter) {
+                dynamicBox.showCustomView(DYNAMIC_BOX_MK_LINESPINNER);
+            }
+
+            @Override
+            public void onEndRefresh(IDataAdapter<List<CouponItem>> adapter, List<CouponItem> result) {
+                dynamicBox.hideAll();
+            }
+        });
     }
 
     private void initFloatingActionButton() {
