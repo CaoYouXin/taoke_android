@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.github.caoyouxin.taoke.R;
+import com.github.caoyouxin.taoke.api.TaoKeApi;
 import com.github.caoyouxin.taoke.model.CouponItem;
 import com.shizhefei.mvc.IDataAdapter;
 
@@ -67,7 +69,14 @@ public class CouponAdapter extends RecyclerView.Adapter implements IDataAdapter<
         builder.setSpan(new AbsoluteSizeSpan(context.getResources().getDimensionPixelSize(R.dimen.font_16)), text.indexOf("¥"), text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         holder.priceAfter.setText(builder);
 
-        holder.earn.setText(context.getResources().getString(R.string.discover_coupon_earn, item.getEarnPrice()));
+        if (null != TaoKeApi.aliPID && !TextUtils.isEmpty(TaoKeApi.aliPID)
+                && null != TaoKeApi.shareCode && !TextUtils.isEmpty(TaoKeApi.shareCode)) {
+            holder.earn.setText(context.getResources().getString(R.string.discover_coupon_earn, item.getEarnPrice()));
+        } else {
+            holder.earn.setVisibility(View.GONE);
+        }
+
+
         holder.value.setText(context.getResources().getString(R.string.discover_coupon_value, item.getCouponInfo(), String.valueOf(item.getCouponRemainCount())));
 
         if (holder.progressDisposable != null && !holder.progressDisposable.isDisposed()) {

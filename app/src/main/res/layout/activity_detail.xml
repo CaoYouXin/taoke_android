@@ -180,6 +180,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/detail_commission_wrapper"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/len_10"

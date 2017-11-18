@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StrikethroughSpan;
@@ -20,6 +21,7 @@ import com.facebook.drawee.controller.BaseControllerListener;
 import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.imagepipeline.image.ImageInfo;
 import com.github.caoyouxin.taoke.R;
+import com.github.caoyouxin.taoke.api.TaoKeApi;
 import com.github.caoyouxin.taoke.model.CouponItem;
 import com.github.caoyouxin.taoke.ui.widget.RatioImageView;
 import com.shizhefei.mvc.IDataAdapter;
@@ -71,7 +73,13 @@ public class ProductAdapter extends RecyclerView.Adapter implements IDataAdapter
         holder.thumb.setController(draweeController);
         holder.title.setText(item.getTitle());
         holder.sales.setText(context.getResources().getString(R.string.product_sales, String.valueOf(item.getVolume())));
-        holder.shareEarn.setText(context.getResources().getString(R.string.share_earn, item.getEarnPrice()));
+
+        if (null != TaoKeApi.aliPID && !TextUtils.isEmpty(TaoKeApi.aliPID)
+                && null != TaoKeApi.shareCode && !TextUtils.isEmpty(TaoKeApi.shareCode)) {
+            holder.shareEarn.setText(context.getResources().getString(R.string.share_earn, item.getEarnPrice()));
+        } else {
+            holder.shareEarn.setVisibility(View.GONE);
+        }
 
         if (null != item.getCouponInfo()) {
             holder.couponPrice.setText(context.getResources().getString(R.string.product_price, item.getCouponPrice()));

@@ -89,6 +89,9 @@ public class DetailActivity extends BaseActivity {
     @BindView(R.id.agent_detail_share)
     TextView agentDetailShare;
 
+    @BindView(R.id.detail_commission_wrapper)
+    LinearLayout detailCommissionWrapper;
+
     private CouponItem couponItem;
 
     @Override
@@ -109,6 +112,11 @@ public class DetailActivity extends BaseActivity {
         } else {
             buyerWrapper.setVisibility(View.GONE);
             agentDetailShare.setVisibility(View.VISIBLE);
+        }
+
+        if (null == TaoKeApi.aliPID || !TextUtils.isEmpty(TaoKeApi.aliPID)
+                || null != TaoKeApi.shareCode || !TextUtils.isEmpty(TaoKeApi.shareCode)) {
+            detailCommissionWrapper.setVisibility(View.GONE);
         }
     }
 
