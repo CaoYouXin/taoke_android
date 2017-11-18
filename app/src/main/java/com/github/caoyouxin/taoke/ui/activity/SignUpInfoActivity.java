@@ -1,5 +1,7 @@
 package com.github.caoyouxin.taoke.ui.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -176,11 +178,19 @@ public class SignUpInfoActivity extends BaseActivity {
         }
         String name = nick.getEditableText().toString().trim();
         String invitation = invitationCode.getEditableText().toString().trim();
-//        if (TextUtils.isEmpty(name)) {
-//            nick.requestFocus();
-//            return;
-//        }
+        if (TextUtils.isEmpty(invitation)) {
+            new AlertDialog.Builder(this).setPositiveButton(R.string.to_register_directly, (dialog, which) -> {
+                signUp(vcode, pwd, name, invitation);
+            }).setNegativeButton(R.string.to_edit_invation_code, (dialog, which) -> {
+                invitationCode.requestFocus();
+            }).setMessage(R.string.lack_of_invitation_hint).show();
+            return;
+        }
 
+        signUp(vcode, pwd, name, invitation);
+    }
+
+    private void signUp(String vcode, String pwd, String name, String invitation) {
         verificationCode.setEnabled(false);
         password.setEnabled(false);
         nick.setEnabled(false);
