@@ -128,8 +128,8 @@ public class DetailActivity extends BaseActivity {
                 openDetail();
                 break;
             case R.id.detail_share:
-                startActivity(new Intent(this, EnrollActivity.class));
-                break;
+//                startActivity(new Intent(this, EnrollActivity.class));
+//                break;
             case R.id.agent_detail_share:
                 startActivity(new Intent(this, ShareActivity.class)
                         .putExtra(ShareActivity.EXTRA_COUPON_ITEM, couponItem));
