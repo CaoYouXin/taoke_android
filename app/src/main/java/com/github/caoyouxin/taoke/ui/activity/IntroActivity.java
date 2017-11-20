@@ -32,6 +32,12 @@ public class IntroActivity extends AppIntro {
 
         setSkipText(getResources().getString(R.string.intro_skip));
         setDoneText(getResources().getString(R.string.intro_done));
+        setBarColor(getResources().getColor(R.color.trans));
+        setSeparatorColor(getResources().getColor(R.color.trans));
+        setColorDoneText(getResources().getColor(R.color.black_alpha_176));
+        setColorSkipButton(getResources().getColor(R.color.black_alpha_176));
+        setNextArrowColor(getResources().getColor(R.color.black_alpha_176));
+        setIndicatorColor(getResources().getColor(R.color.black_alpha_176), getResources().getColor(R.color.black_alpha_64));
     }
 
     @Override
