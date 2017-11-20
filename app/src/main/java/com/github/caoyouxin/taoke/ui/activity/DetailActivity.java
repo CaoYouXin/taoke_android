@@ -12,6 +12,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.baichuan.android.trade.AlibcTrade;
 import com.alibaba.baichuan.android.trade.callback.AlibcTradeCallback;
@@ -116,6 +117,8 @@ public class DetailActivity extends BaseActivity {
                 || null != TaoKeApi.shareCode || !TextUtils.isEmpty(TaoKeApi.shareCode)) {
             detailCommissionWrapper.setVisibility(View.GONE);
         }
+
+//        createDynamicBox();
     }
 
     @Override
@@ -147,6 +150,8 @@ public class DetailActivity extends BaseActivity {
     }
 
     private void openTaobao() {
+//        showDynamicBoxCustomView(DYNAMIC_BOX_MK_LINESPINNER, DetailActivity.this);
+
         String taokeUrl = couponItem.getCouponClickUrl();
         if (null == taokeUrl || taokeUrl.isEmpty()) {
             taokeUrl = couponItem.getTkLink();
@@ -159,45 +164,29 @@ public class DetailActivity extends BaseActivity {
         AlibcShowParams showParams = new AlibcShowParams(OpenType.Native, false);
         // 淘宝客参数
         AlibcTaokeParams taokeParams = new AlibcTaokeParams();
-        taokeParams.setPid("mm_126702819_39168038_145972940");
+        taokeParams.setPid(TaoKeApi.aliPID);
         // 提供给三方传递配置参数
         Map<String, String> trackParam = new HashMap<>();
         AlibcTrade.show(this, tradePage, showParams, taokeParams, trackParam, new AlibcTradeCallback() {
 
             @Override
             public void onTradeSuccess(AlibcTradeResult alibcTradeResult) {
-                System.out.println(alibcTradeResult);
+//                dismissDynamicBox(DetailActivity.this);
             }
 
             @Override
             public void onFailure(int code, String msg) {
                 //打开电商组件，用户操作中错误信息回调。code：错误码；msg：错误信息
-                System.err.println(String.format("百川电商组件调用失败, code=%d, msg=%s", code, msg));
+//                dismissDynamicBox(DetailActivity.this);
+                Toast.makeText(DetailActivity.this, String.format("百川电商组件调用失败, code=%d, msg=%s", code, msg), Toast.LENGTH_LONG).show();
             }
         });
     }
 
     private void openDetail() {
-        AlibcBasePage detailPage = new AlibcDetailPage("" + couponItem.getNumIid());
-        AlibcShowParams showParams = new AlibcShowParams(OpenType.H5, false);
-        // 淘宝客参数
-        AlibcTaokeParams taokeParams = new AlibcTaokeParams();
-        taokeParams.setPid("mm_126702819_39168038_145972940");
-        // 提供给三方传递配置参数
-        Map<String, String> trackParam = new HashMap<>();
-        AlibcTrade.show(this, detailPage, showParams, taokeParams, trackParam, new AlibcTradeCallback() {
-
-            @Override
-            public void onTradeSuccess(AlibcTradeResult alibcTradeResult) {
-                System.out.println(alibcTradeResult);
-            }
-
-            @Override
-            public void onFailure(int code, String msg) {
-                //打开电商组件，用户操作中错误信息回调。code：错误码；msg：错误信息
-                System.err.println(String.format("百川电商组件调用失败, code=%d, msg=%s", code, msg));
-            }
-        });
+        Intent intent = new Intent(DetailActivity.this, H5DetailActivity.class);
+        intent.putExtra(H5DetailActivity.EXTRA_COUPON_ITEM_ID, "" + couponItem.getNumIid());
+        startActivity(intent);
     }
 
     private void initSlider() {

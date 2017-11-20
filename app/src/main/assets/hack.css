@@ -1,0 +1,13 @@
+.header-warp #s-header a.review { display: none; }
+section.actionBar-bg { display: none; }
+.smart-jump { display: none; }
+.module-wrap[data-module='mods/module-sku/index'] { display: none; }
+.module-wrap[data-module='mods/module-coupon/index'] { display: none; }
+.module-wrap[data-module='mods/module-prom/index'] { display: none; }
+.module-wrap[data-module='mods/module-related/index'] { display: none; }
+.module-wrap[data-module='mods/module-review/index'] { display: none; }
+.module-wrap[data-module='mods/module-recommend/index'] { display: none; }
+.module-wrap[data-module='mods/module-smartjump/index'] { display: none; }
+.module-wrap[data-module='mods/module-app-download-popup/index'] { display: none; }
+.module-wrap[data-module='mods/module-recommend-down/index'] { display: none; }
+.module-wrap[data-module='mods/module-shop/index'] { display: none; }
