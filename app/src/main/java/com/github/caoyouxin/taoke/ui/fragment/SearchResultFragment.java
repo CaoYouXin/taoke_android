@@ -68,6 +68,9 @@ public class SearchResultFragment extends Fragment {
     private SearchActivity context;
     private String searchKeyword;
     private DynamicBox dynamicBox;
+    private CouponAdapter couponAdapter;
+    private SearchCouponDataSource couponDataSource;
+    private MVCNormalHelper<List<CouponItem>> couponListHelper;
 
     public void setSearchKeyword(String searchKeyword) {
         this.searchKeyword = searchKeyword;
@@ -78,10 +81,6 @@ public class SearchResultFragment extends Fragment {
         this.couponDataSource.setCache(null).setSort(SearchCouponDataSource.SORT_MULTIPLE).setKeyword(searchKeyword);
         this.couponListHelper.refresh();
     }
-
-    private CouponAdapter couponAdapter;
-    private SearchCouponDataSource couponDataSource;
-    private MVCNormalHelper<List<CouponItem>> couponListHelper;
 
     public SearchResultFragment setSearchActivity(GestureDetector gestureDetector, SearchActivity context) {
         this.gestureDetector = gestureDetector;

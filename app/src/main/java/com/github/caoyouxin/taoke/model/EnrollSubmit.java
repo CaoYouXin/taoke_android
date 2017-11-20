@@ -5,9 +5,6 @@ import android.preference.PreferenceManager;
 
 import com.github.gnastnosaj.boilerplate.Boilerplate;
 
-/**
- * Created by cls on 2017/11/14.
- */
 
 public class EnrollSubmit {
 
@@ -31,6 +28,16 @@ public class EnrollSubmit {
         this.announcement = announcement;
     }
 
+    public static EnrollSubmit get() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Boilerplate.getInstance());
+        String realName = sharedPreferences.getString(PREF_REALNAME, "");
+        String aliPayId = sharedPreferences.getString(PREF_ALIPAYID, "");
+        String qqId = sharedPreferences.getString(PREF_QQID, "");
+        String weChatId = sharedPreferences.getString(PREF_WECHATID, "");
+        String announcement = sharedPreferences.getString(PREF_ANNOUNCEMENT, "");
+        return new EnrollSubmit(realName, aliPayId, qqId, weChatId, announcement);
+    }
+
     public void persist() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Boilerplate.getInstance());
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -40,16 +47,6 @@ public class EnrollSubmit {
         editor.putString(PREF_WECHATID, this.weChatId);
         editor.putString(PREF_ANNOUNCEMENT, this.announcement);
         editor.apply();
-    }
-
-    public static EnrollSubmit get() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Boilerplate.getInstance());
-        String realName = sharedPreferences.getString(PREF_REALNAME, "");
-        String aliPayId = sharedPreferences.getString(PREF_ALIPAYID, "");
-        String qqId = sharedPreferences.getString(PREF_QQID, "");
-        String weChatId = sharedPreferences.getString(PREF_WECHATID, "");
-        String announcement = sharedPreferences.getString(PREF_ANNOUNCEMENT, "");
-        return new EnrollSubmit(realName, aliPayId, qqId, weChatId, announcement);
     }
 
 }

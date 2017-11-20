@@ -142,48 +142,6 @@ public class ChartFragment extends Fragment {
                 );
     }
 
-    private static class DecimalDigitsInputFilter implements InputFilter {
-
-        private EditText context;
-
-        public DecimalDigitsInputFilter(EditText context) {
-            this.context = context;
-        }
-
-        @Override
-        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-            String examStr = this.context.getText().toString() + source.toString();
-            int indexOfDot = examStr.indexOf('.');
-            if (-1 == indexOfDot) {
-                try {
-                    Integer.parseInt(examStr);
-                    return null;
-                } catch (Exception e) {
-                    return "";
-                }
-            } else {
-                String beforeDot = examStr.substring(0, indexOfDot);
-                String afterDot = examStr.substring(indexOfDot + 1);
-
-                if (afterDot.length() > 2) {
-                    return "";
-                }
-
-                if (TextUtils.isEmpty(afterDot)) {
-                    return null;
-                }
-
-                try {
-                    Integer.parseInt(beforeDot);
-                    Integer.parseInt(afterDot);
-                    return null;
-                } catch (Exception e) {
-                    return "";
-                }
-            }
-        }
-    }
-
     @OnClick({R.id.orders_detail, R.id.withdraw})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -243,6 +201,48 @@ public class ChartFragment extends Fragment {
         smartRefreshLayout.setOnLoadmoreListener(refreshLayout -> {
             refreshLayout.finishLoadmore(false);
         });
+    }
+
+    private static class DecimalDigitsInputFilter implements InputFilter {
+
+        private EditText context;
+
+        public DecimalDigitsInputFilter(EditText context) {
+            this.context = context;
+        }
+
+        @Override
+        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+            String examStr = this.context.getText().toString() + source.toString();
+            int indexOfDot = examStr.indexOf('.');
+            if (-1 == indexOfDot) {
+                try {
+                    Integer.parseInt(examStr);
+                    return null;
+                } catch (Exception e) {
+                    return "";
+                }
+            } else {
+                String beforeDot = examStr.substring(0, indexOfDot);
+                String afterDot = examStr.substring(indexOfDot + 1);
+
+                if (afterDot.length() > 2) {
+                    return "";
+                }
+
+                if (TextUtils.isEmpty(afterDot)) {
+                    return null;
+                }
+
+                try {
+                    Integer.parseInt(beforeDot);
+                    Integer.parseInt(afterDot);
+                    return null;
+                } catch (Exception e) {
+                    return "";
+                }
+            }
+        }
     }
 
 }

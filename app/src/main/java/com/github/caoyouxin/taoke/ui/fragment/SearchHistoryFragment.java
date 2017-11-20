@@ -18,9 +18,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.next.tagview.TagCloudView;
 
-/**
- * Created by jasontsang on 10/24/17.
- */
 
 public class SearchHistoryFragment extends Fragment implements TagCloudView.OnTagClickListener {
 
@@ -52,7 +49,6 @@ public class SearchHistoryFragment extends Fragment implements TagCloudView.OnTa
         }
         return rootView;
     }
-
 
 
     private void initSearchHintList() {

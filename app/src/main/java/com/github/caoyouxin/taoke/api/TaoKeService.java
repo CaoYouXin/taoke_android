@@ -8,9 +8,6 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
-/**
- * Created by jasontsang on 10/24/17.
- */
 
 public interface TaoKeService {
     String API_VERIFICATION = "tbk/phone/verify";

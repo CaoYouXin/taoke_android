@@ -4,9 +4,6 @@ import android.view.View;
 
 import com.shizhefei.mvc.ILoadViewFactory;
 
-/**
- * Created by jasontsang on 10/26/17.
- */
 
 public class HackyLoadViewFactory implements ILoadViewFactory {
     @Override

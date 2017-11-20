@@ -132,10 +132,8 @@ public class HelpReportActivity extends BaseActivity {
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event)
-    {
-        if (keyCode == KeyEvent.KEYCODE_BACK )
-        {
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (this.isReadingHelp) {
                 this.helpList.setVisibility(View.VISIBLE);
                 this.reportEntry.setVisibility(View.VISIBLE);

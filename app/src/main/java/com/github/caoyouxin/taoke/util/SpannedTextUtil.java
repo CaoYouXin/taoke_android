@@ -7,9 +7,6 @@ import android.text.style.AbsoluteSizeSpan;
 
 import com.github.caoyouxin.taoke.R;
 
-/**
- * Created by cls on 2017/10/29.
- */
 
 public class SpannedTextUtil {
 

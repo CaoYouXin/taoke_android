@@ -20,9 +20,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observable;
 
-/**
- * Created by jasontsang on 10/24/17.
- */
 
 public class ShareImageAdapter extends RecyclerView.Adapter implements IDataAdapter<List<ShareImage>> {
 
@@ -78,6 +75,10 @@ public class ShareImageAdapter extends RecyclerView.Adapter implements IDataAdap
         return data.isEmpty();
     }
 
+    public static class ShareImageEvent {
+        public final static Observable<ShareImageEvent> observable = RxBus.getInstance().register(ShareImageEvent.class, ShareImageEvent.class);
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.share_image_thumb)
@@ -90,9 +91,5 @@ public class ShareImageAdapter extends RecyclerView.Adapter implements IDataAdap
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
-    }
-
-    public static class ShareImageEvent {
-        public final static Observable<ShareImageEvent> observable = RxBus.getInstance().register(ShareImageEvent.class, ShareImageEvent.class);
     }
 }

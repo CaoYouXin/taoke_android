@@ -8,6 +8,10 @@ import android.view.ViewGroup;
 
 public class SlideFragment extends Fragment {
     private static final String ARG_LAYOUT_RES_ID = "layoutResId";
+    private int layoutResId;
+
+    public SlideFragment() {
+    }
 
     public static SlideFragment newInstance(int layoutResId) {
         SlideFragment slideFragment = new SlideFragment();
@@ -20,15 +24,11 @@ public class SlideFragment extends Fragment {
         return slideFragment;
     }
 
-    private int layoutResId;
-
-    public SlideFragment() {}
-
     @Override
-    public void onCreate( Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(getArguments() != null && getArguments().containsKey(ARG_LAYOUT_RES_ID))
+        if (getArguments() != null && getArguments().containsKey(ARG_LAYOUT_RES_ID))
             layoutResId = getArguments().getInt(ARG_LAYOUT_RES_ID);
     }
 

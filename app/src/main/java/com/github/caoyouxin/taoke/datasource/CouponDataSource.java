@@ -11,11 +11,11 @@ import java.util.List;
 
 import io.reactivex.Observable;
 
-/**
- * Created by jasontsang on 10/24/17.
- */
 
 public class CouponDataSource extends RxDataSource<List<CouponItem>> implements IDataCacheLoader<List<CouponItem>> {
+    private String cid;
+    private Long pageNo;
+
     public CouponDataSource(Context context) {
         super(context);
     }
@@ -41,9 +41,6 @@ public class CouponDataSource extends RxDataSource<List<CouponItem>> implements 
     public List<CouponItem> loadCache(boolean isEmpty) {
         return null;
     }
-
-    private String cid;
-    private Long pageNo;
 
     public void setCid(String cid) {
         this.cid = cid;

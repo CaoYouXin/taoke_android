@@ -21,9 +21,6 @@ import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
-/**
- * Created by jasontsang on 10/23/17.
- */
 
 public class SplashActivity extends BaseActivity {
     @BindView(R.id.splash)

@@ -5,9 +5,6 @@ import android.support.annotation.NonNull;
 import java.text.ParseException;
 import java.util.Date;
 
-/**
- * Created by cls on 2017/10/27.
- */
 
 public class OrderItem implements Comparable<OrderItem> {
     public String itemName;

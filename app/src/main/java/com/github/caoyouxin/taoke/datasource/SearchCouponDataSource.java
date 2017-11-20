@@ -25,6 +25,10 @@ public class SearchCouponDataSource extends RxDataSource<List<CouponItem>> imple
     public final static int SORT_PRICE_UP = 2;
     public final static int SORT_PRICE_DOWN = 3;
     public static final int SORT_COMMISSION = 4;
+    private String keyword;
+    private int sort;
+    private List<CouponItem> cache;
+    private Comparator<? super CouponItem> sortFunction;
 
     public SearchCouponDataSource(Context context) {
         super(context);
@@ -58,11 +62,6 @@ public class SearchCouponDataSource extends RxDataSource<List<CouponItem>> imple
     public List<CouponItem> loadCache(boolean isEmpty) {
         return null;
     }
-
-    private String keyword;
-    private int sort;
-    private List<CouponItem> cache;
-    private Comparator<? super CouponItem> sortFunction;
 
     public SearchCouponDataSource setKeyword(String keyword) {
         this.keyword = keyword;

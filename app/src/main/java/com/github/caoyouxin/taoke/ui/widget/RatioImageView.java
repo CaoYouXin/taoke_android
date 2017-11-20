@@ -6,9 +6,6 @@ import android.view.ViewGroup;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 
-/**
- * Created by jasontsang on 10/29/17.
- */
 
 public class RatioImageView extends SimpleDraweeView {
 

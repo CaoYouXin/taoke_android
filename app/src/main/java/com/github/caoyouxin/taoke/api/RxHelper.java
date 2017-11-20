@@ -7,9 +7,6 @@ import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-/**
- * Created by jasontsang on 10/24/17.
- */
 
 public class RxHelper {
     public static <T> ObservableTransformer<T, T> rxSchedulerHelper() {

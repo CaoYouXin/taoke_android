@@ -1,8 +1,5 @@
 package com.github.caoyouxin.taoke.model;
 
-/**
- * Created by cls on 2017/11/5.
- */
 
 public class UserLoginSubmit {
     public String phone;

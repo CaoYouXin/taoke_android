@@ -11,9 +11,6 @@ import java.util.List;
 
 import io.reactivex.Observable;
 
-/**
- * Created by jasontsang on 10/24/17.
- */
 
 public class FriendDataSource extends RxDataSource<List<FriendItem>> implements IDataCacheLoader<List<FriendItem>> {
     public FriendDataSource(Context context) {

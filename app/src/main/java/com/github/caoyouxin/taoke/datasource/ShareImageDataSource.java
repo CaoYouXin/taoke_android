@@ -13,9 +13,6 @@ import java.util.List;
 import io.reactivex.Observable;
 import io.reactivex.internal.operators.observable.ObservableJust;
 
-/**
- * Created by jasontsang on 10/24/17.
- */
 
 public class ShareImageDataSource extends RxDataSource<List<ShareImage>> implements IDataCacheLoader<List<ShareImage>> {
     private CouponItem couponItem;

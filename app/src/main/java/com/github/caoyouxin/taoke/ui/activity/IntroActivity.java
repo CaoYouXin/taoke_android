@@ -2,7 +2,6 @@ package com.github.caoyouxin.taoke.ui.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -11,12 +10,7 @@ import android.support.v4.app.Fragment;
 import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.ui.fragment.SlideFragment;
 import com.github.paolorotolo.appintro.AppIntro;
-import com.github.paolorotolo.appintro.AppIntroFragment;
-import com.github.paolorotolo.appintro.model.SliderPage;
 
-/**
- * Created by jasontsang on 10/23/17.
- */
 
 public class IntroActivity extends AppIntro {
     public final static String INTRO_READ = "intro_read";

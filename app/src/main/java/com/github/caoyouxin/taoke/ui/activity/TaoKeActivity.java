@@ -23,9 +23,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-/**
- * Created by jasontsang on 10/23/17.
- */
 
 public class TaoKeActivity extends BaseActivity {
 

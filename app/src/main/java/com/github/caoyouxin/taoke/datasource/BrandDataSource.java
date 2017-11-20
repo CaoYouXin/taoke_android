@@ -11,9 +11,6 @@ import java.util.List;
 
 import io.reactivex.Observable;
 
-/**
- * Created by jasontsang on 10/24/17.
- */
 
 public class BrandDataSource extends RxDataSource<List<HomeBtn>> implements IDataCacheLoader<List<HomeBtn>> {
     public BrandDataSource(Context context) {

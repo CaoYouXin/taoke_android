@@ -9,9 +9,6 @@ import com.github.gnastnosaj.boilerplate.Boilerplate;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by cls on 2017/11/14.
- */
 
 public class SearchHistory {
 

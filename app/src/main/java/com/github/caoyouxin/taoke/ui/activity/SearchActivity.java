@@ -81,9 +81,9 @@ public class SearchActivity extends BaseActivity implements TextView.OnEditorAct
 
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-        if(actionId == EditorInfo.IME_ACTION_SEARCH
+        if (actionId == EditorInfo.IME_ACTION_SEARCH
                 || actionId == EditorInfo.IME_ACTION_DONE
-                || actionId == EditorInfo.IME_ACTION_GO){
+                || actionId == EditorInfo.IME_ACTION_GO) {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
             String keyword = v.getText().toString();

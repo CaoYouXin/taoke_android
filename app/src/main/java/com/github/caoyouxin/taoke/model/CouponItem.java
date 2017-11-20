@@ -10,30 +10,70 @@ import java.util.List;
  */
 
 public class CouponItem implements Parcelable {
-    
-    private Long category;    
-    private String commissionRate;    
-    private String couponClickUrl;    
-    private String couponEndTime;    
-    private String couponInfo;    
-    private Long couponRemainCount;    
-    private String couponStartTime;    
-    private Long couponTotalCount;    
-    private String itemDescription;    
-    private String itemUrl;    
-    private String nick;    
-    private Long numIid;    
-    private String pictUrl;    
-    private Long sellerId;    
+
+    public static final Parcelable.Creator<CouponItem> CREATOR = new Parcelable.Creator<CouponItem>() {
+        @Override
+        public CouponItem createFromParcel(Parcel source) {
+            return new CouponItem(source);
+        }
+
+        @Override
+        public CouponItem[] newArray(int size) {
+            return new CouponItem[size];
+        }
+    };
+    private Long category;
+    private String commissionRate;
+    private String couponClickUrl;
+    private String couponEndTime;
+    private String couponInfo;
+    private Long couponRemainCount;
+    private String couponStartTime;
+    private Long couponTotalCount;
+    private String itemDescription;
+    private String itemUrl;
+    private String nick;
+    private Long numIid;
+    private String pictUrl;
+    private Long sellerId;
     private String shopTitle;
     private List<String> smallImages;
-    private String title;    
-    private Long userType;    
-    private Long volume;    
+    private String title;
+    private Long userType;
+    private Long volume;
     private String zkFinalPrice;
     private String couponPrice;
     private String earnPrice;
     private String tkLink;
+
+    public CouponItem() {
+    }
+
+    private CouponItem(Parcel source) {
+        this.category = source.readLong();
+        this.couponRemainCount = source.readLong();
+        this.couponTotalCount = source.readLong();
+        this.userType = source.readLong();
+        this.numIid = source.readLong();
+        this.sellerId = source.readLong();
+        this.volume = source.readLong();
+        this.smallImages = source.readArrayList(getClass().getClassLoader());
+        this.commissionRate = source.readString();
+        this.couponClickUrl = source.readString();
+        this.couponEndTime = source.readString();
+        this.couponInfo = source.readString();
+        this.couponStartTime = source.readString();
+        this.zkFinalPrice = source.readString();
+        this.itemUrl = source.readString();
+        this.nick = source.readString();
+        this.pictUrl = source.readString();
+        this.title = source.readString();
+        this.shopTitle = source.readString();
+        this.itemDescription = source.readString();
+        this.couponPrice = source.readString();
+        this.earnPrice = source.readString();
+        this.tkLink = source.readString();
+    }
 
     public Long getCategory() {
         return category;
@@ -226,47 +266,6 @@ public class CouponItem implements Parcelable {
         dest.writeString(this.earnPrice);
         dest.writeString(null != this.tkLink ? this.tkLink : "");
     }
-
-    public CouponItem() {
-    }
-    
-    private CouponItem(Parcel source) {
-        this.category=source.readLong();
-        this.couponRemainCount=source.readLong();
-        this.couponTotalCount=source.readLong();
-        this.userType=source.readLong();
-        this.numIid=source.readLong();
-        this.sellerId=source.readLong();
-        this.volume=source.readLong();
-        this.smallImages=source.readArrayList(getClass().getClassLoader());
-        this.commissionRate=source.readString();
-        this.couponClickUrl=source.readString();
-        this.couponEndTime=source.readString();
-        this.couponInfo=source.readString();
-        this.couponStartTime=source.readString();
-        this.zkFinalPrice=source.readString();
-        this.itemUrl=source.readString();
-        this.nick=source.readString();
-        this.pictUrl=source.readString();
-        this.title=source.readString();
-        this.shopTitle=source.readString();
-        this.itemDescription=source.readString();
-        this.couponPrice=source.readString();
-        this.earnPrice=source.readString();
-        this.tkLink=source.readString();
-    }
-
-    public static final Parcelable.Creator<CouponItem> CREATOR = new Parcelable.Creator<CouponItem>() {
-        @Override
-        public CouponItem createFromParcel(Parcel source) {
-            return new CouponItem(source);
-        }
-
-        @Override
-        public CouponItem[] newArray(int size) {
-            return new CouponItem[size];
-        }
-    };
 
     public String getCouponPrice() {
         return couponPrice;

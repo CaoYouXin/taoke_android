@@ -76,7 +76,7 @@ public class EnrollActivity extends BaseActivity {
                         && !TextUtils.isEmpty(alipay.getEditableText().toString().trim()) && (
                         !TextUtils.isEmpty(qq.getEditableText().toString().trim()) ||
                                 !TextUtils.isEmpty(wechat.getEditableText().toString().trim())
-                        ) && !TextUtils.isEmpty(announcement.getEditableText().toString().trim())) {
+                ) && !TextUtils.isEmpty(announcement.getEditableText().toString().trim())) {
                     enroll.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
                 } else {
                     enroll.setTextColor(getResources().getColor(R.color.colorPrimary));
