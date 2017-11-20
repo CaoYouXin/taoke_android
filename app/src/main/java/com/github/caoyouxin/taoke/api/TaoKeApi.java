@@ -354,6 +354,9 @@ public class TaoKeApi {
                         item.commission = (String) rec.get("commissionRate");
                         item.estimateIncome = (String) rec.get("estimateIncome");
                         item.estimateEffect = (String) rec.get("estimateEffect");
+                        item.picUrl = (String) rec.get("picUrl");
+                        item.self = (Boolean) rec.get("self");
+                        item.teammateName = (String) rec.get("teammateName");
                         items.add(item);
                     }
                     return items;

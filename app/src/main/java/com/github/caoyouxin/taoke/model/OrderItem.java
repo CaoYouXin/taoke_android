@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 import java.text.ParseException;
 import java.util.Date;
 
+import retrofit2.http.Body;
+
 
 public class OrderItem implements Comparable<OrderItem> {
     public String itemName;
@@ -15,6 +17,9 @@ public class OrderItem implements Comparable<OrderItem> {
     public String dateStr;
     public String estimateEffect;
     public String estimateIncome;
+    public String picUrl;
+    public Boolean self;
+    public String teammateName;
 
     private Date date;
 

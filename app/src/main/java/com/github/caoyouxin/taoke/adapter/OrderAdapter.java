@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.model.OrderItem;
 import com.github.caoyouxin.taoke.util.SpannedTextUtil;
@@ -71,6 +72,8 @@ public class OrderAdapter extends RecyclerView.Adapter implements IDataAdapter<L
         holder.orderEstimateEffect.setText(SpannedTextUtil.buildAmount(this.context, R.string.order_estimate_effect, item.estimateEffect, '¥', 2));
         holder.orderEstimateIncome.setText(SpannedTextUtil.buildAmount(this.context, R.string.order_estimate_income, item.estimateIncome, '¥', 2));
         holder.orderCreateTime.setText(item.dateStr + " 创建");
+        holder.orderImgUrl.setImageURI(item.picUrl);
+        holder.orderSelf.setText(item.self ? "个人" : item.teammateName);
     }
 
     @Override
@@ -119,6 +122,12 @@ public class OrderAdapter extends RecyclerView.Adapter implements IDataAdapter<L
 
         @BindView(R.id.order_create_time)
         TextView orderCreateTime;
+
+        @BindView(R.id.order_img_url)
+        SimpleDraweeView orderImgUrl;
+
+        @BindView(R.id.order_self)
+        TextView orderSelf;
 
         public ViewHolder(View itemView) {
             super(itemView);
