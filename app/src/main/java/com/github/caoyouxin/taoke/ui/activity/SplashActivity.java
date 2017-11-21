@@ -23,14 +23,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 
 
 public class SplashActivity extends BaseActivity {
+
     @BindView(R.id.splash)
     View splash;
-
-    @BindView(R.id.slogen)
-    TextView slogen;
-
-    @BindView(R.id.app_name)
-    ImageView appName;
 
     @BindView(R.id.sign_up)
     Button signUp;
@@ -51,8 +46,6 @@ public class SplashActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         splash.animate().scaleX(1.2f).scaleY(1.2f).setDuration(1500);
-        //slogen.animate().alpha(1).setDuration(1500);
-        appName.animate().alpha(1).setDuration(1500);
         copyright.animate().alpha(1).setDuration(1500);
 
         if (TaoKeApi.restoreToken()) {
