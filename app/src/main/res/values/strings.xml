@@ -198,5 +198,7 @@
     <string name="to_register_directly">直接注册</string>
     <string name="re_login_confirm">重新登录</string>
     <string name="re_login_hint">您需要重新登录</string>
+    <string name="select_tb">淘宝商城</string>
+    <string name="select_jd">京东商城</string>
 
 </resources>
