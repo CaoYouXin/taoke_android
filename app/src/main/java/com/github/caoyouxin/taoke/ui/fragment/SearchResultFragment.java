@@ -165,6 +165,13 @@ public class SearchResultFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
+        sortMultiple.setTextColor(getResources().getColor(R.color.grey_900));
+        sortSales.setTextColor(getResources().getColor(R.color.grey_400));
+        sortPrice.setTextColor(getResources().getColor(R.color.grey_400));
+        sortPriceUp.setTextColor(getResources().getColor(R.color.grey_400));
+        sortPriceDown.setTextColor(getResources().getColor(R.color.grey_400));
+        sortCommission.setTextColor(getResources().getColor(R.color.grey_400));
+        
         couponDataSource.setKeyword(this.searchKeyword).setSort(SearchCouponDataSource.SORT_MULTIPLE).setCache(null);
         couponListHelper.refresh();
     }
