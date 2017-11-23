@@ -33,7 +33,7 @@ public interface TaoKeService {
 
     String API_HELP_LIST = "app/help/list";
     String API_NOVICE_LIST = "app/guide/list";
-    String API_SHARE_APP_LIST = "app/share/img/url/list";
+    String API_SHARE_APP_LIST = "app/share/img/url/list/{type}";
 
     String API_SEND_WITHDRAW = "tbk/withdraw/{amount}";
     String API_USER_AMOUNT = "tbk/candraw";

@@ -26,6 +26,7 @@ import com.github.caoyouxin.taoke.adapter.ShareAppImageAdapter;
 import com.github.caoyouxin.taoke.api.RxHelper;
 import com.github.caoyouxin.taoke.api.TaoKeApi;
 import com.github.caoyouxin.taoke.datasource.ShareAppImageDataSource;
+import com.github.caoyouxin.taoke.model.UserData;
 import com.github.caoyouxin.taoke.ui.widget.HackyLoadViewFactory;
 import com.github.caoyouxin.taoke.util.ShareHelper;
 import com.github.gnastnosaj.boilerplate.util.keyboard.BaseActivity;
@@ -86,7 +87,7 @@ public class ShareAppActivity extends BaseActivity {
 
         createDynamicBox();
 
-        title.setText(R.string.share_title);
+        title.setText(R.string.share_2_friends);
         handle.setText(R.string.share_submit);
 
         initShareImageList();
@@ -118,7 +119,7 @@ public class ShareAppActivity extends BaseActivity {
         shareImageList.setLayoutManager(layoutManager);
 
         shareImageAdapter = new ShareAppImageAdapter(this);
-        ShareAppImageDataSource shareImageDataSource = new ShareAppImageDataSource(this);
+        ShareAppImageDataSource shareImageDataSource = new ShareAppImageDataSource(this, UserData.get().getShareAppType());
 
         HackyLoadViewFactory hackyLoadViewFactory = new HackyLoadViewFactory();
         MVCHelper<List<com.github.caoyouxin.taoke.model.ShareImage>> mvcHelper = new MVCNormalHelper<>(shareImageList, hackyLoadViewFactory.madeLoadView(), hackyLoadViewFactory.madeLoadMoreView());
@@ -133,11 +134,13 @@ public class ShareAppActivity extends BaseActivity {
             viewStub.inflate();
             ButterKnife.bind(this);
 
-            String text = getResources().getString(R.string.share_code, TaoKeApi.shareCode);
-            SpannableStringBuilder builder = new SpannableStringBuilder(text);
-            ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(getResources().getColor(R.color.orange_800));
-            builder.setSpan(foregroundColorSpan, text.indexOf("->") + 2, text.indexOf("<-"), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            shareCode.setText(builder);
+            if (!UserData.get().isBuyer()) {
+                String text = getResources().getString(R.string.share_code, UserData.get().getShareCode());
+                SpannableStringBuilder builder = new SpannableStringBuilder(text);
+                ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(getResources().getColor(R.color.orange_800));
+                builder.setSpan(foregroundColorSpan, text.indexOf("->") + 2, text.indexOf("<-"), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                shareCode.setText(builder);
+            }
         }
     }
 
@@ -221,29 +224,14 @@ public class ShareAppActivity extends BaseActivity {
             int thumbsHeight = thumbs.getHeight();
 
             int descriptionWidth = description.getWidth();
-            int descriptionHeight = description.getHeight();
 
-            int width, height;
-            if (thumbsWidth > descriptionWidth) {
-                width = thumbsWidth;
-                height = thumbsHeight + width * descriptionHeight / descriptionWidth;
-            } else {
-                width = descriptionWidth;
-                height = descriptionHeight + width * thumbsHeight / thumbsWidth;
-            }
-
-            Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-            Canvas canvas = new Canvas(bitmap);
-            canvas.drawBitmap(thumbs,
-                    new Rect(0, 0, thumbs.getWidth(), thumbs.getHeight()),
-                    new Rect(0, 0, width, width * thumbs.getHeight() / thumbs.getWidth()),
-                    null);
+            Canvas canvas = new Canvas(thumbs);
             canvas.drawBitmap(description,
                     new Rect(0, 0, description.getWidth(), description.getHeight()),
-                    new Rect(0, height - width * description.getHeight() / description.getWidth(), width, height),
+                    new Rect(0, thumbsHeight - descriptionWidth * thumbsHeight / thumbsWidth, thumbsWidth, thumbsHeight),
                     null);
 
-            return bitmap;
+            return thumbs;
         }).map(bitmap -> BitmapUtil.saveBitmapToExternal(bitmap, new File(ShareHelper.configuration.getImageCachePath(this), UUID.randomUUID().toString().concat(".jpg"))))
                 .compose(RxHelper.rxSchedulerHelper())
                 .compose(bindUntilEvent(ActivityEvent.DESTROY))
@@ -265,8 +253,7 @@ public class ShareAppActivity extends BaseActivity {
     private Observable<Bitmap> generateShareImageDescription() {
         return Observable.<Bitmap>create(subscriber -> {
             try {
-//                descQrCode.setImageBitmap(QRCodeEncoder.syncEncodeQRCode(String.format("http://www.baidu.com?q=%d", TaoKeApi.userId), descQrCode.getWidth()));
-                descQrCode.setImageBitmap(QRCodeEncoder.syncEncodeQRCode("https://www.baidu.com/s?tn=mswin_oem_dg&ie=utf-16&word=%E8%A7%85%E5%88%B8%E5%84%BF", descQrCode.getWidth()));
+                descQrCode.setImageBitmap(QRCodeEncoder.syncEncodeQRCode("https://fir.im/7qrm", descQrCode.getWidth()));
                 Bitmap bitmap = Bitmap.createBitmap(shareImageQrDesc.getWidth(), shareImageQrDesc.getHeight(), Bitmap.Config.ARGB_8888);
                 Canvas canvas = new Canvas(bitmap);
                 shareImageQrDesc.draw(canvas);

@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.api.TaoKeApi;
+import com.github.caoyouxin.taoke.model.UserData;
 import com.github.caoyouxin.taoke.ui.activity.AboutActivity;
 import com.github.caoyouxin.taoke.ui.activity.EnrollActivity;
 import com.github.caoyouxin.taoke.ui.activity.FriendsActivity;
@@ -60,7 +61,7 @@ public class AccountFragment extends Fragment {
 
             this.initAccountId();
 
-            if (!TaoKeApi.candidate) {
+            if (!UserData.get().getCandidate()) {
                 enrollWrapper.setVisibility(View.GONE);
             }
         }
@@ -68,7 +69,7 @@ public class AccountFragment extends Fragment {
     }
 
     private void initAccountId() {
-        String source = "账户ID:\n" + TaoKeApi.userName;
+        String source = "账户ID:\n" + UserData.get().getUserName();
         SpannableString span = new SpannableString(source);
         span.setSpan(new RelativeSizeSpan(1.36f), 6, source.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         span.setSpan(new ForegroundColorSpan(Color.DKGRAY), 0, 6, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -80,7 +81,7 @@ public class AccountFragment extends Fragment {
         Intent intent = null;
         switch (view.getId()) {
             case R.id.account_btn_enroll:
-                if (!(TextUtils.isEmpty(TaoKeApi.aliPID) || TextUtils.isEmpty(TaoKeApi.shareCode))) {
+                if (!UserData.get().isBuyer()) {
                     Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.already_enrolled, Snackbar.LENGTH_LONG).show();
                     return;
                 }
@@ -103,8 +104,8 @@ public class AccountFragment extends Fragment {
                 break;
             case R.id.sign_out:
                 new AlertDialog.Builder(getActivity()).setPositiveButton(R.string.sign_out, (DialogInterface dialog, int which) -> {
+                    UserData.clear();
                     startActivity(new Intent(getActivity(), SplashActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-                    TaoKeApi.clearToken();
                 }).setNegativeButton(R.string.cancel, (DialogInterface dialog, int which) -> dialog.dismiss()).setMessage(R.string.sign_out_confirm).show();
                 return;
         }

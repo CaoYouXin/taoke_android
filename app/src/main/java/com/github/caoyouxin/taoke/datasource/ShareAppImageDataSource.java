@@ -14,13 +14,16 @@ import io.reactivex.Observable;
 
 public class ShareAppImageDataSource extends RxDataSource<List<ShareImage>> implements IDataCacheLoader<List<ShareImage>> {
 
-    public ShareAppImageDataSource(Context context) {
+    private int type;
+
+    public ShareAppImageDataSource(Context context, int type) {
         super(context);
+        this.type = type;
     }
 
     @Override
     public Observable<List<ShareImage>> refresh() throws Exception {
-        return TaoKeApi.getShareAppImageList();
+        return TaoKeApi.getShareAppImageList(type);
     }
 
     @Override

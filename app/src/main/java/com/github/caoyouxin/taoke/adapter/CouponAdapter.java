@@ -19,6 +19,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.api.TaoKeApi;
 import com.github.caoyouxin.taoke.model.CouponItem;
+import com.github.caoyouxin.taoke.model.UserData;
 import com.shizhefei.mvc.IDataAdapter;
 
 import java.util.ArrayList;
@@ -30,10 +31,6 @@ import butterknife.ButterKnife;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-
-/**
- * Created by jasontsang on 10/24/17.
- */
 
 public class CouponAdapter extends RecyclerView.Adapter implements IDataAdapter<List<CouponItem>> {
 
@@ -69,11 +66,10 @@ public class CouponAdapter extends RecyclerView.Adapter implements IDataAdapter<
         builder.setSpan(new AbsoluteSizeSpan(context.getResources().getDimensionPixelSize(R.dimen.font_16)), text.indexOf("¥"), text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         holder.priceAfter.setText(builder);
 
-        if (null != TaoKeApi.aliPID && !TextUtils.isEmpty(TaoKeApi.aliPID)
-                && null != TaoKeApi.shareCode && !TextUtils.isEmpty(TaoKeApi.shareCode)) {
-            holder.earn.setText(context.getResources().getString(R.string.discover_coupon_earn, item.getEarnPrice()));
-        } else {
+        if (UserData.get().isBuyer()) {
             holder.earn.setVisibility(View.GONE);
+        } else {
+            holder.earn.setText(context.getResources().getString(R.string.discover_coupon_earn, item.getEarnPrice()));
         }
 
 

@@ -19,7 +19,6 @@ import com.alibaba.baichuan.android.trade.callback.AlibcTradeCallback;
 import com.alibaba.baichuan.android.trade.model.AlibcShowParams;
 import com.alibaba.baichuan.android.trade.model.OpenType;
 import com.alibaba.baichuan.android.trade.page.AlibcBasePage;
-import com.alibaba.baichuan.android.trade.page.AlibcDetailPage;
 import com.alibaba.baichuan.android.trade.page.AlibcPage;
 import com.alibaba.baichuan.trade.biz.context.AlibcTradeResult;
 import com.alibaba.baichuan.trade.biz.core.taoke.AlibcTaokeParams;
@@ -29,6 +28,7 @@ import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.api.TaoKeApi;
 import com.github.caoyouxin.taoke.model.CouponItem;
+import com.github.caoyouxin.taoke.model.UserData;
 import com.github.caoyouxin.taoke.ui.widget.HackyTextSliderView;
 import com.github.caoyouxin.taoke.util.SpannedTextUtil;
 import com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity;
@@ -105,17 +105,13 @@ public class DetailActivity extends BaseActivity {
 
         initView();
 
-        if (TextUtils.isEmpty(TaoKeApi.aliPID)) {
+        if (UserData.get().isBuyer()) {
+            detailCommissionWrapper.setVisibility(View.GONE);
             agentDetailShare.setVisibility(View.GONE);
             buyerWrapper.setVisibility(View.VISIBLE);
         } else {
             buyerWrapper.setVisibility(View.GONE);
             agentDetailShare.setVisibility(View.VISIBLE);
-        }
-
-        if (null == TaoKeApi.aliPID || !TextUtils.isEmpty(TaoKeApi.aliPID)
-                || null != TaoKeApi.shareCode || !TextUtils.isEmpty(TaoKeApi.shareCode)) {
-            detailCommissionWrapper.setVisibility(View.GONE);
         }
 
 //        createDynamicBox();
@@ -164,7 +160,7 @@ public class DetailActivity extends BaseActivity {
         AlibcShowParams showParams = new AlibcShowParams(OpenType.Native, false);
         // 淘宝客参数
         AlibcTaokeParams taokeParams = new AlibcTaokeParams();
-        taokeParams.setPid(TaoKeApi.aliPID);
+        taokeParams.setPid(UserData.get().getAliPID());
         // 提供给三方传递配置参数
         Map<String, String> trackParam = new HashMap<>();
         AlibcTrade.show(this, tradePage, showParams, taokeParams, trackParam, new AlibcTradeCallback() {

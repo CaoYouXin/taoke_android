@@ -1,7 +1,5 @@
 package com.github.caoyouxin.taoke.api;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.text.TextUtils;
 
 import com.github.caoyouxin.taoke.datasource.OrderDataSource;
@@ -18,11 +16,11 @@ import com.github.caoyouxin.taoke.model.SearchHintItem;
 import com.github.caoyouxin.taoke.model.ShareImage;
 import com.github.caoyouxin.taoke.model.ShareSubmit;
 import com.github.caoyouxin.taoke.model.ShareView;
+import com.github.caoyouxin.taoke.model.UserData;
 import com.github.caoyouxin.taoke.model.UserLoginSubmit;
 import com.github.caoyouxin.taoke.model.UserRegisterSubmit;
 import com.github.caoyouxin.taoke.model.UserResetPwdSubmit;
 import com.github.caoyouxin.taoke.util.StringUtils;
-import com.github.gnastnosaj.boilerplate.Boilerplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,27 +29,10 @@ import java.util.Map;
 
 import io.reactivex.Observable;
 
-/**
- * Created by jasontsang on 10/24/17.
- */
-
 public class TaoKeApi {
 
-    private final static String PREF_ACCESS_TOKEN = "token";
-    private final static String PREF_USER = "user";
-    private final static String PREF_USER_NAME = "name";
-    private final static String PREF_USER_PID = "aliPid";
-    private final static String PREF_USER_ID = "id";
-    private final static String PREF_USER_SHARE_CODE = "code";
-    private static final String PREF_CANDIDATE = "candidate";
-//    private final static String CDN_HOST = "http://192.168.0.109:8070/";
+    //    private final static String CDN_HOST = "http://192.168.0.109:8070/";
     private final static String CDN_HOST = "http://server.tkmqr.com:8070/";
-    public static String userName;
-    public static String aliPID;
-    public static Long userId;
-    public static String shareCode;
-    public static Boolean candidate;
-    private static String accessToken;
 
     // **** user apis below *******************************************
 
@@ -65,8 +46,7 @@ public class TaoKeApi {
                 new UserRegisterSubmit(verificationCode, invitation, phone, StringUtils.toMD5HexString(password), name), null)
                 .compose(RxHelper.handleResult())
                 .map(taoKeData -> {
-                    readToken(taoKeData);
-                    cacheToken();
+                    UserData.set(taoKeData).cache();
                     return taoKeData;
                 });
     }
@@ -76,8 +56,7 @@ public class TaoKeApi {
                 new UserLoginSubmit(phone, StringUtils.toMD5HexString(password)), null)
                 .compose(RxHelper.handleResult())
                 .map(taoKeData -> {
-                    readToken(taoKeData);
-                    cacheToken();
+                    UserData.set(taoKeData).cache();
                     return taoKeData;
                 });
     }
@@ -87,61 +66,9 @@ public class TaoKeApi {
                 new UserResetPwdSubmit(phone, verificationCode, StringUtils.toMD5HexString(password)), null)
                 .compose(RxHelper.handleResult())
                 .map(taoKeData -> {
-                    readToken(taoKeData);
-                    cacheToken();
+                    UserData.set(taoKeData).cache();
                     return taoKeData;
                 });
-    }
-
-    private static void readToken(TaoKeData taoKeData) {
-        Map rec = taoKeData.getMap();
-        accessToken = (String) rec.get(PREF_ACCESS_TOKEN);
-        candidate = (Boolean) rec.get(PREF_CANDIDATE);
-        Map user = (Map) rec.get(PREF_USER);
-        userName = (String) user.get(PREF_USER_NAME);
-        aliPID = (String) user.get(PREF_USER_PID);
-        userId = ((Double) user.get(PREF_USER_ID)).longValue();
-        shareCode = (String) user.get(PREF_USER_SHARE_CODE);
-    }
-
-    private static void cacheToken() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Boilerplate.getInstance());
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(PREF_ACCESS_TOKEN, accessToken);
-        editor.putString(PREF_USER_NAME, userName);
-        editor.putString(PREF_USER_PID, aliPID);
-        editor.putLong(PREF_USER_ID, userId);
-        editor.putString(PREF_USER_SHARE_CODE, shareCode);
-        editor.putBoolean(PREF_CANDIDATE, candidate);
-        editor.apply();
-    }
-
-    public static boolean restoreToken() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Boilerplate.getInstance());
-        if (sharedPreferences.contains(PREF_ACCESS_TOKEN)) {
-            accessToken = sharedPreferences.getString(PREF_ACCESS_TOKEN, null);
-            userName = sharedPreferences.getString(PREF_USER_NAME, null);
-            aliPID = sharedPreferences.getString(PREF_USER_PID, "");
-            userId = sharedPreferences.getLong(PREF_USER_ID, 0L);
-            shareCode = sharedPreferences.getString(PREF_USER_SHARE_CODE, "");
-            candidate = sharedPreferences.getBoolean(PREF_CANDIDATE, false);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public static void clearToken() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Boilerplate.getInstance());
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
-        editor.apply();
-        accessToken = null;
-        userName = null;
-        aliPID = null;
-        userId = null;
-        shareCode = null;
-        candidate = null;
     }
 
     // **** user apis above *******************************************
@@ -181,7 +108,7 @@ public class TaoKeApi {
     }
 
     public static Observable<List<CouponItem>> getProductList(BrandItem brandItem, int pageNo, int sort) {
-        return TaoKeRetrofit.getService().tao(TaoKeService.API_PRODUCT_LIST.replace("{favId}", brandItem.favId).replace("{pageNo}", "" + pageNo), accessToken)
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_PRODUCT_LIST.replace("{favId}", brandItem.favId).replace("{pageNo}", "" + pageNo), UserData.get().getAccessToken())
                 .compose(RxHelper.handleResult())
                 .map(taoKeData -> {
                     List<CouponItem> items = new ArrayList<>();
@@ -258,7 +185,7 @@ public class TaoKeApi {
 
     public static Observable<List<CouponItem>> getCouponList(String cid, String pageNo) {
         return TaoKeRetrofit.getService().tao(
-                TaoKeService.API_COUPON_LIST.replace("{cid}", cid).replace("{pNo}", pageNo), accessToken
+                TaoKeService.API_COUPON_LIST.replace("{cid}", cid).replace("{pNo}", pageNo), UserData.get().getAccessToken()
         )
                 .compose(RxHelper.handleResult())
                 .map(taoKeData -> {
@@ -319,7 +246,7 @@ public class TaoKeApi {
     }
 
     public static Observable<List<MessageItem>> getMessageList(int pageNo) {
-        return TaoKeRetrofit.getService().tao(TaoKeService.API_MESSAGE_LIST.replace("{pageNo}", "" + pageNo), accessToken)
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_MESSAGE_LIST.replace("{pageNo}", "" + pageNo), UserData.get().getAccessToken())
                 .compose(RxHelper.handleResult())
                 .map(taoKeData -> {
                     List<MessageItem> items = new ArrayList<>();
@@ -340,7 +267,7 @@ public class TaoKeApi {
         return TaoKeRetrofit.getService().tao(
                 TaoKeService.API_ORDER_LIST.replace("{type}", "" + type.getType())
                         .replace("{pageNo}", "" + pageNo),
-                accessToken)
+                UserData.get().getAccessToken())
                 .compose(RxHelper.handleResult())
                 .map(taoKeData -> {
                     List<OrderItem> items = new ArrayList<>();
@@ -364,7 +291,7 @@ public class TaoKeApi {
     }
 
     public static Observable<List<FriendItem>> getFriendsList() {
-        return TaoKeRetrofit.getService().tao(TaoKeService.API_FRIENDS_LIST, accessToken)
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_FRIENDS_LIST, UserData.get().getAccessToken())
                 .compose(RxHelper.handleResult())
                 .flatMap(taoKeData -> {
                     List<FriendItem> items = new ArrayList<>();
@@ -398,7 +325,7 @@ public class TaoKeApi {
     }
 
     public static Observable<List<CouponItem>> getSearchList(String inputNow) {
-        return TaoKeRetrofit.getService().tao(TaoKeService.API_SEARCH_LIST.replace("{keyword}", inputNow), accessToken)
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_SEARCH_LIST.replace("{keyword}", inputNow), UserData.get().getAccessToken())
                 .compose(RxHelper.handleResult())
                 .map(taoKeData -> {
                     List<CouponItem> items = new ArrayList<>();
@@ -440,7 +367,7 @@ public class TaoKeApi {
     }
 
     public static Observable<ShareView> getLink(String couponClickUrl, String title) {
-        return TaoKeRetrofit.getService().tao(TaoKeService.API_GET_SHARE_LINK, new ShareSubmit(title, couponClickUrl), accessToken)
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_GET_SHARE_LINK, new ShareSubmit(title, couponClickUrl), UserData.get().getAccessToken())
                 .compose(RxHelper.handleResult())
                 .map(taoKeData -> {
                     ShareView shareView = new ShareView();
@@ -465,12 +392,12 @@ public class TaoKeApi {
     }
 
     public static Observable<TaoKeData> sendReport(String reportContent) {
-        return TaoKeRetrofit.getService().tao(TaoKeService.API_REPORT, reportContent, accessToken)
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_REPORT, reportContent, UserData.get().getAccessToken())
                 .compose(RxHelper.handleResult());
     }
 
-    public static Observable<List<ShareImage>> getShareAppImageList() {
-        return TaoKeRetrofit.getService().tao(TaoKeService.API_SHARE_APP_LIST)
+    public static Observable<List<ShareImage>> getShareAppImageList(int type) {
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_SHARE_APP_LIST.replace("{type}", "" + type))
                 .compose(RxHelper.handleResult())
                 .flatMap(taoKeData -> {
                     List<ShareImage> items = new ArrayList<>();
@@ -486,31 +413,31 @@ public class TaoKeApi {
     }
 
     public static Observable<String> getUserAmount() {
-        return TaoKeRetrofit.getService().tao(TaoKeService.API_USER_AMOUNT, accessToken)
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_USER_AMOUNT, UserData.get().getAccessToken())
                 .compose(RxHelper.handleResult())
                 .flatMap(taoKeData -> Observable.just(taoKeData.body.toString()));
     }
 
     public static Observable<String> getThisMonthEstimate() {
-        return TaoKeRetrofit.getService().tao(TaoKeService.API_THIS_MOUNT_ESTIMATE, accessToken)
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_THIS_MOUNT_ESTIMATE, UserData.get().getAccessToken())
                 .compose(RxHelper.handleResult())
                 .flatMap(taoKeData -> Observable.just(taoKeData.body.toString()));
     }
 
     public static Observable<String> getLastMonthEstimate() {
-        return TaoKeRetrofit.getService().tao(TaoKeService.API_LAST_MOUNT_ESTIMATE, accessToken)
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_LAST_MOUNT_ESTIMATE, UserData.get().getAccessToken())
                 .compose(RxHelper.handleResult())
                 .flatMap(taoKeData -> Observable.just(taoKeData.body.toString()));
     }
 
     public static Observable<TaoKeData> sendWithdraw(String withdraw) {
         return TaoKeRetrofit.getService().tao(TaoKeService.API_SEND_WITHDRAW
-                .replace("{amount}", withdraw), accessToken)
+                .replace("{amount}", withdraw), UserData.get().getAccessToken())
                 .compose(RxHelper.handleResult());
     }
 
     public static Observable<TaoKeData> enroll(EnrollSubmit enrollSubmit) {
-        return TaoKeRetrofit.getService().tao(TaoKeService.API_ENROLL, enrollSubmit, accessToken)
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_ENROLL, enrollSubmit, UserData.get().getAccessToken())
                 .compose(RxHelper.handleResult());
     }
 }

@@ -22,6 +22,7 @@ import com.facebook.imagepipeline.image.ImageInfo;
 import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.api.TaoKeApi;
 import com.github.caoyouxin.taoke.model.CouponItem;
+import com.github.caoyouxin.taoke.model.UserData;
 import com.github.caoyouxin.taoke.ui.widget.RatioImageView;
 import com.shizhefei.mvc.IDataAdapter;
 
@@ -73,11 +74,10 @@ public class ProductAdapter extends RecyclerView.Adapter implements IDataAdapter
         holder.title.setText(item.getTitle());
         holder.sales.setText(context.getResources().getString(R.string.product_sales, String.valueOf(item.getVolume())));
 
-        if (null != TaoKeApi.aliPID && !TextUtils.isEmpty(TaoKeApi.aliPID)
-                && null != TaoKeApi.shareCode && !TextUtils.isEmpty(TaoKeApi.shareCode)) {
-            holder.shareEarn.setText(context.getResources().getString(R.string.share_earn, item.getEarnPrice()));
-        } else {
+        if (UserData.get().isBuyer()) {
             holder.shareEarn.setVisibility(View.GONE);
+        } else {
+            holder.shareEarn.setText(context.getResources().getString(R.string.share_earn, item.getEarnPrice()));
         }
 
         if (null != item.getCouponInfo()) {

@@ -17,6 +17,7 @@ public class OrderDataSource extends RxDataSource<List<OrderItem>> implements ID
     private FetchType type;
     private Integer pageNo;
     private boolean isHasMore;
+
     public OrderDataSource(Context context, FetchType type) {
         super(context);
         this.type = type;

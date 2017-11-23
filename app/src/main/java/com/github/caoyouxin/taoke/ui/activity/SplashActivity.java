@@ -6,11 +6,11 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.api.TaoKeApi;
+import com.github.caoyouxin.taoke.model.UserData;
 import com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity;
 
 import java.util.concurrent.TimeUnit;
@@ -48,7 +48,7 @@ public class SplashActivity extends BaseActivity {
         splash.animate().scaleX(1.2f).scaleY(1.2f).setDuration(1500);
         copyright.animate().alpha(1).setDuration(1500);
 
-        if (TaoKeApi.restoreToken()) {
+        if (UserData.restore()) {
             Observable.timer(3, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
                 if (sharedPreferences.getBoolean(IntroActivity.INTRO_READ, false)) {
