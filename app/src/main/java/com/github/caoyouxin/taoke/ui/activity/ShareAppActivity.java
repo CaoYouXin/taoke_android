@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.ViewStub;
@@ -87,7 +88,7 @@ public class ShareAppActivity extends BaseActivity {
 
         createDynamicBox();
 
-        title.setText(R.string.share_2_friends);
+        title.setText(R.string.share_title);
         handle.setText(R.string.share_submit);
 
         initShareImageList();
@@ -139,6 +140,8 @@ public class ShareAppActivity extends BaseActivity {
                 SpannableStringBuilder builder = new SpannableStringBuilder(text);
                 ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(getResources().getColor(R.color.orange_800));
                 builder.setSpan(foregroundColorSpan, text.indexOf("->") + 2, text.indexOf("<-"), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                AbsoluteSizeSpan absoluteSizeSpan = new AbsoluteSizeSpan(getResources().getDimensionPixelSize(R.dimen.font_24));
+                builder.setSpan(absoluteSizeSpan, text.indexOf("->") + 2, text.indexOf("<-"), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 shareCode.setText(builder);
             }
         }
@@ -224,11 +227,12 @@ public class ShareAppActivity extends BaseActivity {
             int thumbsHeight = thumbs.getHeight();
 
             int descriptionWidth = description.getWidth();
+            int descriptionHeight = description.getHeight();
 
             Canvas canvas = new Canvas(thumbs);
             canvas.drawBitmap(description,
                     new Rect(0, 0, description.getWidth(), description.getHeight()),
-                    new Rect(0, thumbsHeight - descriptionWidth * thumbsHeight / thumbsWidth, thumbsWidth, thumbsHeight),
+                    new Rect(0, thumbsHeight - descriptionHeight * thumbsWidth / descriptionWidth, thumbsWidth, thumbsHeight),
                     null);
 
             return thumbs;
