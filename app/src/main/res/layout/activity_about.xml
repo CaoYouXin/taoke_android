@@ -54,6 +54,14 @@
                 android:paddingRight="20dp"
                 android:text="@string/report_email"/>
 
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="166dp"
+                android:layout_marginTop="24dp"
+                android:foregroundGravity="center"
+                android:src="@mipmap/qrcode_for_wx_hao"
+                android:contentDescription="@string/logo" />
+
         </LinearLayout>
 
     </ScrollView>
