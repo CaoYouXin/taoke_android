@@ -42,8 +42,7 @@
                         android:ellipsize="end"
                         android:lines="2"
                         android:textColor="@color/grey_800"
-                        android:textSize="@dimen/font_16"
-                        tools:text="冬季毛绒沙发垫加厚保暖简约法兰绒坐垫布艺防滑沙发套沙发罩全盖" />
+                        android:textSize="@dimen/font_16" />
 
                     <LinearLayout
                         android:id="@+id/detail_view"
