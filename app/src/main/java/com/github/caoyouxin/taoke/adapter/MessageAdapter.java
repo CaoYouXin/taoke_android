@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.github.caoyouxin.taoke.R;
+import com.github.caoyouxin.taoke.api.TaoKeApi;
 import com.github.caoyouxin.taoke.model.M;
 import com.github.caoyouxin.taoke.model.MessageItem;
 import com.shizhefei.mvc.IDataAdapter;
@@ -34,6 +35,8 @@ public class MessageAdapter extends RecyclerView.Adapter implements IDataAdapter
         holder.messageTitle.setText(item.title);
         holder.messageDate.setText(M.SDF.format(item.getDate()));
         holder.messageContent.setText(item.content);
+
+        TaoKeApi.readMessage(item.id);
     }
 
     @Override

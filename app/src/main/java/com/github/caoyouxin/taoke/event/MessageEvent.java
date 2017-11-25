@@ -11,10 +11,11 @@ import io.reactivex.Observable;
 public class MessageEvent {
     public final static Observable<MessageEvent> observable = RxBus.getInstance().register(MessageEvent.class, MessageEvent.class);
 
-    public int count;
+    public long count;
     public boolean hide;
 
-    public MessageEvent(int count) {
+    public MessageEvent(long count) {
         this.count = count;
+        this.hide = count == 0;
     }
 }

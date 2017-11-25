@@ -253,6 +253,7 @@ public class TaoKeApi {
                     List<Map> recs = taoKeData.getList();
                     for (Map rec : recs) {
                         MessageItem item = new MessageItem();
+                        item.id = ((Double) rec.get("id")).longValue();
                         item.dateStr = (String) rec.get("createTime");
                         Map message = (Map) rec.get("message");
                         item.title = (String) message.get("title");
@@ -439,5 +440,15 @@ public class TaoKeApi {
     public static Observable<TaoKeData> enroll(EnrollSubmit enrollSubmit) {
         return TaoKeRetrofit.getService().tao(TaoKeService.API_ENROLL, enrollSubmit, UserData.get().getAccessToken())
                 .compose(RxHelper.handleResult());
+    }
+
+    public static Observable<Long> getUnreadMessages() {
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_UNREAD_MSG, UserData.get().getAccessToken())
+                .compose(RxHelper.handleResult())
+                .map(TaoKeData::getLong);
+    }
+
+    public static void readMessage(Long id) {
+        TaoKeRetrofit.getService().tao(TaoKeService.API_READ_MSG.replace("{id}", "" + id), UserData.get().getAccessToken());
     }
 }

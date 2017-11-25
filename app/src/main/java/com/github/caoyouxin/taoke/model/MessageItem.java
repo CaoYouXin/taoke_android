@@ -8,6 +8,7 @@ import java.util.Date;
 
 public class MessageItem implements Comparable<MessageItem> {
 
+    public Long id;
     public String title;
     public String dateStr;
     public String content;

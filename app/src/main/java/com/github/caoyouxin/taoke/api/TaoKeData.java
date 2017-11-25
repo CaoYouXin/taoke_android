@@ -27,4 +27,7 @@ public class TaoKeData {
         return (List<String>) body;
     }
 
+    public Long getLong() {
+        return ((Double) body).longValue();
+    }
 }

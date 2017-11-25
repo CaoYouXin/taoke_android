@@ -24,6 +24,8 @@ public interface TaoKeService {
 
     String API_MESSAGE_LIST = "msg/list/{pageNo}";
     String API_REPORT = "msg/feedback";
+    String API_UNREAD_MSG = "msg/unread/count";
+    String API_READ_MSG = "msg/read/{id}";
 
     String API_FRIENDS_LIST = "tbk/team/list";
     String API_COUPON_LIST = "tbk/coupon/{cid}/{pNo}";

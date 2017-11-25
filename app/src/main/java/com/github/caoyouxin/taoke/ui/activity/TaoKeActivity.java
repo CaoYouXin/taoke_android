@@ -12,7 +12,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.caoyouxin.taoke.R;
+import com.github.caoyouxin.taoke.TaoKe;
 import com.github.caoyouxin.taoke.api.RxHelper;
+import com.github.caoyouxin.taoke.api.TaoKeApi;
 import com.github.caoyouxin.taoke.event.MessageEvent;
 import com.github.caoyouxin.taoke.ui.fragment.AccountFragment;
 import com.github.caoyouxin.taoke.ui.fragment.ChartFragment;
@@ -30,6 +32,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.Observable;
+import io.reactivex.internal.functions.Functions;
 import me.leolin.shortcutbadger.ShortcutBadger;
 import q.rorbin.badgeview.Badge;
 import q.rorbin.badgeview.QBadgeView;
@@ -130,12 +133,11 @@ public class TaoKeActivity extends BaseActivity {
                         ShortcutBadger.removeCount(Boilerplate.getInstance());
                         tabBadge.hide(false);
                     }else {
-                        tabBadge.setBadgeNumber(messageEvent.count);
-                        ShortcutBadger.applyCount(Boilerplate.getInstance(), messageEvent.count);
+                        tabBadge.setBadgeNumber((int) messageEvent.count);
+                        ShortcutBadger.applyCount(Boilerplate.getInstance(), (int) messageEvent.count);
                     }
                 }, throwable -> Timber.e(throwable));
 
-        //test for tabBage
-        Observable.timer(2, TimeUnit.SECONDS).compose(bindUntilEvent(ActivityEvent.DESTROY)).subscribe(aLong -> RxBus.getInstance().post(MessageEvent.class, new MessageEvent(6)));
+        Observable.interval(1, TimeUnit.MINUTES).compose(bindUntilEvent(ActivityEvent.DESTROY)).subscribe(aLong -> TaoKeApi.getUnreadMessages().subscribe(count -> RxBus.getInstance().post(MessageEvent.class, new MessageEvent(count)), Functions.ON_ERROR_MISSING, Functions.EMPTY_ACTION, Functions.emptyConsumer()));
     }
 }
