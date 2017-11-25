@@ -138,6 +138,6 @@ public class TaoKeActivity extends BaseActivity {
                     }
                 }, throwable -> Timber.e(throwable));
 
-        Observable.interval(1, TimeUnit.MINUTES).compose(bindUntilEvent(ActivityEvent.DESTROY)).subscribe(aLong -> TaoKeApi.getUnreadMessages().subscribe(count -> RxBus.getInstance().post(MessageEvent.class, new MessageEvent(count)), Functions.ON_ERROR_MISSING, Functions.EMPTY_ACTION, Functions.emptyConsumer()));
+        Observable.interval(0,1, TimeUnit.MINUTES).compose(bindUntilEvent(ActivityEvent.DESTROY)).subscribe(aLong -> TaoKeApi.getUnreadMessages().compose(RxHelper.rxSchedulerHelper()).subscribe(count -> RxBus.getInstance().post(MessageEvent.class, new MessageEvent(count)), Functions.ON_ERROR_MISSING, Functions.EMPTY_ACTION, Functions.emptyConsumer()));
     }
 }

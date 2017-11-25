@@ -449,6 +449,7 @@ public class TaoKeApi {
     }
 
     public static void readMessage(Long id) {
-        TaoKeRetrofit.getService().tao(TaoKeService.API_READ_MSG.replace("{id}", "" + id), UserData.get().getAccessToken());
+        TaoKeRetrofit.getService().tao(TaoKeService.API_READ_MSG.replace("{id}", "" + id), UserData.get().getAccessToken())
+                .compose(RxHelper.handleResult()).compose(RxHelper.rxSchedulerHelper()).subscribe();
     }
 }
