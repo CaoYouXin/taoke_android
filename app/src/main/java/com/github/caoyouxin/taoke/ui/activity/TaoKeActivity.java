@@ -94,8 +94,8 @@ public class TaoKeActivity extends BaseActivity {
 
         //do not use id compare because tabBadge change the view structure
         if (view == tabMessage) {
-            ShortcutBadger.removeCount(Boilerplate.getInstance());
-            tabBadge.hide(false);
+            //test for dismiss
+            Observable.timer(2, TimeUnit.SECONDS).compose(bindUntilEvent(ActivityEvent.DESTROY)).subscribe(aLong -> RxBus.getInstance().post(MessageEvent.class, new MessageEvent(0)));
         }
     }
 
@@ -129,16 +129,16 @@ public class TaoKeActivity extends BaseActivity {
                 .compose(bindUntilEvent(ActivityEvent.DESTROY))
                 .compose(RxHelper.rxSchedulerHelper())
                 .subscribe(messageEvent -> {
-                    if(messageEvent.hide) {
+                    if (messageEvent.count == 0) {
                         ShortcutBadger.removeCount(Boilerplate.getInstance());
                         tabBadge.hide(false);
-                    }else {
+                    } else {
                         tabBadge.setBadgeNumber(messageEvent.count);
                         ShortcutBadger.applyCount(Boilerplate.getInstance(), messageEvent.count);
                     }
                 }, throwable -> Timber.e(throwable));
 
-        //test for tabBage
+        //test for show
         Observable.timer(2, TimeUnit.SECONDS).compose(bindUntilEvent(ActivityEvent.DESTROY)).subscribe(aLong -> RxBus.getInstance().post(MessageEvent.class, new MessageEvent(6)));
     }
 }
