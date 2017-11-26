@@ -43,8 +43,8 @@
 
     <string name="sign_in">登录</string>
     <string name="sign_in_fail_message">登录失败，%s</string>
-    <string name="sign_in_fail_timeout">登录失败，网络连接超时...</string>
-    <string name="sign_in_fail_network">登录失败，网络连接异常...</string>
+    <string name="sign_in_fail_timeout">登录失败，网络连接超时&#38230;</string>
+    <string name="sign_in_fail_network">登录失败，网络连接异常&#38230;</string>
     <string name="sign_up">注册</string>
     <string name="copy_right">Copyright&#169;云南升玥信息技术有限公司 版权所有</string>
     <string name="back">返回</string>
@@ -58,14 +58,14 @@
     <string name="nick_name_hint">请输入你的名字或昵称(可选)</string>
     <string name="sign_up_finish">完成注册</string>
     <string name="sign_up_fail_message">注册失败，%s</string>
-    <string name="sign_up_fail_timeout">注册失败，网络连接超时...</string>
-    <string name="sign_up_fail_network">注册失败，网络连接异常...</string>
+    <string name="sign_up_fail_timeout">注册失败，网络连接超时&#38230;</string>
+    <string name="sign_up_fail_network">注册失败，网络连接异常&#38230;</string>
     <string name="sign_up_account">注册账号</string>
     <string name="has_problem">忘记密码？</string>
     <string name="reset_password">重置密码</string>
     <string name="reset_password_fail_message">重置密码失败，%s</string>
-    <string name="reset_password_fail_timeout">重置密码失败，网络连接超时...</string>
-    <string name="reset_password_fail_network">重置密码失败，网络连接异常...</string>
+    <string name="reset_password_fail_timeout">重置密码失败，网络连接超时&#38230;</string>
+    <string name="reset_password_fail_network">重置密码失败，网络连接异常&#38230;</string>
     <string name="sign_out">注销</string>
     <string name="sign_out_confirm">确认注销吗？</string>
     <string name="cancel">取消</string>
@@ -170,9 +170,9 @@
     <string name="atleast_select_one">请至少选择一张图片分享</string>
     <string name="atleast_share_one">分享文案不要留空</string>
     <string name="fail_message">操作失败，%s</string>
-    <string name="fail_timeout">操作失败，网络连接超时...</string>
-    <string name="fail_network">操作失败，网络连接异常...</string>
-    <string name="fail_unknown">操作失败，发生未知异常...</string>
+    <string name="fail_timeout">操作失败，网络连接超时&#38230;</string>
+    <string name="fail_network">操作失败，网络连接异常&#38230;</string>
+    <string name="fail_unknown">操作失败，发生未知异常&#38230;</string>
     <string name="orders_list_explaination">只有已结算订单才会计算预估收入</string>
     <string name="share_earn">分享赚 ¥ %1$s</string>
     <string name="need_report_content">反馈内容不能为空</string>
@@ -192,7 +192,7 @@
     <string name="withdraw_description">在此创建提现申请，工作人员会及时与您取得联系</string>
     <string name="user_amount_threshold">至少10元才可提现</string>
     <string name="name_hint">请输入您的真实姓名</string>
-    <string name="invitation_code_hint">邀请码（可选，输入有奖）</string>
+    <string name="invitation_code_hint">邀请码</string>
     <string name="lack_of_invitation_hint">关注邀请码，可以实时准确的获得优惠信息</string>
     <string name="to_edit_invation_code">去填邀请码</string>
     <string name="to_register_directly">直接注册</string>
