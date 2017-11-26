@@ -200,5 +200,6 @@
     <string name="re_login_hint">您需要重新登录</string>
     <string name="select_tb">淘宝商城</string>
     <string name="select_jd">京东商城</string>
+    <string name="we_have_underline">我们是有底线的</string>
 
 </resources>

@@ -40,7 +40,7 @@ import static com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity.DYNAMIC
 
 public class SearchResultFragment extends Fragment {
 
-    @BindView(R.id.coupon_list)
+    @BindView(R.id.recycler_view)
     RecyclerView couponList;
 
     @BindView(R.id.sort_sales)
@@ -115,7 +115,7 @@ public class SearchResultFragment extends Fragment {
 
             initCouponList();
 
-            dynamicBox = context.createDynamicBox(context, rootView.findViewById(R.id.coupon_list));
+            dynamicBox = context.createDynamicBox(context, rootView.findViewById(R.id.recycler_view));
 
         }
         return rootView;

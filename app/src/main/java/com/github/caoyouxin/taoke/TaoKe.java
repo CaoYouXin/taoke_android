@@ -2,7 +2,9 @@ package com.github.caoyouxin.taoke;
 
 import android.app.AlertDialog;
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.widget.Toast;
 
 import com.alibaba.baichuan.android.trade.AlibcTradeSDK;
@@ -10,9 +12,13 @@ import com.alibaba.baichuan.android.trade.callback.AlibcTradeInitCallback;
 import com.github.caoyouxin.taoke.api.UnAuthException;
 import com.github.caoyouxin.taoke.model.UserData;
 import com.github.caoyouxin.taoke.ui.activity.SplashActivity;
+import com.github.caoyouxin.taoke.ui.widget.MyRefreshFooter;
 import com.github.caoyouxin.taoke.util.ShareHelper;
 import com.github.gnastnosaj.boilerplate.Boilerplate;
 import com.github.gnastnosaj.boilerplate.mvchelper.RxDataSource;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
 import java.io.IOException;
 import java.net.SocketException;
@@ -72,6 +78,14 @@ public class TaoKe extends Application {
         }).subscribeOn(Schedulers.io()));
 
         ShareHelper.initialize(this);
+
+        SmartRefreshLayout.setDefaultRefreshHeaderCreater((Context context, RefreshLayout layout) -> new ClassicsHeader(context));
+        SmartRefreshLayout.setDefaultRefreshFooterCreater((context, layout) -> {
+            MyRefreshFooter myRefreshFooter = new MyRefreshFooter(context);
+            myRefreshFooter.getTitleText().setText(R.string.we_have_underline);
+            myRefreshFooter.getArrowView().setImageURI(Uri.parse("android.resource://" + getApplicationContext().getPackageName() + "/" +R.mipmap.ic_launcher));
+            return myRefreshFooter;
+        });
 
         AlibcTradeSDK.asyncInit(this, new AlibcTradeInitCallback() {
             @Override
