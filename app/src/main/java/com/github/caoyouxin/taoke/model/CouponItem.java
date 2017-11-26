@@ -42,6 +42,7 @@ public class CouponItem implements Parcelable {
     private String couponPrice;
     private String earnPrice;
     private String tkLink;
+    private Double coupon;
 
     public CouponItem() {
     }
@@ -70,6 +71,7 @@ public class CouponItem implements Parcelable {
         this.couponPrice = source.readString();
         this.earnPrice = source.readString();
         this.tkLink = source.readString();
+        this.coupon = source.readDouble();
     }
 
     public Long getCategory() {
@@ -262,6 +264,7 @@ public class CouponItem implements Parcelable {
         dest.writeString(null != this.couponPrice ? this.couponPrice : "");
         dest.writeString(this.earnPrice);
         dest.writeString(null != this.tkLink ? this.tkLink : "");
+        dest.writeDouble(this.coupon);
     }
 
     public String getCouponPrice() {
@@ -315,5 +318,35 @@ public class CouponItem implements Parcelable {
                 ", earnPrice='" + earnPrice + '\'' +
                 ", tkLink='" + tkLink + '\'' +
                 '}';
+    }
+
+    public String getLink() {
+        return null == couponClickUrl || couponClickUrl.isEmpty() ? tkLink : couponClickUrl;
+    }
+
+    private Double price;
+
+    public Double getPrice() {
+        if (null == price) {
+            price = null == couponPrice || couponPrice.isEmpty() ? Double.parseDouble(zkFinalPrice) : Double.parseDouble(couponPrice);
+        }
+        return price;
+    }
+
+    public Double getCoupon() {
+        return coupon;
+    }
+
+    public void setCoupon(Double coupon) {
+        this.coupon = coupon;
+    }
+
+    private Double earn;
+
+    public Double getEarn() {
+        if (null == earn) {
+            earn = Double.parseDouble(earnPrice);
+        }
+        return earn;
     }
 }

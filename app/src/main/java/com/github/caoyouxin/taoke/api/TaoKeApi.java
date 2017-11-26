@@ -107,7 +107,7 @@ public class TaoKeApi {
                 });
     }
 
-    public static Observable<List<CouponItem>> getProductList(BrandItem brandItem, int pageNo, int sort) {
+    public static Observable<List<CouponItem>> getProductList(BrandItem brandItem, int pageNo) {
         return TaoKeRetrofit.getService().tao(TaoKeService.API_PRODUCT_LIST.replace("{favId}", brandItem.favId).replace("{pageNo}", "" + pageNo), UserData.get().getAccessToken())
                 .compose(RxHelper.handleResult())
                 .map(taoKeData -> {
@@ -151,11 +151,13 @@ public class TaoKeApi {
 
                             int start = item.getCouponInfo().indexOf('减') + 1;
                             int end = item.getCouponInfo().indexOf('元', start);
-                            double couponPrice = Double.parseDouble(item.getZkFinalPrice()) - Double.parseDouble(item.getCouponInfo().substring(start, end));
+                            item.setCoupon(Double.parseDouble(item.getCouponInfo().substring(start, end)));
+                            double couponPrice = Double.parseDouble(item.getZkFinalPrice()) - item.getCoupon();
                             item.setCouponPrice(String.format(Locale.ENGLISH, "%.2f", couponPrice));
 
                             item.setEarnPrice(String.format(Locale.ENGLISH, "%.2f", Double.parseDouble(item.getCommissionRate()) * couponPrice / 100));
                         } else {
+                            item.setCoupon(0.0);
                             item.setEarnPrice(String.format(Locale.ENGLISH, "%.2f", Double.parseDouble(item.getZkFinalPrice()) * Double.parseDouble(item.getCommissionRate()) / 100));
                         }
 
@@ -217,7 +219,8 @@ public class TaoKeApi {
 
                         int start = item.getCouponInfo().indexOf('减') + 1;
                         int end = item.getCouponInfo().indexOf('元', start);
-                        double couponPrice = Double.parseDouble(item.getZkFinalPrice()) - Double.parseDouble(item.getCouponInfo().substring(start, end));
+                        item.setCoupon(Double.parseDouble(item.getCouponInfo().substring(start, end)));
+                        double couponPrice = Double.parseDouble(item.getZkFinalPrice()) - item.getCoupon();
                         item.setCouponPrice(String.format(Locale.ENGLISH, "%.2f", couponPrice));
                         item.setEarnPrice(String.format(Locale.ENGLISH, "%.2f", Double.parseDouble((String) rec.get("commissionRate")) * couponPrice / 100));
 
@@ -357,7 +360,8 @@ public class TaoKeApi {
 
                         int start = item.getCouponInfo().indexOf('减') + 1;
                         int end = item.getCouponInfo().indexOf('元', start);
-                        double couponPrice = Double.parseDouble(item.getZkFinalPrice()) - Double.parseDouble(item.getCouponInfo().substring(start, end));
+                        item.setCoupon(Double.parseDouble(item.getCouponInfo().substring(start, end)));
+                        double couponPrice = Double.parseDouble(item.getZkFinalPrice()) - item.getCoupon();
                         item.setCouponPrice(String.format(Locale.ENGLISH, "%.2f", couponPrice));
                         item.setEarnPrice(String.format(Locale.ENGLISH, "%.2f", Double.parseDouble((String) rec.get("commissionRate")) * couponPrice / 100));
 

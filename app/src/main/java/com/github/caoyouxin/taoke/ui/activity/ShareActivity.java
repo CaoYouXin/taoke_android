@@ -204,7 +204,7 @@ public class ShareActivity extends BaseActivity {
             return;
         }
 
-        String userLink = null == couponItem.getCouponClickUrl() || couponItem.getCouponClickUrl().isEmpty() ? couponItem.getTkLink() : couponItem.getCouponClickUrl();
+        String userLink = couponItem.getLink();
         if (null == userLink || userLink.isEmpty()) {
             System.err.println("分享链接为空！");
             System.err.println(userLink);
