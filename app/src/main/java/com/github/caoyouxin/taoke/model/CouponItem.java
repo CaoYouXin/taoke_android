@@ -291,35 +291,6 @@ public class CouponItem implements Parcelable {
         this.tkLink = tkLink;
     }
 
-    @Override
-    public String toString() {
-        return "CouponItem{" +
-                "category=" + category +
-                ", commissionRate='" + commissionRate + '\'' +
-                ", couponClickUrl='" + couponClickUrl + '\'' +
-                ", couponEndTime='" + couponEndTime + '\'' +
-                ", couponInfo='" + couponInfo + '\'' +
-                ", couponRemainCount=" + couponRemainCount +
-                ", couponStartTime='" + couponStartTime + '\'' +
-                ", couponTotalCount=" + couponTotalCount +
-                ", itemDescription='" + itemDescription + '\'' +
-                ", itemUrl='" + itemUrl + '\'' +
-                ", nick='" + nick + '\'' +
-                ", numIid=" + numIid +
-                ", pictUrl='" + pictUrl + '\'' +
-                ", sellerId=" + sellerId +
-                ", shopTitle='" + shopTitle + '\'' +
-                ", smallImages=" + smallImages +
-                ", title='" + title + '\'' +
-                ", userType=" + userType +
-                ", volume=" + volume +
-                ", zkFinalPrice='" + zkFinalPrice + '\'' +
-                ", couponPrice='" + couponPrice + '\'' +
-                ", earnPrice='" + earnPrice + '\'' +
-                ", tkLink='" + tkLink + '\'' +
-                '}';
-    }
-
     public String getLink() {
         return null == couponClickUrl || couponClickUrl.isEmpty() ? tkLink : couponClickUrl;
     }
@@ -348,5 +319,37 @@ public class CouponItem implements Parcelable {
             earn = Double.parseDouble(earnPrice);
         }
         return earn;
+    }
+
+    @Override
+    public String toString() {
+        return "CouponItem{" +
+//                "category=" + category +
+//                ", commissionRate='" + commissionRate + '\'' +
+//                ", couponClickUrl='" + couponClickUrl + '\'' +
+//                ", couponEndTime='" + couponEndTime + '\'' +
+//                ", couponInfo='" + couponInfo + '\'' +
+//                ", couponRemainCount=" + couponRemainCount +
+//                ", couponStartTime='" + couponStartTime + '\'' +
+//                ", couponTotalCount=" + couponTotalCount +
+//                ", itemDescription='" + itemDescription + '\'' +
+//                ", itemUrl='" + itemUrl + '\'' +
+//                ", nick='" + nick + '\'' +
+//                ", numIid=" + numIid +
+//                ", pictUrl='" + pictUrl + '\'' +
+//                ", sellerId=" + sellerId +
+//                ", shopTitle='" + shopTitle + '\'' +
+//                ", smallImages=" + smallImages +
+//                ", title='" + title + '\'' +
+//                ", userType=" + userType +
+//                ", volume=" + volume +
+//                ", zkFinalPrice='" + zkFinalPrice + '\'' +
+//                ", couponPrice='" + couponPrice + '\'' +
+//                ", earnPrice='" + earnPrice + '\'' +
+//                ", tkLink='" + tkLink + '\'' +
+                ", coupon=" + coupon +
+                ", price=" + price +
+                ", earn=" + earn +
+                '}';
     }
 }

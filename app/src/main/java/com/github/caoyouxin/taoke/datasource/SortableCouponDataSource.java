@@ -7,6 +7,7 @@ import com.github.caoyouxin.taoke.model.CouponItem;
 import com.github.gnastnosaj.boilerplate.mvchelper.RxDataSource;
 import com.shizhefei.mvc.IDataCacheLoader;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -39,30 +40,36 @@ public abstract class SortableCouponDataSource extends RxDataSource<List<CouponI
         }
     }
 
-    private List<CouponItem> cache;
-    private SORT sort;
+    protected List<CouponItem> cache;
+    protected SORT sort;
 
     public SortableCouponDataSource(Context context) {
         super(context);
         this.sort = SORT.SORT_SALES;
     }
 
-    public void setCache(List<CouponItem> cache) {
+    public SortableCouponDataSource setSort(SORT sort) {
+        this.sort = sort;
+        return this;
+    }
+
+    public SortableCouponDataSource setCache(List<CouponItem> cache) {
         this.cache = cache;
+        return this;
     }
 
     protected abstract Observable<List<CouponItem>> fetchDataUnderlay() throws Exception;
 
     @Override
     public Observable<List<CouponItem>> refresh() throws Exception {
+        Observable<List<CouponItem>> observable;
         if (null != cache) {
-            if (null != sort) {
-                Collections.sort(cache, sort.comparator);
-            }
-            return Observable.just(cache);
+            observable = Observable.just(new ArrayList<>(cache));
+        } else {
+            observable = fetchDataUnderlay();
         }
 
-        return fetchDataUnderlay().map(data -> {
+        return observable.map(data -> {
             if (null != sort) {
                 Collections.sort(data, sort.comparator);
             }
