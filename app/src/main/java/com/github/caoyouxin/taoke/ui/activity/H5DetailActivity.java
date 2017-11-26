@@ -16,7 +16,6 @@ import com.alibaba.baichuan.android.trade.page.AlibcDetailPage;
 import com.alibaba.baichuan.trade.biz.context.AlibcTradeResult;
 import com.alibaba.baichuan.trade.biz.core.taoke.AlibcTaokeParams;
 import com.github.caoyouxin.taoke.R;
-import com.github.caoyouxin.taoke.api.TaoKeApi;
 import com.github.caoyouxin.taoke.model.UserData;
 import com.github.caoyouxin.taoke.util.MyWebViewClient;
 import com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity;

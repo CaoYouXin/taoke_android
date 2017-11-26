@@ -25,9 +25,6 @@ import javax.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * Created by jasontsang on 10/24/17.
- */
 
 public class ShareAppImageAdapter extends RecyclerView.Adapter implements IDataAdapter<List<ShareImage>> {
 

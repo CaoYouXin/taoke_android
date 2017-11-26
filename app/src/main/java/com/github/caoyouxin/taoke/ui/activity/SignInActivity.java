@@ -29,9 +29,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-/**
- * Created by jasontsang on 8/21/17.
- */
 
 public class SignInActivity extends BaseActivity {
     @BindView(R.id.phone)

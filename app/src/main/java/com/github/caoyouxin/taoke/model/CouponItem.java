@@ -5,9 +5,6 @@ import android.os.Parcelable;
 
 import java.util.List;
 
-/**
- * Created by cls on 2017/11/7.
- */
 
 public class CouponItem implements Parcelable {
 

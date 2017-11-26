@@ -25,7 +25,6 @@ import com.bilibili.socialize.share.util.BitmapUtil;
 import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.adapter.ShareAppImageAdapter;
 import com.github.caoyouxin.taoke.api.RxHelper;
-import com.github.caoyouxin.taoke.api.TaoKeApi;
 import com.github.caoyouxin.taoke.datasource.ShareAppImageDataSource;
 import com.github.caoyouxin.taoke.model.UserData;
 import com.github.caoyouxin.taoke.ui.widget.HackyLoadViewFactory;

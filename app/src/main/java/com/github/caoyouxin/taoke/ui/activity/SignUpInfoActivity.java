@@ -31,9 +31,6 @@ import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
-/**
- * Created by jasontsang on 8/21/17.
- */
 
 public class SignUpInfoActivity extends BaseActivity {
     public final static String EXTRA_PHONE = "phone";

@@ -10,9 +10,6 @@ import java.io.InputStream;
 
 import timber.log.Timber;
 
-/**
- * Created by cls on 2017/11/20.
- */
 
 public class MyWebViewClient extends WebViewClient {
 

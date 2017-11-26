@@ -27,9 +27,6 @@ import java.io.IOException;
 
 import timber.log.Timber;
 
-/**
- * Created by jasontsang on 5/25/17.
- */
 
 public class ShareHelper {
     private final static ShareListener shareListener = new ShareListener();

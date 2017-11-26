@@ -24,9 +24,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-/**
- * Created by jasontsang on 8/21/17.
- */
 
 public class EnrollActivity extends BaseActivity {
 

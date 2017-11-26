@@ -10,9 +10,7 @@ import java.util.Hashtable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by jasontsang on 11/1/17.
- */
+
 public class RegUtils {
     public static boolean isMobile(String mobiles) {
         Pattern p = Pattern.compile("^1\\d{10}$");

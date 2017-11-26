@@ -8,9 +8,6 @@ import com.github.gnastnosaj.boilerplate.Boilerplate;
 
 import java.util.Map;
 
-/**
- * Created by cls on 2017/11/23.
- */
 
 public class UserData {
 

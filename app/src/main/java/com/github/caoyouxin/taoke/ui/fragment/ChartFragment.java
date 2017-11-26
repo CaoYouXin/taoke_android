@@ -35,9 +35,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-/**
- * Created by jasontsang on 10/24/17.
- */
 
 public class ChartFragment extends Fragment {
 

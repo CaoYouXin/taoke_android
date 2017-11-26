@@ -15,9 +15,6 @@ import java.util.Map;
 
 import io.reactivex.Observable;
 
-/**
- * Created by jasontsang on 10/24/17.
- */
 
 public final class RecyclerViewAppBarBehavior extends AppBarLayout.Behavior {
 

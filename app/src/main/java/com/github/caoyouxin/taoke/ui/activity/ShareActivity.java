@@ -129,6 +129,7 @@ public class ShareActivity extends BaseActivity {
 
         createDynamicBox();
 
+        link = null;
     }
 
     @OnClick({R.id.back, R.id.handle, R.id.share_text_only})
@@ -203,8 +204,11 @@ public class ShareActivity extends BaseActivity {
             return;
         }
 
-        String userLink = null != couponItem.getCouponClickUrl() ? couponItem.getCouponClickUrl() : couponItem.getTkLink();
+        String userLink = null == couponItem.getCouponClickUrl() || couponItem.getCouponClickUrl().isEmpty() ? couponItem.getTkLink() : couponItem.getCouponClickUrl();
         if (null == userLink || userLink.isEmpty()) {
+            System.err.println("分享链接为空！");
+            System.err.println(userLink);
+            System.err.println(couponItem.toString());
             Snackbar.make(findViewById(android.R.id.content), R.string.fail_unknown, Snackbar.LENGTH_LONG).show();
             dismissDynamicBox(ShareActivity.this);
             this.busy = false;

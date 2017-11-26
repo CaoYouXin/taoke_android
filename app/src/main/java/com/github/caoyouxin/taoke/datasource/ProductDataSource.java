@@ -15,9 +15,6 @@ import java.util.List;
 
 import io.reactivex.Observable;
 
-/**
- * Created by jasontsang on 10/2/17.
- */
 
 public class ProductDataSource extends RxDataSource<List<CouponItem>> implements IDataCacheLoader<List<CouponItem>> {
 

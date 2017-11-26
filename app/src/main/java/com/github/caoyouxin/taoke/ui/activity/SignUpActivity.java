@@ -26,9 +26,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
-/**
- * Created by jasontsang on 8/21/17.
- */
 
 public class SignUpActivity extends BaseActivity {
     @BindView(R.id.phone)

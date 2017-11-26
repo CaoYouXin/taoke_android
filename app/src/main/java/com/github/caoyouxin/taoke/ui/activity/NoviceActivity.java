@@ -30,9 +30,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-/**
- * Created by jasontsang on 10/26/17.
- */
 
 public class NoviceActivity extends BaseActivity {
 

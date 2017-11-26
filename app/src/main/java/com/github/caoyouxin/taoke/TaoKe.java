@@ -7,30 +7,22 @@ import android.widget.Toast;
 
 import com.alibaba.baichuan.android.trade.AlibcTradeSDK;
 import com.alibaba.baichuan.android.trade.callback.AlibcTradeInitCallback;
-import com.github.caoyouxin.taoke.api.RxHelper;
-import com.github.caoyouxin.taoke.api.TaoKeApi;
 import com.github.caoyouxin.taoke.api.UnAuthException;
-import com.github.caoyouxin.taoke.event.MessageEvent;
 import com.github.caoyouxin.taoke.model.UserData;
 import com.github.caoyouxin.taoke.ui.activity.SplashActivity;
 import com.github.caoyouxin.taoke.util.ShareHelper;
 import com.github.gnastnosaj.boilerplate.Boilerplate;
 import com.github.gnastnosaj.boilerplate.mvchelper.RxDataSource;
-import com.github.gnastnosaj.boilerplate.rxbus.RxBus;
 
 import java.io.IOException;
 import java.net.SocketException;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.exceptions.UndeliverableException;
-import io.reactivex.internal.functions.Functions;
 import io.reactivex.plugins.RxJavaPlugins;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
-/**
- * Created by jasontsang on 10/23/17.
- */
 
 public class TaoKe extends Application {
 

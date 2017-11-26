@@ -23,9 +23,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * Created by jasontsang on 10/24/17.
- */
 
 public class MessageFragment extends Fragment {
 

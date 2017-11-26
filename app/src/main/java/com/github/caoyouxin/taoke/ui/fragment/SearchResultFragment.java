@@ -34,9 +34,6 @@ import mehdi.sakout.dynamicbox.DynamicBox;
 
 import static com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity.DYNAMIC_BOX_MK_LINESPINNER;
 
-/**
- * Created by jasontsang on 10/24/17.
- */
 
 public class SearchResultFragment extends Fragment {
 

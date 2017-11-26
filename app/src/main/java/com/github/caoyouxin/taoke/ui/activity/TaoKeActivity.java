@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.caoyouxin.taoke.R;
-import com.github.caoyouxin.taoke.TaoKe;
 import com.github.caoyouxin.taoke.api.RxHelper;
 import com.github.caoyouxin.taoke.api.TaoKeApi;
 import com.github.caoyouxin.taoke.event.MessageEvent;
@@ -129,15 +128,15 @@ public class TaoKeActivity extends BaseActivity {
                 .compose(bindUntilEvent(ActivityEvent.DESTROY))
                 .compose(RxHelper.rxSchedulerHelper())
                 .subscribe(messageEvent -> {
-                    if(messageEvent.hide) {
+                    if (messageEvent.hide) {
                         ShortcutBadger.removeCount(Boilerplate.getInstance());
                         tabBadge.hide(false);
-                    }else {
+                    } else {
                         tabBadge.setBadgeNumber((int) messageEvent.count);
                         ShortcutBadger.applyCount(Boilerplate.getInstance(), (int) messageEvent.count);
                     }
                 }, throwable -> Timber.e(throwable));
 
-        Observable.interval(0,1, TimeUnit.MINUTES).compose(bindUntilEvent(ActivityEvent.DESTROY)).subscribe(aLong -> TaoKeApi.getUnreadMessages().compose(RxHelper.rxSchedulerHelper()).subscribe(count -> RxBus.getInstance().post(MessageEvent.class, new MessageEvent(count)), Functions.ON_ERROR_MISSING, Functions.EMPTY_ACTION, Functions.emptyConsumer()));
+        Observable.interval(0, 1, TimeUnit.MINUTES).compose(bindUntilEvent(ActivityEvent.DESTROY)).subscribe(aLong -> TaoKeApi.getUnreadMessages().compose(RxHelper.rxSchedulerHelper()).subscribe(count -> RxBus.getInstance().post(MessageEvent.class, new MessageEvent(count)), Functions.ON_ERROR_MISSING, Functions.EMPTY_ACTION, Functions.emptyConsumer()));
     }
 }

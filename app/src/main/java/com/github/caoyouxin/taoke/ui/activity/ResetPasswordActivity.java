@@ -31,9 +31,6 @@ import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
-/**
- * Created by jasontsang on 9/22/17.
- */
 
 public class ResetPasswordActivity extends BaseActivity {
     @BindView(R.id.back)
