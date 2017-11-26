@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.github.caoyouxin.taoke.R;
@@ -33,6 +34,9 @@ public class SearchActivity extends BaseActivity implements TextView.OnEditorAct
 
     @BindView(R.id.search_text)
     EditText searchText;
+
+    @BindView(R.id.search_type)
+    Spinner searchType;
 
     private SearchHistoryFragment searchHistoryFragment;
     private SearchHintFragment searchHintFragment;
@@ -63,15 +67,16 @@ public class SearchActivity extends BaseActivity implements TextView.OnEditorAct
 
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        this.searchHistory.persist();
-    }
-
-    @OnClick(R.id.back)
+    @OnClick({R.id.back, R.id.search_btn})
     protected void onBackClick(View view) {
-        onBackPressed();
+        switch (view.getId()) {
+            case R.id.back:
+                onBackPressed();
+                break;
+            case R.id.search_btn:
+                performSearch();
+                break;
+        }
     }
 
     @OnTextChanged(R.id.search_text)
@@ -86,12 +91,18 @@ public class SearchActivity extends BaseActivity implements TextView.OnEditorAct
                 || actionId == EditorInfo.IME_ACTION_GO) {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-            String keyword = v.getText().toString();
-            this.showSearchResult(keyword);
-            this.searchHistory.add(keyword);
+            performSearch();
             return true;
         }
         return false;
+    }
+
+    private void performSearch() {
+        String keyword = searchText.getText().toString();
+        boolean isJu = "聚划算".equals(searchType.getSelectedItem());
+        this.showSearchResult(keyword, isJu);
+        this.searchHistory.add(keyword);
+        this.searchHistory.persist();
     }
 
     private void showSearchHistory() {
@@ -106,7 +117,7 @@ public class SearchActivity extends BaseActivity implements TextView.OnEditorAct
         ft.commit();
     }
 
-    private void showSearchResult(String inputNow) {
+    private void showSearchResult(String inputNow, boolean isJu) {
         if (null == this.searchResultFragment) {
             this.searchResultFragment = new SearchResultFragment().setSearchActivity(gestureDetector, this);
         }
@@ -116,10 +127,10 @@ public class SearchActivity extends BaseActivity implements TextView.OnEditorAct
 
         if (null != fragmentById && fragmentById instanceof SearchResultFragment) {
 
-            this.searchResultFragment.setSearchKeywordAndUpdate(inputNow);
+            this.searchResultFragment.setSearchKeywordAndUpdate(inputNow, isJu);
         } else {
 
-            this.searchResultFragment.setSearchKeyword(inputNow);
+            this.searchResultFragment.setSearchKeyword(inputNow, isJu);
             FragmentTransaction ft = fm.beginTransaction();
             ft.replace(R.id.search_content, this.searchResultFragment);
             ft.commit();

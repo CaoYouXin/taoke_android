@@ -23,6 +23,7 @@ import com.github.caoyouxin.taoke.model.UserResetPwdSubmit;
 import com.github.caoyouxin.taoke.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -223,6 +224,64 @@ public class TaoKeApi {
                         double couponPrice = Double.parseDouble(item.getZkFinalPrice()) - item.getCoupon();
                         item.setCouponPrice(String.format(Locale.ENGLISH, "%.2f", couponPrice));
                         item.setEarnPrice(String.format(Locale.ENGLISH, "%.2f", Double.parseDouble((String) rec.get("commissionRate")) * couponPrice / 100));
+
+                        items.add(item);
+                    }
+                    return items;
+                });
+    }
+
+    public static Observable<List<CouponItem>> getJuSearch(String keyword) {
+        return TaoKeRetrofit.getService().tao(
+                TaoKeService.API_JU_SEARCH.replace("{keyword}", keyword), UserData.get().getAccessToken()
+        )
+                .compose(RxHelper.handleResult())
+                .map(taoKeData -> {
+                    List<CouponItem> items = new ArrayList<>();
+                    List<Map> recs = taoKeData.getList();
+                    for (Map rec : recs) {
+                        CouponItem item = new CouponItem();
+
+                        item.setCategory(((Double) rec.get("tbFirstCatId")).longValue());
+                        item.setNumIid(((Double) rec.get("itemId")).longValue());
+                        item.setTitle((String) rec.get("title"));
+
+                        item.setPictUrl("http:" + rec.get("picUrlForWL"));
+                        item.setSmallImages(Collections.emptyList());
+
+                        item.setItemUrl((String) rec.get("wapUrl"));
+                        item.setCouponClickUrl((String) rec.get("wapUrl"));
+
+                        item.setCouponInfo(null);
+                        item.setCouponRemainCount(null);
+                        item.setCouponTotalCount(null);
+                        item.setCouponEndTime(null);
+                        item.setCouponStartTime(null);
+
+                        item.setUserType(null);
+                        item.setSellerId(null);
+                        item.setNick(null);
+                        item.setShopTitle(null);
+
+                        List<String> uspDescList = (List<String>) rec.get("uspDescList");
+                        List<String> itemUspList = (List<String>) rec.get("itemUspList");
+                        List<String> priceUspList = (List<String>) rec.get("priceUspList");
+                        List<String> desc = new ArrayList<>(uspDescList);
+                        desc.addAll(itemUspList);
+                        desc.addAll(priceUspList);
+                        StringBuffer sb = new StringBuffer();
+                        for (String d : desc) {
+                            sb.append(d).append(' ');
+                        }
+                        item.setItemDescription(sb.toString());
+
+                        item.setZkFinalPrice((String) rec.get("origPrice"));
+                        item.setCouponPrice((String) rec.get("actPrice"));
+                        item.setCoupon(Double.parseDouble(item.getZkFinalPrice()) - Double.parseDouble(item.getCouponPrice()));
+
+                        item.setCommissionRate(null);
+                        item.setEarnPrice("0.0");
+                        item.setVolume(0L);
 
                         items.add(item);
                     }

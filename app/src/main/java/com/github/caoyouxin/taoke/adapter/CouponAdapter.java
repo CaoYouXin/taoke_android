@@ -55,40 +55,54 @@ public class CouponAdapter extends RecyclerView.Adapter implements IDataAdapter<
         holder.thumb.setImageURI(item.getPictUrl());
         holder.title.setText(item.getTitle());
         holder.priceBefore.setText(context.getResources().getString(R.string.discover_coupon_price_before, item.getZkFinalPrice()));
-        holder.salesStatus.setText(context.getResources().getString(R.string.discover_coupon_sales_status, String.valueOf(item.getVolume())));
+        if (item.getVolume() == 0) {
+            holder.salesStatus.setText("");
+        } else {
+            holder.salesStatus.setText(context.getResources().getString(R.string.discover_coupon_sales_status, String.valueOf(item.getVolume())));
+        }
 
-        String text = context.getResources().getString(R.string.discover_coupon_price_after, item.getCouponPrice());
+        String text;
+        if (item.isJu()) {
+            text = context.getResources().getString(R.string.discover_ju_price, item.getCouponPrice());
+        } else {
+            text = context.getResources().getString(R.string.discover_coupon_price_after, item.getCouponPrice());
+        }
         SpannableStringBuilder builder = new SpannableStringBuilder(text);
         ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(context.getResources().getColor(R.color.grey_900));
         builder.setSpan(foregroundColorSpan, text.indexOf("¥"), text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         builder.setSpan(new AbsoluteSizeSpan(context.getResources().getDimensionPixelSize(R.dimen.font_16)), text.indexOf("¥"), text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         holder.priceAfter.setText(builder);
 
-        if (UserData.get().isBuyer()) {
+        if (UserData.get().isBuyer() || item.getEarn() < 0.001) {
             holder.earn.setVisibility(View.GONE);
         } else {
             holder.earn.setText(context.getResources().getString(R.string.discover_coupon_earn, item.getEarnPrice()));
         }
 
 
-        holder.value.setText(context.getResources().getString(R.string.discover_coupon_value, item.getCouponInfo(), String.valueOf(item.getCouponRemainCount())));
+        if (item.getCouponInfo() != null) {
+            holder.value.setText(context.getResources().getString(R.string.discover_coupon_value, item.getCouponInfo(), String.valueOf(item.getCouponRemainCount())));
 
-        if (holder.progressDisposable != null && !holder.progressDisposable.isDisposed()) {
-            holder.progressDisposable.dispose();
+            if (holder.progressDisposable != null && !holder.progressDisposable.isDisposed()) {
+                holder.progressDisposable.dispose();
+            }
+            holder.progressDisposable = Observable.intervalRange(0, 20, 200, 50, TimeUnit.MILLISECONDS)
+                    .map(aLong -> {
+                        float result = interpolator.getInterpolation((float) aLong / 20);
+                        float progress = result * ((float) item.getCouponRemainCount() * 100) / item.getCouponTotalCount();
+                        return progress;
+                    })
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(progress -> {
+                        if (holder.progress.getProgress() < progress) {
+                            holder.progress.setProgress(progress);
+                        }
+                    }, throwable -> {
+                    });
+        } else {
+            holder.value.setVisibility(View.GONE);
+            holder.progress.setVisibility(View.GONE);
         }
-        holder.progressDisposable = Observable.intervalRange(0, 20, 200, 50, TimeUnit.MILLISECONDS)
-                .map(aLong -> {
-                    float result = interpolator.getInterpolation((float) aLong / 20);
-                    float progress = result * ((float) item.getCouponRemainCount() * 100) / item.getCouponTotalCount();
-                    return progress;
-                })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(progress -> {
-                    if (holder.progress.getProgress() < progress) {
-                        holder.progress.setProgress(progress);
-                    }
-                }, throwable -> {
-                });
     }
 
     @Override

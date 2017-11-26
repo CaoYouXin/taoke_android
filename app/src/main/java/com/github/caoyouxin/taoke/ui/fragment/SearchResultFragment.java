@@ -82,17 +82,20 @@ public class SearchResultFragment extends Fragment {
     private GestureDetector gestureDetector;
     private SearchActivity context;
     private String searchKeyword;
+    private boolean isJu;
     private DynamicBox dynamicBox;
     private CouponAdapter couponAdapter;
     private SearchCouponDataSource couponDataSource;
     private MVCNormalHelper<List<CouponItem>> couponListHelper;
 
-    public void setSearchKeyword(String searchKeyword) {
+    public void setSearchKeyword(String searchKeyword, boolean isJu) {
         this.searchKeyword = searchKeyword;
+        this.isJu = isJu;
     }
 
-    public void setSearchKeywordAndUpdate(String searchKeyword) {
+    public void setSearchKeywordAndUpdate(String searchKeyword, boolean isJu) {
         this.searchKeyword = searchKeyword;
+        this.isJu = isJu;
         initSearchResult();
     }
 
@@ -198,7 +201,7 @@ public class SearchResultFragment extends Fragment {
         sortCommissionUp.setTextColor(getResources().getColor(R.color.grey_400));
         sortCommissionDown.setTextColor(getResources().getColor(R.color.grey_400));
 
-        couponDataSource.setKeyword(this.searchKeyword).setSort(SortableCouponDataSource.SORT.SORT_SALES).setCache(null);
+        couponDataSource.setKeyword(this.searchKeyword).setJu(this.isJu).setSort(SortableCouponDataSource.SORT.SORT_SALES).setCache(null);
         couponListHelper.refresh();
     }
 

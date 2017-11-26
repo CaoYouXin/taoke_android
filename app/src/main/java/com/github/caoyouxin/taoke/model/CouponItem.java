@@ -244,25 +244,25 @@ public class CouponItem implements Parcelable {
         dest.writeLong(this.category);
         dest.writeLong(null != this.couponRemainCount ? this.couponRemainCount : 0L);
         dest.writeLong(null != this.couponTotalCount ? this.couponTotalCount : 0L);
-        dest.writeLong(this.userType);
+        dest.writeLong(null != this.userType ? this.userType : 0L);
         dest.writeLong(this.numIid);
-        dest.writeLong(this.sellerId);
+        dest.writeLong(null != this.sellerId ? this.sellerId : 0L);
         dest.writeLong(this.volume);
         dest.writeArray(this.smallImages.toArray());
-        dest.writeString(this.commissionRate);
+        dest.writeString(null != this.commissionRate ? this.commissionRate : "");
         dest.writeString(null != this.couponClickUrl ? this.couponClickUrl : "");
         dest.writeString(null != this.couponEndTime ? this.couponEndTime : "");
         dest.writeString(null != this.couponInfo ? this.couponInfo : "");
         dest.writeString(null != this.couponStartTime ? this.couponStartTime : "");
         dest.writeString(this.zkFinalPrice);
         dest.writeString(this.itemUrl);
-        dest.writeString(this.nick);
+        dest.writeString(null != this.nick ? this.nick : "");
         dest.writeString(this.pictUrl);
         dest.writeString(this.title);
-        dest.writeString(this.shopTitle);
+        dest.writeString(null != this.shopTitle ? this.shopTitle : "");
         dest.writeString(this.itemDescription);
         dest.writeString(null != this.couponPrice ? this.couponPrice : "");
-        dest.writeString(this.earnPrice);
+        dest.writeString(null != this.earnPrice ? this.earnPrice : "");
         dest.writeString(null != this.tkLink ? this.tkLink : "");
         dest.writeDouble(this.coupon);
     }
@@ -319,6 +319,10 @@ public class CouponItem implements Parcelable {
             earn = Double.parseDouble(earnPrice);
         }
         return earn;
+    }
+
+    public boolean isJu() {
+        return null == commissionRate || commissionRate.isEmpty();
     }
 
     @Override

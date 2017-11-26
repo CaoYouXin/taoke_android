@@ -7,16 +7,44 @@
 
     <include layout="@layout/layout_action_bar" />
 
-    <EditText
-        android:id="@+id/search_text"
-        android:layout_margin="@dimen/len_16"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/border_1px_less_pad"
-        android:hint="@string/search_title"
-        android:maxLines="1"
-        android:inputType="text"
-        android:imeOptions="actionSearch"/>
+        android:layout_height="wrap_content">
+
+        <Spinner
+            android:id="@+id/search_type"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/len_36"
+            android:background="@drawable/search_shape"
+            android:entries="@array/search_types" />
+
+        <EditText
+            android:id="@+id/search_text"
+            android:layout_margin="@dimen/len_16"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/len_36"
+            android:background="@drawable/border_1px_less_pad"
+            android:hint="@string/search_title"
+            android:maxLines="1"
+            android:inputType="text"
+            android:imeOptions="actionSearch"/>
+
+        <Button
+            android:id="@+id/search_btn"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/len_36"
+            android:background="@drawable/tab_ripple"
+            android:layout_marginRight="@dimen/len_4"
+            android:layout_marginEnd="@dimen/len_4"
+            android:paddingLeft="@dimen/len_16"
+            android:paddingRight="@dimen/len_16"
+            android:minWidth="0dp"
+            android:text="@string/search_title" />
+
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/search_content"

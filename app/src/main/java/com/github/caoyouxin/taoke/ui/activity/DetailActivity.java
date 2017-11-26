@@ -86,6 +86,9 @@ public class DetailActivity extends BaseActivity {
     @BindView(R.id.detail_commission_wrapper)
     LinearLayout detailCommissionWrapper;
 
+    @BindView(R.id.price_label)
+    TextView priceLabel;
+
     private CouponItem couponItem;
 
     @Override
@@ -101,12 +104,15 @@ public class DetailActivity extends BaseActivity {
         initView();
 
         if (UserData.get().isBuyer()) {
-            detailCommissionWrapper.setVisibility(View.GONE);
             agentDetailShare.setVisibility(View.GONE);
             buyerWrapper.setVisibility(View.VISIBLE);
         } else {
             buyerWrapper.setVisibility(View.GONE);
             agentDetailShare.setVisibility(View.VISIBLE);
+        }
+
+        if (UserData.get().isBuyer() || couponItem.getEarn() < 0.001) {
+            detailCommissionWrapper.setVisibility(View.GONE);
         }
 
 //        createDynamicBox();
@@ -221,26 +227,35 @@ public class DetailActivity extends BaseActivity {
                     SpannedTextUtil.buildAmount(this, "¥ " + couponItem.getCouponPrice(), '¥', 2)
             );
 
-            String text = getResources().getString(R.string.detail_coupon, couponItem.getCouponInfo());
-            SpannableStringBuilder builder = new SpannableStringBuilder(text);
-            ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(getResources().getColor(R.color.orange_800));
-            builder.setSpan(foregroundColorSpan, text.indexOf('满'), text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            detailCoupon.setText(builder);
+            if (!couponItem.isJu()) {
+                String text = getResources().getString(R.string.detail_coupon, couponItem.getCouponInfo());
+                SpannableStringBuilder builder = new SpannableStringBuilder(text);
+                ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(getResources().getColor(R.color.orange_800));
+                builder.setSpan(foregroundColorSpan, text.indexOf('满'), text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                detailCoupon.setText(builder);
+            }
 
-            text = getResources().getString(R.string.detail_price_before, couponItem.getZkFinalPrice());
-            builder = new SpannableStringBuilder(text);
+            String text = getResources().getString(R.string.detail_price_before, couponItem.getZkFinalPrice());
+            SpannableStringBuilder builder = new SpannableStringBuilder(text);
             StrikethroughSpan strikethroughSpan = new StrikethroughSpan();
             builder.setSpan(strikethroughSpan, text.indexOf("¥") + 2, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             priceBefore.setText(builder);
         }
 
-        detailSales.setText(getResources().getString(R.string.detail_sales, String.valueOf(couponItem.getVolume())));
+        if (couponItem.getVolume() > 0) {
+            detailSales.setText(getResources().getString(R.string.detail_sales, String.valueOf(couponItem.getVolume())));
+        }
 
-        String text = getResources().getString(R.string.detail_commission, couponItem.getEarnPrice());
-        SpannableStringBuilder builder = new SpannableStringBuilder(text);
-        ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(getResources().getColor(R.color.grey_500));
-        builder.setSpan(foregroundColorSpan, text.indexOf("¥"), text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        detailCommission.setText(builder);
+        if (couponItem.isJu()) {
+            priceLabel.setText(R.string.detail_price_ju);
+        } else {
+
+            String text = getResources().getString(R.string.detail_commission, couponItem.getEarnPrice());
+            SpannableStringBuilder builder = new SpannableStringBuilder(text);
+            ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(getResources().getColor(R.color.grey_500));
+            builder.setSpan(foregroundColorSpan, text.indexOf("¥"), text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            detailCommission.setText(builder);
+        }
 
         detailDescription.setText(couponItem.getItemDescription());
     }
