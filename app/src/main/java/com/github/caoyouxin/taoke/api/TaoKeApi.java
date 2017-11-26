@@ -277,7 +277,9 @@ public class TaoKeApi {
 
                         item.setZkFinalPrice((String) rec.get("origPrice"));
                         item.setCouponPrice((String) rec.get("actPrice"));
-                        item.setCoupon(Double.parseDouble(item.getZkFinalPrice()) - Double.parseDouble(item.getCouponPrice()));
+                        double juPrice = Double.parseDouble(item.getCouponPrice());
+                        item.setCoupon(Double.parseDouble(item.getZkFinalPrice()) - juPrice);
+                        item.setCouponPrice(String.format(Locale.ENGLISH, "%.2f", juPrice));
 
                         item.setCommissionRate(null);
                         item.setEarnPrice("0.0");
