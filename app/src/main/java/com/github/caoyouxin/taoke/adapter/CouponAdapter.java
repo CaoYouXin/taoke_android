@@ -76,11 +76,14 @@ public class CouponAdapter extends RecyclerView.Adapter implements IDataAdapter<
         if (UserData.get().isBuyer() || item.getEarn() < 0.001) {
             holder.earn.setVisibility(View.GONE);
         } else {
+            holder.earn.setVisibility(View.VISIBLE);
             holder.earn.setText(context.getResources().getString(R.string.discover_coupon_earn, item.getEarnPrice()));
         }
 
-
         if (item.getCouponInfo() != null) {
+            holder.value.setVisibility(View.VISIBLE);
+            holder.progress.setVisibility(View.VISIBLE);
+
             holder.value.setText(context.getResources().getString(R.string.discover_coupon_value, item.getCouponInfo(), String.valueOf(item.getCouponRemainCount())));
 
             if (holder.progressDisposable != null && !holder.progressDisposable.isDisposed()) {

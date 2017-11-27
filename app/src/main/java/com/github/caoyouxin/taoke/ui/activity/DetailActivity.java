@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StrikethroughSpan;
 import android.util.DisplayMetrics;
@@ -232,6 +233,8 @@ public class DetailActivity extends BaseActivity {
                 SpannableStringBuilder builder = new SpannableStringBuilder(text);
                 ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(getResources().getColor(R.color.orange_800));
                 builder.setSpan(foregroundColorSpan, text.indexOf('满'), text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                AbsoluteSizeSpan absoluteSizeSpan = new AbsoluteSizeSpan(this.getResources().getDimensionPixelSize(R.dimen.font_22));
+                builder.setSpan(absoluteSizeSpan, text.indexOf("减"), text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 detailCoupon.setText(builder);
             }
 
@@ -254,6 +257,12 @@ public class DetailActivity extends BaseActivity {
             SpannableStringBuilder builder = new SpannableStringBuilder(text);
             ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(getResources().getColor(R.color.grey_500));
             builder.setSpan(foregroundColorSpan, text.indexOf("¥"), text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            int end = text.indexOf('.');
+            if (-1 == end) {
+                end = text.length();
+            }
+            AbsoluteSizeSpan absoluteSizeSpan = new AbsoluteSizeSpan(this.getResources().getDimensionPixelSize(R.dimen.font_24));
+            builder.setSpan(absoluteSizeSpan, text.indexOf("¥") + 1, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             detailCommission.setText(builder);
         }
 

@@ -56,6 +56,13 @@ public class MessageFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        messageListHelper.refresh();
+    }
+
     private void initRefreshLayout() {
         smartRefreshLayout.setOnRefreshListener(refreshLayout -> {
             messageListHelper.refresh();
@@ -79,8 +86,6 @@ public class MessageFragment extends Fragment {
         messageListHelper = new MVCNormalHelper<>(messageList, hackyLoadViewFactory.madeLoadView(), hackyLoadViewFactory.madeLoadMoreView());
         messageListHelper.setAdapter(messageAdapter);
         messageListHelper.setDataSource(messageDataSource);
-
-        messageListHelper.refresh();
     }
 
 //    private void initAccountId() {

@@ -1,5 +1,7 @@
 package com.github.caoyouxin.taoke.ui.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.text.Editable;
@@ -121,11 +123,15 @@ public class EnrollActivity extends BaseActivity {
         String qqId = qq.getEditableText().toString().trim();
         String wechatId = wechat.getEditableText().toString().trim();
         if (TextUtils.isEmpty(qqId) && TextUtils.isEmpty(wechatId)) {
-            if (TextUtils.isEmpty(qqId)) {
-                qq.requestFocus();
-            } else {
-                wechat.requestFocus();
-            }
+            new AlertDialog.Builder(this)
+                    .setMessage("为了以后及时联系到您，QQ,微信至少输入一个，谢谢！")
+                    .setPositiveButton("知道了", (dialog, which) -> {
+                        if (TextUtils.isEmpty(qqId)) {
+                            qq.requestFocus();
+                        } else {
+                            wechat.requestFocus();
+                        }
+                    }).show();
             return;
         }
         String announcementText = announcement.getEditableText().toString().trim();

@@ -142,6 +142,8 @@ public class ShareAppActivity extends BaseActivity {
                 AbsoluteSizeSpan absoluteSizeSpan = new AbsoluteSizeSpan(getResources().getDimensionPixelSize(R.dimen.font_24));
                 builder.setSpan(absoluteSizeSpan, text.indexOf("->") + 2, text.indexOf("<-"), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 shareCode.setText(builder);
+            } else {
+                shareCode.setText(getResources().getString(R.string.share_code, "").replace("-><-", "").replace("邀请码", ""));
             }
         }
     }

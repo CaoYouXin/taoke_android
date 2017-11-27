@@ -83,7 +83,7 @@ public class TaoKe extends Application {
         SmartRefreshLayout.setDefaultRefreshFooterCreater((context, layout) -> {
             MyRefreshFooter myRefreshFooter = new MyRefreshFooter(context);
             myRefreshFooter.getTitleText().setText(R.string.we_have_underline);
-            myRefreshFooter.getArrowView().setImageURI(Uri.parse("android.resource://" + getApplicationContext().getPackageName() + "/" +R.mipmap.ic_launcher));
+            myRefreshFooter.getArrowView().setImageURI(Uri.parse("android.resource://" + getApplicationContext().getPackageName() + "/" +R.mipmap.smile));
             return myRefreshFooter;
         });
 
