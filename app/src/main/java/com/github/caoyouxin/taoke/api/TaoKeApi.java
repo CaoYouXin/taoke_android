@@ -12,6 +12,7 @@ import com.github.caoyouxin.taoke.model.HelpItem;
 import com.github.caoyouxin.taoke.model.HomeBtn;
 import com.github.caoyouxin.taoke.model.MessageItem;
 import com.github.caoyouxin.taoke.model.OrderItem;
+import com.github.caoyouxin.taoke.model.PhoneVerifySubmit;
 import com.github.caoyouxin.taoke.model.SearchHintItem;
 import com.github.caoyouxin.taoke.model.ShareImage;
 import com.github.caoyouxin.taoke.model.ShareSubmit;
@@ -38,7 +39,7 @@ public class TaoKeApi {
     // **** user apis below *******************************************
 
     public static Observable<TaoKeData> verification(String phone) {
-        return TaoKeRetrofit.getService().tao(TaoKeService.API_VERIFICATION, phone, null)
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_VERIFICATION, new PhoneVerifySubmit(phone), null)
                 .compose(RxHelper.handleResult());
     }
 
