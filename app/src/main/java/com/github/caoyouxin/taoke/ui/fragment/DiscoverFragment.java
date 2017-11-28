@@ -53,6 +53,7 @@ import com.trello.rxlifecycle2.android.ActivityEvent;
 import com.yanyusong.y_divideritemdecoration.Y_Divider;
 import com.yanyusong.y_divideritemdecoration.Y_DividerBuilder;
 import com.yanyusong.y_divideritemdecoration.Y_DividerItemDecoration;
+import com.yanyusong.y_divideritemdecoration.Y_SideLine;
 
 import java.util.List;
 import java.util.concurrent.TimeoutException;
@@ -180,6 +181,12 @@ public class DiscoverFragment extends Fragment {
         super.onStop();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        sliderLayout.startAutoCycle();
+    }
+
     private void initSlider() {
         DisplayMetrics dMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(dMetrics);
@@ -249,6 +256,7 @@ public class DiscoverFragment extends Fragment {
                         divider = new Y_DividerBuilder().create();
                         break;
                 }
+                divider.setBottomSideLine(new Y_SideLine(true, getResources().getColor(R.color.green_300), 1, 0, 0));
                 return divider;
             }
         });
