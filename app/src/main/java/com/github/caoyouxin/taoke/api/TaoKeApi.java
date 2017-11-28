@@ -119,11 +119,11 @@ public class TaoKeApi {
                         CouponItem item = new CouponItem();
 
                         item.setTkLink((String) rec.get("clickUrl"));
-                        item.setCategory(((Double) rec.get("category")).longValue());
-                        item.setUserType(((Double) rec.get("userType")).longValue());
-                        item.setNumIid(((Double) rec.get("numIid")).longValue());
-                        item.setSellerId(((Double) rec.get("sellerId")).longValue());
-                        item.setVolume(((Double) rec.get("volume")).longValue());
+                        item.setCategory(format(rec, "category"));
+                        item.setUserType(format(rec, "userType"));
+                        item.setNumIid(format(rec, "numIid"));
+                        item.setSellerId(format(rec, "sellerId"));
+                        item.setVolume(format(rec, "volume"));
                         item.setSmallImages((List<String>) rec.get("smallImages"));
 
                         item.setCommissionRate((String) rec.get("tkRate"));
@@ -146,8 +146,8 @@ public class TaoKeApi {
                         item.setCouponInfo((String) rec.get("couponInfo"));
                         if (null != item.getCouponInfo()) {
                             item.setCouponClickUrl((String) rec.get("couponClickUrl"));
-                            item.setCouponRemainCount(((Double) rec.get("couponRemainCount")).longValue());
-                            item.setCouponTotalCount(((Double) rec.get("couponTotalCount")).longValue());
+                            item.setCouponRemainCount(format(rec, "couponRemainCount"));
+                            item.setCouponTotalCount(format(rec, "couponTotalCount"));
                             item.setCouponEndTime((String) rec.get("couponEndTime"));
                             item.setCouponStartTime((String) rec.get("couponStartTime"));
 
@@ -187,6 +187,15 @@ public class TaoKeApi {
                 });
     }
 
+    private static Long format(Map rec, String key) {
+        Object value = rec.get(key);
+        if (null == value) {
+            return -1L;
+        }
+
+        return ((Double) value).longValue();
+    }
+
     public static Observable<List<CouponItem>> getCouponList(String cid, String pageNo) {
         return TaoKeRetrofit.getService().tao(
                 TaoKeService.API_COUPON_LIST.replace("{cid}", cid).replace("{pNo}", pageNo), UserData.get().getAccessToken()
@@ -198,18 +207,22 @@ public class TaoKeApi {
                     for (Map rec : recs) {
                         CouponItem item = new CouponItem();
 
-                        item.setCategory(((Double) rec.get("category")).longValue());
-                        item.setCouponRemainCount(((Double) rec.get("couponRemainCount")).longValue());
-                        item.setCouponTotalCount(((Double) rec.get("couponTotalCount")).longValue());
-                        item.setUserType(((Double) rec.get("userType")).longValue());
-                        item.setNumIid(((Double) rec.get("numIid")).longValue());
-                        item.setSellerId(((Double) rec.get("sellerId")).longValue());
-                        item.setVolume(((Double) rec.get("volume")).longValue());
+                        item.setCouponInfo((String) rec.get("couponInfo"));
+                        if (null == item.getCouponInfo()) {
+                            continue;
+                        }
+
+                        item.setCategory(format(rec, "category"));
+                        item.setCouponRemainCount(format(rec, "couponRemainCount"));
+                        item.setCouponTotalCount(format(rec, "couponTotalCount"));
+                        item.setUserType(format(rec, "userType"));
+                        item.setNumIid(format(rec, "numIid"));
+                        item.setSellerId(format(rec, "sellerId"));
+                        item.setVolume(format(rec, "volume"));
                         item.setSmallImages((List<String>) rec.get("smallImages"));
                         item.setCommissionRate((String) rec.get("commissionRate"));
                         item.setCouponClickUrl((String) rec.get("couponClickUrl"));
                         item.setCouponEndTime((String) rec.get("couponEndTime"));
-                        item.setCouponInfo((String) rec.get("couponInfo"));
                         item.setCouponStartTime((String) rec.get("couponStartTime"));
                         item.setZkFinalPrice((String) rec.get("zkFinalPrice"));
                         item.setItemUrl((String) rec.get("itemUrl"));
@@ -224,7 +237,7 @@ public class TaoKeApi {
                         item.setCoupon(Double.parseDouble(item.getCouponInfo().substring(start, end)));
                         double couponPrice = Double.parseDouble(item.getZkFinalPrice()) - item.getCoupon();
                         item.setCouponPrice(String.format(Locale.ENGLISH, "%.2f", couponPrice));
-                        item.setEarnPrice(String.format(Locale.ENGLISH, "%.2f", Double.parseDouble((String) rec.get("commissionRate")) * couponPrice / 100));
+                        item.setEarnPrice(String.format(Locale.ENGLISH, "%.2f", Double.parseDouble(item.getCommissionRate()) * couponPrice / 100));
 
                         items.add(item);
                     }
@@ -243,8 +256,8 @@ public class TaoKeApi {
                     for (Map rec : recs) {
                         CouponItem item = new CouponItem();
 
-                        item.setCategory(((Double) rec.get("tbFirstCatId")).longValue());
-                        item.setNumIid(((Double) rec.get("itemId")).longValue());
+                        item.setCategory(format(rec, "tbFirstCatId"));
+                        item.setNumIid(format(rec, "itemId"));
                         item.setTitle((String) rec.get("title"));
 
                         item.setPictUrl("http:" + rec.get("picUrlForWL"));
@@ -318,7 +331,7 @@ public class TaoKeApi {
                     List<Map> recs = taoKeData.getList();
                     for (Map rec : recs) {
                         MessageItem item = new MessageItem();
-                        item.id = ((Double) rec.get("id")).longValue();
+                        item.id = format(rec, "id");
                         item.dateStr = (String) rec.get("createTime");
                         Map message = (Map) rec.get("message");
                         item.title = (String) message.get("title");
@@ -399,13 +412,13 @@ public class TaoKeApi {
                     for (Map rec : recs) {
                         CouponItem item = new CouponItem();
 
-                        item.setCategory(((Double) rec.get("category")).longValue());
-                        item.setCouponRemainCount(((Double) rec.get("couponRemainCount")).longValue());
-                        item.setCouponTotalCount(((Double) rec.get("couponTotalCount")).longValue());
-                        item.setUserType(((Double) rec.get("userType")).longValue());
-                        item.setNumIid(((Double) rec.get("numIid")).longValue());
-                        item.setSellerId(((Double) rec.get("sellerId")).longValue());
-                        item.setVolume(((Double) rec.get("volume")).longValue());
+                        item.setCategory(format(rec, "category"));
+                        item.setCouponRemainCount(format(rec, "couponRemainCount"));
+                        item.setCouponTotalCount(format(rec, "couponTotalCount"));
+                        item.setUserType(format(rec, "userType"));
+                        item.setNumIid(format(rec, "numIid"));
+                        item.setSellerId(format(rec, "sellerId"));
+                        item.setVolume(format(rec, "volume"));
                         item.setSmallImages((List<String>) rec.get("smallImages"));
                         item.setCommissionRate((String) rec.get("commissionRate"));
                         item.setCouponClickUrl((String) rec.get("couponClickUrl"));

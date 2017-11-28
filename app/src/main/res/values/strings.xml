@@ -195,7 +195,7 @@
     <string name="user_amount_threshold">至少10元才可提现</string>
     <string name="name_hint">请输入您的真实姓名</string>
     <string name="invitation_code_hint">邀请码</string>
-    <string name="lack_of_invitation_hint">关注邀请码，可以实时准确的获得优惠信息</string>
+    <string name="lack_of_invitation_hint">输入邀请码，可以实时准确的获得优惠信息</string>
     <string name="to_edit_invation_code">去填邀请码</string>
     <string name="to_register_directly">直接注册</string>
     <string name="re_login_confirm">重新登录</string>

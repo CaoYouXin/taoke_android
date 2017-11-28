@@ -3,6 +3,7 @@ package com.github.caoyouxin.taoke.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Collections;
 import java.util.List;
 
 
@@ -248,7 +249,7 @@ public class CouponItem implements Parcelable {
         dest.writeLong(this.numIid);
         dest.writeLong(null != this.sellerId ? this.sellerId : 0L);
         dest.writeLong(this.volume);
-        dest.writeArray(this.smallImages.toArray());
+        dest.writeArray(null != this.smallImages ? this.smallImages.toArray() : new String[0]);
         dest.writeString(null != this.commissionRate ? this.commissionRate : "");
         dest.writeString(null != this.couponClickUrl ? this.couponClickUrl : "");
         dest.writeString(null != this.couponEndTime ? this.couponEndTime : "");
