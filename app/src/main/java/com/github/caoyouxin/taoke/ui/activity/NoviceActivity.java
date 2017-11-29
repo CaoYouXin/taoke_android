@@ -17,6 +17,7 @@ import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.api.ApiException;
 import com.github.caoyouxin.taoke.api.RxHelper;
 import com.github.caoyouxin.taoke.api.TaoKeApi;
+import com.github.caoyouxin.taoke.model.UserData;
 import com.github.caoyouxin.taoke.util.RatioImageView;
 import com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity;
 import com.trello.rxlifecycle2.android.ActivityEvent;
@@ -53,7 +54,7 @@ public class NoviceActivity extends BaseActivity {
     }
 
     private void init() {
-        TaoKeApi.getNoviceImgList()
+        TaoKeApi.getNoviceImgList(UserData.get().isBuyer() ? 1 : 2)
                 .timeout(10, TimeUnit.SECONDS)
                 .compose(RxHelper.rxSchedulerHelper())
                 .compose(bindUntilEvent(ActivityEvent.DESTROY))

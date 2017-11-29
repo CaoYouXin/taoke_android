@@ -458,8 +458,8 @@ public class TaoKeApi {
                 });
     }
 
-    public static Observable<List<String>> getNoviceImgList() {
-        return TaoKeRetrofit.getService().tao(TaoKeService.API_NOVICE_LIST)
+    public static Observable<List<String>> getNoviceImgList(Integer type) {
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_NOVICE_LIST.replace("{type}", "" + type))
                 .compose(RxHelper.handleResult())
                 .flatMap(taoKeData -> {
                     List<Map> recs = taoKeData.getList();
