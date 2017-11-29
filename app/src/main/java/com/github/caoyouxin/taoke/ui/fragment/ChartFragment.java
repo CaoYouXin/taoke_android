@@ -53,6 +53,7 @@ public class ChartFragment extends Fragment {
     View rootView;
 
     private Double userAmountNum;
+    private boolean canDrawState = false;
 
     @Nullable
     @Override
@@ -84,6 +85,7 @@ public class ChartFragment extends Fragment {
                         taoKeData -> {
                             userAmount.setText(SpannedTextUtil.buildAmount(getActivity(), R.string.user_amount, taoKeData, '¥', 2));
                             userAmountNum = Double.parseDouble(taoKeData);
+                            canDrawState = true;
                         },
                         throwable -> {
                             if (throwable instanceof TimeoutException) {
@@ -147,10 +149,15 @@ public class ChartFragment extends Fragment {
                 getActivity().startActivity(intent);
                 break;
             case R.id.withdraw:
+                if (!this.canDrawState) {
+                    return;
+                }
+
                 if (this.userAmountNum < 10.0) {
                     new AlertDialog.Builder(getActivity()).setMessage(R.string.user_amount_threshold).show();
                     return;
                 }
+                this.canDrawState = false;
 
                 EditText input = new EditText(getActivity());
                 input.setFilters(new InputFilter[]{new DecimalDigitsInputFilter(input)});
@@ -171,6 +178,7 @@ public class ChartFragment extends Fragment {
                             .subscribe(
                                     taoKeData -> {
                                         Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.withdraw_record_created, Snackbar.LENGTH_LONG).show();
+                                        initUserAmount();
                                     },
                                     throwable -> {
                                         if (throwable instanceof TimeoutException) {
