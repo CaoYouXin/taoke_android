@@ -13,6 +13,7 @@ import com.github.caoyouxin.taoke.model.HomeBtn;
 import com.github.caoyouxin.taoke.model.MessageItem;
 import com.github.caoyouxin.taoke.model.OrderItem;
 import com.github.caoyouxin.taoke.model.PhoneVerifySubmit;
+import com.github.caoyouxin.taoke.model.ReportSubmit;
 import com.github.caoyouxin.taoke.model.SearchHintItem;
 import com.github.caoyouxin.taoke.model.ShareImage;
 import com.github.caoyouxin.taoke.model.ShareSubmit;
@@ -472,7 +473,7 @@ public class TaoKeApi {
     }
 
     public static Observable<TaoKeData> sendReport(String reportContent) {
-        return TaoKeRetrofit.getService().tao(TaoKeService.API_REPORT, reportContent, UserData.get().getAccessToken())
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_REPORT, new ReportSubmit(reportContent), UserData.get().getAccessToken())
                 .compose(RxHelper.handleResult());
     }
 

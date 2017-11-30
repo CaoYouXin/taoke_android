@@ -70,7 +70,7 @@ public class ReportActivity extends BaseActivity {
                 .compose(bindUntilEvent(ActivityEvent.DESTROY))
                 .subscribe(
                         taoKeData -> {
-
+                            onBackPressed();
                         },
                         throwable -> {
                             if (throwable instanceof TimeoutException) {
