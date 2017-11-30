@@ -1,6 +1,11 @@
 package com.github.caoyouxin.taoke.ui.activity;
 
+import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.ClipboardManager;
+import android.content.ComponentName;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -20,6 +25,7 @@ import android.view.ViewStub;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bilibili.socialize.share.core.shareparam.ShareImage;
 import com.bilibili.socialize.share.core.shareparam.ShareParamImage;
@@ -56,6 +62,8 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import timber.log.Timber;
+
+import static android.content.DialogInterface.*;
 
 public class ShareActivity extends BaseActivity {
     public final static String EXTRA_COUPON_ITEM = "couponItem";
@@ -179,11 +187,24 @@ public class ShareActivity extends BaseActivity {
             cmb.setText(finalText2Share);
 
             if (isShareTextOnly) {
-
-                ShareParamText shareParamText = new ShareParamText(getResources().getString(R.string.share_title), finalText2Share);
-                ShareHelper.share(ShareActivity.this, shareParamText);
                 dismissDynamicBox(ShareActivity.this);
                 ShareActivity.this.busy = false;
+
+                new AlertDialog.Builder(this).setTitle("分享文案已经复制到剪切板")
+                        .setMessage(finalText2Share)
+                        .setPositiveButton("知道了", (dialog, which) -> {
+                            try {
+                                Intent intent = new Intent(Intent.ACTION_MAIN);
+                                ComponentName cmp = new ComponentName("com.tencent.mm","com.tencent.mm.ui.LauncherUI");
+
+                                intent.addCategory(Intent.CATEGORY_LAUNCHER);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.setComponent(cmp);
+                                startActivity(intent);
+                            } catch (ActivityNotFoundException e) {
+                                Toast.makeText(this, "检查到您手机没有安装微信，请安装后使用该功能", Toast.LENGTH_LONG).show();
+                            }
+                        }).show();
             } else {
 
                 shareImages(link.shortUrl);
