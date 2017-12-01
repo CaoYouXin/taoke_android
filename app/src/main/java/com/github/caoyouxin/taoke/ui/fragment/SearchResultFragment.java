@@ -23,11 +23,14 @@ import com.github.caoyouxin.taoke.model.UserData;
 import com.github.caoyouxin.taoke.ui.activity.DetailActivity;
 import com.github.caoyouxin.taoke.ui.activity.SearchActivity;
 import com.github.caoyouxin.taoke.ui.widget.HackyLoadViewFactory;
+import com.github.caoyouxin.taoke.util.SortHelper;
 import com.mikepenz.iconics.view.IconicsTextView;
 import com.shizhefei.mvc.IDataAdapter;
+import com.shizhefei.mvc.MVCHelper;
 import com.shizhefei.mvc.MVCNormalHelper;
 import com.shizhefei.mvc.OnStateChangeListener;
 
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -78,7 +81,7 @@ public class SearchResultFragment extends Fragment {
 
     View rootView;
 
-    private SortableCouponDataSource.SORT sort = SortableCouponDataSource.SORT.SORT_SALES;
+    private SortHelper sortHelper;
     private GestureDetector gestureDetector;
     private SearchActivity context;
     private String searchKeyword;
@@ -86,7 +89,7 @@ public class SearchResultFragment extends Fragment {
     private DynamicBox dynamicBox;
     private CouponAdapter couponAdapter;
     private SearchCouponDataSource couponDataSource;
-    private MVCNormalHelper<List<CouponItem>> couponListHelper;
+    private MVCHelper<List<CouponItem>> couponListHelper;
 
     public void setSearchKeyword(String searchKeyword, boolean isJu) {
         this.searchKeyword = searchKeyword;
@@ -120,6 +123,15 @@ public class SearchResultFragment extends Fragment {
 
             dynamicBox = context.createDynamicBox(context, rootView.findViewById(R.id.recycler_view));
 
+            sortHelper = new SortHelper(getActivity(), couponDataSource, couponListHelper);
+            sortHelper.setup(R.id.sort_price_wrapper, sortPrice, Arrays.asList(sortPriceUp, sortPriceDown),
+                    Arrays.asList(SortableCouponDataSource.SORT.SORT_PRICE_UP, SortableCouponDataSource.SORT.SORT_PRICE_DOWN));
+            sortHelper.setup(R.id.sort_sales_wrapper, sortSales, null,
+                    Arrays.asList(SortableCouponDataSource.SORT.SORT_SALES, SortableCouponDataSource.SORT.SORT_SALES));
+            sortHelper.setup(R.id.sort_commission_wrapper, sortCommission, Arrays.asList(sortCommissionDown, sortCommissionUp),
+                    Arrays.asList(SortableCouponDataSource.SORT.SORT_COMMISSION_DOWN, SortableCouponDataSource.SORT.SORT_COMMISSION_UP));
+            sortHelper.setup(R.id.sort_coupon_wrapper, sortCoupon, Arrays.asList(sortCouponDown, sortCouponUp),
+                    Arrays.asList(SortableCouponDataSource.SORT.SORT_COUPON_DOWN, SortableCouponDataSource.SORT.SORT_COUPON_UP));
         }
         return rootView;
     }
@@ -190,73 +202,13 @@ public class SearchResultFragment extends Fragment {
     }
 
     private void initSearchResult() {
-        sortSales.setTextColor(getResources().getColor(R.color.grey_900));
-        sortCoupon.setTextColor(getResources().getColor(R.color.grey_400));
-        sortCouponUp.setTextColor(getResources().getColor(R.color.grey_400));
-        sortCouponDown.setTextColor(getResources().getColor(R.color.grey_400));
-        sortPrice.setTextColor(getResources().getColor(R.color.grey_400));
-        sortPriceUp.setTextColor(getResources().getColor(R.color.grey_400));
-        sortPriceDown.setTextColor(getResources().getColor(R.color.grey_400));
-        sortCommission.setTextColor(getResources().getColor(R.color.grey_400));
-        sortCommissionUp.setTextColor(getResources().getColor(R.color.grey_400));
-        sortCommissionDown.setTextColor(getResources().getColor(R.color.grey_400));
-
-        couponDataSource.setKeyword(this.searchKeyword).setJu(this.isJu).setSort(SortableCouponDataSource.SORT.SORT_SALES).setCache(null);
-        couponListHelper.refresh();
+        couponDataSource.setKeyword(this.searchKeyword).setJu(this.isJu);
+        sortHelper.handleSortChange(R.id.sort_sales_wrapper, null);
     }
 
     @OnClick({R.id.sort_coupon_wrapper, R.id.sort_sales_wrapper, R.id.sort_price_wrapper, R.id.sort_commission_wrapper})
     protected void initSortBar(View view) {
-        sortSales.setTextColor(getResources().getColor(R.color.grey_400));
-        sortCoupon.setTextColor(getResources().getColor(R.color.grey_400));
-        sortCouponUp.setTextColor(getResources().getColor(R.color.grey_400));
-        sortCouponDown.setTextColor(getResources().getColor(R.color.grey_400));
-        sortPrice.setTextColor(getResources().getColor(R.color.grey_400));
-        sortPriceUp.setTextColor(getResources().getColor(R.color.grey_400));
-        sortPriceDown.setTextColor(getResources().getColor(R.color.grey_400));
-        sortCommission.setTextColor(getResources().getColor(R.color.grey_400));
-        sortCommissionUp.setTextColor(getResources().getColor(R.color.grey_400));
-        sortCommissionDown.setTextColor(getResources().getColor(R.color.grey_400));
-
-        switch (view.getId()) {
-            case R.id.sort_sales_wrapper:
-                sort = SortableCouponDataSource.SORT.SORT_SALES;
-                sortSales.setTextColor(getResources().getColor(R.color.grey_900));
-                break;
-            case R.id.sort_price_wrapper:
-                if (sort == SortableCouponDataSource.SORT.SORT_PRICE_UP) {
-                    sort = SortableCouponDataSource.SORT.SORT_PRICE_DOWN;
-                    sortPriceDown.setTextColor(getResources().getColor(R.color.grey_900));
-                } else {
-                    sort = SortableCouponDataSource.SORT.SORT_PRICE_UP;
-                    sortPriceUp.setTextColor(getResources().getColor(R.color.grey_900));
-                }
-                sortPrice.setTextColor(getResources().getColor(R.color.grey_900));
-                break;
-            case R.id.sort_commission_wrapper:
-                if (sort == SortableCouponDataSource.SORT.SORT_COMMISSION_UP) {
-                    sort = SortableCouponDataSource.SORT.SORT_COMMISSION_DOWN;
-                    sortCommissionDown.setTextColor(getResources().getColor(R.color.grey_900));
-                } else {
-                    sort = SortableCouponDataSource.SORT.SORT_COMMISSION_UP;
-                    sortCommissionUp.setTextColor(getResources().getColor(R.color.grey_900));
-                }
-                sortCommission.setTextColor(getResources().getColor(R.color.grey_900));
-                break;
-            case R.id.sort_coupon_wrapper:
-                if (sort == SortableCouponDataSource.SORT.SORT_COUPON_UP) {
-                    sort = SortableCouponDataSource.SORT.SORT_COUPON_DOWN;
-                    sortCouponDown.setTextColor(getResources().getColor(R.color.grey_900));
-                } else {
-                    sort = SortableCouponDataSource.SORT.SORT_COUPON_UP;
-                    sortCouponUp.setTextColor(getResources().getColor(R.color.grey_900));
-                }
-                sortCoupon.setTextColor(getResources().getColor(R.color.grey_900));
-                break;
-        }
-
-        couponDataSource.setSort(sort).setCache(couponAdapter.getData());
-        couponListHelper.refresh();
+        sortHelper.handleSortChange(view.getId(), couponAdapter.getData());
     }
 
 }

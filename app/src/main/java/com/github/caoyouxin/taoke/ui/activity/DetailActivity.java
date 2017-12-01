@@ -73,7 +73,7 @@ public class DetailActivity extends BaseActivity {
     TextView detailDescription;
 
     @BindView(R.id.coupon_price_wrapper)
-    LinearLayout linearLayout;
+    LinearLayout priceWrapper;
 
     @BindView(R.id.detail_coupon_wrapper)
     LinearLayout detailCouponWrapper;
@@ -114,6 +114,8 @@ public class DetailActivity extends BaseActivity {
 
         if (UserData.get().isBuyer() || couponItem.getEarn() < 0.001) {
             detailCommissionWrapper.setVisibility(View.GONE);
+        } else {
+            detailCommissionWrapper.setVisibility(View.VISIBLE);
         }
 
 //        createDynamicBox();
@@ -216,7 +218,7 @@ public class DetailActivity extends BaseActivity {
         detailTitle.setText(couponItem.getTitle());
 
         if (null == couponItem.getCouponPrice() || couponItem.getCouponPrice().isEmpty()) {
-            linearLayout.setVisibility(View.GONE);
+            priceWrapper.setVisibility(View.GONE);
             detailCouponWrapper.setVisibility(View.GONE);
 
             SpannableStringBuilder builder = SpannedTextUtil.buildAmount(this, getResources().getString(R.string.detail_price_before, couponItem.getZkFinalPrice()), '¥', 2);
@@ -224,6 +226,9 @@ public class DetailActivity extends BaseActivity {
             builder.setSpan(foregroundColorSpan, builder.toString().indexOf('¥'), builder.toString().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             priceBefore.setText(builder);
         } else {
+            priceWrapper.setVisibility(View.VISIBLE);
+            detailCouponWrapper.setVisibility(View.VISIBLE);
+
             priceAfter.setText(
                     SpannedTextUtil.buildAmount(this, "¥ " + couponItem.getCouponPrice(), '¥', 2)
             );
@@ -251,8 +256,9 @@ public class DetailActivity extends BaseActivity {
 
         if (couponItem.isJu()) {
             priceLabel.setText(R.string.detail_price_ju);
+            detailCommissionWrapper.setVisibility(View.GONE);
         } else {
-
+            detailCommissionWrapper.setVisibility(View.VISIBLE);
             String text = getResources().getString(R.string.detail_commission, couponItem.getEarnPrice());
             SpannableStringBuilder builder = new SpannableStringBuilder(text);
             ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(getResources().getColor(R.color.grey_500));

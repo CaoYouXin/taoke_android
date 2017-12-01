@@ -89,8 +89,6 @@ public class SearchActivity extends BaseActivity implements TextView.OnEditorAct
         if (actionId == EditorInfo.IME_ACTION_SEARCH
                 || actionId == EditorInfo.IME_ACTION_DONE
                 || actionId == EditorInfo.IME_ACTION_GO) {
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
             performSearch();
             return true;
         }
@@ -98,6 +96,8 @@ public class SearchActivity extends BaseActivity implements TextView.OnEditorAct
     }
 
     private void performSearch() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         String keyword = searchText.getText().toString();
         boolean isJu = "聚划算".equals(searchType.getSelectedItem());
         this.showSearchResult(keyword, isJu);

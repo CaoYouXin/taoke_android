@@ -18,6 +18,7 @@ import com.github.caoyouxin.taoke.model.BrandItem;
 import com.github.caoyouxin.taoke.model.CouponItem;
 import com.github.caoyouxin.taoke.model.UserData;
 import com.github.caoyouxin.taoke.ui.widget.HackyLoadViewFactory;
+import com.github.caoyouxin.taoke.util.SortHelper;
 import com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity;
 import com.mikepenz.iconics.view.IconicsTextView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -26,6 +27,7 @@ import com.shizhefei.mvc.MVCHelper;
 import com.shizhefei.mvc.MVCNormalHelper;
 import com.shizhefei.mvc.OnStateChangeListener;
 
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -80,7 +82,7 @@ public class ProductListActivity extends BaseActivity {
 
     private BrandItem brandItem;
 
-    private SortableCouponDataSource.SORT sort;
+    private SortHelper sortHelper;
 
     private MVCHelper<List<CouponItem>> mvcHelper;
     private ProductDataSource productDataSource;
@@ -100,6 +102,16 @@ public class ProductListActivity extends BaseActivity {
         initRefreshRecyclerView();
 
         createDynamicBox(findViewById(R.id.recycler_view));
+
+        sortHelper = new SortHelper(this, productDataSource, mvcHelper);
+        sortHelper.setup(R.id.sort_price_wrapper, sortPrice, Arrays.asList(sortPriceUp, sortPriceDown),
+                Arrays.asList(SortableCouponDataSource.SORT.SORT_PRICE_UP, SortableCouponDataSource.SORT.SORT_PRICE_DOWN));
+        sortHelper.setup(R.id.sort_sales_wrapper, sortSales, null,
+                Arrays.asList(SortableCouponDataSource.SORT.SORT_SALES, SortableCouponDataSource.SORT.SORT_SALES));
+        sortHelper.setup(R.id.sort_commission_wrapper, sortCommission, Arrays.asList(sortCommissionDown, sortCommissionUp),
+                Arrays.asList(SortableCouponDataSource.SORT.SORT_COMMISSION_DOWN, SortableCouponDataSource.SORT.SORT_COMMISSION_UP));
+        sortHelper.setup(R.id.sort_coupon_wrapper, sortCoupon, Arrays.asList(sortCouponDown, sortCouponUp),
+                Arrays.asList(SortableCouponDataSource.SORT.SORT_COUPON_DOWN, SortableCouponDataSource.SORT.SORT_COUPON_UP));
     }
 
     @OnClick(R.id.back)
@@ -109,61 +121,7 @@ public class ProductListActivity extends BaseActivity {
 
     @OnClick({R.id.sort_coupon_wrapper, R.id.sort_sales_wrapper, R.id.sort_price_wrapper, R.id.sort_commission_wrapper})
     protected void initSortBar(View view) {
-        sortSales.setTextColor(getResources().getColor(R.color.grey_400));
-        sortCoupon.setTextColor(getResources().getColor(R.color.grey_400));
-        sortCouponUp.setTextColor(getResources().getColor(R.color.grey_400));
-        sortCouponDown.setTextColor(getResources().getColor(R.color.grey_400));
-        sortPrice.setTextColor(getResources().getColor(R.color.grey_400));
-        sortPriceUp.setTextColor(getResources().getColor(R.color.grey_400));
-        sortPriceDown.setTextColor(getResources().getColor(R.color.grey_400));
-        sortCommission.setTextColor(getResources().getColor(R.color.grey_400));
-        sortCommissionUp.setTextColor(getResources().getColor(R.color.grey_400));
-        sortCommissionDown.setTextColor(getResources().getColor(R.color.grey_400));
-
-        switch (view.getId()) {
-            case R.id.sort_sales_wrapper:
-                sort = SortableCouponDataSource.SORT.SORT_SALES;
-                sortSales.setTextColor(getResources().getColor(R.color.grey_900));
-                break;
-            case R.id.sort_price_wrapper:
-                if (sort == SortableCouponDataSource.SORT.SORT_PRICE_UP) {
-                    sort = SortableCouponDataSource.SORT.SORT_PRICE_DOWN;
-                    sortPriceDown.setTextColor(getResources().getColor(R.color.grey_900));
-                } else {
-                    sort = SortableCouponDataSource.SORT.SORT_PRICE_UP;
-                    sortPriceUp.setTextColor(getResources().getColor(R.color.grey_900));
-                }
-                sortPrice.setTextColor(getResources().getColor(R.color.grey_900));
-                break;
-            case R.id.sort_commission_wrapper:
-                if (sort == SortableCouponDataSource.SORT.SORT_COMMISSION_UP) {
-                    sort = SortableCouponDataSource.SORT.SORT_COMMISSION_DOWN;
-                    sortCommissionDown.setTextColor(getResources().getColor(R.color.grey_900));
-                } else {
-                    sort = SortableCouponDataSource.SORT.SORT_COMMISSION_UP;
-                    sortCommissionUp.setTextColor(getResources().getColor(R.color.grey_900));
-                }
-                sortCommission.setTextColor(getResources().getColor(R.color.grey_900));
-                break;
-            case R.id.sort_coupon_wrapper:
-                if (sort == SortableCouponDataSource.SORT.SORT_COUPON_UP) {
-                    sort = SortableCouponDataSource.SORT.SORT_COUPON_DOWN;
-                    sortCouponDown.setTextColor(getResources().getColor(R.color.grey_900));
-                } else {
-                    sort = SortableCouponDataSource.SORT.SORT_COUPON_UP;
-                    sortCouponUp.setTextColor(getResources().getColor(R.color.grey_900));
-                }
-                sortCoupon.setTextColor(getResources().getColor(R.color.grey_900));
-                break;
-        }
-
-        sort();
-    }
-
-    private void sort() {
-        productDataSource.setSort(sort).setCache(productAdapter.getData());
-        mvcHelper.refresh();
-        smartRefreshLayout.finishRefresh(2000);
+        sortHelper.handleSortChange(view.getId(), productAdapter.getData());
     }
 
     private void initRefreshRecyclerView() {
