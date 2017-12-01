@@ -74,7 +74,7 @@ public class TaoKe extends Application {
                                     .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                         }).setMessage(R.string.re_login_hint).show();
             }
-            return o;
+            return null;
         }).subscribeOn(Schedulers.io()));
 
         ShareHelper.initialize(this);
