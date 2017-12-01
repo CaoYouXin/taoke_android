@@ -34,7 +34,7 @@ import io.reactivex.Observable;
 
 public class TaoKeApi {
 
-    private final static String CDN_HOST = "http://192.168.0.115:8070/";
+    private final static String CDN_HOST = "http://192.168.0.136:8070/";
 //    private final static String CDN_HOST = "http://server.tkmqr.com:8070/";
 
     // **** user apis below *******************************************
