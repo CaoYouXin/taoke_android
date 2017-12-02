@@ -21,6 +21,7 @@ public interface TaoKeService {
 
     String API_HINT_LIST = "tbk/hints/{keyword}";
     String API_SEARCH_LIST = "tbk/search/{keyword}";
+    String API_JU_SEARCH = "tbk/ju/{keyword}";
 
     String API_MESSAGE_LIST = "msg/list/{pageNo}";
     String API_REPORT = "msg/feedback";
@@ -43,7 +44,6 @@ public interface TaoKeService {
     String API_LAST_MOUNT_ESTIMATE = "tbk/estimate/that";
 
     String API_ENROLL = "tbk/user/apply/4/agent";
-    String API_JU_SEARCH = "tbk/ju/{keyword}";
 
     @POST("api/{api}")
     Observable<TaoKeData> tao(@Path("api") String api, @Body Object data, @Header("auth") String auth);

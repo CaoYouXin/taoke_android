@@ -198,8 +198,7 @@ public class ProductListActivity extends BaseActivity {
         mvcHelper.refresh();
 
         smartRefreshLayout.setOnRefreshListener(refreshLayout -> {
-            productDataSource.setSort(SortableCouponDataSource.SORT.SORT_SALES).setCache(null);
-            mvcHelper.refresh();
+            sortHelper.handleSortChange(R.id.sort_sales_wrapper, null);
             refreshLayout.finishRefresh(2000);
         });
     }
