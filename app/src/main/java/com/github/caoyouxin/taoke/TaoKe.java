@@ -27,10 +27,14 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.exceptions.UndeliverableException;
 import io.reactivex.plugins.RxJavaPlugins;
 import io.reactivex.schedulers.Schedulers;
+import io.realm.Realm;
+import io.realm.RealmMigration;
+import io.realm.RealmSchema;
 import timber.log.Timber;
 
 
 public class TaoKe extends Application {
+    private static RealmMigration realmMigration;
 
     @Override
     public void onCreate() {
@@ -87,6 +91,8 @@ public class TaoKe extends Application {
             return myRefreshFooter;
         });
 
+        Realm.init(this);
+
         AlibcTradeSDK.asyncInit(this, new AlibcTradeInitCallback() {
             @Override
             public void onSuccess() {
@@ -117,6 +123,16 @@ public class TaoKe extends Application {
                 Toast.makeText(TaoKe.this, String.format("百川初始化失败, code=%d, msg=%s", code, msg), Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    public static RealmMigration getRealmMigration() {
+        if (realmMigration == null) {
+            realmMigration = (realm, oldVersion, newVersion) -> {
+                RealmSchema schema = realm.getSchema();
+                //migration
+            };
+        }
+        return realmMigration;
     }
 
     @Override
