@@ -60,10 +60,6 @@ public class H5DetailActivity extends BaseActivity {
     private void initView() {
         title.setText(R.string.detail);
 
-        showDynamicBoxCustomView(DYNAMIC_BOX_MK_LINESPINNER, H5DetailActivity.this);
-        Observable.timer(3, TimeUnit.SECONDS).compose(bindUntilEvent(ActivityEvent.DESTROY))
-                .subscribe((delay) -> dismissDynamicBox(H5DetailActivity.this));
-
         AlibcBasePage detailPage = new AlibcDetailPage(getIntent().getExtras().getString(EXTRA_COUPON_ITEM_ID));
         AlibcShowParams showParams = new AlibcShowParams(OpenType.H5, false);
         // 淘宝客参数
