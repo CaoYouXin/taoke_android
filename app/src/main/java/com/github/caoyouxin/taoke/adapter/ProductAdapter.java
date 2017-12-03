@@ -76,12 +76,12 @@ public class ProductAdapter extends RecyclerView.Adapter implements IDataAdapter
         }
 
         if (null != item.getCouponInfo()) {
-            holder.couponPrice.setText(context.getResources().getString(R.string.product_price, item.getCouponPrice()));
+            holder.couponPrice.setText(context.getResources().getString(R.string.product_price, "券后 ", item.getCouponPrice()));
             holder.coupon.setText(context.getResources().getString(R.string.discover_coupon_value, item.getCouponInfo(), String.valueOf(item.getCouponRemainCount())));
             holder.couponPrice.setVisibility(View.VISIBLE);
             holder.coupon.setVisibility(View.VISIBLE);
 
-            String text = context.getResources().getString(R.string.product_price, item.getZkFinalPrice());
+            String text = context.getResources().getString(R.string.product_price, "", item.getZkFinalPrice());
             SpannableStringBuilder builder = new SpannableStringBuilder(text);
             ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(context.getResources().getColor(R.color.grey_400));
             builder.setSpan(foregroundColorSpan, 0, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -94,7 +94,7 @@ public class ProductAdapter extends RecyclerView.Adapter implements IDataAdapter
             holder.couponPrice.setVisibility(View.GONE);
             holder.coupon.setVisibility(View.GONE);
 
-            holder.price.setText(context.getResources().getString(R.string.product_price, item.getZkFinalPrice()));
+            holder.price.setText(context.getResources().getString(R.string.product_price, "", item.getZkFinalPrice()));
         }
     }
 

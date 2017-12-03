@@ -99,7 +99,7 @@
     <string name="sort_bar_price">价格</string>
     <string name="sort_bar_commission">佣金</string>
     <string name="product_new">新品</string>
-    <string name="product_price">¥ %1$s</string>
+    <string name="product_price">%1$s¥ %2$s</string>
     <string name="product_sales">月销%1$s笔</string>
 
     <string name="detail">宝贝推广信息</string>

@@ -41,7 +41,7 @@ public class MyWebViewClient extends WebViewClient {
             String encoded = Base64.encodeToString(buffer, Base64.NO_WRAP);
 //            System.out.println(encoded);
             view.loadUrl("javascript:(function() {" +
-                    "var parent = document.getElementsByTagName('head').item(0);" +
+                    "var parent = document.getElementsByTagName('body').item(0);" +
                     "var hacked = document.getElementById('hackCss');" +
                     "if (hacked) { parent.removeChild(hacked); }" +
                     "var style = document.createElement('style');" +

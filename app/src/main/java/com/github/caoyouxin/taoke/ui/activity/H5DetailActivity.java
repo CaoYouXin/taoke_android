@@ -19,13 +19,16 @@ import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.model.UserData;
 import com.github.caoyouxin.taoke.util.MyWebViewClient;
 import com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity;
+import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observable;
 
 public class H5DetailActivity extends BaseActivity {
     public final static String EXTRA_COUPON_ITEM_ID = "couponItemId";
@@ -45,6 +48,8 @@ public class H5DetailActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         initView();
+
+        createDynamicBox();
     }
 
     @OnClick(R.id.back)
@@ -55,7 +60,9 @@ public class H5DetailActivity extends BaseActivity {
     private void initView() {
         title.setText(R.string.detail);
 
-        //        showDynamicBoxCustomView(DYNAMIC_BOX_MK_LINESPINNER, DetailActivity.this);
+        showDynamicBoxCustomView(DYNAMIC_BOX_MK_LINESPINNER, H5DetailActivity.this);
+        Observable.timer(3, TimeUnit.SECONDS).compose(bindUntilEvent(ActivityEvent.DESTROY))
+                .subscribe((delay) -> dismissDynamicBox(H5DetailActivity.this));
 
         AlibcBasePage detailPage = new AlibcDetailPage(getIntent().getExtras().getString(EXTRA_COUPON_ITEM_ID));
         AlibcShowParams showParams = new AlibcShowParams(OpenType.H5, false);
@@ -68,13 +75,11 @@ public class H5DetailActivity extends BaseActivity {
 
             @Override
             public void onTradeSuccess(AlibcTradeResult alibcTradeResult) {
-//                dismissDynamicBox(DetailActivity.this);
             }
 
             @Override
             public void onFailure(int code, String msg) {
                 //打开电商组件，用户操作中错误信息回调。code：错误码；msg：错误信息
-//                dismissDynamicBox(DetailActivity.this);
                 Toast.makeText(H5DetailActivity.this, String.format("百川电商组件调用失败, code=%d, msg=%s", code, msg), Toast.LENGTH_LONG).show();
             }
         });
