@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <android.support.design.widget.TabLayout
-        android:id="@+id/tab_layout"
+        android:id="@+id/coupon_tab"
         style="@style/TabLayout.Coupon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

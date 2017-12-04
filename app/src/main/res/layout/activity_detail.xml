@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey_300"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_action_bar" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.daimajia.slider.library.SliderLayout
+                    android:id="@+id/slider_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/len_12">
+
+                    <TextView
+                        android:id="@+id/detail_title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:lines="2"
+                        android:textColor="@color/grey_800"
+                        android:textSize="@dimen/font_16" />
+
+                    <LinearLayout
+                        android:id="@+id/detail_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/len_12"
+                        android:layout_marginLeft="@dimen/len_12"
+                        android:layout_marginRight="@dimen/len_12"
+                        android:layout_marginStart="@dimen/len_12"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <com.mikepenz.iconics.view.IconicsTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="{faw-newspaper-o}"
+                            android:textColor="@color/grey_800"
+                            android:textSize="@dimen/font_20"
+                            tools:ignore="HardcodedText" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/detail_view"
+                            android:textColor="@color/grey_800"
+                            android:textSize="@dimen/font_14" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/detail_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="@dimen/len_12"
+                    android:paddingLeft="@dimen/len_12"
+                    android:paddingRight="@dimen/len_12"
+                    android:paddingStart="@dimen/len_12"
+                    android:textColor="@color/orange_800"
+                    android:textSize="@dimen/font_12"
+                    android:background="@color/white"/>
+
+                <LinearLayout
+                    android:id="@+id/coupon_price_wrapper"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingEnd="0dp"
+                    android:paddingLeft="@dimen/len_12"
+                    android:paddingRight="0dp"
+                    android:paddingStart="@dimen/len_12">
+
+                    <TextView
+                        android:id="@+id/price_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/detail_price_after_border"
+                        android:gravity="center"
+                        android:paddingEnd="@dimen/len_4"
+                        android:paddingLeft="@dimen/len_4"
+                        android:paddingRight="@dimen/len_4"
+                        android:paddingStart="@dimen/len_4"
+                        android:text="@string/detail_price_after"
+                        android:textColor="@color/orange_600"
+                        android:textSize="@dimen/font_12" />
+
+                    <TextView
+                        android:id="@+id/detail_price_after"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/orange_800"
+                        android:paddingLeft="@dimen/len_10"
+                        android:paddingStart="@dimen/len_10"
+                        tools:ignore="RtlSymmetry" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/len_12">
+
+                    <TextView
+                        android:id="@+id/detail_price_before"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/font_14"
+                        tools:text="@string/detail_price_before" />
+
+                    <TextView
+                        android:id="@+id/detail_sales"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical|end"
+                        android:textSize="@dimen/font_14"
+                        tools:text="@string/detail_sales" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/grey_100"
+                    android:orientation="vertical"
+                    android:padding="@dimen/len_12">
+
+                    <LinearLayout
+                        android:id="@+id/detail_coupon_wrapper"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <com.mikepenz.iconics.view.IconicsTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="{gmi-ticket-star}"
+                            android:textColor="@color/grey_600"
+                            android:textSize="@dimen/font_18"
+                            tools:ignore="HardcodedText" />
+
+                        <TextView
+                            android:id="@+id/detail_coupon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/len_6"
+                            android:layout_marginStart="@dimen/len_6"
+                            android:textColor="@color/grey_800"
+                            android:textSize="@dimen/font_14"
+                            tools:text="@string/detail_coupon" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/detail_commission_wrapper"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/len_10"
+                        android:layout_marginTop="@dimen/len_10"
+                        android:orientation="horizontal">
+
+                        <com.mikepenz.iconics.view.IconicsTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="{faw-money}"
+                            android:textColor="@color/grey_600"
+                            android:textSize="@dimen/font_18"
+                            tools:ignore="HardcodedText" />
+
+                        <TextView
+                            android:id="@+id/detail_commission"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/len_6"
+                            android:layout_marginStart="@dimen/len_6"
+                            android:textColor="@color/grey_800"
+                            android:textSize="@dimen/font_14"
+                            tools:text="@string/detail_commission" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/grey_400" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/len_48" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/buyer_wrapper"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/len_48"
+            android:layout_gravity="bottom"
+            android:background="@color/orange_a700"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/detail_share"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/detail_share"
+                android:textColor="@color/white" />
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="@dimen/len_40"
+                android:background="@color/grey_300" />
+
+            <TextView
+                android:id="@+id/detail_app"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/detail_app"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/agent_detail_share"
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/len_48"
+            android:gravity="center"
+            android:text="@string/detail_share"
+            android:textColor="@color/white"
+            android:background="@color/orange_a700"
+            android:visibility="gone"/>
+
+    </FrameLayout>
+</LinearLayout>

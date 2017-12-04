@@ -3,18 +3,18 @@ package com.github.caoyouxin.taoke.ui.widget;
 import android.content.Context;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.github.gnastnosaj.boilerplate.rxbus.RxBus;
+
 import java.lang.ref.WeakReference;
 import java.util.Map;
 
-/**
- * Created by jasontsang on 10/24/17.
- */
+import io.reactivex.Observable;
+
 
 public final class RecyclerViewAppBarBehavior extends AppBarLayout.Behavior {
 
@@ -36,14 +36,33 @@ public final class RecyclerViewAppBarBehavior extends AppBarLayout.Behavior {
             scrollListenerMap.get(recyclerView).setVelocity(velocityY);
             consumed = scrollListenerMap.get(recyclerView).getScrolledY() > 0; //recyclerView only consume the fling when it's not scrolled to the top
         }
-        for (int i = 0; i < coordinatorLayout.getChildCount(); i++) {
-            View v = coordinatorLayout.getChildAt(i);
-            if (v instanceof FloatingActionButton) {
-                v.setVisibility(View.INVISIBLE);
-                break;
-            }
+
+        if (!consumed) {
+            RxBus.getInstance().post(RecyclerViewScrollEvent.class, new RecyclerViewScrollEvent(RecyclerViewScrollEvent.TYPE_NESTED_FLING));
         }
+
         return super.onNestedFling(coordinatorLayout, child, target, velocityX, velocityY, consumed);
+    }
+
+    public static class RecyclerViewScrollEvent {
+        public final static Observable<RecyclerViewScrollEvent> observable = RxBus.getInstance().register(RecyclerViewScrollEvent.class, RecyclerViewScrollEvent.class);
+
+        public final static int TYPE_REST = 0;
+        public final static int TYPE_NESTED_FLING = 1;
+        public final static int TYPE_SCROLLED = 2;
+
+        private int type;
+
+        public RecyclerViewScrollEvent() {
+        }
+
+        public RecyclerViewScrollEvent(int type) {
+            this.type = type;
+        }
+
+        public int getType() {
+            return type;
+        }
     }
 
     private static class RecyclerViewScrollListener extends RecyclerView.OnScrollListener {
@@ -55,6 +74,13 @@ public final class RecyclerViewAppBarBehavior extends AppBarLayout.Behavior {
         private WeakReference<RecyclerViewAppBarBehavior> behaviorWeakReference;
 
         public RecyclerViewScrollListener(CoordinatorLayout coordinatorLayout, AppBarLayout child, RecyclerViewAppBarBehavior barBehavior) {
+            RecyclerViewScrollEvent.observable.subscribe(recyclerViewScrollEvent -> {
+                if (recyclerViewScrollEvent.type == RecyclerViewScrollEvent.TYPE_REST) {
+                    scrolledY = 0;
+                    dragging = false;
+                    velocity = 0;
+                }
+            });
             coordinatorLayoutRef = new WeakReference<>(coordinatorLayout);
             childRef = new WeakReference<>(child);
             behaviorWeakReference = new WeakReference<>(barBehavior);
@@ -77,19 +103,11 @@ public final class RecyclerViewAppBarBehavior extends AppBarLayout.Behavior {
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             scrolledY += dy;
 
-            if (coordinatorLayoutRef.get() != null) {
-                for (int i = 0; i < coordinatorLayoutRef.get().getChildCount(); i++) {
-                    View v = coordinatorLayoutRef.get().getChildAt(i);
-                    if (v instanceof FloatingActionButton) {
-                        v.setVisibility(View.VISIBLE);
-                        break;
-                    }
-                }
-            }
-
             if (scrolledY <= 0 && !dragging && childRef.get() != null && coordinatorLayoutRef.get() != null && behaviorWeakReference.get() != null) {
                 //manually trigger the fling when it's scrolled at the top
                 behaviorWeakReference.get().onNestedFling(coordinatorLayoutRef.get(), childRef.get(), recyclerView, 0, velocity, false);
+            } else {
+                RxBus.getInstance().post(RecyclerViewScrollEvent.class, new RecyclerViewScrollEvent(RecyclerViewScrollEvent.TYPE_SCROLLED));
             }
         }
     }

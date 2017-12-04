@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/large_margin_size"
+        android:layout_marginLeft="@dimen/small_margin_size"
+        android:textSize="@dimen/textview_text_size"
+        android:text="@string/open_type"/>
+    <RadioGroup
+        android:id="@+id/alisdk_rg_mine_openmode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/alisdk_rb_mine_default"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:layout_weight="1"
+            android:onClick="defaultChecked"
+            android:text="@string/default_open" />
+
+        <RadioButton
+            android:id="@+id/alisdk_rb_mine_h5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="h5Checked"
+            android:text="@string/h5_open" />
+
+        <RadioButton
+            android:id="@+id/alisdk_rb_mine_taobao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="taobaoChecked"
+            android:text="@string/taobao_open" />
+
+        <RadioButton
+            android:id="@+id/alisdk_rb_mine_tmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="tmallChecked"
+            android:text="@string/tmall_open" />
+
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/large_margin_size"
+        android:layout_marginLeft="@dimen/small_margin_size"
+        android:textSize="@dimen/textview_text_size"
+        android:text="@string/order_type"/>
+    <RadioGroup
+        android:id="@+id/alisdk_rg_ordermode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/alisdk_rb_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:layout_weight="1"
+            android:onClick="allChecked"
+            android:text="@string/order_all" />
+
+        <RadioButton
+            android:id="@+id/alisdk_rb_topay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="topayChecked"
+            android:text="@string/order_topay" />
+
+        <RadioButton
+            android:id="@+id/alisdk_rb_tosend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="tosendChecked"
+            android:text="@string/order_tosend" />
+
+        <RadioButton
+            android:id="@+id/alisdk_rb_toreceive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="toreceiveChecked"
+            android:text="@string/order_toreceive" />
+
+        <RadioButton
+            android:id="@+id/alisdk_rb_tocomment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="tocommentChecked"
+            android:text="@string/order_tocomment" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/alisdk_btn_show_order"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/large_margin_size"
+        android:layout_marginLeft="@dimen/small_margin_size"
+        android:layout_marginRight="@dimen/small_margin_size"
+        android:onClick="showOrder"
+        android:text="@string/show_order" />
+
+    <Button
+        android:id="@+id/alisdk_btn_show_allorder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/large_margin_size"
+        android:layout_marginLeft="@dimen/small_margin_size"
+        android:layout_marginRight="@dimen/small_margin_size"
+        android:onClick="showOrder"
+        android:text="@string/show_allorder" />
+
+    <Button
+        android:id="@+id/alisdk_btn_show_cart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/large_margin_size"
+        android:layout_marginLeft="@dimen/small_margin_size"
+        android:layout_marginRight="@dimen/small_margin_size"
+        android:onClick="showCart"
+        android:text="@string/show_cart" />
+</LinearLayout>

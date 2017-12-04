@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/len_48"
+    android:background="@color/grey_100"
+    android:elevation="@dimen/len_4">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/my_app_name"
+        android:textColor="@color/grey_800"
+        android:textSize="@dimen/font_16" />
+
+    <com.mikepenz.iconics.view.IconicsTextView
+        android:id="@+id/search_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|end"
+        android:layout_marginEnd="@dimen/len_16"
+        android:padding="@dimen/len_6"
+        android:text="{gmi-search}"
+        android:textColor="@color/grey_800"
+        android:textSize="@dimen/font_24"
+        tools:ignore="HardcodedText" />
+</FrameLayout>

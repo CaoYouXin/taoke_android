@@ -6,21 +6,22 @@
     android:background="@color/grey_100">
 
     <TextView
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/app_name"
         android:textColor="@color/grey_800"
         android:textSize="@dimen/font_16" />
 
     <com.mikepenz.iconics.view.IconicsTextView
+        android:id="@+id/back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|end"
-        android:layout_marginEnd="@dimen/len_16"
-        android:layout_marginRight="@dimen/len_16"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/len_16"
+        android:layout_marginStart="@dimen/len_16"
         android:padding="@dimen/len_6"
-        android:text="{gmi-search}"
+        android:text="{gmi-chevron-left}"
         android:textColor="@color/grey_800"
         android:textSize="@dimen/font_24"
         tools:ignore="HardcodedText" />

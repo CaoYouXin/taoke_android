@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/len_48"
+    android:background="@color/grey_100"
+    android:elevation="@dimen/len_4">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textColor="@color/grey_800"
+        android:textSize="@dimen/font_16" />
+
+    <TextView
+        android:id="@+id/handle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|center_vertical"
+        android:layout_marginRight="@dimen/len_16"
+        android:layout_marginEnd="@dimen/len_16"
+        android:textColor="@color/grey_800"
+        android:textSize="@dimen/font_16"
+        tools:ignore="RtlHardcoded" />
+
+    <com.mikepenz.iconics.view.IconicsTextView
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/len_16"
+        android:layout_marginStart="@dimen/len_16"
+        android:padding="@dimen/len_6"
+        android:text="{gmi-chevron-left}"
+        android:textColor="@color/grey_800"
+        android:textSize="@dimen/font_24"
+        tools:ignore="HardcodedText" />
+
+</FrameLayout>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="220dp"
+    android:background="@color/white"
+    android:padding="@dimen/len_16"
+    app:ignore="NamespaceTypo">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/order_img_url"
+        android:layout_width="@dimen/len_80"
+        android:layout_height="@dimen/len_80"
+        app:layout_aspectRatio="100%"
+        app:layout_heightPercent="100%"
+        fresco:actualImageScaleType="centerCrop" />
+
+    <TextView
+        android:id="@+id/order_item_name"
+        android:layout_marginLeft="@dimen/len_88"
+        android:layout_marginStart="@dimen/len_88"
+        android:scrollHorizontally="true"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/black_alpha_208"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/len_20"/>
+
+    <TextView
+        android:id="@+id/order_item_store_name"
+        android:scrollHorizontally="true"
+        android:layout_marginLeft="@dimen/len_88"
+        android:layout_marginStart="@dimen/len_88"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/len_40"
+        android:layout_marginTop="@dimen/len_20"/>
+
+    <TextView
+        android:id="@+id/order_status"
+        android:scrollHorizontally="true"
+        android:layout_marginLeft="@dimen/len_88"
+        android:layout_marginStart="@dimen/len_88"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:gravity="center_vertical"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/len_20"
+        android:layout_marginTop="@dimen/len_60"/>
+
+
+    <TextView
+        android:id="@+id/order_self"
+        android:scrollHorizontally="true"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:gravity="center_vertical"
+        android:layout_gravity="right"
+        android:textColor="@color/black_alpha_160"
+        android:background="@drawable/bg_kaqi_round_corner"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/len_20"
+        android:layout_marginTop="@dimen/len_60"
+        app:ignore="RtlHardcoded" />
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/len_80"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/order_trade_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:textColor="@color/black_alpha_192"
+            android:text="@string/order_trade_price"
+            android:lineSpacingMultiplier="1.5"/>
+
+        <TextView
+            android:id="@+id/order_estimate_effect"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:textColor="@color/black_alpha_192"
+            android:text="@string/order_estimate_effect"
+            android:lineSpacingMultiplier="1.5"/>
+
+        <TextView
+            android:id="@+id/order_estimate_income"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:textColor="@color/black_alpha_192"
+            android:text="@string/order_estimate_income"
+            android:lineSpacingMultiplier="1.5"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/order_create_time"
+        android:scrollHorizontally="true"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/black_alpha_160"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"/>
+    
+</FrameLayout>

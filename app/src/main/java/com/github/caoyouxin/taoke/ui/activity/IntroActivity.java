@@ -2,20 +2,15 @@ package com.github.caoyouxin.taoke.ui.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
 import com.github.caoyouxin.taoke.R;
+import com.github.caoyouxin.taoke.ui.fragment.SlideFragment;
 import com.github.paolorotolo.appintro.AppIntro;
-import com.github.paolorotolo.appintro.AppIntroFragment;
-import com.github.paolorotolo.appintro.model.SliderPage;
 
-/**
- * Created by jasontsang on 10/23/17.
- */
 
 public class IntroActivity extends AppIntro {
     public final static String INTRO_READ = "intro_read";
@@ -24,36 +19,19 @@ public class IntroActivity extends AppIntro {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SliderPage sliderPage1 = new SliderPage();
-        sliderPage1.setTitle("Welcome!");
-        sliderPage1.setDescription("This is a demo of the AppIntro library.");
-        sliderPage1.setImageDrawable(R.mipmap.ic_slide1);
-        sliderPage1.setBgColor(Color.TRANSPARENT);
-        addSlide(AppIntroFragment.newInstance(sliderPage1));
-
-        SliderPage sliderPage2 = new SliderPage();
-        sliderPage2.setTitle("Clean App Intros");
-        sliderPage2.setDescription("This library offers developers the ability to add clean app intros at the start of their apps.");
-        sliderPage2.setImageDrawable(R.mipmap.ic_slide2);
-        sliderPage2.setBgColor(Color.TRANSPARENT);
-        addSlide(AppIntroFragment.newInstance(sliderPage2));
-
-        SliderPage sliderPage3 = new SliderPage();
-        sliderPage3.setTitle("Simple, yet Customizable");
-        sliderPage3.setDescription("The library offers a lot of customization, while keeping it simple for those that like simple.");
-        sliderPage3.setImageDrawable(R.mipmap.ic_slide3);
-        sliderPage3.setBgColor(Color.TRANSPARENT);
-        addSlide(AppIntroFragment.newInstance(sliderPage3));
-
-        SliderPage sliderPage4 = new SliderPage();
-        sliderPage4.setTitle("Explore");
-        sliderPage4.setDescription("Feel free to explore the rest of the library demo!");
-        sliderPage4.setImageDrawable(R.mipmap.ic_slide4);
-        sliderPage4.setBgColor(Color.TRANSPARENT);
-        addSlide(AppIntroFragment.newInstance(sliderPage4));
+        addSlide(SlideFragment.newInstance(R.layout.intro1));
+        addSlide(SlideFragment.newInstance(R.layout.intro2));
+        addSlide(SlideFragment.newInstance(R.layout.intro3));
+        addSlide(SlideFragment.newInstance(R.layout.intro4));
 
         setSkipText(getResources().getString(R.string.intro_skip));
         setDoneText(getResources().getString(R.string.intro_done));
+        setBarColor(getResources().getColor(R.color.trans));
+        setSeparatorColor(getResources().getColor(R.color.trans));
+        setColorDoneText(getResources().getColor(R.color.black_alpha_176));
+        setColorSkipButton(getResources().getColor(R.color.black_alpha_176));
+        setNextArrowColor(getResources().getColor(R.color.black_alpha_176));
+        setIndicatorColor(getResources().getColor(R.color.black_alpha_176), getResources().getColor(R.color.black_alpha_64));
     }
 
     @Override

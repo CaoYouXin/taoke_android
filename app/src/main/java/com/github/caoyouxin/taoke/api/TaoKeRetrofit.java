@@ -15,12 +15,11 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
- * Created by jasontsang on 10/24/17.
- */
 
 public class TaoKeRetrofit {
-    public final static String HOST = "https://127.0.0.1:8081";
+
+//    private final static String HOST = "http://192.168.0.136:8080/";
+    private final static String HOST = "http://server.tkmqr.com:8080/";
 
     private static TaoKeRetrofit instance;
 
@@ -30,8 +29,8 @@ public class TaoKeRetrofit {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .retryOnConnectionFailure(true)
-                .hostnameVerifier((hostname, session) -> true)
-                .sslSocketFactory(createSSLSocketFactory())
+//                .hostnameVerifier((hostname, session) -> true)
+//                .sslSocketFactory(createSSLSocketFactory())
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -41,11 +40,11 @@ public class TaoKeRetrofit {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        //service = retrofit.create(TaoKeService.class);
-        service = new TaoKeTestService();
+        service = retrofit.create(TaoKeService.class);
+//        service = new TaoKeTestService();
     }
 
-    public static TaoKeService getService() {
+    static TaoKeService getService() {
         if (instance == null) {
             instance = new TaoKeRetrofit();
         }
@@ -60,7 +59,7 @@ public class TaoKeRetrofit {
             sc.init(null, new TrustManager[]{new TrustAllCerts()}, new SecureRandom());
 
             ssfFactory = sc.getSocketFactory();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
 
         return ssfFactory;

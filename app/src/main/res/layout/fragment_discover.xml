@@ -9,10 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.scwang.smartrefresh.layout.header.ClassicsHeader
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
         <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -35,7 +31,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp" />
 
-                    <include layout="@layout/layout_discover_tool" />
+                    <!--<include layout="@layout/layout_discover_tool" />-->
 
                     <View
                         android:layout_width="match_parent"
@@ -57,11 +53,18 @@
 
             </android.support.design.widget.AppBarLayout>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/coupon_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white" />
+
+            </FrameLayout>
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/floating_action_button"
@@ -70,16 +73,12 @@
                 android:layout_gravity="bottom|end"
                 android:layout_margin="@dimen/len_20"
                 android:visibility="invisible"
-                app:backgroundTint="@color/grey_100"
+                app:backgroundTint="@color/white"
                 app:borderWidth="0dp"
                 app:elevation="@dimen/len_4"
                 app:fabSize="mini" />
 
         </android.support.design.widget.CoordinatorLayout>
-
-        <com.scwang.smartrefresh.layout.footer.ClassicsFooter
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 

@@ -3,4 +3,7 @@
     <color name="colorPrimary">@color/orange_300</color>
     <color name="colorPrimaryDark">@color/orange_400</color>
     <color name="colorAccent">@color/orange_800</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="colorKaqi">#FFFCE2</color>
 </resources>

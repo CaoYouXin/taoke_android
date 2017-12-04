@@ -1,0 +1,20 @@
+{
+    "Release": {
+        "trade.tmallTradeItemUrlHost": "https://detail.m.tmall.com/item.htm",
+        "trade.taobaoTradeItemUrlHost": "https://h5.m.taobao.com/cm/snap/index.html",
+        "trade.taobaoMobileTradeItemUrlHost": "https://h5.m.taobao.com/awp/core/detail.htm",
+        "trade.myCardCouponsUrl": "https://h5.m.taobao.com/vip/portal.html",
+        "trade.myOrdersUrl": "https://h5.m.taobao.com/mlapp/olist.html",
+        "trade.eTicketDetailUrl": "https://bendi.m.taobao.com/coupon/q/eticket_detail.htm?isArchive=false",
+        "trade.promotionsUrl": "https://ff.win.taobao.com?des=promotions&cc=tae",
+        "trade.shopUrlHost": "https://shop.m.taobao.com/shop/shop_index.htm",
+        "trade.cartUrl": "https://h5.m.taobao.com/mlapp/cart.html"
+    },
+    "PreRelease": {
+        "trade.promotionsUrl": "http://ff.win.taobao.com?des=promotions&cc=tae"
+    },
+    "Daily": {
+        "trade.promotionsUrl": "http://ff.win.daily.taobao.net?des=promotions&cc=tae"
+    }
+}
+

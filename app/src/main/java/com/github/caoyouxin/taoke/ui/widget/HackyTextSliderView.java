@@ -6,9 +6,6 @@ import android.view.View;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.github.caoyouxin.taoke.R;
 
-/**
- * Created by jasontsang on 10/24/17.
- */
 
 public class HackyTextSliderView extends TextSliderView {
     public HackyTextSliderView(Context context) {

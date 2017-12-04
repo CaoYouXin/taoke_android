@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/len_156"
+            android:paddingEnd="@dimen/len_56"
+            android:paddingLeft="@dimen/len_56"
+            android:paddingRight="@dimen/len_56"
+            android:paddingStart="@dimen/len_56">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/enroll"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_20" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/len_10"
+                android:textSize="@dimen/font_14"
+                android:text="@string/enroll_description"/>
+
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/len_48"
+                android:layout_marginLeft="@dimen/len_6"
+                android:layout_marginStart="@dimen/len_6"
+                android:layout_marginRight="@dimen/len_6"
+                android:layout_marginEnd="@dimen/len_6"
+                android:background="@null"
+                android:hint="@string/name_hint"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textSize="@dimen/font_16" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="@dimen/len_6"
+                android:background="@color/grey_800" />
+
+            <EditText
+                android:id="@+id/alipay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/len_16"
+                android:layout_marginLeft="@dimen/len_6"
+                android:layout_marginStart="@dimen/len_6"
+                android:layout_marginRight="@dimen/len_6"
+                android:layout_marginEnd="@dimen/len_6"
+                android:background="@null"
+                android:hint="@string/alipay_hint"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textSize="@dimen/font_16" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="@dimen/len_6"
+                android:background="@color/grey_800" />
+
+            <EditText
+                android:id="@+id/qq"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/len_16"
+                android:layout_marginLeft="@dimen/len_6"
+                android:layout_marginStart="@dimen/len_6"
+                android:layout_marginRight="@dimen/len_6"
+                android:layout_marginEnd="@dimen/len_6"
+                android:background="@null"
+                android:hint="@string/qq_hint"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textSize="@dimen/font_16" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="@dimen/len_6"
+                android:background="@color/grey_800" />
+
+            <EditText
+                android:id="@+id/wechat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/len_16"
+                android:layout_marginLeft="@dimen/len_6"
+                android:layout_marginStart="@dimen/len_6"
+                android:layout_marginRight="@dimen/len_6"
+                android:layout_marginEnd="@dimen/len_6"
+                android:background="@null"
+                android:hint="@string/wechat_hint"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textSize="@dimen/font_16" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="@dimen/len_6"
+                android:background="@color/grey_800" />
+
+            <EditText
+                android:id="@+id/announcement"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/len_96"
+                android:gravity="top"
+                android:scrollbars="vertical"
+                android:layout_marginTop="@dimen/len_16"
+                android:background="@drawable/border_1px_with_pad"
+                android:hint="@string/announcement_hint"
+                android:minLines="3"
+                android:maxLines="3"
+                android:inputType="textMultiLine"
+                android:textSize="@dimen/font_16" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/len_32"
+                android:background="@drawable/sign_in_up_next_border"
+                android:padding="@dimen/len_10">
+
+                <TextView
+                    android:id="@+id/enroll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center_horizontal"
+                    android:text="@string/enroll"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/font_16" />
+
+                <ProgressBar
+                    android:id="@+id/progress"
+                    style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:indeterminateTint="@color/colorPrimaryDark"
+                    android:visibility="invisible" />
+            </FrameLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/len_48" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/len_8"
+        android:paddingStart="@dimen/len_8"
+        android:paddingTop="@dimen/len_8"
+        android:paddingBottom="@dimen/len_8"
+        android:paddingRight="@dimen/len_8"
+        android:paddingEnd="@dimen/len_8"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.mikepenz.iconics.view.IconicsTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="{gmi-chevron-left}"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_20"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/len_6"
+            android:layout_marginStart="@dimen/len_6"
+            android:text="@string/back"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_16" />
+    </LinearLayout>
+
+</FrameLayout>

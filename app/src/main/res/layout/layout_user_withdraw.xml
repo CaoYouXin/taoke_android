@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:background="@color/orange_400">
+
+    <TextView
+        android:id="@+id/user_amount"
+        tools:ignore="RtlHardcoded"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|bottom"
+        android:layout_marginBottom="@dimen/len_16"
+        android:layout_marginLeft="@dimen/len_24"
+        android:layout_marginStart="@dimen/len_24"
+        android:lineSpacingMultiplier="1.5"
+        android:text="@string/user_amount"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/withdraw"
+        tools:ignore="RtlHardcoded"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|bottom"
+        android:layout_marginBottom="@dimen/len_16"
+        android:layout_marginEnd="@dimen/len_24"
+        android:layout_marginRight="@dimen/len_24"
+        android:background="@drawable/border_1px_trans_pad"
+        android:text="@string/withdraw"
+        android:textColor="@color/white" />
+
+</FrameLayout>

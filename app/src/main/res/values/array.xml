@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_types">
+        <item>好券</item>
+        <item>聚划算</item>
+    </string-array>
+</resources>
