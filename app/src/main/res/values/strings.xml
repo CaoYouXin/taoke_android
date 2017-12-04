@@ -183,7 +183,7 @@
     <string name="waiting_for_download">您要分享的图片正在下载中，文案已经复制到粘贴板</string>
     <string name="enroll">申请成为合伙人</string>
     <string name="already_enrolled">您已经是合伙人了，无需再申请</string>
-    <string name="enroll_description">申请后，我们的工作人员会及时审核。当审核通过后，您将需要重新登录，以更新客户端状态。\n\n一旦成为代理，您将拥有自己的团队，通过将APP分享给好友注册以及直接分享商品给好友带来收入。\n\n同时，由于相关规定，成为代理后将不能享受普通购买者的优惠，不能在APP内跳转手淘。</string>
+    <string name="enroll_description">申请后，我们的工作人员会及时审核。当审核通过后，您将需要重新登录，以更新客户端状态。\n\n一旦成为合伙人，您将拥有自己的团队，通过将APP分享给好友注册以及直接分享商品给好友带来收入。\n\n同时，由于相关规定，成为合伙人后将不能享受普通购买者的优惠，不能在APP内跳转手淘。</string>
     <string name="alipay_hint">请输入支付宝帐号，用于提现</string>
     <string name="qq_hint">请输入QQ号，特殊可选</string>
     <string name="wechat_hint">请输入微信号，特殊可选</string>
@@ -206,5 +206,7 @@
 
     <string name="go_to_update">去下载</string>
     <string name="version_low">您当前版本过低，为了更好的使用觅券儿，请立刻升级！</string>
+    <string name="get_it">知道了</string>
+    <string name="get_report">我们已经收到您到的反馈信息</string>
 
 </resources>
