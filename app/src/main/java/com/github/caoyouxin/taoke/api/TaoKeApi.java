@@ -514,4 +514,11 @@ public class TaoKeApi {
         TaoKeRetrofit.getService().tao(TaoKeService.API_READ_MSG.replace("{id}", "" + id), UserData.get().getAccessToken())
                 .compose(RxHelper.handleResult()).compose(RxHelper.rxSchedulerHelper()).subscribe();
     }
+
+    public static Observable<String> getDownloadUrl() {
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_DOWNLOAD_URL)
+                .compose(RxHelper.handleResult())
+                .map(TaoKeData::getString);
+    }
+
 }

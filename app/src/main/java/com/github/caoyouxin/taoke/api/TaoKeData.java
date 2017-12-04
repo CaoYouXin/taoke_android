@@ -30,4 +30,8 @@ public class TaoKeData {
     public Long getLong() {
         return ((Double) body).longValue();
     }
+
+    public String getString() {
+        return (String) body;
+    }
 }

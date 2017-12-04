@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.alibaba.baichuan.android.trade.AlibcTradeSDK;
 import com.alibaba.baichuan.android.trade.callback.AlibcTradeInitCallback;
+import com.github.caoyouxin.taoke.api.RxHelper;
 import com.github.caoyouxin.taoke.api.UnAuthException;
 import com.github.caoyouxin.taoke.model.UserData;
 import com.github.caoyouxin.taoke.ui.activity.SplashActivity;
@@ -65,17 +66,7 @@ public class TaoKe extends Application {
             Timber.w(e, "Undeliverable exception received, not sure what to do");
         });
 
-        RxDataSource.addHook((context, observable) -> observable.observeOn(AndroidSchedulers.mainThread()).onErrorReturn(o -> {
-            if (o instanceof UnAuthException) {
-                new AlertDialog.Builder(context).setPositiveButton(R.string.re_login_confirm,
-                        (dialog, witch) -> {
-                            UserData.clear();
-                            context.startActivity(new Intent(context, SplashActivity.class)
-                                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-                        }).setMessage(R.string.re_login_hint).show();
-            }
-            return null;
-        }).subscribeOn(Schedulers.io()));
+        RxDataSource.addHook(new RxHelper.HandleServerExp());
 
         ShareHelper.initialize(this);
 

@@ -124,6 +124,7 @@ public class SignInActivity extends BaseActivity {
                 .timeout(10, TimeUnit.SECONDS)
                 .compose(RxHelper.rxSchedulerHelper())
                 .compose(bindUntilEvent(ActivityEvent.DESTROY))
+                .compose(RxHelper.rxHandleServerExp(this))
                 .subscribe(
                         taoKeData -> {
                             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);

@@ -241,6 +241,7 @@ public class ShareActivity extends BaseActivity {
                 .timeout(10, TimeUnit.SECONDS)
                 .compose(RxHelper.rxSchedulerHelper())
                 .compose(bindUntilEvent(ActivityEvent.DESTROY))
+                .compose(RxHelper.rxHandleServerExp(this))
                 .subscribe(linkConsumer, throwable -> {
                     if (throwable instanceof TimeoutException) {
                         Snackbar.make(findViewById(android.R.id.content), R.string.fail_timeout, Snackbar.LENGTH_LONG).show();

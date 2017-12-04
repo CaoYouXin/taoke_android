@@ -305,6 +305,7 @@ public class DiscoverFragment extends Fragment {
         TaoKeApi.getCouponTab()
                 .compose(((BaseActivity) getActivity()).bindUntilEvent(ActivityEvent.DESTROY))
                 .compose(RxHelper.rxSchedulerHelper())
+                .compose(RxHelper.rxHandleServerExp(getActivity()))
                 .subscribe(tabs -> {
                     DiscoverFragment.this.tabs = tabs;
                     couponTab.removeOnTabSelectedListener(onTabSelectedListener);

@@ -44,15 +44,17 @@ public interface TaoKeService {
     String API_LAST_MOUNT_ESTIMATE = "tbk/estimate/that";
 
     String API_ENROLL = "tbk/user/apply/4/agent";
+    String API_DOWNLOAD_URL = "app/download/url";
 
+    @Headers({"version: 1.9.1", "platform: android"})
     @POST("api/{api}")
     Observable<TaoKeData> tao(@Path("api") String api, @Body Object data, @Header("auth") String auth);
 
-    @Headers("Cache-Control: public, max-age=86400")
+    @Headers({"version: 1.9.1", "platform: android", "Cache-Control: public, max-age=86400"})
     @GET("api/{api}")
     Observable<TaoKeData> tao(@Path("api") String api, @Header("auth") String auth);
 
-    @Headers("Cache-Control: public, max-age=86400")
+    @Headers({"version: 1.9.1", "platform: android", "Cache-Control: public, max-age=86400"})
     @GET("api/{api}")
     Observable<TaoKeData> tao(@Path("api") String api);
 }

@@ -137,7 +137,7 @@ public class ResetPasswordActivity extends BaseActivity {
                     .timeout(10, TimeUnit.SECONDS)
                     .compose(RxHelper.rxSchedulerHelper())
                     .compose(bindUntilEvent(ActivityEvent.DESTROY))
-                    .observeOn(AndroidSchedulers.mainThread())
+                    .compose(RxHelper.rxHandleServerExp(this))
                     .subscribe(
                             homeBasedCareData -> {
                             },
