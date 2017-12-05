@@ -80,6 +80,11 @@ public class RxHelper {
                                 })).setMessage(R.string.version_low).show();
                 showing = true;
             }
+
+            if (o instanceof ApiException) {
+                Toast.makeText(context, o.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+            }
+
         }).subscribeOn(Schedulers.io());
     }
 
