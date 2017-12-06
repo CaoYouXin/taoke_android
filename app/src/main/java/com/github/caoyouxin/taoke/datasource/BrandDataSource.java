@@ -18,25 +18,26 @@ import io.realm.RealmResults;
 
 
 public class BrandDataSource extends RxDataSource<List<HomeBtn>> implements IDataCacheLoader<List<HomeBtn>> {
-    private RealmConfiguration realmConfig;
+//    private RealmConfiguration realmConfig;
 
     public BrandDataSource(Context context) {
         super(context);
 
-        realmConfig = new RealmConfiguration.Builder().name("BrandList").schemaVersion(BuildConfig.VERSION_CODE).migration(TaoKe.getRealmMigration()).build();
+//        realmConfig = new RealmConfiguration.Builder().name("BrandList").schemaVersion(BuildConfig.VERSION_CODE).migration(TaoKe.getRealmMigration()).build();
     }
 
     @Override
     public Observable<List<HomeBtn>> refresh() throws Exception {
-        return TaoKeApi.getBrandList().map(homeBtns -> {
-            Realm realm = Realm.getInstance(realmConfig);
-            realm.executeTransactionAsync(bgRealm -> {
-                bgRealm.delete(HomeBtn.class);
-                bgRealm.insertOrUpdate(homeBtns);
-            });
-            realm.close();
-            return homeBtns;
-        });
+        return TaoKeApi.getBrandList();
+//        return TaoKeApi.getBrandList().map(homeBtns -> {
+//            Realm realm = Realm.getInstance(realmConfig);
+//            realm.executeTransactionAsync(bgRealm -> {
+//                bgRealm.delete(HomeBtn.class);
+//                bgRealm.insertOrUpdate(homeBtns);
+//            });
+//            realm.close();
+//            return homeBtns;
+//        });
     }
 
     @Override
@@ -51,10 +52,11 @@ public class BrandDataSource extends RxDataSource<List<HomeBtn>> implements IDat
 
     @Override
     public List<HomeBtn> loadCache(boolean isEmpty) {
-        Realm realm = Realm.getInstance(realmConfig);
-        RealmResults<HomeBtn> results = realm.where(HomeBtn.class).findAll();
-        List<HomeBtn> data = HomeBtn.from(results);
-        realm.close();
-        return data;
+        return null;
+//        Realm realm = Realm.getInstance(realmConfig);
+//        RealmResults<HomeBtn> results = realm.where(HomeBtn.class).findAll();
+//        List<HomeBtn> data = HomeBtn.from(results);
+//        realm.close();
+//        return data;
     }
 }
