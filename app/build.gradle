@@ -44,20 +44,20 @@ dependencies {
     compile 'com.android.support:multidex:1.0.1'
 
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    debugCompile('com.github.gnastnosaj.Boilerplate:boilerplate:3f7a546') {
-        artifact {
-            name = 'boilerplate'
-            extension = 'aar'
-            type = 'maven'
-            classifier = 'debug'
-        }
-    }
     releaseCompile('com.github.gnastnosaj.Boilerplate:boilerplate:3f7a546') {
         artifact {
             name = 'boilerplate'
             extension = 'aar'
-            type = 'maven'
+            type = 'aar'
             classifier = 'release'
+        }
+    }
+    debugCompile('com.github.gnastnosaj.Boilerplate:boilerplate:3f7a546') {
+        artifact {
+            name = 'boilerplate'
+            extension = 'aar'
+            type = 'aar'
+            classifier = 'debug'
         }
     }
 
