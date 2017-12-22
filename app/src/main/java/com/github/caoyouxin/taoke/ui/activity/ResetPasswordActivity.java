@@ -178,9 +178,9 @@ public class ResetPasswordActivity extends BaseActivity {
 
         TaoKeApi.resetPassword(phoneNo, vcode, pwd)
                 .timeout(10, TimeUnit.SECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
                 .compose(RxHelper.rxSchedulerHelper())
                 .compose(bindUntilEvent(ActivityEvent.DESTROY))
+                .compose(RxHelper.rxHandleServerExp(this))
                 .subscribe(
                         taoKeData -> {
                             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);

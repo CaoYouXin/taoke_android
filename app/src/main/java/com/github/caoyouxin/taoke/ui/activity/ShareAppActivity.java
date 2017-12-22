@@ -25,6 +25,7 @@ import com.bilibili.socialize.share.util.BitmapUtil;
 import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.adapter.ShareAppImageAdapter;
 import com.github.caoyouxin.taoke.api.RxHelper;
+import com.github.caoyouxin.taoke.api.TaoKeApi;
 import com.github.caoyouxin.taoke.datasource.ShareAppImageDataSource;
 import com.github.caoyouxin.taoke.model.UserData;
 import com.github.caoyouxin.taoke.ui.widget.HackyLoadViewFactory;
@@ -256,17 +257,20 @@ public class ShareAppActivity extends BaseActivity {
     }
 
     private Observable<Bitmap> generateShareImageDescription() {
-        return Observable.<Bitmap>create(subscriber -> {
-            try {
-                descQrCode.setImageBitmap(QRCodeEncoder.syncEncodeQRCode("https://fir.im/7qrm", descQrCode.getWidth()));
-                Bitmap bitmap = Bitmap.createBitmap(shareImageQrDesc.getWidth(), shareImageQrDesc.getHeight(), Bitmap.Config.ARGB_8888);
-                Canvas canvas = new Canvas(bitmap);
-                shareImageQrDesc.draw(canvas);
-                subscriber.onNext(bitmap);
-                subscriber.onComplete();
-            } catch (Exception e) {
-                subscriber.onError(e);
-            }
-        }).subscribeOn(AndroidSchedulers.mainThread());
+        return Observable.<Bitmap>create(subscriber -> TaoKeApi.getDownloadUrl()
+                .compose(RxHelper.rxSchedulerHelper())
+                .compose(RxHelper.rxHandleServerExp(this))
+                .subscribe((downloadUrl) -> {
+                    try {
+                        descQrCode.setImageBitmap(QRCodeEncoder.syncEncodeQRCode(downloadUrl , descQrCode.getWidth()));
+                        Bitmap bitmap = Bitmap.createBitmap(shareImageQrDesc.getWidth(), shareImageQrDesc.getHeight(), Bitmap.Config.ARGB_8888);
+                        Canvas canvas = new Canvas(bitmap);
+                        shareImageQrDesc.draw(canvas);
+                        subscriber.onNext(bitmap);
+                        subscriber.onComplete();
+                    } catch (Exception e) {
+                        subscriber.onError(e);
+                    }
+                })).subscribeOn(AndroidSchedulers.mainThread());
     }
 }

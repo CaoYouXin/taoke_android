@@ -9,4 +9,5 @@
 /build
 /captures
 .externalNativeBuild
+taoke_android.iml
 app-release.apk

@@ -1,5 +1,7 @@
 package com.github.caoyouxin.taoke.ui.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
@@ -70,9 +72,9 @@ public class ReportActivity extends BaseActivity {
                 .compose(bindUntilEvent(ActivityEvent.DESTROY))
                 .compose(RxHelper.rxHandleServerExp(this))
                 .subscribe(
-                        taoKeData -> {
-                            onBackPressed();
-                        },
+                        taoKeData -> new AlertDialog.Builder(this)
+                                .setPositiveButton(R.string.get_it, (dialog, which) -> onBackPressed())
+                                .setMessage(R.string.get_report).show(),
                         throwable -> {
                             if (throwable instanceof TimeoutException) {
                                 Snackbar.make(findViewById(android.R.id.content), R.string.fail_timeout, Snackbar.LENGTH_LONG).show();
