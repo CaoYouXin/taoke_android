@@ -192,8 +192,20 @@ public class ShareActivity extends BaseActivity {
 
                 new AlertDialog.Builder(this).setTitle("分享文案已经复制到剪切板")
                         .setMessage(finalText2Share)
-                        .setNegativeButton("知道了", (dialog, which) -> {})
-                        .setPositiveButton("去微信粘贴", (dialog, which) -> {
+                        .setPositiveButton("去QQ粘贴", (dialog, which) -> {
+                            try {
+                                Intent intent = new Intent(Intent.ACTION_MAIN);
+                                ComponentName cmp = new ComponentName("com.tencent.mobileqq", "com.tencent.mobileqq.activity.JumpActivity");
+
+                                intent.addCategory(Intent.CATEGORY_LAUNCHER);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.setComponent(cmp);
+                                startActivity(intent);
+                            } catch (ActivityNotFoundException e) {
+                                Toast.makeText(this, "文案已复制！检查到您手机没有安装QQ，请安装后方可跳转到QQ。", Toast.LENGTH_LONG).show();
+                            }
+                        })
+                        .setNegativeButton("去微信粘贴", (dialog, which) -> {
                             try {
                                 Intent intent = new Intent(Intent.ACTION_MAIN);
                                 ComponentName cmp = new ComponentName("com.tencent.mm","com.tencent.mm.ui.LauncherUI");
