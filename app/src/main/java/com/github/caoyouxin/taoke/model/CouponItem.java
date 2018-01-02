@@ -3,7 +3,6 @@ package com.github.caoyouxin.taoke.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.Collections;
 import java.util.List;
 
 
@@ -44,6 +43,8 @@ public class CouponItem implements Parcelable {
     private String earnPrice;
     private String tkLink;
     private Double coupon;
+    private Double price;
+    private Double earn;
 
     public CouponItem() {
     }
@@ -296,8 +297,6 @@ public class CouponItem implements Parcelable {
         return null == couponClickUrl || couponClickUrl.isEmpty() ? tkLink : couponClickUrl;
     }
 
-    private Double price;
-
     public Double getPrice() {
         if (null == price) {
             price = null == couponPrice || couponPrice.isEmpty() ? Double.parseDouble(zkFinalPrice) : Double.parseDouble(couponPrice);
@@ -312,8 +311,6 @@ public class CouponItem implements Parcelable {
     public void setCoupon(Double coupon) {
         this.coupon = coupon;
     }
-
-    private Double earn;
 
     public Double getEarn() {
         if (null == earn) {

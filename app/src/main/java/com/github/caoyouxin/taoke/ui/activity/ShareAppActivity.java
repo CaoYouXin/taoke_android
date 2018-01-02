@@ -262,7 +262,7 @@ public class ShareAppActivity extends BaseActivity {
                 .compose(RxHelper.rxHandleServerExp(this))
                 .subscribe((downloadUrl) -> {
                     try {
-                        descQrCode.setImageBitmap(QRCodeEncoder.syncEncodeQRCode(downloadUrl , descQrCode.getWidth()));
+                        descQrCode.setImageBitmap(QRCodeEncoder.syncEncodeQRCode(downloadUrl, descQrCode.getWidth()));
                         Bitmap bitmap = Bitmap.createBitmap(shareImageQrDesc.getWidth(), shareImageQrDesc.getHeight(), Bitmap.Config.ARGB_8888);
                         Canvas canvas = new Canvas(bitmap);
                         shareImageQrDesc.draw(canvas);

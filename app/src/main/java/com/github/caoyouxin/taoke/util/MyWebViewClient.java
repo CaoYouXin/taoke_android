@@ -4,7 +4,6 @@ import android.util.Base64;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.github.caoyouxin.taoke.ui.activity.H5DetailActivity;
 import com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
@@ -31,7 +30,7 @@ public class MyWebViewClient extends WebViewClient {
     public void onPageFinished(WebView view, String url) {
         super.onPageFinished(view, url);
 //        if (!hacked) {
-            hack(view);
+        hack(view);
 //            hacked = true;
 //            System.out.println("hacked");
 //        }

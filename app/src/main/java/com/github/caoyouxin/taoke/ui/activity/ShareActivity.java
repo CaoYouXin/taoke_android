@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.ClipboardManager;
 import android.content.ComponentName;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -29,7 +28,6 @@ import android.widget.Toast;
 
 import com.bilibili.socialize.share.core.shareparam.ShareImage;
 import com.bilibili.socialize.share.core.shareparam.ShareParamImage;
-import com.bilibili.socialize.share.core.shareparam.ShareParamText;
 import com.bilibili.socialize.share.download.IImageDownloader;
 import com.bilibili.socialize.share.util.BitmapUtil;
 import com.github.caoyouxin.taoke.R;
@@ -62,8 +60,6 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import timber.log.Timber;
-
-import static android.content.DialogInterface.*;
 
 public class ShareActivity extends BaseActivity {
     public final static String EXTRA_COUPON_ITEM = "couponItem";
@@ -208,7 +204,7 @@ public class ShareActivity extends BaseActivity {
                         .setNegativeButton("去微信粘贴", (dialog, which) -> {
                             try {
                                 Intent intent = new Intent(Intent.ACTION_MAIN);
-                                ComponentName cmp = new ComponentName("com.tencent.mm","com.tencent.mm.ui.LauncherUI");
+                                ComponentName cmp = new ComponentName("com.tencent.mm", "com.tencent.mm.ui.LauncherUI");
 
                                 intent.addCategory(Intent.CATEGORY_LAUNCHER);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -351,7 +351,7 @@ public class DiscoverFragment extends Fragment {
                     if (-1 < childPosition && childPosition < couponAdapter.getData().size()) {
                         CouponItem couponItem = couponAdapter.getData().get(childPosition);
                         Intent intent = new Intent(getActivity(), DetailActivity.class).putExtra(DetailActivity.EXTRA_COUPON_ITEM, couponItem);
-                            getActivity().startActivity(intent);
+                        getActivity().startActivity(intent);
                     }
                     return true;
                 } else {

@@ -24,7 +24,6 @@ import java.util.concurrent.TimeoutException;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 
 
 public class SignUpActivity extends BaseActivity {

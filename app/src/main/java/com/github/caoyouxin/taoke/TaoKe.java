@@ -1,18 +1,13 @@
 package com.github.caoyouxin.taoke;
 
-import android.app.AlertDialog;
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.widget.Toast;
 
 import com.alibaba.baichuan.android.trade.AlibcTradeSDK;
 import com.alibaba.baichuan.android.trade.callback.AlibcTradeInitCallback;
 import com.github.caoyouxin.taoke.api.RxHelper;
-import com.github.caoyouxin.taoke.api.UnAuthException;
-import com.github.caoyouxin.taoke.model.UserData;
-import com.github.caoyouxin.taoke.ui.activity.SplashActivity;
 import com.github.caoyouxin.taoke.ui.widget.MyRefreshFooter;
 import com.github.caoyouxin.taoke.util.ShareHelper;
 import com.github.gnastnosaj.boilerplate.Boilerplate;
@@ -24,10 +19,8 @@ import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import java.io.IOException;
 import java.net.SocketException;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.exceptions.UndeliverableException;
 import io.reactivex.plugins.RxJavaPlugins;
-import io.reactivex.schedulers.Schedulers;
 import io.realm.Realm;
 import io.realm.RealmMigration;
 import io.realm.RealmSchema;
@@ -36,6 +29,16 @@ import timber.log.Timber;
 
 public class TaoKe extends Application {
     private static RealmMigration realmMigration;
+
+    public static RealmMigration getRealmMigration() {
+        if (realmMigration == null) {
+            realmMigration = (realm, oldVersion, newVersion) -> {
+                RealmSchema schema = realm.getSchema();
+                //migration
+            };
+        }
+        return realmMigration;
+    }
 
     @Override
     public void onCreate() {
@@ -78,7 +81,7 @@ public class TaoKe extends Application {
         SmartRefreshLayout.setDefaultRefreshFooterCreater((context, layout) -> {
             MyRefreshFooter myRefreshFooter = new MyRefreshFooter(context);
             myRefreshFooter.getTitleText().setText(R.string.we_have_underline);
-            myRefreshFooter.getArrowView().setImageURI(Uri.parse("android.resource://" + getApplicationContext().getPackageName() + "/" +R.mipmap.smile));
+            myRefreshFooter.getArrowView().setImageURI(Uri.parse("android.resource://" + getApplicationContext().getPackageName() + "/" + R.mipmap.smile));
             return myRefreshFooter;
         });
 
@@ -114,16 +117,6 @@ public class TaoKe extends Application {
                 Toast.makeText(TaoKe.this, String.format("百川初始化失败, code=%d, msg=%s", code, msg), Toast.LENGTH_LONG).show();
             }
         });
-    }
-
-    public static RealmMigration getRealmMigration() {
-        if (realmMigration == null) {
-            realmMigration = (realm, oldVersion, newVersion) -> {
-                RealmSchema schema = realm.getSchema();
-                //migration
-            };
-        }
-        return realmMigration;
     }
 
     @Override

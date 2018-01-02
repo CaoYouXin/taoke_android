@@ -2,8 +2,6 @@ package com.github.caoyouxin.taoke.datasource;
 
 import android.content.Context;
 
-import com.github.caoyouxin.taoke.BuildConfig;
-import com.github.caoyouxin.taoke.TaoKe;
 import com.github.caoyouxin.taoke.api.TaoKeApi;
 import com.github.caoyouxin.taoke.model.HomeBtn;
 import com.github.gnastnosaj.boilerplate.mvchelper.RxDataSource;
@@ -12,9 +10,6 @@ import com.shizhefei.mvc.IDataCacheLoader;
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
-import io.realm.RealmResults;
 
 
 public class BrandDataSource extends RxDataSource<List<HomeBtn>> implements IDataCacheLoader<List<HomeBtn>> {

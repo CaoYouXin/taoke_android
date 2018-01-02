@@ -19,16 +19,13 @@ import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.model.UserData;
 import com.github.caoyouxin.taoke.util.MyWebViewClient;
 import com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity;
-import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.Observable;
 
 public class H5DetailActivity extends BaseActivity {
     public final static String EXTRA_COUPON_ITEM_ID = "couponItemId";
