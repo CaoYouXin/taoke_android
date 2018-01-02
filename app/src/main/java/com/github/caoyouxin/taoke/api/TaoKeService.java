@@ -14,6 +14,7 @@ public interface TaoKeService {
     String API_SIGN_IN = "tbk/user/login";
     String API_SIGN_UP = "tbk/user/register";
     String API_RESET_PASSWORD = "tbk/user/reset/pwd";
+    String API_ANONYMOUS_LOGIN = "tbk/user/anonymous/{hash}";
 
     String API_BANNER_LIST = "home/banner/list";
     String API_COUPON_TAB = "home/cate/list";

@@ -67,7 +67,13 @@ public class UserData {
     public static void clear() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Boilerplate.getInstance());
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
+        editor.remove(PREF_ACCESS_TOKEN);
+        editor.remove(PREF_USER_NAME);
+        editor.remove(PREF_USER_PID);
+        editor.remove(PREF_USER_ID);
+        editor.remove(PREF_USER_SHARE_CODE);
+        editor.remove(PREF_CANDIDATE);
+        editor.remove(PREF_DIRECT_USER);
         editor.apply();
         INSTANCE = null;
     }

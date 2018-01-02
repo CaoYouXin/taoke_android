@@ -208,5 +208,6 @@
     <string name="version_low">您当前版本过低，为了更好的使用觅券儿，请立刻升级！</string>
     <string name="get_it">知道了</string>
     <string name="get_report">我们已经收到您到的反馈信息</string>
+    <string name="sign_in_anonymous">随便看看</string>
 
 </resources>

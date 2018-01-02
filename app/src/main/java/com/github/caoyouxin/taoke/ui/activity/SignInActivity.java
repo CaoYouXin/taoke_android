@@ -127,12 +127,7 @@ public class SignInActivity extends BaseActivity {
                 .compose(RxHelper.rxHandleServerExp(this))
                 .subscribe(
                         taoKeData -> {
-                            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-                            if (sharedPreferences.getBoolean(IntroActivity.INTRO_READ, false)) {
-                                startActivity(new Intent(this, TaoKeActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-                            } else {
-                                startActivity(new Intent(this, IntroActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-                            }
+                            startActivity(new Intent(this, TaoKeActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                         },
                         throwable -> {
                             phone.setEnabled(true);

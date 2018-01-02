@@ -4,15 +4,21 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.github.caoyouxin.taoke.R;
+import com.github.caoyouxin.taoke.api.ApiException;
+import com.github.caoyouxin.taoke.api.RxHelper;
+import com.github.caoyouxin.taoke.api.TaoKeApi;
 import com.github.caoyouxin.taoke.model.UserData;
 import com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity;
+import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,6 +38,12 @@ public class SplashActivity extends BaseActivity {
     @BindView(R.id.sign_in)
     Button signIn;
 
+    @BindView(R.id.sign_in_anonymous)
+    Button signInAnonymous;
+
+    @BindView(R.id.progress)
+    View progress;
+
     @BindView(R.id.copyright)
     TextView copyright;
 
@@ -39,6 +51,12 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if (!sharedPreferences.getBoolean(IntroActivity.INTRO_READ, false)) {
+            startActivity(new Intent(this, IntroActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+            return;
+        }
 
         setContentView(R.layout.activity_splash);
 
@@ -49,20 +67,16 @@ public class SplashActivity extends BaseActivity {
 
         if (UserData.restore()) {
             Observable.timer(3, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
-                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-                if (sharedPreferences.getBoolean(IntroActivity.INTRO_READ, false)) {
-                    startActivity(new Intent(this, TaoKeActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-                } else {
-                    startActivity(new Intent(this, IntroActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-                }
+                startActivity(new Intent(this, TaoKeActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
             });
         } else {
             signUp.animate().alpha(1).setDuration(1500);
             signIn.animate().alpha(1).setDuration(1500);
+            signInAnonymous.animate().alpha(1).setDuration(1500);
         }
     }
 
-    @OnClick({R.id.sign_in, R.id.sign_up})
+    @OnClick({R.id.sign_in, R.id.sign_up, R.id.sign_in_anonymous})
     protected void onClick(View view) {
         switch (view.getId()) {
             case R.id.sign_in:
@@ -70,6 +84,32 @@ public class SplashActivity extends BaseActivity {
                 break;
             case R.id.sign_up:
                 startActivity(new Intent(this, SignUpActivity.class));
+                break;
+            case R.id.sign_in_anonymous:
+                signInAnonymous.setVisibility(View.INVISIBLE);
+                progress.setVisibility(View.VISIBLE);
+                TaoKeApi.signInAnonymous()
+                        .timeout(10, TimeUnit.SECONDS)
+                        .compose(RxHelper.rxSchedulerHelper())
+                        .compose(bindUntilEvent(ActivityEvent.DESTROY))
+                        .compose(RxHelper.rxHandleServerExp(this))
+                        .subscribe(
+                                taoKeData -> {
+                                    startActivity(new Intent(this, TaoKeActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                                },
+                                throwable -> {
+                                    signInAnonymous.setVisibility(View.VISIBLE);
+                                    progress.setVisibility(View.GONE);
+
+                                    if (throwable instanceof TimeoutException) {
+                                        Snackbar.make(progress, R.string.sign_in_fail_timeout, Snackbar.LENGTH_LONG).show();
+                                    } else if (throwable instanceof ApiException) {
+                                        Snackbar.make(progress, getResources().getString(R.string.sign_in_fail_message, throwable.getMessage()), Snackbar.LENGTH_LONG).show();
+                                    } else {
+                                        Snackbar.make(progress, R.string.sign_in_fail_network, Snackbar.LENGTH_LONG).show();
+                                    }
+                                }
+                        );
                 break;
         }
     }

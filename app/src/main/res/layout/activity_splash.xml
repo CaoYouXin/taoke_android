@@ -19,39 +19,76 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/len_88"
-            android:layout_gravity="center_vertical"
-            android:gravity="center_horizontal">
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/len_100"
+            android:layout_gravity="center_vertical">
 
-            <Button
-                android:id="@+id/sign_up"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="18dp"
-                android:layout_marginRight="18dp"
-                android:alpha="0"
-                android:background="@drawable/splash_sign_in_up_border"
-                android:minHeight="0dp"
-                android:padding="@dimen/len_10"
-                android:text="@string/sign_up"
-                android:textColor="@drawable/splash_sign_in_up"
-                android:textSize="@dimen/font_16"
-                tools:ignore="ButtonStyle" />
+                android:gravity="center_horizontal">
 
-            <Button
-                android:id="@+id/sign_in"
+                <Button
+                    android:id="@+id/sign_up"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="18dp"
+                    android:layout_marginRight="18dp"
+                    android:alpha="0"
+                    android:background="@drawable/splash_sign_in_up_border"
+                    android:minHeight="0dp"
+                    android:padding="@dimen/len_10"
+                    android:text="@string/sign_up"
+                    android:textColor="@drawable/splash_sign_in_up"
+                    android:textSize="@dimen/font_16"
+                    tools:ignore="ButtonStyle" />
+
+                <Button
+                    android:id="@+id/sign_in"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginStart="18dp"
+                    android:alpha="0"
+                    android:background="@drawable/splash_sign_in_up_border"
+                    android:minHeight="0dp"
+                    android:padding="@dimen/len_10"
+                    android:text="@string/sign_in"
+                    android:textColor="@drawable/splash_sign_in_up"
+                    android:textSize="@dimen/font_16"
+                    tools:ignore="ButtonStyle" />
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_marginTop="@dimen/len_10"
+                android:layout_gravity="bottom|center_horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="18dp"
-                android:layout_marginStart="18dp"
-                android:alpha="0"
-                android:background="@drawable/splash_sign_in_up_border"
-                android:minHeight="0dp"
-                android:padding="@dimen/len_10"
-                android:text="@string/sign_in"
-                android:textColor="@drawable/splash_sign_in_up"
-                android:textSize="@dimen/font_16"
-                tools:ignore="ButtonStyle" />
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/sign_in_anonymous"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha="0"
+                    android:background="@drawable/bg_grey_round_corner"
+                    android:minHeight="0dp"
+                    android:padding="@dimen/len_10"
+                    android:text="@string/sign_in_anonymous"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_16"
+                    tools:ignore="ButtonStyle" />
+
+                <ProgressBar
+                    android:id="@+id/progress"
+                    style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:indeterminateTint="@color/colorPrimary"
+                    android:visibility="invisible" />
+
+            </FrameLayout>
+
         </LinearLayout>
 
         <TextView

@@ -2,10 +2,8 @@ package com.github.caoyouxin.taoke.ui.activity;
 
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.text.Editable;
 import android.text.InputType;
@@ -201,12 +199,7 @@ public class SignUpInfoActivity extends BaseActivity {
                 .compose(RxHelper.rxHandleServerExp(this))
                 .subscribe(
                         taoKeData -> {
-                            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-                            if (sharedPreferences.getBoolean(IntroActivity.INTRO_READ, false)) {
-                                startActivity(new Intent(this, TaoKeActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-                            } else {
-                                startActivity(new Intent(this, IntroActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-                            }
+                            startActivity(new Intent(this, TaoKeActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                         },
                         throwable -> {
                             verificationCode.setEnabled(true);

@@ -51,6 +51,6 @@ public class IntroActivity extends AppIntro {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(INTRO_READ, true);
         editor.apply();
-        startActivity(new Intent(this, TaoKeActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+        startActivity(new Intent(this, SplashActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
     }
 }

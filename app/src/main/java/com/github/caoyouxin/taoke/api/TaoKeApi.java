@@ -1,5 +1,7 @@
 package com.github.caoyouxin.taoke.api;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 
 import com.github.caoyouxin.taoke.datasource.OrderDataSource;
@@ -10,6 +12,7 @@ import com.github.caoyouxin.taoke.model.EnrollSubmit;
 import com.github.caoyouxin.taoke.model.FriendItem;
 import com.github.caoyouxin.taoke.model.HelpItem;
 import com.github.caoyouxin.taoke.model.HomeBtn;
+import com.github.caoyouxin.taoke.model.M;
 import com.github.caoyouxin.taoke.model.MessageItem;
 import com.github.caoyouxin.taoke.model.OrderItem;
 import com.github.caoyouxin.taoke.model.PhoneVerifySubmit;
@@ -23,9 +26,11 @@ import com.github.caoyouxin.taoke.model.UserLoginSubmit;
 import com.github.caoyouxin.taoke.model.UserRegisterSubmit;
 import com.github.caoyouxin.taoke.model.UserResetPwdSubmit;
 import com.github.caoyouxin.taoke.util.StringUtils;
+import com.github.gnastnosaj.boilerplate.Boilerplate;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -34,14 +39,34 @@ import io.reactivex.Observable;
 
 public class TaoKeApi {
 
-    //    private final static String CDN_HOST = "http://192.168.0.136:8070/";
-    private final static String CDN_HOST = "http://server.tkmqr.com:8070/";
+    private final static String CDN_HOST = "http://192.168.1.115:8070/";
+//    private final static String CDN_HOST = "http://192.168.0.136:8070/";
+//    private final static String CDN_HOST = "http://server.tkmqr.com:8070/";
 
     // **** user apis below *******************************************
 
     public static Observable<TaoKeData> verification(String phone) {
         return TaoKeRetrofit.getService().tao(TaoKeService.API_VERIFICATION, new PhoneVerifySubmit(phone), null)
                 .compose(RxHelper.handleResult());
+    }
+
+    public static Observable<TaoKeData> signInAnonymous() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Boilerplate.getInstance());
+        String hash = sharedPreferences.getString("fake_uuid", "");
+
+        if (hash.isEmpty()) {
+            hash = M.DF.format(new Date());
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("fake_uuid", hash);
+            editor.apply();
+        }
+
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_ANONYMOUS_LOGIN.replace("{hash}", hash))
+                .compose(RxHelper.handleResult())
+                .map(taoKeData -> {
+                    UserData.set(taoKeData).cache();
+                    return taoKeData;
+                });
     }
 
     public static Observable<TaoKeData> signUp(String phone, String verificationCode, String password, String name, String invitation) {
