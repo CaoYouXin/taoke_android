@@ -1,6 +1,8 @@
 package com.github.caoyouxin.taoke.ui.fragment;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -39,6 +41,7 @@ import com.github.caoyouxin.taoke.model.HomeBtn;
 import com.github.caoyouxin.taoke.ui.activity.DetailActivity;
 import com.github.caoyouxin.taoke.ui.activity.ProductListActivity;
 import com.github.caoyouxin.taoke.ui.activity.TaoKeActivity;
+import com.github.caoyouxin.taoke.ui.widget.HackyAsymmetricGridView;
 import com.github.caoyouxin.taoke.ui.widget.HackyLoadViewFactory;
 import com.github.caoyouxin.taoke.ui.widget.HackyTextSliderView;
 import com.github.caoyouxin.taoke.ui.widget.RecyclerViewAppBarBehavior;
@@ -76,7 +79,7 @@ public class DiscoverFragment extends Fragment {
     AppBarLayout appBarLayout;
 
     @BindView(R.id.brand_list)
-    AsymmetricGridView brandList;
+    HackyAsymmetricGridView brandList;
 
     @BindView(R.id.coupon_tab)
     TabLayout couponTab;
@@ -223,6 +226,7 @@ public class DiscoverFragment extends Fragment {
     }
 
     private void initBrandList() {
+        brandList.setScrollBarSize(0);
 //        brandList.setAllowReordering(true);
         brandList.setRequestedColumnCount(12);
         adBrandAdapter = new AdBrandAdapter(context);

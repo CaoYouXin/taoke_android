@@ -22,7 +22,7 @@
         android:layout_height="1px"
         android:background="@color/grey_300" />
 
-    <com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView
+    <com.github.caoyouxin.taoke.ui.widget.HackyAsymmetricGridView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/brand_list"
         android:layout_width="match_parent"
