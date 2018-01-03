@@ -8,7 +8,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -22,14 +21,17 @@ import android.widget.LinearLayout;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
+import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView;
+import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridViewAdapter;
 import com.github.caoyouxin.taoke.R;
-import com.github.caoyouxin.taoke.adapter.BrandAdapter;
+import com.github.caoyouxin.taoke.adapter.AdBrandAdapter;
 import com.github.caoyouxin.taoke.adapter.CouponAdapter;
 import com.github.caoyouxin.taoke.api.ApiException;
 import com.github.caoyouxin.taoke.api.RxHelper;
 import com.github.caoyouxin.taoke.api.TaoKeApi;
-import com.github.caoyouxin.taoke.datasource.BrandDataSource;
+import com.github.caoyouxin.taoke.datasource.AdBrandDataSource;
 import com.github.caoyouxin.taoke.datasource.CouponDataSource;
+import com.github.caoyouxin.taoke.model.AdBrandItem;
 import com.github.caoyouxin.taoke.model.BrandItem;
 import com.github.caoyouxin.taoke.model.CouponItem;
 import com.github.caoyouxin.taoke.model.CouponTab;
@@ -50,10 +52,6 @@ import com.shizhefei.mvc.MVCHelper;
 import com.shizhefei.mvc.MVCNormalHelper;
 import com.shizhefei.mvc.OnStateChangeListener;
 import com.trello.rxlifecycle2.android.ActivityEvent;
-import com.yanyusong.y_divideritemdecoration.Y_Divider;
-import com.yanyusong.y_divideritemdecoration.Y_DividerBuilder;
-import com.yanyusong.y_divideritemdecoration.Y_DividerItemDecoration;
-import com.yanyusong.y_divideritemdecoration.Y_SideLine;
 
 import java.util.List;
 import java.util.concurrent.TimeoutException;
@@ -78,7 +76,7 @@ public class DiscoverFragment extends Fragment {
     AppBarLayout appBarLayout;
 
     @BindView(R.id.brand_list)
-    RecyclerView brandList;
+    AsymmetricGridView brandList;
 
     @BindView(R.id.coupon_tab)
     TabLayout couponTab;
@@ -91,9 +89,9 @@ public class DiscoverFragment extends Fragment {
 
     View rootView;
 
-    private MVCHelper<List<HomeBtn>> brandListHelper;
+    private AdBrandAdapter adBrandAdapter;
+    private AdBrandDataSource adBrandDataSource;
     private MVCHelper<List<CouponItem>> couponListHelper;
-
     private CouponDataSource couponDataSource;
 
     private GestureDetector gestureDetector = new GestureDetector(getActivity(), new GestureDetector.SimpleOnGestureListener() {
@@ -225,68 +223,27 @@ public class DiscoverFragment extends Fragment {
     }
 
     private void initBrandList() {
-        brandList.setLayoutManager(new GridLayoutManager(getActivity(), 3) {
-            @Override
-            public boolean canScrollHorizontally() {
-                return false;
+//        brandList.setAllowReordering(true);
+        brandList.setRequestedColumnCount(12);
+        adBrandAdapter = new AdBrandAdapter(context);
+        adBrandDataSource = new AdBrandDataSource();
+        AsymmetricGridViewAdapter<AdBrandItem> asymmetricAdapter =
+                new AsymmetricGridViewAdapter<>(getActivity(), brandList, adBrandAdapter);
+        brandList.setAdapter(asymmetricAdapter);
+        brandList.setOnItemClickListener((parent, view, position, id) -> {
+            Object item = adBrandAdapter.getItem(position);
+            if (!(item instanceof AdBrandItem)) {
+                return;
             }
 
-            @Override
-            public boolean canScrollVertically() {
-                return false;
-            }
+            System.out.println("tua " + position + " : " + id);
         });
 
-        brandList.addItemDecoration(new Y_DividerItemDecoration(getActivity()) {
-            @Override
-            public Y_Divider getDivider(int itemPosition) {
-                Y_Divider divider;
-                switch (itemPosition % 3) {
-                    case 0:
-                        divider = new Y_DividerBuilder()
-                                .setRightSideLine(true, getResources().getColor(R.color.grey_300), 1, 0, 0)
-                                .create();
-                        break;
-                    case 2:
-                        divider = new Y_DividerBuilder()
-                                .setLeftSideLine(true, getResources().getColor(R.color.grey_300), 1, 0, 0)
-                                .create();
-                        break;
-                    default:
-                        divider = new Y_DividerBuilder().create();
-                        break;
-                }
-                divider.setBottomSideLine(new Y_SideLine(true, getResources().getColor(R.color.green_300), 1, 0, 0));
-                return divider;
-            }
-        });
-
-        BrandAdapter brandAdapter = new BrandAdapter();
-
-        brandList.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener() {
-            @Override
-            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent event) {
-                if (gestureDetector.onTouchEvent(event)) {
-                    View childView = rv.findChildViewUnder(event.getX(), event.getY());
-                    int childPosition = rv.getChildAdapterPosition(childView);
-                    if (-1 < childPosition && childPosition < brandAdapter.getData().size()) {
-                        HomeBtn homeBtn = brandAdapter.getData().get(childPosition);
-                        openHomeBtn(homeBtn);
-                    }
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        });
-
-        BrandDataSource brandDataSource = new BrandDataSource(getActivity());
-
-        HackyLoadViewFactory hackyLoadViewFactory = new HackyLoadViewFactory();
-        brandListHelper = new MVCNormalHelper<>(brandList, hackyLoadViewFactory.madeLoadView(), hackyLoadViewFactory.madeLoadMoreView());
-        brandListHelper.setAdapter(brandAdapter);
-        brandListHelper.setDataSource(brandDataSource);
-        brandListHelper.refresh();
+        try {
+            adBrandAdapter.notifyDataChanged(adBrandDataSource.refresh(), true);
+        } catch (Exception e) {
+            System.err.println("TUA OOH");
+        }
     }
 
     private void openHomeBtn(HomeBtn homeBtn) {
@@ -418,8 +375,12 @@ public class DiscoverFragment extends Fragment {
     private void initRefreshLayout() {
         smartRefreshLayout.setOnRefreshListener(refreshLayout -> {
             updateSlider();
-            brandListHelper.refresh();
             initCouponTab();
+            try {
+                adBrandAdapter.notifyDataChanged(adBrandDataSource.refresh(), true);
+            } catch (Exception e) {
+                System.err.println("TUA OOH");
+            }
             refreshLayout.finishRefresh(2000);
         });
         smartRefreshLayout.setOnLoadmoreListener(refreshLayout -> {
