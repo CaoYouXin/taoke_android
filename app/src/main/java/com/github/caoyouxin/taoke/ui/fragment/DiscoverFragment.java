@@ -1,8 +1,6 @@
 package com.github.caoyouxin.taoke.ui.fragment;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -23,6 +21,7 @@ import android.widget.LinearLayout;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
+import com.felipecsl.asymmetricgridview.library.Utils;
 import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView;
 import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridViewAdapter;
 import com.github.caoyouxin.taoke.R;
@@ -57,10 +56,12 @@ import com.shizhefei.mvc.OnStateChangeListener;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import mehdi.sakout.dynamicbox.DynamicBox;
 
@@ -226,9 +227,14 @@ public class DiscoverFragment extends Fragment {
     }
 
     private void initBrandList() {
-        brandList.setScrollBarSize(0);
 //        brandList.setAllowReordering(true);
-        brandList.setRequestedColumnCount(12);
+
+        DisplayMetrics dMetrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(dMetrics);
+//        brandList.setRequestedColumnCount(12);
+        brandList.setRequestedHorizontalSpacing(0);
+        brandList.setRequestedColumnWidth(dMetrics.widthPixels / 12);
+
         adBrandAdapter = new AdBrandAdapter(context);
         adBrandDataSource = new AdBrandDataSource();
         AsymmetricGridViewAdapter<AdBrandItem> asymmetricAdapter =
@@ -243,11 +249,11 @@ public class DiscoverFragment extends Fragment {
             System.out.println("tua " + position + " : " + id);
         });
 
-        try {
-            adBrandAdapter.notifyDataChanged(adBrandDataSource.refresh(), true);
-        } catch (Exception e) {
-            System.err.println("TUA OOH");
-        }
+        Observable.timer(0, TimeUnit.NANOSECONDS)
+                .compose(context.bindUntilEvent(ActivityEvent.DESTROY))
+                .subscribe(aLong -> {
+                    adBrandAdapter.notifyDataChanged(adBrandDataSource.refresh(), true);
+                });
     }
 
     private void openHomeBtn(HomeBtn homeBtn) {
@@ -380,11 +386,11 @@ public class DiscoverFragment extends Fragment {
         smartRefreshLayout.setOnRefreshListener(refreshLayout -> {
             updateSlider();
             initCouponTab();
-            try {
-                adBrandAdapter.notifyDataChanged(adBrandDataSource.refresh(), true);
-            } catch (Exception e) {
-                System.err.println("TUA OOH");
-            }
+            Observable.timer(0, TimeUnit.NANOSECONDS)
+                    .compose(context.bindUntilEvent(ActivityEvent.DESTROY))
+                    .subscribe(aLong -> {
+                        adBrandAdapter.notifyDataChanged(adBrandDataSource.refresh(), true);
+                    });
             refreshLayout.finishRefresh(2000);
         });
         smartRefreshLayout.setOnLoadmoreListener(refreshLayout -> {

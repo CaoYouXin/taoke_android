@@ -15,7 +15,7 @@ public class AdBrandDataSource implements IDataSource<List<AdBrandItem>> {
         for (int i = 0; i < 10; i++) {
             AdBrandItem adBrandItem = new AdBrandItem();
             adBrandItem.rSpan = 4;
-            adBrandItem.cSpan = 2;
+            adBrandItem.cSpan = i == 9 ? 6 : 2;
             adBrandItem.thumb = thumb;
             ret.add(adBrandItem);
         }
