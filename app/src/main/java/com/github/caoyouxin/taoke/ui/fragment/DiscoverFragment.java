@@ -227,13 +227,12 @@ public class DiscoverFragment extends Fragment {
     }
 
     private void initBrandList() {
-//        brandList.setAllowReordering(true);
-
-        DisplayMetrics dMetrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(dMetrics);
-//        brandList.setRequestedColumnCount(12);
-        brandList.setRequestedHorizontalSpacing(0);
-        brandList.setRequestedColumnWidth(dMetrics.widthPixels / 12);
+        int threePx = Utils.dpToPx(context, 3);
+        brandList.setPadding(threePx, threePx, threePx, threePx);
+        brandList.setAllowReordering(true);
+        brandList.setRequestedColumnCount(12);
+        brandList.setRequestedHorizontalSpacing(threePx);
+        brandList.setDividerHeight(threePx);
 
         adBrandAdapter = new AdBrandAdapter(context);
         adBrandDataSource = new AdBrandDataSource();
