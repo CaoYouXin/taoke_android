@@ -19,6 +19,7 @@ public interface TaoKeService {
     String API_BANNER_LIST = "home/banner/list";
     String API_COUPON_TAB = "home/cate/list";
     String API_BRAND_LIST = "home/group/list";
+    String API_AD_ZONE_LIST = "home/adZone/list";
 
     String API_HINT_LIST = "tbk/hints/{keyword}";
     String API_SEARCH_LIST = "tbk/search/{keyword}";

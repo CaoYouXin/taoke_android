@@ -6,23 +6,6 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/len_36">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/discover_brand"
-            android:textColor="@color/orange_800" />
-    </FrameLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/grey_300" />
-
     <com.github.caoyouxin.taoke.ui.widget.HackyAsymmetricGridView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/brand_list"

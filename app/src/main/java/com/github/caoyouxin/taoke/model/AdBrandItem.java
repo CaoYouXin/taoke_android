@@ -42,4 +42,13 @@ public class AdBrandItem implements AsymmetricItem {
         dest.writeInt(cSpan);
         dest.writeInt(rSpan);
     }
+
+    @Override
+    public String toString() {
+        return "AdBrandItem{" +
+                "thumb='" + thumb + '\'' +
+                ", cSpan=" + cSpan +
+                ", rSpan=" + rSpan +
+                '}';
+    }
 }

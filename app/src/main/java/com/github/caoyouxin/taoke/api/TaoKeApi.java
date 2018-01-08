@@ -5,6 +5,7 @@ import android.preference.PreferenceManager;
 import android.text.TextUtils;
 
 import com.github.caoyouxin.taoke.datasource.OrderDataSource;
+import com.github.caoyouxin.taoke.model.AdBrandItem;
 import com.github.caoyouxin.taoke.model.BrandItem;
 import com.github.caoyouxin.taoke.model.CouponItem;
 import com.github.caoyouxin.taoke.model.CouponTab;
@@ -39,8 +40,8 @@ import io.reactivex.Observable;
 
 public class TaoKeApi {
 
-    public final static String CDN_HOST = "http://192.168.1.115:8070/";
-//    private final static String CDN_HOST = "http://192.168.0.136:8070/";
+//    public final static String CDN_HOST = "http://192.168.1.115:8070/";
+    private final static String CDN_HOST = "http://192.168.0.136:8070/";
 //    private final static String CDN_HOST = "http://server.tkmqr.com:8070/";
 
     // **** user apis below *******************************************
@@ -544,6 +545,24 @@ public class TaoKeApi {
         return TaoKeRetrofit.getService().tao(TaoKeService.API_DOWNLOAD_URL)
                 .compose(RxHelper.handleResult())
                 .map(TaoKeData::getString);
+    }
+
+    public static Observable<List<AdBrandItem>> getBrandItems() {
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_AD_ZONE_LIST)
+                .compose(RxHelper.handleResult())
+                .map(taoKeData -> {
+                    List<AdBrandItem> ret = new ArrayList<>();
+                    for (Map map : taoKeData.getList()) {
+                        AdBrandItem adBrandItem = new AdBrandItem();
+
+                        adBrandItem.thumb = CDN_HOST + map.get("imgUrl");
+                        adBrandItem.rSpan = ((Double) map.get("rowSpan")).intValue();
+                        adBrandItem.cSpan = ((Double) map.get("colSpan")).intValue();
+
+                        ret.add(adBrandItem);
+                    }
+                    return ret;
+                });
     }
 
 }

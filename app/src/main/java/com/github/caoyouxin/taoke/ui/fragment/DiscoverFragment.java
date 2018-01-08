@@ -22,7 +22,6 @@ import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.felipecsl.asymmetricgridview.library.Utils;
-import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView;
 import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridViewAdapter;
 import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.adapter.AdBrandAdapter;
@@ -56,12 +55,10 @@ import com.shizhefei.mvc.OnStateChangeListener;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import mehdi.sakout.dynamicbox.DynamicBox;
 
@@ -94,7 +91,6 @@ public class DiscoverFragment extends Fragment {
     View rootView;
 
     private AdBrandAdapter adBrandAdapter;
-    private AdBrandDataSource adBrandDataSource;
     private MVCHelper<List<CouponItem>> couponListHelper;
     private CouponDataSource couponDataSource;
 
@@ -227,15 +223,13 @@ public class DiscoverFragment extends Fragment {
     }
 
     private void initBrandList() {
-        int threePx = Utils.dpToPx(context, 3);
-        brandList.setPadding(threePx, threePx, threePx, threePx);
-        brandList.setAllowReordering(true);
+        int gapPx = Utils.dpToPx(context, 3);
+        brandList.setPadding(gapPx, gapPx, gapPx, gapPx);
         brandList.setRequestedColumnCount(12);
-        brandList.setRequestedHorizontalSpacing(threePx);
-        brandList.setDividerHeight(threePx);
+        brandList.setRequestedHorizontalSpacing(gapPx);
+        brandList.setDividerHeight(gapPx);
 
         adBrandAdapter = new AdBrandAdapter(context);
-        adBrandDataSource = new AdBrandDataSource();
         AsymmetricGridViewAdapter<AdBrandItem> asymmetricAdapter =
                 new AsymmetricGridViewAdapter<>(getActivity(), brandList, adBrandAdapter);
         brandList.setAdapter(asymmetricAdapter);
@@ -248,10 +242,24 @@ public class DiscoverFragment extends Fragment {
             System.out.println("tua " + position + " : " + id);
         });
 
-        Observable.timer(0, TimeUnit.NANOSECONDS)
-                .compose(context.bindUntilEvent(ActivityEvent.DESTROY))
-                .subscribe(aLong -> {
-                    adBrandAdapter.notifyDataChanged(adBrandDataSource.refresh(), true);
+        initBrandItems();
+    }
+
+    private void initBrandItems() {
+        TaoKeApi.getBrandItems()
+                .compose(((BaseActivity) getActivity()).bindUntilEvent(ActivityEvent.DESTROY))
+                .compose(RxHelper.rxSchedulerHelper())
+                .compose(RxHelper.rxHandleServerExp(getActivity()))
+                .subscribe(data -> {
+                    adBrandAdapter.notifyDataChanged(data, true);
+                }, throwable -> {
+                    if (throwable instanceof TimeoutException) {
+                        Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.fail_timeout, Snackbar.LENGTH_LONG).show();
+                    } else if (throwable instanceof ApiException) {
+                        Snackbar.make(getActivity().findViewById(android.R.id.content), getResources().getString(R.string.fail_message, throwable.getMessage()), Snackbar.LENGTH_LONG).show();
+                    } else {
+                        Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.fail_network, Snackbar.LENGTH_LONG).show();
+                    }
                 });
     }
 
@@ -385,11 +393,8 @@ public class DiscoverFragment extends Fragment {
         smartRefreshLayout.setOnRefreshListener(refreshLayout -> {
             updateSlider();
             initCouponTab();
-            Observable.timer(0, TimeUnit.NANOSECONDS)
-                    .compose(context.bindUntilEvent(ActivityEvent.DESTROY))
-                    .subscribe(aLong -> {
-                        adBrandAdapter.notifyDataChanged(adBrandDataSource.refresh(), true);
-                    });
+            initBrandItems();
+
             refreshLayout.finishRefresh(2000);
         });
         smartRefreshLayout.setOnLoadmoreListener(refreshLayout -> {
