@@ -87,7 +87,7 @@ dependencies {
     compile 'cn.bingoogolapple:bga-qrcodecore:1.1.9@aar'
     compile 'cn.bingoogolapple:bga-zxing:1.1.9@aar'
 
-    compile 'com.felipecsl.asymmetricgridview:library:2.0.1'
+//    compile 'com.felipecsl.asymmetricgridview:library:2.0.1'
 
     //fastjson （以使用方接入版本为准）
     compile(name: 'fastjson-1.2.9', ext: 'jar')

@@ -3,7 +3,7 @@ package com.github.caoyouxin.taoke.model;
 import android.annotation.SuppressLint;
 import android.os.Parcel;
 
-import com.felipecsl.asymmetricgridview.library.model.AsymmetricItem;
+import com.felipecsl.asymmetricgridview.AsymmetricItem;
 
 @SuppressLint("ParcelCreator")
 public class AdBrandItem implements AsymmetricItem {

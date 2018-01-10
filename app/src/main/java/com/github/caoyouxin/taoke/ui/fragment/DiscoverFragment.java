@@ -21,15 +21,13 @@ import android.widget.LinearLayout;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
-import com.felipecsl.asymmetricgridview.library.Utils;
-import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridViewAdapter;
+import com.felipecsl.asymmetricgridview.AsymmetricGridViewAdapter;
 import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.adapter.AdBrandAdapter;
 import com.github.caoyouxin.taoke.adapter.CouponAdapter;
 import com.github.caoyouxin.taoke.api.ApiException;
 import com.github.caoyouxin.taoke.api.RxHelper;
 import com.github.caoyouxin.taoke.api.TaoKeApi;
-import com.github.caoyouxin.taoke.datasource.AdBrandDataSource;
 import com.github.caoyouxin.taoke.datasource.CouponDataSource;
 import com.github.caoyouxin.taoke.model.AdBrandItem;
 import com.github.caoyouxin.taoke.model.BrandItem;
@@ -223,15 +221,13 @@ public class DiscoverFragment extends Fragment {
     }
 
     private void initBrandList() {
-        int gapPx = Utils.dpToPx(context, 3);
-        brandList.setPadding(gapPx, gapPx, gapPx, gapPx);
-        brandList.setRequestedColumnCount(12);
-        brandList.setRequestedHorizontalSpacing(gapPx);
-        brandList.setDividerHeight(gapPx);
+        brandList.setDivider(null);
+        brandList.setRequestedHorizontalSpacing(0);
+        brandList.setRequestedColumnCount(60);
 
         adBrandAdapter = new AdBrandAdapter(context);
-        AsymmetricGridViewAdapter<AdBrandItem> asymmetricAdapter =
-                new AsymmetricGridViewAdapter<>(getActivity(), brandList, adBrandAdapter);
+        AsymmetricGridViewAdapter asymmetricAdapter =
+                new AsymmetricGridViewAdapter(getActivity(), brandList, adBrandAdapter);
         brandList.setAdapter(asymmetricAdapter);
         brandList.setOnItemClickListener((parent, view, position, id) -> {
             Object item = adBrandAdapter.getItem(position);

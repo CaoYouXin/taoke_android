@@ -3,7 +3,8 @@ package com.github.caoyouxin.taoke.ui.widget;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView;
+import com.felipecsl.asymmetricgridview.AsymmetricGridView;
+
 
 public class HackyAsymmetricGridView extends AsymmetricGridView {
     public HackyAsymmetricGridView(Context context, AttributeSet attrs) {
