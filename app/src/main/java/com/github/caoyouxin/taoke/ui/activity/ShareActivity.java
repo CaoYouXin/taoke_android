@@ -35,6 +35,7 @@ import com.github.caoyouxin.taoke.adapter.ShareImageAdapter;
 import com.github.caoyouxin.taoke.api.ApiException;
 import com.github.caoyouxin.taoke.api.RxHelper;
 import com.github.caoyouxin.taoke.api.TaoKeApi;
+import com.github.caoyouxin.taoke.api.TaoKeRetrofit;
 import com.github.caoyouxin.taoke.datasource.ShareImageDataSource;
 import com.github.caoyouxin.taoke.model.CouponItem;
 import com.github.caoyouxin.taoke.model.ShareView;
@@ -245,12 +246,20 @@ public class ShareActivity extends BaseActivity {
             return;
         }
 
-        TaoKeApi.getLink(userLink, couponItem.getTitle())
+        List<String> thumbs = new ArrayList<>();
+        if (null != this.couponItem.getSmallImages()) {
+            thumbs.addAll(this.couponItem.getSmallImages());
+        }
+        thumbs.add(0, this.couponItem.getPictUrl());
+        TaoKeApi.getLink(userLink, couponItem.getTitle(), thumbs)
                 .timeout(10, TimeUnit.SECONDS)
                 .compose(RxHelper.rxSchedulerHelper())
                 .compose(bindUntilEvent(ActivityEvent.DESTROY))
                 .compose(RxHelper.rxHandleServerExp(this))
-                .subscribe(linkConsumer, throwable -> {
+                .subscribe(link -> {
+                    link.shortUrl = TaoKeRetrofit.HOST + link.shortUrl;
+                    linkConsumer.accept(link);
+                }, throwable -> {
                     if (throwable instanceof TimeoutException) {
                         Snackbar.make(findViewById(android.R.id.content), R.string.fail_timeout, Snackbar.LENGTH_LONG).show();
                     } else if (throwable instanceof ApiException) {

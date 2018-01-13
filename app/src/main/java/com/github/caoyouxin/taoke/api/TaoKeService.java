@@ -35,6 +35,7 @@ public interface TaoKeService {
     String API_PRODUCT_LIST = "tbk/fav/{favId}/list/{pageNo}";
     String API_ORDER_LIST = "tbk/order/list/{type}/{pageNo}";
     String API_GET_SHARE_LINK = "tbk/url/trans";
+    String API_GET_SHARE_LINK2 = "tbk/share/save";
 
     String API_HELP_LIST = "app/help/list";
     String API_NOVICE_LIST = "app/guide/list/{type}";
@@ -49,14 +50,14 @@ public interface TaoKeService {
     String API_DOWNLOAD_URL = "app/download/url";
 
     @Headers({"version: 1.9.1", "platform: android"})
-    @POST("api/{api}")
+    @POST("{api}")
     Observable<TaoKeData> tao(@Path("api") String api, @Body Object data, @Header("auth") String auth);
 
     @Headers({"version: 1.9.1", "platform: android", "Cache-Control: public, max-age=86400"})
-    @GET("api/{api}")
+    @GET("{api}")
     Observable<TaoKeData> tao(@Path("api") String api, @Header("auth") String auth);
 
     @Headers({"version: 1.9.1", "platform: android", "Cache-Control: public, max-age=86400"})
-    @GET("api/{api}")
+    @GET("{api}")
     Observable<TaoKeData> tao(@Path("api") String api);
 }

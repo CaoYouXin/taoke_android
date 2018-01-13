@@ -21,6 +21,7 @@ import com.github.caoyouxin.taoke.model.ReportSubmit;
 import com.github.caoyouxin.taoke.model.SearchHintItem;
 import com.github.caoyouxin.taoke.model.ShareImage;
 import com.github.caoyouxin.taoke.model.ShareSubmit;
+import com.github.caoyouxin.taoke.model.ShareSubmit2;
 import com.github.caoyouxin.taoke.model.ShareView;
 import com.github.caoyouxin.taoke.model.UserData;
 import com.github.caoyouxin.taoke.model.UserLoginSubmit;
@@ -40,8 +41,8 @@ import io.reactivex.Observable;
 
 public class TaoKeApi {
 
-//    public final static String CDN_HOST = "http://192.168.1.115:8070/";
-    private final static String CDN_HOST = "http://192.168.0.136:8070/";
+    public final static String CDN_HOST = "http://192.168.1.115:8070/";
+//    private final static String CDN_HOST = "http://192.168.0.136:8070/";
 //    private final static String CDN_HOST = "http://server.tkmqr.com:8070/";
 
     // **** user apis below *******************************************
@@ -456,7 +457,21 @@ public class TaoKeApi {
     }
 
     public static Observable<ShareView> getLink(String couponClickUrl, String title) {
-        return TaoKeRetrofit.getService().tao(TaoKeService.API_GET_SHARE_LINK, new ShareSubmit(title, couponClickUrl), UserData.get().getAccessToken())
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_GET_SHARE_LINK,
+                new ShareSubmit(title, couponClickUrl), UserData.get().getAccessToken())
+                .compose(RxHelper.handleResult())
+                .map(taoKeData -> {
+                    ShareView shareView = new ShareView();
+                    Map rec = taoKeData.getMap();
+                    shareView.shortUrl = (String) rec.get("shortUrl");
+                    shareView.tPwd = (String) rec.get("tPwd");
+                    return shareView;
+                });
+    }
+
+    public static Observable<ShareView> getLink(String couponClickUrl, String title, List<String> images) {
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_GET_SHARE_LINK2,
+                new ShareSubmit2(images, title, couponClickUrl), UserData.get().getAccessToken())
                 .compose(RxHelper.handleResult())
                 .map(taoKeData -> {
                     ShareView shareView = new ShareView();

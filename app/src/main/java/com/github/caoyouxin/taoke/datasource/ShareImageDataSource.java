@@ -26,7 +26,10 @@ public class ShareImageDataSource extends RxDataSource<List<ShareImage>> impleme
     @Override
     public Observable<List<ShareImage>> refresh() throws Exception {
         List<ShareImage> shareImages = new ArrayList<>();
-        List<String> thumbs = new ArrayList<>(this.couponItem.getSmallImages());
+        List<String> thumbs = new ArrayList<>();
+        if (null != this.couponItem.getSmallImages()) {
+            thumbs.addAll(this.couponItem.getSmallImages());
+        }
         thumbs.add(0, this.couponItem.getPictUrl());
         for (String thumb : thumbs) {
             ShareImage shareImage = new ShareImage();

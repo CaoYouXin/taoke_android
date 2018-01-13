@@ -12,6 +12,7 @@ import android.text.style.StrikethroughSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -67,21 +68,21 @@ public class ProductAdapter extends RecyclerView.Adapter implements IDataAdapter
                 }).build();
         holder.thumb.setController(draweeController);
         holder.title.setText(item.getTitle());
-        holder.sales.setText(context.getResources().getString(R.string.product_sales, String.valueOf(item.getVolume())));
 
         if (UserData.get().isBuyer()) {
             holder.shareEarn.setVisibility(View.GONE);
         } else {
+            holder.shareEarn.setVisibility(View.VISIBLE);
             holder.shareEarn.setText(context.getResources().getString(R.string.share_earn, item.getEarnPrice()));
         }
 
         if (null != item.getCouponInfo()) {
-            holder.couponPrice.setText(context.getResources().getString(R.string.product_price, "券后 ", item.getCouponPrice()));
-            holder.coupon.setText(context.getResources().getString(R.string.discover_coupon_value, item.getCouponInfo(), String.valueOf(item.getCouponRemainCount())));
-            holder.couponPrice.setVisibility(View.VISIBLE);
+            holder.couponWrapper.setVisibility(View.VISIBLE);
+            holder.noCouponWrapper.setVisibility(View.GONE);
             holder.coupon.setVisibility(View.VISIBLE);
 
-            String text = context.getResources().getString(R.string.product_price, "", item.getZkFinalPrice());
+            holder.couponPriceAfter.setText(context.getResources().getString(R.string.miquaner_money, item.getCouponPrice()));
+            String text = context.getResources().getString(R.string.miquaner_money, item.getZkFinalPrice());
             SpannableStringBuilder builder = new SpannableStringBuilder(text);
             ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(context.getResources().getColor(R.color.grey_400));
             builder.setSpan(foregroundColorSpan, 0, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -89,12 +90,20 @@ public class ProductAdapter extends RecyclerView.Adapter implements IDataAdapter
             builder.setSpan(absoluteSizeSpan, 0, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             StrikethroughSpan strikethroughSpan = new StrikethroughSpan();
             builder.setSpan(strikethroughSpan, 0, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            holder.price.setText(builder);
+            holder.couponPriceBefore.setText(builder);
+
+            holder.couponSales.setText(context.getResources().getString(R.string.product_sales, String.valueOf(item.getVolume())));
+
+            holder.coupon.setText(context.getResources().getString(R.string.miquaner_coupon,
+                    item.getCouponInfo().substring(item.getCouponInfo().indexOf('减') + 1)));
         } else {
-            holder.couponPrice.setVisibility(View.GONE);
+            holder.couponWrapper.setVisibility(View.GONE);
+            holder.noCouponWrapper.setVisibility(View.VISIBLE);
             holder.coupon.setVisibility(View.GONE);
 
-            holder.price.setText(context.getResources().getString(R.string.product_price, "", item.getZkFinalPrice()));
+            holder.price.setText(context.getResources().getString(R.string.miquaner_money, item.getZkFinalPrice()));
+
+            holder.sales.setText(context.getResources().getString(R.string.product_sales, String.valueOf(item.getVolume())));
         }
     }
 
@@ -139,11 +148,23 @@ public class ProductAdapter extends RecyclerView.Adapter implements IDataAdapter
         @BindView(R.id.coupon_value)
         TextView coupon;
 
-        @BindView(R.id.coupon_price_after)
-        TextView couponPrice;
-
         @BindView(R.id.share_earn)
         TextView shareEarn;
+
+        @BindView(R.id.coupon_price_before)
+        TextView couponPriceBefore;
+
+        @BindView(R.id.coupon_price_after)
+        TextView couponPriceAfter;
+
+        @BindView(R.id.product_sales_coupon)
+        TextView couponSales;
+
+        @BindView(R.id.no_coupon_wrapper)
+        FrameLayout noCouponWrapper;
+
+        @BindView(R.id.coupon_wrapper)
+        FrameLayout couponWrapper;
 
         public ViewHolder(View itemView) {
             super(itemView);

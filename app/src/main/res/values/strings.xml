@@ -100,7 +100,7 @@
     <string name="sort_bar_commission">佣金</string>
     <string name="product_new">新品</string>
     <string name="product_price">%1$s¥ %2$s</string>
-    <string name="product_sales">月销%1$s笔</string>
+    <string name="product_sales">销%1$s</string>
 
     <string name="detail">宝贝推广信息</string>
     <string name="detail_view">详情</string>
@@ -109,7 +109,7 @@
     <string name="detail_price_unit">¥</string>
     <string name="detail_price_before">现价&#160;¥ %1$s</string>
     <string name="detail_sales">已售%1$s件</string>
-    <string name="detail_coupon">优惠券 %1$s</string>
+    <string name="detail_coupon">券 %1$s</string>
     <string name="detail_commission">预计赚 ¥%1$s</string>
     <string name="detail_commission_hint">该商品可能存在高佣金，加油升级才可查看～</string>
     <string name="detail_share">立即分享</string>
@@ -176,7 +176,7 @@
     <string name="fail_network">操作失败，网络连接异常&#38230;</string>
     <string name="fail_unknown">操作失败，发生未知异常&#38230;</string>
     <string name="orders_list_explaination">只有已结算订单才会计算预估收入</string>
-    <string name="share_earn">分享赚 ¥ %1$s</string>
+    <string name="share_earn">赚 ¥ %1$s</string>
     <string name="need_report_content">反馈内容不能为空</string>
     <string name="select_template">选择模板</string>
     <string name="share_code">邀请码\n-&gt;%1$s&lt;-\n识别二维码可打开应用市场</string>
@@ -210,5 +210,9 @@
     <string name="get_report">我们已经收到您到的反馈信息</string>
     <string name="sign_in_anonymous">随便看看</string>
     <string name="data_load_fail">数据加载失败</string>
+
+    <string name="miquaner_money">¥%1$s</string>
+    <string name="miquaner_coupon">券 %1$s</string>
+    <string name="miquaner_coupon_btn">领 %1$s 券</string>
 
 </resources>

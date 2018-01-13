@@ -18,9 +18,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class TaoKeRetrofit {
 
-//    private final static String HOST = "http://192.168.1.115:8080/";
-    private final static String HOST = "http://192.168.0.136:8080/";
-//    private final static String HOST = "http://server.tkmqr.com:8080/";
+    public final static String HOST = "http://192.168.1.115:8080/api/";
+//    public final static String HOST = "http://192.168.0.136:8080/api/";
+//    public final static String HOST = "http://server.tkmqr.com:8080/api/";
 
     private static TaoKeRetrofit instance;
 

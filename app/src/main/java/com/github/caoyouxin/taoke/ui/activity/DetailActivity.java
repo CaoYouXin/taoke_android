@@ -90,6 +90,9 @@ public class DetailActivity extends BaseActivity {
     @BindView(R.id.price_label)
     TextView priceLabel;
 
+    @BindView(R.id.detail_app)
+    TextView detailApp;
+
     private CouponItem couponItem;
 
     @Override
@@ -117,6 +120,9 @@ public class DetailActivity extends BaseActivity {
         } else {
             detailCommissionWrapper.setVisibility(View.VISIBLE);
         }
+
+        detailApp.setText(getResources().getString(R.string.miquaner_coupon_btn,
+                couponItem.getCouponInfo().substring(couponItem.getCouponInfo().indexOf('减') + 1)));
 
 //        createDynamicBox();
     }
