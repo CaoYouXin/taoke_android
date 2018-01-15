@@ -235,7 +235,16 @@ public class DiscoverFragment extends Fragment {
                 return;
             }
 
-            System.out.println("tua " + position + " : " + id);
+            AdBrandItem adBrandItem = (AdBrandItem) item;
+            switch (adBrandItem.openType) {
+                case 1 << 2:
+                    Intent intent = new Intent(getActivity(), ProductListActivity.class)
+                            .putExtra(ProductListActivity.EXTRA_BRAND_ITEM, new BrandItem(adBrandItem.name, adBrandItem.ext));
+                    getActivity().startActivity(intent);
+                    break;
+                default:
+                    break;
+            }
         });
 
         initBrandItems();

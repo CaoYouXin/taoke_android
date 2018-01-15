@@ -11,6 +11,9 @@ public class AdBrandItem implements AsymmetricItem {
     public String thumb;
     public int cSpan;
     public int rSpan;
+    public int openType;
+    public String name;
+    public String ext;
 
     public AdBrandItem() {
     }
@@ -19,6 +22,9 @@ public class AdBrandItem implements AsymmetricItem {
         thumb = source.readString();
         cSpan = source.readInt();
         rSpan = source.readInt();
+        openType = source.readInt();
+        name = source.readString();
+        ext = source.readString();
     }
 
     @Override
@@ -41,6 +47,9 @@ public class AdBrandItem implements AsymmetricItem {
         dest.writeString(thumb);
         dest.writeInt(cSpan);
         dest.writeInt(rSpan);
+        dest.writeInt(openType);
+        dest.writeString(name);
+        dest.writeString(ext);
     }
 
     @Override

@@ -41,9 +41,9 @@ import io.reactivex.Observable;
 
 public class TaoKeApi {
 
+//    public final static String CDN_HOST = "http://192.168.0.136:8070/";
     public final static String CDN_HOST = "http://192.168.1.115:8070/";
-//    private final static String CDN_HOST = "http://192.168.0.136:8070/";
-//    private final static String CDN_HOST = "http://server.tkmqr.com:8070/";
+//    public final static String CDN_HOST = "http://server.tkmqr.com:8070/";
 
     // **** user apis below *******************************************
 
@@ -573,6 +573,9 @@ public class TaoKeApi {
                         adBrandItem.thumb = CDN_HOST + map.get("imgUrl");
                         adBrandItem.rSpan = ((Double) map.get("rowSpan")).intValue();
                         adBrandItem.cSpan = ((Double) map.get("colSpan")).intValue();
+                        adBrandItem.openType = ((Double) map.get("openType")).intValue();
+                        adBrandItem.name = (String) map.get("name");
+                        adBrandItem.ext = (String) map.get("ext");
 
                         ret.add(adBrandItem);
                     }

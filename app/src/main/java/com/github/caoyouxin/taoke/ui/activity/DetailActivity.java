@@ -110,6 +110,11 @@ public class DetailActivity extends BaseActivity {
         if (UserData.get().isBuyer()) {
             agentDetailShare.setVisibility(View.GONE);
             buyerWrapper.setVisibility(View.VISIBLE);
+
+            if (null != couponItem.getCouponInfo() && !couponItem.getCouponInfo().isEmpty()) {
+                detailApp.setText(getResources().getString(R.string.miquaner_coupon_btn,
+                        couponItem.getCouponInfo().substring(couponItem.getCouponInfo().indexOf('减') + 1)));
+            }
         } else {
             buyerWrapper.setVisibility(View.GONE);
             agentDetailShare.setVisibility(View.VISIBLE);
@@ -120,9 +125,6 @@ public class DetailActivity extends BaseActivity {
         } else {
             detailCommissionWrapper.setVisibility(View.VISIBLE);
         }
-
-        detailApp.setText(getResources().getString(R.string.miquaner_coupon_btn,
-                couponItem.getCouponInfo().substring(couponItem.getCouponInfo().indexOf('减') + 1)));
 
 //        createDynamicBox();
     }
@@ -242,8 +244,6 @@ public class DetailActivity extends BaseActivity {
             if (!couponItem.isJu()) {
                 String text = getResources().getString(R.string.detail_coupon, couponItem.getCouponInfo());
                 SpannableStringBuilder builder = new SpannableStringBuilder(text);
-                ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(getResources().getColor(R.color.orange_800));
-                builder.setSpan(foregroundColorSpan, text.indexOf('满'), text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 AbsoluteSizeSpan absoluteSizeSpan = new AbsoluteSizeSpan(this.getResources().getDimensionPixelSize(R.dimen.font_22));
                 builder.setSpan(absoluteSizeSpan, text.indexOf("减"), text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 detailCoupon.setText(builder);

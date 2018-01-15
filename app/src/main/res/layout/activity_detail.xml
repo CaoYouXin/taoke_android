@@ -174,7 +174,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/len_6"
                             android:layout_marginStart="@dimen/len_6"
-                            android:textColor="@color/grey_800"
+                            android:textColor="@color/deep_orange_900"
                             android:textSize="@dimen/font_14"
                             tools:text="@string/detail_coupon" />
                     </LinearLayout>
