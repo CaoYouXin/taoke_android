@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ali.auth.third.core.model.User;
 import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.model.UserData;
 import com.github.caoyouxin.taoke.ui.activity.AboutActivity;
@@ -64,10 +65,12 @@ public class AccountFragment extends Fragment {
     }
 
     private void initAccountId() {
-        String source = "账户ID:\n" + UserData.get().getUserName();
+        String source = getContext().getResources().getString(R.string.account_id, UserData.get().getUserName(), UserData.get().getUserType());
+        int lineBreakIdx = source.indexOf('\n');
         SpannableString span = new SpannableString(source);
-        span.setSpan(new RelativeSizeSpan(1.36f), 6, source.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        span.setSpan(new ForegroundColorSpan(Color.DKGRAY), 0, 6, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        span.setSpan(new RelativeSizeSpan(1.36f), "ID: ".length(), lineBreakIdx, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        span.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.grey_500)), 0, 6, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        span.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.orange_500)), lineBreakIdx + 1, source.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         accountId.setText(span);
     }
 

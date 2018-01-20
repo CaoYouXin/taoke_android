@@ -99,6 +99,18 @@ public class UserData {
         return null == shareCode || shareCode.isEmpty();
     }
 
+    public String getUserType() {
+        if (isBuyer()) {
+            return "\"消费者\"";
+        }
+
+        if (directUser) {
+            return "\"平台合伙人\"";
+        }
+
+        return "\"合伙人\"";
+    }
+
     public String getAliPID() {
         return aliPID;
     }
