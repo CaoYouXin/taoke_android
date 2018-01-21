@@ -9,6 +9,7 @@ import com.github.caoyouxin.taoke.model.AdBrandItem;
 import com.github.caoyouxin.taoke.model.BrandItem;
 import com.github.caoyouxin.taoke.model.CouponItem;
 import com.github.caoyouxin.taoke.model.CouponTab;
+import com.github.caoyouxin.taoke.model.CustomerServiceView;
 import com.github.caoyouxin.taoke.model.EnrollSubmit;
 import com.github.caoyouxin.taoke.model.FriendItem;
 import com.github.caoyouxin.taoke.model.HelpItem;
@@ -540,8 +541,20 @@ public class TaoKeApi {
                 .compose(RxHelper.handleResult());
     }
 
+    public static Observable<Boolean> canWithdraw() {
+        return TaoKeRetrofit.getService().tao(TaoKeService.API_CAN_WITHDRAW, UserData.get().getAccessToken())
+                .compose(RxHelper.handleResult())
+                .map(TaoKeData::getBoolean);
+    }
+
     public static Observable<TaoKeData> enroll(EnrollSubmit enrollSubmit) {
         return TaoKeRetrofit.getService().tao(TaoKeService.API_ENROLL, enrollSubmit, UserData.get().getAccessToken())
+                .compose(RxHelper.handleResult());
+    }
+
+    public static Observable<TaoKeData> complete(String code, String phone, String aliPay) {
+        return TaoKeRetrofit.getService()
+                .tao(TaoKeService.API_COMPETE_INFO, new UserRegisterSubmit(code, phone, aliPay), UserData.get().getAccessToken())
                 .compose(RxHelper.handleResult());
     }
 
@@ -580,6 +593,16 @@ public class TaoKeApi {
                         ret.add(adBrandItem);
                     }
                     return ret;
+                });
+    }
+
+    public static Observable<CustomerServiceView> getCustomerService() {
+        return TaoKeRetrofit.getService()
+                .tao(TaoKeService.API_CUSTOMER_SERVICE, UserData.get().getAccessToken())
+                .compose(RxHelper.handleResult())
+                .map(taoKeData -> {
+                    Map map = taoKeData.getMap();
+                    return new CustomerServiceView((String) map.get("weChat"), (String) map.get("mqq"));
                 });
     }
 

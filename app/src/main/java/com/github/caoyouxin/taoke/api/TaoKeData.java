@@ -34,4 +34,8 @@ public class TaoKeData {
     public String getString() {
         return (String) body;
     }
+
+    public Boolean getBoolean() {
+        return (Boolean) body;
+    }
 }

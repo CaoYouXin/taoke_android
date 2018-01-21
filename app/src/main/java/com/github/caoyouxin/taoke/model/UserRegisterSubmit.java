@@ -12,7 +12,13 @@ public class UserRegisterSubmit {
         this.user = new User(phone, pwd, name);
     }
 
+    public UserRegisterSubmit(String code, String phone, String aliPay) {
+        this.code = code;
+        this.user = new User(phone, aliPay);
+    }
+
     private static class User {
+        public String aliPay;
         public String phone;
         public String pwd;
         public String name;
@@ -21,6 +27,11 @@ public class UserRegisterSubmit {
             this.phone = phone;
             this.pwd = pwd;
             this.name = name;
+        }
+
+        public User(String phone, String aliPay) {
+            this.phone = phone;
+            this.aliPay = aliPay;
         }
     }
 }

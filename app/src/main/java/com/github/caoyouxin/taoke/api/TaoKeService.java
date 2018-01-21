@@ -45,9 +45,12 @@ public interface TaoKeService {
     String API_USER_AMOUNT = "tbk/candraw";
     String API_THIS_MOUNT_ESTIMATE = "tbk/estimate/this";
     String API_LAST_MOUNT_ESTIMATE = "tbk/estimate/that";
+    String API_CAN_WITHDRAW = "tbk/user/canWithdraw";
 
     String API_ENROLL = "tbk/user/apply/4/agent";
+    String API_COMPETE_INFO = "tbk/user/competeInfo";
     String API_DOWNLOAD_URL = "app/download/url";
+    String API_CUSTOMER_SERVICE = "tbk/user/customerService";
 
     @Headers({"version: 1.9.1", "platform: android"})
     @POST("{api}")
