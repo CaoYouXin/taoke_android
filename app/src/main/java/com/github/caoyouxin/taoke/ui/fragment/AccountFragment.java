@@ -65,11 +65,11 @@ public class AccountFragment extends Fragment {
                 enrollBtn.setVisibility(View.GONE);
             }
 
-            if (!UserData.get().directUser) {
+            if (UserData.get().isBuyer() || !UserData.get().directUser) {
                 teamBtn.setVisibility(View.GONE);
             }
 
-            if (!UserData.get().getCandidate() && !UserData.get().directUser) {
+            if (!UserData.get().getCandidate() && (UserData.get().isBuyer() || !UserData.get().directUser)) {
                 gapMightHide.setVisibility(View.GONE);
             }
         }

@@ -1,8 +1,9 @@
 package com.github.caoyouxin.taoke.ui.activity;
 
-import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -105,7 +106,11 @@ public class EnrollActivity extends BaseActivity {
     private void enroll() {
         String nameStr = name.getEditableText().toString().trim();
         if (TextUtils.isEmpty(nameStr)) {
-            name.requestFocus();
+            new AlertDialog.Builder(this)
+                    .setMessage("请您输入真实姓名，将来用户输入支付宝账号，谢谢！")
+                    .setPositiveButton("知道了",
+                            (dialog, which) -> name.requestFocus()
+                    ).show();
             return;
         }
         String qqId = qq.getEditableText().toString().trim();
@@ -124,7 +129,11 @@ public class EnrollActivity extends BaseActivity {
         }
         String announcementText = announcement.getEditableText().toString().trim();
         if (TextUtils.isEmpty(announcementText)) {
-            announcement.requestFocus();
+            new AlertDialog.Builder(this)
+                    .setMessage("请您输入申请理由，方便觅券儿后台人员审核，谢谢！")
+                    .setPositiveButton("知道了",
+                            (dialog, which) -> announcement.requestFocus()
+                    ).show();
             return;
         }
 
