@@ -3,7 +3,6 @@ package com.github.caoyouxin.taoke.ui.fragment;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -18,7 +17,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.ali.auth.third.core.model.User;
 import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.model.UserData;
 import com.github.caoyouxin.taoke.ui.activity.AboutActivity;
@@ -39,8 +37,14 @@ public class AccountFragment extends Fragment {
     @BindView(R.id.account_id)
     TextView accountId;
 
-    @BindView(R.id.enroll_wrapper)
-    LinearLayout enrollWrapper;
+    @BindView(R.id.gap_might_hide)
+    View gapMightHide;
+
+    @BindView(R.id.account_btn_enroll)
+    LinearLayout enrollBtn;
+
+    @BindView(R.id.account_btn_friends)
+    LinearLayout teamBtn;
 
     View rootView;
 
@@ -58,7 +62,15 @@ public class AccountFragment extends Fragment {
             this.initAccountId();
 
             if (!UserData.get().getCandidate()) {
-                enrollWrapper.setVisibility(View.GONE);
+                enrollBtn.setVisibility(View.GONE);
+            }
+
+            if (!UserData.get().directUser) {
+                teamBtn.setVisibility(View.GONE);
+            }
+
+            if (!UserData.get().getCandidate() && !UserData.get().directUser) {
+                gapMightHide.setVisibility(View.GONE);
             }
         }
         return rootView;

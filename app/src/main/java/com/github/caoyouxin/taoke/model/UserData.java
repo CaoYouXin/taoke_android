@@ -28,7 +28,7 @@ public class UserData {
     private String shareCode;
     private Boolean candidate;
     private String accessToken;
-    private Boolean directUser;
+    public Boolean directUser;
 
     private UserData() {
     }

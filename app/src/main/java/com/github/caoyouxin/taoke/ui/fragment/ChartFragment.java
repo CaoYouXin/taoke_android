@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.Spanned;
@@ -21,6 +22,7 @@ import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.api.ApiException;
 import com.github.caoyouxin.taoke.api.RxHelper;
 import com.github.caoyouxin.taoke.api.TaoKeApi;
+import com.github.caoyouxin.taoke.ui.activity.CompleterActivity;
 import com.github.caoyouxin.taoke.ui.activity.OrdersActivity;
 import com.github.caoyouxin.taoke.util.SpannedTextUtil;
 import com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity;
@@ -163,44 +165,64 @@ public class ChartFragment extends Fragment {
                 }
                 this.canDrawState = false;
 
-                EditText input = new EditText(getActivity());
-                input.setFilters(new InputFilter[]{new DecimalDigitsInputFilter(input)});
-                input.setInputType(InputType.TYPE_CLASS_PHONE | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-                input.setHint(R.string.how_much_to_withdraw);
-
-                new AlertDialog.Builder(getActivity()).setView(input).setPositiveButton(R.string.withdraw, (DialogInterface dialog, int which) -> {
-                    double withdraw = Double.parseDouble(input.getEditableText().toString().trim());
-                    if (withdraw > userAmountNum) {
-                        new AlertDialog.Builder(getActivity()).setMessage(R.string.user_amount_not_enough).show();
-                        this.canDrawState = true;
-                        return;
-                    }
-
-                    TaoKeApi.sendWithdraw(String.format(Locale.ENGLISH, "%.2f", withdraw))
-                            .timeout(10, TimeUnit.SECONDS)
-                            .compose(RxHelper.rxSchedulerHelper())
-                            .compose(((BaseActivity) getActivity()).bindUntilEvent(ActivityEvent.DESTROY))
-                            .compose(RxHelper.rxHandleServerExp(getActivity()))
-                            .subscribe(
-                                    taoKeData -> {
-                                        Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.withdraw_record_created, Snackbar.LENGTH_LONG).show();
-                                        initUserAmount();
-                                    },
-                                    throwable -> {
-                                        this.canDrawState = true;
-                                        if (throwable instanceof TimeoutException) {
-                                            Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.fail_timeout, Snackbar.LENGTH_LONG).show();
-                                        } else if (throwable instanceof ApiException) {
-                                            Snackbar.make(getActivity().findViewById(android.R.id.content), getResources().getString(R.string.fail_message, throwable.getMessage()), Snackbar.LENGTH_LONG).show();
-                                        } else {
-                                            Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.fail_network, Snackbar.LENGTH_LONG).show();
-                                        }
-                                    }
-                            );
-                }).setNegativeButton(R.string.cancel, (DialogInterface dialog, int which) -> dialog.dismiss())
-                        .setMessage(R.string.withdraw_description).show();
+                TaoKeApi.canWithdraw().compose(RxHelper.rxSchedulerHelper())
+                        .compose(((BaseActivity) getActivity()).bindUntilEvent(ActivityEvent.DESTROY))
+                        .compose(RxHelper.rxHandleServerExp(getActivity()))
+                        .subscribe(can -> {
+                            if (can) {
+                                showInput();
+                            } else {
+                                this.canDrawState = true;
+                                showCompleter();
+                            }
+                        });
                 break;
         }
+    }
+
+    private void showCompleter() {
+        FragmentActivity activity = getActivity();
+        Intent intent = new Intent(activity, CompleterActivity.class);
+        activity.startActivity(intent);
+    }
+
+    private void showInput() {
+        EditText input = new EditText(getActivity());
+        input.setFilters(new InputFilter[]{new DecimalDigitsInputFilter(input)});
+        input.setInputType(InputType.TYPE_CLASS_PHONE | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        input.setHint(R.string.how_much_to_withdraw);
+
+        new AlertDialog.Builder(getActivity()).setView(input).setPositiveButton(R.string.withdraw, (DialogInterface dialog, int which) -> {
+            double withdraw = Double.parseDouble(input.getEditableText().toString().trim());
+            if (withdraw > userAmountNum) {
+                new AlertDialog.Builder(getActivity()).setMessage(R.string.user_amount_not_enough).show();
+                this.canDrawState = true;
+                return;
+            }
+
+            TaoKeApi.sendWithdraw(String.format(Locale.ENGLISH, "%.2f", withdraw))
+                    .timeout(10, TimeUnit.SECONDS)
+                    .compose(RxHelper.rxSchedulerHelper())
+                    .compose(((BaseActivity) getActivity()).bindUntilEvent(ActivityEvent.DESTROY))
+                    .compose(RxHelper.rxHandleServerExp(getActivity()))
+                    .subscribe(
+                            taoKeData -> {
+                                Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.withdraw_record_created, Snackbar.LENGTH_LONG).show();
+                                initUserAmount();
+                            },
+                            throwable -> {
+                                this.canDrawState = true;
+                                if (throwable instanceof TimeoutException) {
+                                    Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.fail_timeout, Snackbar.LENGTH_LONG).show();
+                                } else if (throwable instanceof ApiException) {
+                                    Snackbar.make(getActivity().findViewById(android.R.id.content), getResources().getString(R.string.fail_message, throwable.getMessage()), Snackbar.LENGTH_LONG).show();
+                                } else {
+                                    Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.fail_network, Snackbar.LENGTH_LONG).show();
+                                }
+                            }
+                    );
+        }).setNegativeButton(R.string.cancel, (DialogInterface dialog, int which) -> dialog.dismiss())
+                .setMessage(R.string.withdraw_description).show();
     }
 
     private void initRefreshLayout() {

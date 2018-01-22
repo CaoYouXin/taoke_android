@@ -214,5 +214,6 @@
     <string name="miquaner_money">¥%1$s</string>
     <string name="miquaner_coupon">券 %1$s</string>
     <string name="miquaner_coupon_btn">领 %1$s 券</string>
+    <string name="qq_weChat_hint">QQ和微信号至少填写一个\n方便您的客户联系您</string>
 
 </resources>

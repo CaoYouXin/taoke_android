@@ -37,14 +37,11 @@ public class EnrollActivity extends BaseActivity {
     @BindView(R.id.name)
     EditText name;
 
-    @BindView(R.id.alipay)
-    EditText alipay;
-
     @BindView(R.id.qq)
     EditText qq;
 
     @BindView(R.id.wechat)
-    EditText wechat;
+    EditText weChat;
 
     @BindView(R.id.announcement)
     EditText announcement;
@@ -71,9 +68,8 @@ public class EnrollActivity extends BaseActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 if (!TextUtils.isEmpty(name.getEditableText().toString().trim())
-                        && !TextUtils.isEmpty(alipay.getEditableText().toString().trim()) && (
-                        !TextUtils.isEmpty(qq.getEditableText().toString().trim()) ||
-                                !TextUtils.isEmpty(wechat.getEditableText().toString().trim())
+                        && (!TextUtils.isEmpty(qq.getEditableText().toString().trim()) ||
+                        !TextUtils.isEmpty(weChat.getEditableText().toString().trim())
                 ) && !TextUtils.isEmpty(announcement.getEditableText().toString().trim())) {
                     enroll.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
                 } else {
@@ -83,16 +79,14 @@ public class EnrollActivity extends BaseActivity {
         };
 
         name.addTextChangedListener(textWatcher);
-        alipay.addTextChangedListener(textWatcher);
         qq.addTextChangedListener(textWatcher);
-        wechat.addTextChangedListener(textWatcher);
+        weChat.addTextChangedListener(textWatcher);
         announcement.addTextChangedListener(textWatcher);
 
         EnrollSubmit enrollSubmit = EnrollSubmit.get();
         name.setText(enrollSubmit.realName);
-        alipay.setText(enrollSubmit.aliPayId);
         qq.setText(enrollSubmit.qqId);
-        wechat.setText(enrollSubmit.weChatId);
+        weChat.setText(enrollSubmit.weChatId);
         announcement.setText(enrollSubmit.announcement);
     }
 
@@ -114,21 +108,16 @@ public class EnrollActivity extends BaseActivity {
             name.requestFocus();
             return;
         }
-        String alipayId = alipay.getEditableText().toString().trim();
-        if (TextUtils.isEmpty(alipayId)) {
-            alipay.requestFocus();
-            return;
-        }
         String qqId = qq.getEditableText().toString().trim();
-        String wechatId = wechat.getEditableText().toString().trim();
-        if (TextUtils.isEmpty(qqId) && TextUtils.isEmpty(wechatId)) {
+        String weChatId = weChat.getEditableText().toString().trim();
+        if (TextUtils.isEmpty(qqId) && TextUtils.isEmpty(weChatId)) {
             new AlertDialog.Builder(this)
                     .setMessage("为了以后及时联系到您，QQ,微信至少输入一个，谢谢！")
                     .setPositiveButton("知道了", (dialog, which) -> {
                         if (TextUtils.isEmpty(qqId)) {
                             qq.requestFocus();
                         } else {
-                            wechat.requestFocus();
+                            weChat.requestFocus();
                         }
                     }).show();
             return;
@@ -139,14 +128,13 @@ public class EnrollActivity extends BaseActivity {
             return;
         }
 
-        alipay.setEnabled(false);
         qq.setEnabled(false);
-        wechat.setEnabled(false);
+        weChat.setEnabled(false);
         announcement.setEnabled(false);
         enroll.setVisibility(View.INVISIBLE);
         progress.setVisibility(View.VISIBLE);
 
-        final EnrollSubmit enrollSubmit = new EnrollSubmit(nameStr, alipayId, qqId, wechatId, announcementText);
+        final EnrollSubmit enrollSubmit = new EnrollSubmit(nameStr, qqId, weChatId, announcementText);
         TaoKeApi.enroll(enrollSubmit)
                 .timeout(10, TimeUnit.SECONDS)
                 .compose(RxHelper.rxSchedulerHelper())
@@ -158,9 +146,8 @@ public class EnrollActivity extends BaseActivity {
                             onBackPressed();
                         },
                         throwable -> {
-                            alipay.setEnabled(true);
                             qq.setEnabled(true);
-                            wechat.setEnabled(true);
+                            weChat.setEnabled(true);
                             announcement.setEnabled(true);
                             enroll.setVisibility(View.VISIBLE);
                             progress.setVisibility(View.INVISIBLE);
@@ -178,6 +165,6 @@ public class EnrollActivity extends BaseActivity {
 
     @Override
     public int[] hideSoftByEditViewIds() {
-        return new int[]{R.id.name, R.id.alipay, R.id.qq, R.id.wechat, R.id.announcement};
+        return new int[]{R.id.name, R.id.qq, R.id.wechat, R.id.announcement};
     }
 }
