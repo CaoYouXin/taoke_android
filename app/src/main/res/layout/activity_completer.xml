@@ -6,6 +6,190 @@
 
     <include layout="@layout/layout_action_bar" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/len_20" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/len_32"
+        android:paddingRight="@dimen/len_32"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_weight="2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/green_800"
+                android:text="@string/name_label"
+                android:textSize="@dimen/font_16"/>
+
+            <EditText
+                android:id="@+id/real_name"
+                android:layout_weight="8"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:background="@null"
+                android:maxLines="1"
+                android:textSize="@dimen/font_16"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey_800"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/len_20" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_weight="2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/green_800"
+                android:text="@string/alipay_label"
+                android:textSize="@dimen/font_16"/>
+
+            <EditText
+                android:id="@+id/aliPay_id"
+                android:layout_weight="8"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="@string/alipay_hint"
+                android:maxLines="1"
+                android:textSize="@dimen/font_16"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey_800"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/len_20" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_weight="2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/green_800"
+                android:text="@string/phone_label"
+                android:textSize="@dimen/font_16"/>
+
+            <EditText
+                android:id="@+id/phone_number"
+                android:layout_weight="8"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:background="@null"
+                android:maxLines="1"
+                android:textSize="@dimen/font_16"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey_800"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/len_20" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_weight="2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/green_800"
+                android:text="@string/verification_code_label"
+                android:textSize="@dimen/font_16"/>
+
+            <EditText
+                android:id="@+id/verification_code"
+                android:layout_weight="5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="@string/verification_code_hint"
+                android:maxLines="1"
+                android:textSize="@dimen/font_16"/>
+
+            <TextView
+                android:id="@+id/verification_code_btn"
+                android:layout_weight="3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/grey_200"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:text="@string/verification_code_send"
+                android:textSize="@dimen/font_16"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey_800"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/len_40" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/sign_in_up_next_border"
+            android:padding="@dimen/len_10">
+
+            <TextView
+                android:id="@+id/submit_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center_horizontal"
+                android:text="@string/complete_info"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/font_16" />
+
+            <ProgressBar
+                android:id="@+id/progress"
+                style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:indeterminateTint="@color/colorPrimaryDark"
+                android:visibility="invisible" />
+        </FrameLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

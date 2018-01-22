@@ -18,7 +18,7 @@ public class UserRegisterSubmit {
     }
 
     private static class User {
-        public String aliPay;
+        public String aliPayId;
         public String phone;
         public String pwd;
         public String name;
@@ -31,7 +31,7 @@ public class UserRegisterSubmit {
 
         public User(String phone, String aliPay) {
             this.phone = phone;
-            this.aliPay = aliPay;
+            this.aliPayId = aliPay;
         }
     }
 }

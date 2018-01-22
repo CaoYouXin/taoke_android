@@ -1,6 +1,5 @@
 package com.github.caoyouxin.taoke.ui.activity;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;

@@ -12,8 +12,11 @@ import java.util.Map;
 public class UserData {
 
     private final static String PREF_ACCESS_TOKEN = "token";
+    private final static String PREF_ACCESS_TOKEN_STORE = "token_store";
     private final static String PREF_USER = "user";
     private final static String PREF_USER_NAME = "name";
+    private final static String PREF_USER_REAL_NAME = "realName";
+    private final static String PREF_USER_PHONE = "phone";
     private final static String PREF_USER_PID = "aliPid";
     private final static String PREF_USER_ID = "id";
     private final static String PREF_USER_SHARE_CODE = "code";
@@ -23,12 +26,14 @@ public class UserData {
     private static UserData INSTANCE;
 
     private String userName;
+    private String realName;
+    private String phone;
     private String aliPID;
     private Long userId;
     private String shareCode;
     private Boolean candidate;
     private String accessToken;
-    public Boolean directUser;
+    private Boolean directUser;
 
     private UserData() {
     }
@@ -41,6 +46,8 @@ public class UserData {
         INSTANCE.directUser = (Boolean) rec.get(PREF_DIRECT_USER);
         Map user = (Map) rec.get(PREF_USER);
         INSTANCE.userName = (String) user.get(PREF_USER_NAME);
+        INSTANCE.realName = (String) user.get(PREF_USER_REAL_NAME);
+        INSTANCE.phone = (String) user.get(PREF_USER_PHONE);
         INSTANCE.aliPID = (String) user.get(PREF_USER_PID);
         INSTANCE.userId = ((Double) user.get(PREF_USER_ID)).longValue();
         INSTANCE.shareCode = (String) user.get(PREF_USER_SHARE_CODE);
@@ -49,10 +56,12 @@ public class UserData {
 
     public static boolean restore() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Boilerplate.getInstance());
-        if (sharedPreferences.contains(PREF_ACCESS_TOKEN)) {
+        if (sharedPreferences.contains(PREF_ACCESS_TOKEN_STORE)) {
             INSTANCE = new UserData();
-            INSTANCE.accessToken = sharedPreferences.getString(PREF_ACCESS_TOKEN, null);
+            INSTANCE.accessToken = sharedPreferences.getString(PREF_ACCESS_TOKEN_STORE, null);
             INSTANCE.userName = sharedPreferences.getString(PREF_USER_NAME, null);
+            INSTANCE.realName = sharedPreferences.getString(PREF_USER_REAL_NAME, null);
+            INSTANCE.phone = sharedPreferences.getString(PREF_USER_PHONE, null);
             INSTANCE.aliPID = sharedPreferences.getString(PREF_USER_PID, "");
             INSTANCE.userId = sharedPreferences.getLong(PREF_USER_ID, 0L);
             INSTANCE.shareCode = sharedPreferences.getString(PREF_USER_SHARE_CODE, "");
@@ -68,7 +77,10 @@ public class UserData {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Boilerplate.getInstance());
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove(PREF_ACCESS_TOKEN);
+        editor.remove(PREF_ACCESS_TOKEN_STORE);
         editor.remove(PREF_USER_NAME);
+        editor.remove(PREF_USER_REAL_NAME);
+        editor.remove(PREF_USER_PHONE);
         editor.remove(PREF_USER_PID);
         editor.remove(PREF_USER_ID);
         editor.remove(PREF_USER_SHARE_CODE);
@@ -86,7 +98,10 @@ public class UserData {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Boilerplate.getInstance());
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(PREF_ACCESS_TOKEN, accessToken);
+        editor.putString(PREF_ACCESS_TOKEN_STORE, accessToken);
         editor.putString(PREF_USER_NAME, userName);
+        editor.putString(PREF_USER_REAL_NAME, realName);
+        editor.putString(PREF_USER_PHONE, phone);
         editor.putString(PREF_USER_PID, aliPID);
         editor.putLong(PREF_USER_ID, userId);
         editor.putString(PREF_USER_SHARE_CODE, shareCode);
@@ -141,5 +156,17 @@ public class UserData {
 
     public String getUserName() {
         return userName;
+    }
+
+    public Boolean getDirectUser() {
+        return directUser;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public String getPhone() {
+        return phone;
     }
 }

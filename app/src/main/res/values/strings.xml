@@ -184,7 +184,7 @@
     <string name="enroll">申请成为合伙人</string>
     <string name="already_enrolled">您已经是合伙人了，无需再申请</string>
     <string name="enroll_description">申请后，我们的工作人员会及时审核。当审核通过后，您将需要重新登录，以更新客户端状态。\n\n一旦成为合伙人，您将拥有自己的团队，通过将APP分享给好友注册以及直接分享商品给好友带来收入。\n\n同时，由于相关规定，成为合伙人后将不能享受普通购买者的优惠，不能在APP内跳转手淘。</string>
-    <string name="alipay_hint">请输入支付宝帐号，用于提现</string>
+    <string name="alipay_hint">请输入绑定以上姓名的支付宝</string>
     <string name="qq_hint">请输入QQ号，特殊可选</string>
     <string name="wechat_hint">请输入微信号，特殊可选</string>
     <string name="announcement_hint">请说明您申请成为合伙人的理由</string>
@@ -215,5 +215,10 @@
     <string name="miquaner_coupon">券 %1$s</string>
     <string name="miquaner_coupon_btn">领 %1$s 券</string>
     <string name="qq_weChat_hint">QQ和微信号至少填写一个\n方便您的客户联系您</string>
+    <string name="name_label">姓名</string>
+    <string name="alipay_label">支付宝</string>
+    <string name="phone_label">手机号</string>
+    <string name="verification_code_label">验证码</string>
+    <string name="complete_info">补全信息</string>
 
 </resources>
