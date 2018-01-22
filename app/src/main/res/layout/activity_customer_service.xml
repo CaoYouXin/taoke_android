@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_action_bar" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/len_20" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/len_32"
+            android:paddingRight="@dimen/len_32">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/qq_title"
+                android:textColor="@color/grey_800"
+                android:textSize="@dimen/font_16" />
+
+            <View
+                android:layout_width="@dimen/len_36"
+                android:layout_height="1dp"
+                android:layout_gravity="center"
+                android:background="@color/grey_800" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/len_10" />
+
+            <TextView
+                android:id="@+id/qqId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/black_alpha_240"
+                android:textSize="@dimen/font_16" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/len_20" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/sign_in_up_next_border"
+                android:padding="@dimen/len_10">
+
+                <TextView
+                    android:id="@+id/go_to_qq"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center_horizontal"
+                    android:text="@string/go_to_qq"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/font_16" />
+
+                <ProgressBar
+                    android:id="@+id/go_to_qq_progress"
+                    style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:indeterminateTint="@color/colorPrimaryDark"
+                    android:visibility="invisible" />
+            </FrameLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/len_20" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/weChat_title"
+                android:textColor="@color/grey_800"
+                android:textSize="@dimen/font_16" />
+
+            <View
+                android:layout_width="@dimen/len_36"
+                android:layout_height="1dp"
+                android:layout_gravity="center"
+                android:background="@color/grey_800" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/len_10" />
+
+            <TextView
+                android:id="@+id/weChatId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/black_alpha_240"
+                android:textSize="@dimen/font_16" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/len_20" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/sign_in_up_next_border"
+                android:padding="@dimen/len_10">
+
+                <TextView
+                    android:id="@+id/go_to_weChat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center_horizontal"
+                    android:text="@string/go_to_weChat"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/font_16" />
+
+                <ProgressBar
+                    android:id="@+id/go_to_weChat_progress"
+                    style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:indeterminateTint="@color/colorPrimaryDark"
+                    android:visibility="invisible" />
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

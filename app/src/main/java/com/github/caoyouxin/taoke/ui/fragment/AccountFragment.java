@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.model.UserData;
 import com.github.caoyouxin.taoke.ui.activity.AboutActivity;
+import com.github.caoyouxin.taoke.ui.activity.CustomerServiceActivity;
 import com.github.caoyouxin.taoke.ui.activity.EnrollActivity;
 import com.github.caoyouxin.taoke.ui.activity.FriendsActivity;
 import com.github.caoyouxin.taoke.ui.activity.HelpReportActivity;
@@ -86,7 +87,7 @@ public class AccountFragment extends Fragment {
         accountId.setText(span);
     }
 
-    @OnClick({R.id.account_btn_enroll, R.id.account_btn_about, R.id.account_btn_help_report, R.id.account_btn_newer_guide, R.id.account_btn_share_cmd, R.id.account_btn_friends, R.id.sign_out})
+    @OnClick({R.id.account_btn_enroll, R.id.account_btn_customer_serv, R.id.account_btn_about, R.id.account_btn_help_report, R.id.account_btn_newer_guide, R.id.account_btn_share_cmd, R.id.account_btn_friends, R.id.sign_out})
     protected void onToolClick(View view) {
         Intent intent = null;
         switch (view.getId()) {
@@ -96,6 +97,9 @@ public class AccountFragment extends Fragment {
                     return;
                 }
                 intent = new Intent(getActivity(), EnrollActivity.class);
+                break;
+            case R.id.account_btn_customer_serv:
+                intent = new Intent(getActivity(), CustomerServiceActivity.class);
                 break;
             case R.id.account_btn_newer_guide:
                 intent = new Intent(getActivity(), NoviceActivity.class);

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:orientation="horizontal"
+    android:background="@drawable/tab_ripple"
+    android:id="@+id/account_btn_customer_serv">
+
+    <com.mikepenz.iconics.view.IconicsTextView
+        android:layout_width="25dp"
+        android:gravity="center"
+        android:layout_height="match_parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:text="{ion-ios-telephone}"
+        android:textColor="@color/black_alpha_176"
+        android:textSize="@dimen/font_28"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textSize="@dimen/font_18"
+        android:text="@string/customer_serv" />
+
+    <com.mikepenz.iconics.view.IconicsTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_gravity="center_vertical"
+        android:text="{ion-chevron-right}"
+        android:textColor="@color/grey_100"
+        android:textSize="@dimen/font_28"
+        tools:ignore="HardcodedText" />
+
+</LinearLayout>

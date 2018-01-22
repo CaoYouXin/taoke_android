@@ -220,5 +220,10 @@
     <string name="phone_label">手机号</string>
     <string name="verification_code_label">验证码</string>
     <string name="complete_info">补全信息</string>
+    <string name="customer_serv">客服中心</string>
+    <string name="qq_title">QQ</string>
+    <string name="weChat_title">微信</string>
+    <string name="go_to_weChat">去微信查找</string>
+    <string name="go_to_qq">去QQ查找</string>
 
 </resources>

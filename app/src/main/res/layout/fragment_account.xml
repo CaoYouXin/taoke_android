@@ -83,6 +83,13 @@
                 android:layout_height="1dp"
                 android:background="@color/grey_300" />
 
+            <include layout="@layout/btn_customer_serv" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey_300" />
+
             <include layout="@layout/btn_about" />
 
             <View
@@ -100,6 +107,10 @@
                 android:layout_height="45dp"
                 android:background="@drawable/tab_ripple"
                 android:text="@string/exit" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/len_128" />
 
         </LinearLayout>
 
