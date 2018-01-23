@@ -11,3 +11,4 @@
 .externalNativeBuild
 taoke_android.iml
 app-release.apk
+output.json
