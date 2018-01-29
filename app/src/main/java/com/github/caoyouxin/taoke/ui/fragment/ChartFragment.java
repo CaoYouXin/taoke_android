@@ -169,10 +169,10 @@ public class ChartFragment extends Fragment {
                         .compose(((BaseActivity) getActivity()).bindUntilEvent(ActivityEvent.DESTROY))
                         .compose(RxHelper.rxHandleServerExp(getActivity()))
                         .subscribe(can -> {
+                            this.canDrawState = true;
                             if (can) {
                                 showInput();
                             } else {
-                                this.canDrawState = true;
                                 showCompleter();
                             }
                         });
@@ -192,11 +192,11 @@ public class ChartFragment extends Fragment {
         input.setInputType(InputType.TYPE_CLASS_PHONE | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         input.setHint(R.string.how_much_to_withdraw);
 
-        new AlertDialog.Builder(getActivity()).setView(input).setPositiveButton(R.string.withdraw, (DialogInterface dialog, int which) -> {
+        new AlertDialog.Builder(getActivity()).setView(input)
+                .setPositiveButton(R.string.withdraw, (DialogInterface dialog, int which) -> {
             double withdraw = Double.parseDouble(input.getEditableText().toString().trim());
             if (withdraw > userAmountNum) {
                 new AlertDialog.Builder(getActivity()).setMessage(R.string.user_amount_not_enough).show();
-                this.canDrawState = true;
                 return;
             }
 
@@ -211,7 +211,6 @@ public class ChartFragment extends Fragment {
                                 initUserAmount();
                             },
                             throwable -> {
-                                this.canDrawState = true;
                                 if (throwable instanceof TimeoutException) {
                                     Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.fail_timeout, Snackbar.LENGTH_LONG).show();
                                 } else if (throwable instanceof ApiException) {
