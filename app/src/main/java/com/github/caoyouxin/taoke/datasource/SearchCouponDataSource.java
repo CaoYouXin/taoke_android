@@ -5,6 +5,7 @@ import android.content.Context;
 import com.github.caoyouxin.taoke.api.TaoKeApi;
 import com.github.caoyouxin.taoke.model.CouponItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -21,6 +22,8 @@ public class SearchCouponDataSource extends SortableCouponDataSource {
 
     @Override
     protected Observable<List<CouponItem>> fetchDataUnderlay() throws Exception {
+        this.ordered = new ArrayList<>();
+
         if (isJu) {
             return TaoKeApi.getJuSearch(this.keyword);
         }

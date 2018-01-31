@@ -22,7 +22,10 @@ public class ProductDataSource extends SortableCouponDataSource {
 
     @Override
     protected Observable<List<CouponItem>> fetchDataUnderlay() throws Exception {
-        return TaoKeApi.getProductList(brandItem, 1);
+        return TaoKeApi.getProductList(brandItem, 1).map(favItemsView -> {
+            this.ordered = favItemsView.getOrders();
+            return favItemsView.getItems();
+        });
     }
 
 }

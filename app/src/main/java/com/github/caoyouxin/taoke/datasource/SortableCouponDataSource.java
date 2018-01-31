@@ -17,7 +17,9 @@ import io.reactivex.Observable;
 public abstract class SortableCouponDataSource extends RxDataSource<List<CouponItem>> implements IDataCacheLoader<List<CouponItem>> {
 
     protected List<CouponItem> cache;
+    protected List<Long> ordered;
     protected SORT sort;
+
     public SortableCouponDataSource(Context context) {
         super(context);
         this.sort = SORT.SORT_SALES;
@@ -45,8 +47,22 @@ public abstract class SortableCouponDataSource extends RxDataSource<List<CouponI
         }
 
         return observable.map(data -> {
-            if (null != sort) {
+            if (null != sort && null != sort.comparator) {
                 Collections.sort(data, sort.comparator);
+            } else if (SORT.SORT_SALES == sort) {
+                Collections.sort(data, (item1, item2) -> {
+                    int idx1 = ordered.indexOf(item1.getNumIid());
+                    int idx2 = ordered.indexOf(item2.getNumIid());
+                    if (-1 == idx1 && -1 == idx2) {
+                        return SORT.format(item2.getVolume() - item1.getVolume());
+                    } else if (-1 == idx1) {
+                        return 1;
+                    } else if (-1 == idx2) {
+                        return -1;
+                    } else {
+                        return idx1 - idx2;
+                    }
+                });
             }
             return data;
         });
@@ -68,7 +84,7 @@ public abstract class SortableCouponDataSource extends RxDataSource<List<CouponI
     }
 
     public enum SORT {
-        SORT_SALES((item1, item2) -> format(item2.getVolume() - item1.getVolume())),
+        SORT_SALES(null),
         SORT_PRICE_UP((item1, item2) -> format(item1.getPrice() - item2.getPrice())),
         SORT_PRICE_DOWN((item1, item2) -> format(item2.getPrice() - item1.getPrice())),
         SORT_COUPON_UP((item1, item2) -> format(item1.getCoupon() - item2.getCoupon())),

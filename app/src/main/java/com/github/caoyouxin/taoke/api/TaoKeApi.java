@@ -11,6 +11,7 @@ import com.github.caoyouxin.taoke.model.CouponItem;
 import com.github.caoyouxin.taoke.model.CouponTab;
 import com.github.caoyouxin.taoke.model.CustomerServiceView;
 import com.github.caoyouxin.taoke.model.EnrollSubmit;
+import com.github.caoyouxin.taoke.model.FavItemsView;
 import com.github.caoyouxin.taoke.model.FriendItem;
 import com.github.caoyouxin.taoke.model.HelpItem;
 import com.github.caoyouxin.taoke.model.HomeBtn;
@@ -138,12 +139,14 @@ public class TaoKeApi {
                 });
     }
 
-    public static Observable<List<CouponItem>> getProductList(BrandItem brandItem, int pageNo) {
+    public static Observable<FavItemsView> getProductList(BrandItem brandItem, int pageNo) {
         return TaoKeRetrofit.getService().tao(TaoKeService.API_PRODUCT_LIST.replace("{favId}", brandItem.favId).replace("{pageNo}", "" + pageNo), UserData.get().getAccessToken())
                 .compose(RxHelper.handleResult())
                 .map(taoKeData -> {
+                    Map map = taoKeData.getMap();
+
                     List<CouponItem> items = new ArrayList<>();
-                    List<Map> recs = taoKeData.getList();
+                    List<Map> recs = (List<Map>) map.get("items");
                     for (Map rec : recs) {
                         CouponItem item = new CouponItem();
 
@@ -194,7 +197,14 @@ public class TaoKeApi {
 
                         items.add(item);
                     }
-                    return items;
+
+                    List<Long> orders = new ArrayList<>();
+                    List<Double> apiOrders = (List<Double>) map.get("orders");
+                    for (Double numIid : apiOrders) {
+                        orders.add(numIid.longValue());
+                    }
+
+                    return new FavItemsView(items, orders);
                 });
     }
 

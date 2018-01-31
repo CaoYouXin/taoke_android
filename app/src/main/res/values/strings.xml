@@ -95,7 +95,7 @@
     <string name="discover_coupon_value">券 | %1$s &#160;&#160;&#160;&#160;&#160;&#160; 余%2$s张</string>
 
     <string name="sort_bar_coupon">优惠</string>
-    <string name="sort_bar_sales">销量</string>
+    <string name="sort_bar_sales">综合</string>
     <string name="sort_bar_price">价格</string>
     <string name="sort_bar_commission">佣金</string>
     <string name="product_new">新品</string>
