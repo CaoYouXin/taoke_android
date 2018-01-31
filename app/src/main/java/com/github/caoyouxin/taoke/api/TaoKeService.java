@@ -32,7 +32,7 @@ public interface TaoKeService {
 
     String API_FRIENDS_LIST = "tbk/team/list";
     String API_COUPON_LIST = "tbk/coupon/{cid}/{pNo}";
-    String API_PRODUCT_LIST = "tbk/fav/{favId}/list/{pageNo}";
+    String API_PRODUCT_LIST = "tbk/fav/{favId}/list/{pageNo}/v2";
     String API_ORDER_LIST = "tbk/order/list/{type}/{pageNo}";
     String API_GET_SHARE_LINK = "tbk/url/trans";
     String API_GET_SHARE_LINK2 = "tbk/share/save";
