@@ -13,6 +13,7 @@ import com.github.caoyouxin.taoke.model.CustomerServiceView;
 import com.github.caoyouxin.taoke.model.EnrollSubmit;
 import com.github.caoyouxin.taoke.model.FavItemsView;
 import com.github.caoyouxin.taoke.model.FriendItem;
+import com.github.caoyouxin.taoke.model.HelpDoc;
 import com.github.caoyouxin.taoke.model.HelpItem;
 import com.github.caoyouxin.taoke.model.HomeBtn;
 import com.github.caoyouxin.taoke.model.M;
@@ -613,6 +614,28 @@ public class TaoKeApi {
                 .map(taoKeData -> {
                     Map map = taoKeData.getMap();
                     return new CustomerServiceView((String) map.get("weChat"), (String) map.get("mqq"));
+                });
+    }
+
+    public static Observable<List<HelpDoc>> getHelpDocs() {
+        return TaoKeRetrofit.getService()
+                .tao(TaoKeService.API_HELP_DOC_LIST)
+                .compose(RxHelper.handleResult())
+                .map(taoKeData -> {
+                    List<HelpDoc> result = new ArrayList<>();
+
+                    for (Map map : taoKeData.getList()) {
+                        HelpDoc item = new HelpDoc();
+
+                        item.id = ((Double) map.get("id")).longValue();
+                        item.title = (String) map.get("title");
+                        item.order = ((Double) map.get("order")).intValue();
+                        item.path = (String) map.get("path");
+
+                        result.add(item);
+                    }
+
+                    return result;
                 });
     }
 

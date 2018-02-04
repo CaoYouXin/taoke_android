@@ -13,9 +13,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.caoyouxin.taoke.R;
-import com.github.caoyouxin.taoke.adapter.HelpAdapter;
-import com.github.caoyouxin.taoke.datasource.HelpDataSource;
-import com.github.caoyouxin.taoke.model.HelpItem;
+import com.github.caoyouxin.taoke.adapter.HelpDocAdapter;
+import com.github.caoyouxin.taoke.api.TaoKeApi;
+import com.github.caoyouxin.taoke.api.TaoKeRetrofit;
+import com.github.caoyouxin.taoke.datasource.HelpDocDataSource;
+import com.github.caoyouxin.taoke.model.HelpDoc;
 import com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity;
 import com.shizhefei.mvc.MVCHelper;
 import com.shizhefei.mvc.MVCNormalHelper;
@@ -77,7 +79,7 @@ public class HelpReportActivity extends BaseActivity {
         helpList.setLayoutManager(layoutManager);
         helpList.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).size(1).build());
 
-        HelpAdapter helpAdapter = new HelpAdapter();
+        HelpDocAdapter helpDocAdapter = new HelpDocAdapter();
 
         helpList.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener() {
             @Override
@@ -85,14 +87,14 @@ public class HelpReportActivity extends BaseActivity {
                 if (gestureDetector.onTouchEvent(event)) {
                     View childView = rv.findChildViewUnder(event.getX(), event.getY());
                     int childPosition = rv.getChildAdapterPosition(childView);
-                    HelpItem helpItem = helpAdapter.getData().get(childPosition);
+                    HelpDoc helpDocItem = helpDocAdapter.getData().get(childPosition);
 
-                    HelpReportActivity.this.helpList.setVisibility(View.GONE);
-                    HelpReportActivity.this.reportEntry.setVisibility(View.GONE);
-                    HelpReportActivity.this.helpContent.setVisibility(View.VISIBLE);
-                    HelpReportActivity.this.helpQ.setText(helpItem.q);
-                    HelpReportActivity.this.helpA.setText(helpItem.a);
-                    HelpReportActivity.this.isReadingHelp = true;
+                    String link = TaoKeRetrofit.HOST + "blog/" + helpDocItem.path.replaceAll("/", "&@&")
+                            + "//" + TaoKeApi.CDN_HOST.replaceAll("/", "&@&");
+
+                    Intent intent = new Intent(HelpReportActivity.this, H5BlogActivity.class);
+                    intent.putExtra(H5BlogActivity.HELP_DOC_LINK, link);
+                    startActivity(intent);
 
                     return true;
                 } else {
@@ -101,11 +103,11 @@ public class HelpReportActivity extends BaseActivity {
             }
         });
 
-        HelpDataSource helpDataSource = new HelpDataSource(this);
+        HelpDocDataSource helpDocDataSource = new HelpDocDataSource(this);
 
-        MVCHelper<List<HelpItem>> helpListHelper = new MVCNormalHelper<>(helpList);
-        helpListHelper.setAdapter(helpAdapter);
-        helpListHelper.setDataSource(helpDataSource);
+        MVCHelper<List<HelpDoc>> helpListHelper = new MVCNormalHelper<>(helpList);
+        helpListHelper.setAdapter(helpDocAdapter);
+        helpListHelper.setDataSource(helpDocDataSource);
 
         helpListHelper.refresh();
     }

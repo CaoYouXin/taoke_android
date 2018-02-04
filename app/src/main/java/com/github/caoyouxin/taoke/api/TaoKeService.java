@@ -38,6 +38,7 @@ public interface TaoKeService {
     String API_GET_SHARE_LINK2 = "tbk/share/save";
 
     String API_HELP_LIST = "app/help/list";
+    String API_HELP_DOC_LIST = "blog/helpdoc/list";
     String API_NOVICE_LIST = "app/guide/list/{type}";
     String API_SHARE_APP_LIST = "app/share/img/url/list/{type}";
 

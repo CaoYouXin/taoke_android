@@ -21,24 +21,24 @@ import java.net.SocketException;
 
 import io.reactivex.exceptions.UndeliverableException;
 import io.reactivex.plugins.RxJavaPlugins;
-import io.realm.Realm;
-import io.realm.RealmMigration;
-import io.realm.RealmSchema;
+//import io.realm.Realm;
+//import io.realm.RealmMigration;
+//import io.realm.RealmSchema;
 import timber.log.Timber;
 
 
 public class TaoKe extends Application {
-    private static RealmMigration realmMigration;
-
-    public static RealmMigration getRealmMigration() {
-        if (realmMigration == null) {
-            realmMigration = (realm, oldVersion, newVersion) -> {
-                RealmSchema schema = realm.getSchema();
-                //migration
-            };
-        }
-        return realmMigration;
-    }
+//    private static RealmMigration realmMigration;
+//
+//    public static RealmMigration getRealmMigration() {
+//        if (realmMigration == null) {
+//            realmMigration = (realm, oldVersion, newVersion) -> {
+//                RealmSchema schema = realm.getSchema();
+//                //migration
+//            };
+//        }
+//        return realmMigration;
+//    }
 
     @Override
     public void onCreate() {
@@ -85,7 +85,7 @@ public class TaoKe extends Application {
             return myRefreshFooter;
         });
 
-        Realm.init(this);
+//        Realm.init(this);
 
         AlibcTradeSDK.asyncInit(this, new AlibcTradeInitCallback() {
             @Override
