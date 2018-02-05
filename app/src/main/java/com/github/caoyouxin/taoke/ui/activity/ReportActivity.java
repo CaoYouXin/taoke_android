@@ -33,6 +33,7 @@ import com.github.caoyouxin.taoke.api.RxHelper;
 import com.github.caoyouxin.taoke.api.TaoKeApi;
 import com.github.caoyouxin.taoke.datasource.UploadImageDataSource;
 import com.github.caoyouxin.taoke.model.UploadImageItem;
+import com.github.caoyouxin.taoke.model.UserData;
 import com.github.caoyouxin.taoke.ui.widget.HackyLoadViewFactory;
 import com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity;
 import com.shizhefei.mvc.MVCHelper;
@@ -394,7 +395,16 @@ public class ReportActivity extends BaseActivity {
             return;
         }
 
-        TaoKeApi.sendReport(reportContent)
+        StringBuilder sb = new StringBuilder();
+        for (UploadImageItem uploadImageItem : uploadImageDataSource.getData()) {
+            if (uploadImageItem.isHandle) {
+                continue;
+            }
+            sb.append('>').append(' ').append(uploadImageItem.code).append('\n');
+        }
+
+        TaoKeApi.sendFeedback(String.format("---\ntitle: 来自%s的反馈\n---\n%s\n> 附件\n>\n%s",
+                UserData.get().getPhone(), reportContent, sb.toString()))
                 .timeout(10, TimeUnit.SECONDS)
                 .compose(RxHelper.rxSchedulerHelper())
                 .compose(bindUntilEvent(ActivityEvent.DESTROY))

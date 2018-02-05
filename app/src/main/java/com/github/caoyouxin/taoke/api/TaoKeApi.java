@@ -12,6 +12,7 @@ import com.github.caoyouxin.taoke.model.CouponTab;
 import com.github.caoyouxin.taoke.model.CustomerServiceView;
 import com.github.caoyouxin.taoke.model.EnrollSubmit;
 import com.github.caoyouxin.taoke.model.FavItemsView;
+import com.github.caoyouxin.taoke.model.FeedbackSubmit;
 import com.github.caoyouxin.taoke.model.FriendItem;
 import com.github.caoyouxin.taoke.model.HelpDoc;
 import com.github.caoyouxin.taoke.model.HelpItem;
@@ -643,6 +644,12 @@ public class TaoKeApi {
 
                     return result;
                 });
+    }
+
+    public static Observable<TaoKeData> sendFeedback(String content) {
+        return TaoKeRetrofit.getService()
+                .tao(TaoKeService.API_SEND_FEEDBACK, new FeedbackSubmit(content), UserData.get().getAccessToken())
+                .compose(RxHelper.handleResult());
     }
 
     public static Observable<String> uploadImage(File file) {

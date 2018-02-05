@@ -61,6 +61,7 @@ public interface TaoKeService {
     String API_CUSTOMER_SERVICE = "tbk/user/customerService";
 
     String API_UPLOAD_IMAGE = "upload/client/images";
+    String API_SEND_FEEDBACK = "blog/feedback/post";
 
     @Headers({"version: 1.9.6", "platform: android"})
     @POST("{api}")

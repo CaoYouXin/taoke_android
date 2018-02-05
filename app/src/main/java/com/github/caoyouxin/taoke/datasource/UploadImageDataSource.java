@@ -23,6 +23,10 @@ public class UploadImageDataSource extends RxDataSource<List<UploadImageItem>> i
         data.add(handle);
     }
 
+    public List<UploadImageItem> getData() {
+        return data;
+    }
+
     public void addImage(String uri) {
         UploadImageItem item = new UploadImageItem();
         item.uri = uri;
