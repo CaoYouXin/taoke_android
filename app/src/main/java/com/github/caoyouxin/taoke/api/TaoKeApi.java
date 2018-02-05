@@ -33,14 +33,20 @@ import com.github.caoyouxin.taoke.model.UserResetPwdSubmit;
 import com.github.caoyouxin.taoke.util.StringUtils;
 import com.github.gnastnosaj.boilerplate.Boilerplate;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import io.reactivex.Observable;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 public class TaoKeApi {
 
@@ -637,6 +643,31 @@ public class TaoKeApi {
 
                     return result;
                 });
+    }
+
+    public static Observable<String> uploadImage(File file) {
+        return TaoKeRetrofit.getService()
+                .tao(TaoKeService.API_UPLOAD_IMAGE, UserData.get().getAccessToken(), new HashMap<>(),
+                        MultipartBody.Part.createFormData("uploadFiles", file.getName(),
+                                RequestBody.create(MediaType.parse("multipart/form-data"), file)))
+                .compose(RxHelper.handleResult())
+                .map(taoKeData -> {
+                    Collection values = taoKeData.getMap().values();
+                    if (values.isEmpty()) {
+                        return null;
+                    }
+
+                    return (String) values.iterator().next();
+                });
+    }
+
+    private static Map<String, RequestBody> build(Map<String, String> map) {
+        Map<String, RequestBody> result = new HashMap<>();
+        for (String key : map.keySet()) {
+            result.put(key, RequestBody.create(
+                    MediaType.parse("multipart/form-data"), map.get(key)));
+        }
+        return result;
     }
 
 }

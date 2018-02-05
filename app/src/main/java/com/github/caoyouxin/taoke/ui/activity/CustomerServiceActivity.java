@@ -66,15 +66,6 @@ public class CustomerServiceActivity extends BaseActivity {
                         view -> {
                             qqId.setText(view.mqq);
                             weChatId.setText(view.weChat);
-                        },
-                        throwable -> {
-                            if (throwable instanceof TimeoutException) {
-                                Snackbar.make(this.findViewById(android.R.id.content), R.string.fail_timeout, Snackbar.LENGTH_LONG).show();
-                            } else if (throwable instanceof ApiException) {
-                                Snackbar.make(this.findViewById(android.R.id.content), getResources().getString(R.string.fail_message, throwable.getMessage()), Snackbar.LENGTH_LONG).show();
-                            } else {
-                                Snackbar.make(this.findViewById(android.R.id.content), R.string.fail_network, Snackbar.LENGTH_LONG).show();
-                            }
                         }
                 );
     }

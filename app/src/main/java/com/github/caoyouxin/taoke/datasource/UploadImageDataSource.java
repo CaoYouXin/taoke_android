@@ -29,10 +29,11 @@ public class UploadImageDataSource extends RxDataSource<List<UploadImageItem>> i
         data.add(0, item);
     }
 
-    public void setImageUploaded(String uri) {
+    public void setImageUploaded(String uri, String codeSource) {
         for (UploadImageItem datum : data) {
             if (datum.uri.equals(uri)) {
                 datum.uploaded = true;
+                datum.code = String.format("![](%s)", codeSource);
                 return;
             }
         }

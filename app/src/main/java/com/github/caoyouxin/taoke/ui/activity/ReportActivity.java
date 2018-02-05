@@ -29,7 +29,6 @@ import android.widget.Toast;
 
 import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.adapter.UploadImageAdapter;
-import com.github.caoyouxin.taoke.api.ApiException;
 import com.github.caoyouxin.taoke.api.RxHelper;
 import com.github.caoyouxin.taoke.api.TaoKeApi;
 import com.github.caoyouxin.taoke.datasource.UploadImageDataSource;
@@ -50,7 +49,6 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -207,7 +205,9 @@ public class ReportActivity extends BaseActivity {
         mSaveDir = Environment.getExternalStorageDirectory() + taoKeTmpPath;
         File dir = new File(mSaveDir);
         if (!dir.exists()) {
-            dir.mkdir();
+            if (!dir.mkdirs()) {
+                return;
+            }
         }
         //指定拍取照片的名字(以时间戳命名，避免重复)
         mFileName = "WYK" + String.valueOf(System.currentTimeMillis()) + ".jpg";
@@ -227,9 +227,19 @@ public class ReportActivity extends BaseActivity {
         startActivityForResult(intent, OPEN_CAMERA_FLAG);
     }
 
-    private void addNewUploadImageItem(String uri) {
+    private void addNewUploadImageItem(String uri, File file) {
         uploadImageDataSource.addImage(uri);
         recyclerViewMVCHelper.refresh();
+
+        TaoKeApi.uploadImage(file)
+                .timeout(10, TimeUnit.SECONDS)
+                .compose(RxHelper.rxSchedulerHelper())
+                .compose(bindUntilEvent(ActivityEvent.DESTROY))
+                .compose(RxHelper.rxHandleServerExp(this))
+                .subscribe(codeSource -> {
+                    uploadImageDataSource.setImageUploaded(uri, codeSource);
+                    recyclerViewMVCHelper.refresh();
+                });
     }
 
     @Override
@@ -288,22 +298,28 @@ public class ReportActivity extends BaseActivity {
                 String saveDir = Environment.getExternalStorageDirectory() + taoKeTmpPath;
                 File dir = new File(saveDir);
                 if (!dir.exists()) {
-                    dir.mkdir();
+                    if (!dir.mkdirs()) {
+                        return;
+                    }
                 }
                 //指定拍取照片的名字(以时间戳命名，避免重复)
-                String fileName = "tmp.jpg";
+                String fileName = "WYK" + String.valueOf(System.currentTimeMillis()) + ".jpg";
                 file = new File(saveDir, fileName);
                 if (file.exists()) {
-                    file.delete();
+                    if (!file.delete()) {
+                        return;
+                    }
                 }
                 try {
-                    file.createNewFile();
+                    if (!file.createNewFile()) {
+                        return;
+                    }
                     outputStream = new FileOutputStream(file);
                     //将bitmap写入file
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
                     System.out.println("file size:" + file.length());
                     /* 到这里已经成功将bitmap写入file了，此时可以将file或者流发送给服务器了 */
-                    addNewUploadImageItem(Uri.fromFile(file).toString());
+                    addNewUploadImageItem(Uri.fromFile(file).toString(), file);
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -321,7 +337,7 @@ public class ReportActivity extends BaseActivity {
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
                     System.out.println("file size:" + file.length());
                     /* 到这里已经成功将bitmap写入file了，此时可以将file或者流发送给服务器了 */
-                    addNewUploadImageItem(Uri.fromFile(file).toString());
+                    addNewUploadImageItem(Uri.fromFile(file).toString(), file);
 
                     break;
                 } catch (FileNotFoundException e) {
@@ -386,16 +402,7 @@ public class ReportActivity extends BaseActivity {
                 .subscribe(
                         taoKeData -> new AlertDialog.Builder(this)
                                 .setPositiveButton(R.string.get_it, (dialog, which) -> onBackPressed())
-                                .setMessage(R.string.get_report).show(),
-                        throwable -> {
-                            if (throwable instanceof TimeoutException) {
-                                Snackbar.make(findViewById(android.R.id.content), R.string.fail_timeout, Snackbar.LENGTH_LONG).show();
-                            } else if (throwable instanceof ApiException) {
-                                Snackbar.make(findViewById(android.R.id.content), getResources().getString(R.string.fail_message, throwable.getMessage()), Snackbar.LENGTH_LONG).show();
-                            } else {
-                                Snackbar.make(findViewById(android.R.id.content), R.string.fail_network, Snackbar.LENGTH_LONG).show();
-                            }
-                        }
+                                .setMessage(R.string.get_report).show()
                 );
     }
 }

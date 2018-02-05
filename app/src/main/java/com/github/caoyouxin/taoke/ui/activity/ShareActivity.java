@@ -260,13 +260,6 @@ public class ShareActivity extends BaseActivity {
                     link.shortUrl = TaoKeRetrofit.HOST + link.shortUrl;
                     linkConsumer.accept(link);
                 }, throwable -> {
-                    if (throwable instanceof TimeoutException) {
-                        Snackbar.make(findViewById(android.R.id.content), R.string.fail_timeout, Snackbar.LENGTH_LONG).show();
-                    } else if (throwable instanceof ApiException) {
-                        Snackbar.make(findViewById(android.R.id.content), getResources().getString(R.string.fail_message, throwable.getMessage()), Snackbar.LENGTH_LONG).show();
-                    } else {
-                        Snackbar.make(findViewById(android.R.id.content), R.string.fail_network, Snackbar.LENGTH_LONG).show();
-                    }
                     dismissDynamicBox(ShareActivity.this);
                     ShareActivity.this.busy = false;
                 });

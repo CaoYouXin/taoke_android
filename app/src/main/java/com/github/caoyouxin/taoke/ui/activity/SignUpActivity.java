@@ -102,14 +102,6 @@ public class SignUpActivity extends BaseActivity {
                                 phone.setEnabled(true);
                                 progress.setVisibility(View.INVISIBLE);
                                 signUp.setVisibility(View.VISIBLE);
-
-                                if (throwable instanceof TimeoutException) {
-                                    Snackbar.make(progress, R.string.sign_up_fail_timeout, Snackbar.LENGTH_LONG).show();
-                                } else if (throwable instanceof ApiException) {
-                                    Snackbar.make(progress, getResources().getString(R.string.sign_up_fail_message, throwable.getMessage()), Snackbar.LENGTH_LONG).show();
-                                } else {
-                                    Snackbar.make(progress, R.string.sign_up_fail_network, Snackbar.LENGTH_LONG).show();
-                                }
                             }
                     );
         }

@@ -60,6 +60,8 @@ public interface TaoKeService {
     String API_DOWNLOAD_URL = "app/download/url";
     String API_CUSTOMER_SERVICE = "tbk/user/customerService";
 
+    String API_UPLOAD_IMAGE = "upload/client/images";
+
     @Headers({"version: 1.9.6", "platform: android"})
     @POST("{api}")
     Observable<TaoKeData> tao(@Path("api") String api, @Body Object data, @Header("auth") String auth);

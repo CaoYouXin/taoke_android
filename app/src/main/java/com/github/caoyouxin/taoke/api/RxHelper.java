@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
 import android.widget.Toast;
 
@@ -14,6 +15,8 @@ import com.github.caoyouxin.taoke.ui.activity.SplashActivity;
 import com.github.gnastnosaj.boilerplate.mvchelper.RxDataSource;
 import com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity;
 import com.trello.rxlifecycle2.android.ActivityEvent;
+
+import java.util.concurrent.TimeoutException;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableTransformer;
@@ -61,9 +64,7 @@ public class RxHelper {
                                     .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                         }).setMessage(R.string.re_login_hint).show();
                 showing = true;
-            }
-
-            if (!showing && o instanceof VersionLowException) {
+            } else if (!showing && o instanceof VersionLowException) {
                 new AlertDialog.Builder(context).setPositiveButton(R.string.go_to_update,
                         (dialog, witch) -> TaoKeApi.getDownloadUrl().compose(rxSchedulerHelper())
                                 .compose(((BaseActivity) context).bindUntilEvent(ActivityEvent.DESTROY))
@@ -79,10 +80,12 @@ public class RxHelper {
                                     Toast.makeText(context, throwable.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                                 })).setMessage(R.string.version_low).show();
                 showing = true;
-            }
-
-            if (o instanceof ApiException) {
-                Toast.makeText(context, o.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+            } else if (o instanceof TimeoutException) {
+                Snackbar.make(context.findViewById(android.R.id.content), R.string.fail_timeout, Snackbar.LENGTH_LONG).show();
+            } else if (o instanceof ApiException) {
+                Snackbar.make(context.findViewById(android.R.id.content), context.getResources().getString(R.string.fail_message, o.getMessage()), Snackbar.LENGTH_LONG).show();
+            } else {
+                Snackbar.make(context.findViewById(android.R.id.content), R.string.fail_network, Snackbar.LENGTH_LONG).show();
             }
 
         }).subscribeOn(Schedulers.io());
@@ -102,9 +105,7 @@ public class RxHelper {
                                         .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                             }).setMessage(R.string.re_login_hint).show();
                     showing = true;
-                }
-
-                if (!showing && o instanceof VersionLowException) {
+                } else if (!showing && o instanceof VersionLowException) {
                     new AlertDialog.Builder(context).setPositiveButton(R.string.go_to_update,
                             (dialog, witch) -> TaoKeApi.getDownloadUrl().compose(rxSchedulerHelper())
                                     .compose(((BaseActivity) context).bindUntilEvent(ActivityEvent.DESTROY))
@@ -120,7 +121,18 @@ public class RxHelper {
                                         Toast.makeText(context, throwable.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                                     })).setMessage(R.string.version_low).show();
                     showing = true;
+                } else if (context instanceof Activity) {
+                    Activity activity = (Activity) context;
+
+                    if (o instanceof TimeoutException) {
+                        Snackbar.make(activity.findViewById(android.R.id.content), R.string.fail_timeout, Snackbar.LENGTH_LONG).show();
+                    } else if (o instanceof ApiException) {
+                        Snackbar.make(activity.findViewById(android.R.id.content), activity.getResources().getString(R.string.fail_message, ((ApiException) o).getMessage()), Snackbar.LENGTH_LONG).show();
+                    } else {
+                        Snackbar.make(activity.findViewById(android.R.id.content), R.string.fail_network, Snackbar.LENGTH_LONG).show();
+                    }
                 }
+
             }).subscribeOn(Schedulers.io());
         }
 

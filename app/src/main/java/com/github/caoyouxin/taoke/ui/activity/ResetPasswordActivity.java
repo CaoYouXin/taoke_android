@@ -138,15 +138,6 @@ public class ResetPasswordActivity extends BaseActivity {
                     .compose(RxHelper.rxHandleServerExp(this))
                     .subscribe(
                             homeBasedCareData -> {
-                            },
-                            throwable -> {
-                                if (throwable instanceof TimeoutException) {
-                                    Snackbar.make(verificationCodeSend, R.string.reset_password_fail_timeout, Snackbar.LENGTH_LONG).show();
-                                } else if (throwable instanceof ApiException) {
-                                    Snackbar.make(verificationCodeSend, getResources().getString(R.string.reset_password_fail_message, throwable.getMessage()), Snackbar.LENGTH_LONG).show();
-                                } else {
-                                    Snackbar.make(verificationCodeSend, R.string.reset_password_fail_network, Snackbar.LENGTH_LONG).show();
-                                }
                             }
                     );
         }
@@ -188,14 +179,6 @@ public class ResetPasswordActivity extends BaseActivity {
                             password.setEnabled(true);
                             resetPassword.setVisibility(View.VISIBLE);
                             progress.setVisibility(View.INVISIBLE);
-
-                            if (throwable instanceof TimeoutException) {
-                                Snackbar.make(progress, R.string.reset_password_fail_timeout, Snackbar.LENGTH_LONG).show();
-                            } else if (throwable instanceof ApiException) {
-                                Snackbar.make(progress, getResources().getString(R.string.reset_password_fail_message, throwable.getMessage()), Snackbar.LENGTH_LONG).show();
-                            } else {
-                                Snackbar.make(progress, R.string.reset_password_fail_network, Snackbar.LENGTH_LONG).show();
-                            }
                         }
                 );
     }
