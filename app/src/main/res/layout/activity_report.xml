@@ -8,13 +8,20 @@
 
     <EditText
         android:id="@+id/report_text"
-        android:gravity="top"
-        android:minLines="3"
-        android:maxLines="30"
-        android:scrollbars="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/border_1px_with_pad"
+        android:gravity="top"
         android:inputType="textMultiLine"
-        android:background="@drawable/border_1px_with_pad"/>
+        android:maxLines="30"
+        android:minLines="3"
+        android:scrollbars="vertical" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2" />
 
 </LinearLayout>

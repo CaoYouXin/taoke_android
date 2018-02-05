@@ -225,5 +225,7 @@
     <string name="weChat_title">微信</string>
     <string name="go_to_weChat">去微信查找</string>
     <string name="go_to_qq">去QQ查找</string>
+    <string name="upload_image_handle">添加图片</string>
+    <string name="upload_image_ing">上传中...</string>
 
 </resources>
