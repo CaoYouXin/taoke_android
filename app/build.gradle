@@ -9,8 +9,8 @@ android {
         applicationId "com.github.caoyouxin.taoke"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 4
-        versionName "1.9.5"
+        versionCode 5
+        versionName "1.9.6"
         multiDexEnabled true
     }
     signingConfigs {
