@@ -134,14 +134,6 @@ public class SignInActivity extends BaseActivity {
                             password.setEnabled(true);
                             signIn.setVisibility(View.VISIBLE);
                             progress.setVisibility(View.INVISIBLE);
-
-                            if (throwable instanceof TimeoutException) {
-                                Snackbar.make(progress, R.string.sign_in_fail_timeout, Snackbar.LENGTH_LONG).show();
-                            } else if (throwable instanceof ApiException) {
-                                Snackbar.make(progress, getResources().getString(R.string.sign_in_fail_message, throwable.getMessage()), Snackbar.LENGTH_LONG).show();
-                            } else {
-                                Snackbar.make(progress, R.string.sign_in_fail_network, Snackbar.LENGTH_LONG).show();
-                            }
                         }
                 );
     }

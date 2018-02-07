@@ -11,7 +11,10 @@ import com.github.caoyouxin.taoke.model.CouponItem;
 import com.github.caoyouxin.taoke.model.CouponTab;
 import com.github.caoyouxin.taoke.model.CustomerServiceView;
 import com.github.caoyouxin.taoke.model.EnrollSubmit;
+import com.github.caoyouxin.taoke.model.FavItemsView;
+import com.github.caoyouxin.taoke.model.FeedbackSubmit;
 import com.github.caoyouxin.taoke.model.FriendItem;
+import com.github.caoyouxin.taoke.model.HelpDoc;
 import com.github.caoyouxin.taoke.model.HelpItem;
 import com.github.caoyouxin.taoke.model.HomeBtn;
 import com.github.caoyouxin.taoke.model.M;
@@ -31,20 +34,26 @@ import com.github.caoyouxin.taoke.model.UserResetPwdSubmit;
 import com.github.caoyouxin.taoke.util.StringUtils;
 import com.github.gnastnosaj.boilerplate.Boilerplate;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import io.reactivex.Observable;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 public class TaoKeApi {
 
-//    public final static String CDN_HOST = "http://192.168.0.136:8070/";
+    public final static String CDN_HOST = "http://192.168.0.136:8070/";
 //    public final static String CDN_HOST = "http://192.168.1.115:8070/";
-    public final static String CDN_HOST = "http://server.tkmqr.com:8070/";
+//    public final static String CDN_HOST = "http://server.tkmqr.com:8070/";
 
     // **** user apis below *******************************************
 
@@ -138,12 +147,14 @@ public class TaoKeApi {
                 });
     }
 
-    public static Observable<List<CouponItem>> getProductList(BrandItem brandItem, int pageNo) {
+    public static Observable<FavItemsView> getProductList(BrandItem brandItem, int pageNo) {
         return TaoKeRetrofit.getService().tao(TaoKeService.API_PRODUCT_LIST.replace("{favId}", brandItem.favId).replace("{pageNo}", "" + pageNo), UserData.get().getAccessToken())
                 .compose(RxHelper.handleResult())
                 .map(taoKeData -> {
+                    Map map = taoKeData.getMap();
+
                     List<CouponItem> items = new ArrayList<>();
-                    List<Map> recs = taoKeData.getList();
+                    List<Map> recs = (List<Map>) map.get("items");
                     for (Map rec : recs) {
                         CouponItem item = new CouponItem();
 
@@ -194,7 +205,14 @@ public class TaoKeApi {
 
                         items.add(item);
                     }
-                    return items;
+
+                    List<Long> orders = new ArrayList<>();
+                    List<Double> apiOrders = (List<Double>) map.get("orders");
+                    for (Double numIid : apiOrders) {
+                        orders.add(numIid.longValue());
+                    }
+
+                    return new FavItemsView(items, orders);
                 });
     }
 
@@ -604,6 +622,59 @@ public class TaoKeApi {
                     Map map = taoKeData.getMap();
                     return new CustomerServiceView((String) map.get("weChat"), (String) map.get("mqq"));
                 });
+    }
+
+    public static Observable<List<HelpDoc>> getHelpDocs() {
+        return TaoKeRetrofit.getService()
+                .tao(TaoKeService.API_HELP_DOC_LIST)
+                .compose(RxHelper.handleResult())
+                .map(taoKeData -> {
+                    List<HelpDoc> result = new ArrayList<>();
+
+                    for (Map map : taoKeData.getList()) {
+                        HelpDoc item = new HelpDoc();
+
+                        item.id = ((Double) map.get("id")).longValue();
+                        item.title = (String) map.get("title");
+                        item.order = ((Double) map.get("order")).intValue();
+                        item.path = (String) map.get("path");
+
+                        result.add(item);
+                    }
+
+                    return result;
+                });
+    }
+
+    public static Observable<TaoKeData> sendFeedback(String content) {
+        return TaoKeRetrofit.getService()
+                .tao(TaoKeService.API_SEND_FEEDBACK, new FeedbackSubmit(content), UserData.get().getAccessToken())
+                .compose(RxHelper.handleResult());
+    }
+
+    public static Observable<String> uploadImage(File file) {
+        return TaoKeRetrofit.getService()
+                .tao(TaoKeService.API_UPLOAD_IMAGE, UserData.get().getAccessToken(), new HashMap<>(),
+                        MultipartBody.Part.createFormData("uploadFiles", file.getName(),
+                                RequestBody.create(MediaType.parse("multipart/form-data"), file)))
+                .compose(RxHelper.handleResult())
+                .map(taoKeData -> {
+                    Collection values = taoKeData.getMap().values();
+                    if (values.isEmpty()) {
+                        return null;
+                    }
+
+                    return (String) values.iterator().next();
+                });
+    }
+
+    private static Map<String, RequestBody> build(Map<String, String> map) {
+        Map<String, RequestBody> result = new HashMap<>();
+        for (String key : map.keySet()) {
+            result.put(key, RequestBody.create(
+                    MediaType.parse("multipart/form-data"), map.get(key)));
+        }
+        return result;
     }
 
 }

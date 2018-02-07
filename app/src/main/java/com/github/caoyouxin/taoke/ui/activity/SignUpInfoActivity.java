@@ -128,19 +128,7 @@ public class SignUpInfoActivity extends BaseActivity {
                     .compose(RxHelper.rxSchedulerHelper())
                     .compose(bindUntilEvent(ActivityEvent.DESTROY))
                     .compose(RxHelper.rxHandleServerExp(this))
-                    .subscribe(
-                            taoKeData -> {
-                            },
-                            throwable -> {
-                                if (throwable instanceof TimeoutException) {
-                                    Snackbar.make(verificationCodeResend, R.string.sign_up_fail_timeout, Snackbar.LENGTH_LONG).show();
-                                } else if (throwable instanceof ApiException) {
-                                    Snackbar.make(verificationCodeResend, getResources().getString(R.string.sign_up_fail_message, throwable.getMessage()), Snackbar.LENGTH_LONG).show();
-                                } else {
-                                    Snackbar.make(verificationCodeResend, R.string.sign_up_fail_network, Snackbar.LENGTH_LONG).show();
-                                }
-                            }
-                    );
+                    .subscribe();
         }
     }
 
@@ -208,14 +196,6 @@ public class SignUpInfoActivity extends BaseActivity {
                             invitationCode.setEnabled(true);
                             signUpFinish.setVisibility(View.VISIBLE);
                             progress.setVisibility(View.INVISIBLE);
-
-                            if (throwable instanceof TimeoutException) {
-                                Snackbar.make(progress, R.string.sign_up_fail_timeout, Snackbar.LENGTH_LONG).show();
-                            } else if (throwable instanceof ApiException) {
-                                Snackbar.make(progress, getResources().getString(R.string.sign_up_fail_message, throwable.getMessage()), Snackbar.LENGTH_LONG).show();
-                            } else {
-                                Snackbar.make(progress, R.string.sign_up_fail_network, Snackbar.LENGTH_LONG).show();
-                            }
                         }
                 );
     }

@@ -205,14 +205,6 @@ public class DiscoverFragment extends Fragment {
                                 .setOnSliderClickListener(getOnSliderClickListener(banner));
                         sliderLayout.addSlider(textSliderView);
                     }
-                }, throwable -> {
-                    if (throwable instanceof TimeoutException) {
-                        Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.fail_timeout, Snackbar.LENGTH_LONG).show();
-                    } else if (throwable instanceof ApiException) {
-                        Snackbar.make(getActivity().findViewById(android.R.id.content), getResources().getString(R.string.fail_message, throwable.getMessage()), Snackbar.LENGTH_LONG).show();
-                    } else {
-                        Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.fail_network, Snackbar.LENGTH_LONG).show();
-                    }
                 });
     }
 
@@ -298,14 +290,6 @@ public class DiscoverFragment extends Fragment {
 
                     if (!tabs.isEmpty()) {
                         couponTabSelected(tabs.get(0));
-                    }
-                }, throwable -> {
-                    if (throwable instanceof TimeoutException) {
-                        Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.fail_timeout, Snackbar.LENGTH_LONG).show();
-                    } else if (throwable instanceof ApiException) {
-                        Snackbar.make(getActivity().findViewById(android.R.id.content), getResources().getString(R.string.fail_message, throwable.getMessage()), Snackbar.LENGTH_LONG).show();
-                    } else {
-                        Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.fail_network, Snackbar.LENGTH_LONG).show();
                     }
                 });
     }

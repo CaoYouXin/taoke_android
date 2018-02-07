@@ -159,14 +159,6 @@ public class EnrollActivity extends BaseActivity {
                             announcement.setEnabled(true);
                             enroll.setVisibility(View.VISIBLE);
                             progress.setVisibility(View.INVISIBLE);
-
-                            if (throwable instanceof TimeoutException) {
-                                Snackbar.make(progress, R.string.fail_timeout, Snackbar.LENGTH_LONG).show();
-                            } else if (throwable instanceof ApiException) {
-                                Snackbar.make(progress, getResources().getString(R.string.fail_message, throwable.getMessage()), Snackbar.LENGTH_LONG).show();
-                            } else {
-                                Snackbar.make(progress, R.string.fail_network, Snackbar.LENGTH_LONG).show();
-                            }
                         }
                 );
     }

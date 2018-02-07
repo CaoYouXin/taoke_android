@@ -95,7 +95,7 @@
     <string name="discover_coupon_value">券 | %1$s &#160;&#160;&#160;&#160;&#160;&#160; 余%2$s张</string>
 
     <string name="sort_bar_coupon">优惠</string>
-    <string name="sort_bar_sales">销量</string>
+    <string name="sort_bar_sales">综合</string>
     <string name="sort_bar_price">价格</string>
     <string name="sort_bar_commission">佣金</string>
     <string name="product_new">新品</string>
@@ -225,5 +225,7 @@
     <string name="weChat_title">微信</string>
     <string name="go_to_weChat">去微信查找</string>
     <string name="go_to_qq">去QQ查找</string>
+    <string name="upload_image_handle">添加图片</string>
+    <string name="upload_image_ing">上传中...</string>
 
 </resources>

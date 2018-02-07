@@ -90,15 +90,6 @@ public class ChartFragment extends Fragment {
                             userAmount.setText(SpannedTextUtil.buildAmount(getActivity(), R.string.user_amount, taoKeData, '¥', 2));
                             userAmountNum = Double.parseDouble(taoKeData);
                             canDrawState = true;
-                        },
-                        throwable -> {
-                            if (throwable instanceof TimeoutException) {
-                                Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.fail_timeout, Snackbar.LENGTH_LONG).show();
-                            } else if (throwable instanceof ApiException) {
-                                Snackbar.make(getActivity().findViewById(android.R.id.content), getResources().getString(R.string.fail_message, throwable.getMessage()), Snackbar.LENGTH_LONG).show();
-                            } else {
-                                Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.fail_network, Snackbar.LENGTH_LONG).show();
-                            }
                         }
                 );
     }
@@ -112,15 +103,6 @@ public class ChartFragment extends Fragment {
                 .subscribe(
                         taoKeData -> {
                             userThisMonthAmount.setText(SpannedTextUtil.buildAmount(getActivity(), R.string.user_this_month_amount, taoKeData, '¥', 2));
-                        },
-                        throwable -> {
-                            if (throwable instanceof TimeoutException) {
-                                Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.fail_timeout, Snackbar.LENGTH_LONG).show();
-                            } else if (throwable instanceof ApiException) {
-                                Snackbar.make(getActivity().findViewById(android.R.id.content), getResources().getString(R.string.fail_message, throwable.getMessage()), Snackbar.LENGTH_LONG).show();
-                            } else {
-                                Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.fail_network, Snackbar.LENGTH_LONG).show();
-                            }
                         }
                 );
     }
@@ -134,15 +116,6 @@ public class ChartFragment extends Fragment {
                 .subscribe(
                         taoKeData -> {
                             userLastMonthAmount.setText(SpannedTextUtil.buildAmount(getActivity(), R.string.user_last_month_amount, taoKeData, '¥', 2));
-                        },
-                        throwable -> {
-                            if (throwable instanceof TimeoutException) {
-                                Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.fail_timeout, Snackbar.LENGTH_LONG).show();
-                            } else if (throwable instanceof ApiException) {
-                                Snackbar.make(getActivity().findViewById(android.R.id.content), getResources().getString(R.string.fail_message, throwable.getMessage()), Snackbar.LENGTH_LONG).show();
-                            } else {
-                                Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.fail_network, Snackbar.LENGTH_LONG).show();
-                            }
                         }
                 );
     }
@@ -209,15 +182,6 @@ public class ChartFragment extends Fragment {
                             taoKeData -> {
                                 Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.withdraw_record_created, Snackbar.LENGTH_LONG).show();
                                 initUserAmount();
-                            },
-                            throwable -> {
-                                if (throwable instanceof TimeoutException) {
-                                    Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.fail_timeout, Snackbar.LENGTH_LONG).show();
-                                } else if (throwable instanceof ApiException) {
-                                    Snackbar.make(getActivity().findViewById(android.R.id.content), getResources().getString(R.string.fail_message, throwable.getMessage()), Snackbar.LENGTH_LONG).show();
-                                } else {
-                                    Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.fail_network, Snackbar.LENGTH_LONG).show();
-                                }
                             }
                     );
         }).setNegativeButton(R.string.cancel, (DialogInterface dialog, int which) -> dialog.dismiss())
