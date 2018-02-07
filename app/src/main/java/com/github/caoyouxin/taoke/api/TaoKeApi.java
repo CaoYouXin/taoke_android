@@ -51,9 +51,9 @@ import okhttp3.RequestBody;
 
 public class TaoKeApi {
 
-    public final static String CDN_HOST = "http://192.168.0.136:8070/";
+//    public final static String CDN_HOST = "http://192.168.0.136:8070/";
 //    public final static String CDN_HOST = "http://192.168.1.115:8070/";
-//    public final static String CDN_HOST = "http://server.tkmqr.com:8070/";
+    public final static String CDN_HOST = "http://server.tkmqr.com:8070/";
 
     // **** user apis below *******************************************
 
