@@ -63,6 +63,8 @@ public interface TaoKeService {
     String API_UPLOAD_IMAGE = "upload/client/images";
     String API_SEND_FEEDBACK = "blog/feedback/post";
 
+    String BI_ITEM_DETAIL_CLICKED = "bi/item/detail/clicked";
+
     @Headers({"version: 1.9.6", "platform: android"})
     @POST("{api}")
     Observable<TaoKeData> tao(@Path("api") String api, @Body Object data, @Header("auth") String auth);

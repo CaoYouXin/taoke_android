@@ -677,4 +677,10 @@ public class TaoKeApi {
         return result;
     }
 
+    public static Observable<TaoKeData> biItemDetailClicked() {
+        return TaoKeRetrofit.getService()
+                .tao(TaoKeService.BI_ITEM_DETAIL_CLICKED, UserData.get().getAccessToken())
+                .compose(RxHelper.handleResult());
+    }
+
 }

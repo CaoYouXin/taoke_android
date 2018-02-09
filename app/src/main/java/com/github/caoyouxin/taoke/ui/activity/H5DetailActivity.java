@@ -1,5 +1,6 @@
 package com.github.caoyouxin.taoke.ui.activity;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebChromeClient;
@@ -16,12 +17,16 @@ import com.alibaba.baichuan.android.trade.page.AlibcDetailPage;
 import com.alibaba.baichuan.trade.biz.context.AlibcTradeResult;
 import com.alibaba.baichuan.trade.biz.core.taoke.AlibcTaokeParams;
 import com.github.caoyouxin.taoke.R;
+import com.github.caoyouxin.taoke.api.RxHelper;
+import com.github.caoyouxin.taoke.api.TaoKeApi;
 import com.github.caoyouxin.taoke.model.UserData;
 import com.github.caoyouxin.taoke.util.MyWebViewClient;
 import com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity;
+import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,6 +52,17 @@ public class H5DetailActivity extends BaseActivity {
         initView();
 
         createDynamicBox();
+
+        bi();
+    }
+
+    private void bi() {
+        TaoKeApi.biItemDetailClicked()
+                .timeout(10, TimeUnit.SECONDS)
+                .compose(RxHelper.rxSchedulerHelper())
+                .compose(bindUntilEvent(ActivityEvent.DESTROY))
+//                .compose(RxHelper.rxHandleServerExp(this))
+                .subscribe();
     }
 
     @OnClick(R.id.back)
