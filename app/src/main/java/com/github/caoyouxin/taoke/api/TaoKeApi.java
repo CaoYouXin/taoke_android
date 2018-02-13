@@ -622,7 +622,7 @@ public class TaoKeApi {
 
     public static Observable<List<HelpDoc>> getHelpDocs() {
         return TaoKeRetrofit.getService()
-                .tao(TaoKeService.API_HELP_DOC_LIST)
+                .tao(TaoKeService.API_HELP_DOC_LIST.replace("{type}", UserData.get().getUserTypeInt()))
                 .compose(RxHelper.handleResult())
                 .map(taoKeData -> {
                     List<HelpDoc> result = new ArrayList<>();

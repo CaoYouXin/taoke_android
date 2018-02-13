@@ -126,6 +126,26 @@ public class UserData {
         return "\"合伙人\"";
     }
 
+    public String getUserTypeInt() {
+        if (isBuyer()) {
+            if (candidate) {
+                if (directUser) {
+                    return "1";
+                } else {
+                    return "2";
+                }
+            } else {
+                return "3";
+            }
+        } else {
+            if (directUser) {
+                return "4";
+            } else {
+                return "5";
+            }
+        }
+    }
+
     public String getAliPID() {
         return aliPID;
     }
