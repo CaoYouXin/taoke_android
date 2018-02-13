@@ -18,6 +18,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class TaoKeRetrofit {
 
+    public final static String CDN_HOST = "http://192.168.0.136:8070/";
+//    public final static String CDN_HOST = "http://192.168.1.115:8070/";
+//    public final static String CDN_HOST = "http://server.tkmqr.com:8070/";
+
     public final static String HOST = "http://192.168.0.136:8080/api/";
 //    public final static String HOST = "http://192.168.1.115:8080/api/";
 //    public final static String HOST = "http://server.tkmqr.com:8080/api/";

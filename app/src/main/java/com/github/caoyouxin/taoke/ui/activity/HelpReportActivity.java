@@ -90,7 +90,7 @@ public class HelpReportActivity extends BaseActivity {
                     HelpDoc helpDocItem = helpDocAdapter.getData().get(childPosition);
 
                     String link = TaoKeRetrofit.HOST + "blog/" + helpDocItem.path.replaceAll("/", "&@&")
-                            + "//" + TaoKeApi.CDN_HOST.replaceAll("/", "&@&");
+                            + "//" + TaoKeRetrofit.CDN_HOST.replaceAll("/", "&@&");
 
                     Intent intent = new Intent(HelpReportActivity.this, H5BlogActivity.class);
                     intent.putExtra(H5BlogActivity.HELP_DOC_LINK, link);

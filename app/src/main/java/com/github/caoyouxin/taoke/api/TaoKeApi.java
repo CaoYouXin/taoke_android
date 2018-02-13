@@ -51,10 +51,6 @@ import okhttp3.RequestBody;
 
 public class TaoKeApi {
 
-    public final static String CDN_HOST = "http://192.168.0.136:8070/";
-//    public final static String CDN_HOST = "http://192.168.1.115:8070/";
-//    public final static String CDN_HOST = "http://server.tkmqr.com:8070/";
-
     // **** user apis below *******************************************
 
     public static Observable<TaoKeData> verification(String phone) {
@@ -120,7 +116,7 @@ public class TaoKeApi {
                     List<HomeBtn> items = new ArrayList<>();
                     for (Map rec : taoKeData.getList()) {
                         HomeBtn item = new HomeBtn();
-                        item.imgUrl = CDN_HOST + rec.get("imgUrl");
+                        item.imgUrl = TaoKeRetrofit.CDN_HOST + rec.get("imgUrl");
                         item.name = (String) rec.get("name");
                         item.openType = ((Double) rec.get("openType")).intValue();
                         item.ext = (String) rec.get("ext");
@@ -137,7 +133,7 @@ public class TaoKeApi {
                     List<HomeBtn> items = new ArrayList<>();
                     for (Map rec : taoKeData.getList()) {
                         HomeBtn item = new HomeBtn();
-                        item.imgUrl = CDN_HOST + rec.get("imgUrl");
+                        item.imgUrl = TaoKeRetrofit.CDN_HOST + rec.get("imgUrl");
                         item.name = (String) rec.get("name");
                         item.openType = ((Double) rec.get("openType")).intValue();
                         item.ext = (String) rec.get("ext");
@@ -508,7 +504,7 @@ public class TaoKeApi {
                     List<Map> recs = taoKeData.getList();
                     List<String> items = new ArrayList<>();
                     for (Map rec : recs) {
-                        items.add(CDN_HOST + rec.get("imgUrl"));
+                        items.add(TaoKeRetrofit.CDN_HOST + rec.get("imgUrl"));
                     }
                     return Observable.just(items);
                 });
@@ -528,7 +524,7 @@ public class TaoKeApi {
                     for (Map rec : recs) {
                         ShareImage shareImage = new ShareImage();
                         shareImage.selected = false;
-                        shareImage.thumb = CDN_HOST + rec.get("imgUrl");
+                        shareImage.thumb = TaoKeRetrofit.CDN_HOST + rec.get("imgUrl");
                         items.add(shareImage);
                     }
                     return Observable.just(items);
@@ -601,7 +597,7 @@ public class TaoKeApi {
                     for (Map map : taoKeData.getList()) {
                         AdBrandItem adBrandItem = new AdBrandItem();
 
-                        adBrandItem.thumb = CDN_HOST + map.get("imgUrl");
+                        adBrandItem.thumb = TaoKeRetrofit.CDN_HOST + map.get("imgUrl");
                         adBrandItem.rSpan = ((Double) map.get("rowSpan")).intValue();
                         adBrandItem.cSpan = ((Double) map.get("colSpan")).intValue();
                         adBrandItem.openType = ((Double) map.get("openType")).intValue();
