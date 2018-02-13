@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.model.HelpDoc;
-import com.github.caoyouxin.taoke.model.HelpItem;
 import com.shizhefei.mvc.IDataAdapter;
 
 import java.util.ArrayList;

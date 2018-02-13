@@ -24,7 +24,7 @@ import com.github.caoyouxin.taoke.ui.activity.CustomerServiceActivity;
 import com.github.caoyouxin.taoke.ui.activity.EnrollActivity;
 import com.github.caoyouxin.taoke.ui.activity.FriendsActivity;
 import com.github.caoyouxin.taoke.ui.activity.HelpReportActivity;
-import com.github.caoyouxin.taoke.ui.activity.NoviceActivity;
+import com.github.caoyouxin.taoke.ui.activity.ReportActivity;
 import com.github.caoyouxin.taoke.ui.activity.ShareAppActivity;
 import com.github.caoyouxin.taoke.ui.activity.SplashActivity;
 
@@ -102,10 +102,10 @@ public class AccountFragment extends Fragment {
                 intent = new Intent(getActivity(), CustomerServiceActivity.class);
                 break;
             case R.id.account_btn_newer_guide:
-                intent = new Intent(getActivity(), NoviceActivity.class);
+                intent = new Intent(getActivity(), HelpReportActivity.class);
                 break;
             case R.id.account_btn_help_report:
-                intent = new Intent(getActivity(), HelpReportActivity.class);
+                intent = new Intent(getActivity(), ReportActivity.class);
                 break;
             case R.id.account_btn_about:
                 intent = new Intent(getActivity(), AboutActivity.class);

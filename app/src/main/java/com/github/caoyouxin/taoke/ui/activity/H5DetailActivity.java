@@ -1,6 +1,5 @@
 package com.github.caoyouxin.taoke.ui.activity;
 
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebChromeClient;

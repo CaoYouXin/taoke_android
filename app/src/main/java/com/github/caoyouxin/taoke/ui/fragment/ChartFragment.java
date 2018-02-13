@@ -19,7 +19,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.github.caoyouxin.taoke.R;
-import com.github.caoyouxin.taoke.api.ApiException;
 import com.github.caoyouxin.taoke.api.RxHelper;
 import com.github.caoyouxin.taoke.api.TaoKeApi;
 import com.github.caoyouxin.taoke.ui.activity.CompleterActivity;
@@ -32,7 +31,6 @@ import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -167,24 +165,24 @@ public class ChartFragment extends Fragment {
 
         new AlertDialog.Builder(getActivity()).setView(input)
                 .setPositiveButton(R.string.withdraw, (DialogInterface dialog, int which) -> {
-            double withdraw = Double.parseDouble(input.getEditableText().toString().trim());
-            if (withdraw > userAmountNum) {
-                new AlertDialog.Builder(getActivity()).setMessage(R.string.user_amount_not_enough).show();
-                return;
-            }
+                    double withdraw = Double.parseDouble(input.getEditableText().toString().trim());
+                    if (withdraw > userAmountNum) {
+                        new AlertDialog.Builder(getActivity()).setMessage(R.string.user_amount_not_enough).show();
+                        return;
+                    }
 
-            TaoKeApi.sendWithdraw(String.format(Locale.ENGLISH, "%.2f", withdraw))
-                    .timeout(10, TimeUnit.SECONDS)
-                    .compose(RxHelper.rxSchedulerHelper())
-                    .compose(((BaseActivity) getActivity()).bindUntilEvent(ActivityEvent.DESTROY))
-                    .compose(RxHelper.rxHandleServerExp(getActivity()))
-                    .subscribe(
-                            taoKeData -> {
-                                Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.withdraw_record_created, Snackbar.LENGTH_LONG).show();
-                                initUserAmount();
-                            }
-                    );
-        }).setNegativeButton(R.string.cancel, (DialogInterface dialog, int which) -> dialog.dismiss())
+                    TaoKeApi.sendWithdraw(String.format(Locale.ENGLISH, "%.2f", withdraw))
+                            .timeout(10, TimeUnit.SECONDS)
+                            .compose(RxHelper.rxSchedulerHelper())
+                            .compose(((BaseActivity) getActivity()).bindUntilEvent(ActivityEvent.DESTROY))
+                            .compose(RxHelper.rxHandleServerExp(getActivity()))
+                            .subscribe(
+                                    taoKeData -> {
+                                        Snackbar.make(getActivity().findViewById(android.R.id.content), R.string.withdraw_record_created, Snackbar.LENGTH_LONG).show();
+                                        initUserAmount();
+                                    }
+                            );
+                }).setNegativeButton(R.string.cancel, (DialogInterface dialog, int which) -> dialog.dismiss())
                 .setMessage(R.string.withdraw_description).show();
     }
 

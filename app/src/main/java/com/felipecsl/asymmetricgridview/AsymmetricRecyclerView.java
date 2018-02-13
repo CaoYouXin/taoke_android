@@ -9,90 +9,101 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 
 public class AsymmetricRecyclerView extends RecyclerView implements AsymmetricView {
-  private final AsymmetricViewImpl viewImpl;
-  private AsymmetricRecyclerViewAdapter<?> adapter;
+    private final AsymmetricViewImpl viewImpl;
+    private AsymmetricRecyclerViewAdapter<?> adapter;
 
-  public AsymmetricRecyclerView(Context context, AttributeSet attrs) {
-    super(context, attrs);
-    viewImpl = new AsymmetricViewImpl(context);
-    setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+    public AsymmetricRecyclerView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        viewImpl = new AsymmetricViewImpl(context);
+        setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
 
-    final ViewTreeObserver vto = getViewTreeObserver();
-    if (vto != null) {
-      vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-        @Override public void onGlobalLayout() {
-          //noinspection deprecation
-          getViewTreeObserver().removeGlobalOnLayoutListener(this);
-          viewImpl.determineColumns(getAvailableSpace());
-          if (adapter != null) {
-            adapter.recalculateItemsPerRow();
-          }
+        final ViewTreeObserver vto = getViewTreeObserver();
+        if (vto != null) {
+            vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    //noinspection deprecation
+                    getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                    viewImpl.determineColumns(getAvailableSpace());
+                    if (adapter != null) {
+                        adapter.recalculateItemsPerRow();
+                    }
+                }
+            });
         }
-      });
-    }
-  }
-
-  @Override public void setAdapter(@NonNull Adapter adapter) {
-    if (!(adapter instanceof AsymmetricRecyclerViewAdapter)) {
-      throw new UnsupportedOperationException(
-          "Adapter must be an instance of AsymmetricRecyclerViewAdapter");
     }
 
-    this.adapter = (AsymmetricRecyclerViewAdapter<?>) adapter;
-    super.setAdapter(adapter);
+    @Override
+    public void setAdapter(@NonNull Adapter adapter) {
+        if (!(adapter instanceof AsymmetricRecyclerViewAdapter)) {
+            throw new UnsupportedOperationException(
+                    "Adapter must be an instance of AsymmetricRecyclerViewAdapter");
+        }
 
-    this.adapter.recalculateItemsPerRow();
-  }
+        this.adapter = (AsymmetricRecyclerViewAdapter<?>) adapter;
+        super.setAdapter(adapter);
 
-  @Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-    super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-    viewImpl.determineColumns(getAvailableSpace());
-  }
+        this.adapter.recalculateItemsPerRow();
+    }
 
-  @Override public boolean isDebugging() {
-    return viewImpl.isDebugging();
-  }
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        viewImpl.determineColumns(getAvailableSpace());
+    }
 
-  @Override public int getNumColumns() {
-    return viewImpl.getNumColumns();
-  }
+    @Override
+    public boolean isDebugging() {
+        return viewImpl.isDebugging();
+    }
 
-  @Override public boolean isAllowReordering() {
-    return viewImpl.isAllowReordering();
-  }
+    public void setDebugging(boolean debugging) {
+        viewImpl.setDebugging(debugging);
+    }
 
-  @Override public void fireOnItemClick(int index, View v) {
-  }
+    @Override
+    public int getNumColumns() {
+        return viewImpl.getNumColumns();
+    }
 
-  @Override public boolean fireOnItemLongClick(int index, View v) {
-    return false;
-  }
+    @Override
+    public boolean isAllowReordering() {
+        return viewImpl.isAllowReordering();
+    }
 
-  @Override public int getColumnWidth() {
-    return viewImpl.getColumnWidth(getAvailableSpace());
-  }
+    @Override
+    public void fireOnItemClick(int index, View v) {
+    }
 
-  private int getAvailableSpace() {
-    return getMeasuredWidth() - getPaddingLeft() - getPaddingRight();
-  }
+    @Override
+    public boolean fireOnItemLongClick(int index, View v) {
+        return false;
+    }
 
-  @Override public int getDividerHeight() {
-    return 0;
-  }
+    @Override
+    public int getColumnWidth() {
+        return viewImpl.getColumnWidth(getAvailableSpace());
+    }
 
-  @Override public int getRequestedHorizontalSpacing() {
-    return viewImpl.getRequestedHorizontalSpacing();
-  }
+    private int getAvailableSpace() {
+        return getMeasuredWidth() - getPaddingLeft() - getPaddingRight();
+    }
 
-  public void setRequestedColumnCount(int requestedColumnCount) {
-    viewImpl.setRequestedColumnCount(requestedColumnCount);
-  }
+    @Override
+    public int getDividerHeight() {
+        return 0;
+    }
 
-  public void setRequestedHorizontalSpacing(int spacing) {
-    viewImpl.setRequestedHorizontalSpacing(spacing);
-  }
+    @Override
+    public int getRequestedHorizontalSpacing() {
+        return viewImpl.getRequestedHorizontalSpacing();
+    }
 
-  public void setDebugging(boolean debugging) {
-    viewImpl.setDebugging(debugging);
-  }
+    public void setRequestedHorizontalSpacing(int spacing) {
+        viewImpl.setRequestedHorizontalSpacing(spacing);
+    }
+
+    public void setRequestedColumnCount(int requestedColumnCount) {
+        viewImpl.setRequestedColumnCount(requestedColumnCount);
+    }
 }

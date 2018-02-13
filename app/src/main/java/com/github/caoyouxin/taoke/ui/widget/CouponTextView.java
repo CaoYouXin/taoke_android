@@ -35,26 +35,27 @@ public class CouponTextView extends android.support.v7.widget.AppCompatTextView 
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         width = w;
-        if (remain==0){
+        if (remain == 0) {
             //计算不整除的剩余部分
-            remain = (int)(h-gap)%(2*radius+gap);
+            remain = (int) (h - gap) % (2 * radius + gap);
         }
-        circleNum = (int) ((h-gap)/(2*radius+gap));  //计算圆的数量
+        circleNum = (int) ((h - gap) / (2 * radius + gap));  //计算圆的数量
     }
 
     /**
      * 上面定义了圆的半径和圆间距，同时初始化了这些值并且获取了需要画的圆数量。
-     接下来只需要一个一个将圆画出来就可以了。
+     * 接下来只需要一个一个将圆画出来就可以了。
+     *
      * @param canvas
      */
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         //循环在左右两个边上画出凹凸效果
-        for (int i=0;i<circleNum;i++){
-            float y = gap+radius+remain/2+((gap+radius*2)*i);//计算出y轴坐标
-            canvas.drawCircle(0,y,radius,mPaint);//在左边边画圆
-            canvas.drawCircle(width,y,radius,mPaint);//在右边画圆
+        for (int i = 0; i < circleNum; i++) {
+            float y = gap + radius + remain / 2 + ((gap + radius * 2) * i);//计算出y轴坐标
+            canvas.drawCircle(0, y, radius, mPaint);//在左边边画圆
+            canvas.drawCircle(width, y, radius, mPaint);//在右边画圆
         }
     }
 }

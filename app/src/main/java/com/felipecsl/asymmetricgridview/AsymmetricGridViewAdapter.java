@@ -10,69 +10,80 @@ import android.widget.WrapperListAdapter;
 
 @SuppressWarnings("rawtypes")
 public final class AsymmetricGridViewAdapter extends BaseAdapter
-    implements AGVBaseAdapter, WrapperListAdapter {
-  private final ListAdapter wrappedAdapter;
-  private final AdapterImpl adapterImpl;
+        implements AGVBaseAdapter, WrapperListAdapter {
+    private final ListAdapter wrappedAdapter;
+    private final AdapterImpl adapterImpl;
 
-  class GridDataSetObserver extends DataSetObserver {
-    @Override public void onChanged() {
-      recalculateItemsPerRow();
+    public AsymmetricGridViewAdapter(Context context, AsymmetricGridView listView,
+                                     ListAdapter adapter) {
+        this.adapterImpl = new AdapterImpl(context, this, listView);
+        this.wrappedAdapter = adapter;
+        wrappedAdapter.registerDataSetObserver(new GridDataSetObserver());
     }
 
-    @Override public void onInvalidated() {
-      recalculateItemsPerRow();
+    @Override
+    public AsymmetricItem getItem(int position) {
+        return (AsymmetricItem) wrappedAdapter.getItem(position);
     }
-  }
 
-  public AsymmetricGridViewAdapter(Context context, AsymmetricGridView listView,
-      ListAdapter adapter) {
-    this.adapterImpl = new AdapterImpl(context, this, listView);
-    this.wrappedAdapter = adapter;
-    wrappedAdapter.registerDataSetObserver(new GridDataSetObserver());
-  }
+    @Override
+    public AsymmetricViewHolder onCreateAsymmetricViewHolder(
+            int position, ViewGroup parent, int viewType) {
+        return new AsymmetricViewHolder<>(wrappedAdapter.getView(position, null, parent));
+    }
 
-  @Override public AsymmetricItem getItem(int position) {
-    return (AsymmetricItem) wrappedAdapter.getItem(position);
-  }
+    @Override
+    public void onBindAsymmetricViewHolder(
+            AsymmetricViewHolder holder, ViewGroup parent, int position) {
+        wrappedAdapter.getView(position, holder.itemView, parent);
+    }
 
-  @Override public AsymmetricViewHolder onCreateAsymmetricViewHolder(
-      int position, ViewGroup parent, int viewType) {
-    return new AsymmetricViewHolder<>(wrappedAdapter.getView(position, null, parent));
-  }
+    @Override
+    public long getItemId(int position) {
+        return wrappedAdapter.getItemId(position);
+    }
 
-  @Override public void onBindAsymmetricViewHolder(
-      AsymmetricViewHolder holder, ViewGroup parent, int position) {
-    wrappedAdapter.getView(position, holder.itemView, parent);
-  }
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        AdapterImpl.ViewHolder viewHolder = adapterImpl.onCreateViewHolder();
+        adapterImpl.onBindViewHolder(viewHolder, position, parent);
+        return viewHolder.itemView;
+    }
 
-  @Override public long getItemId(int position) {
-    return wrappedAdapter.getItemId(position);
-  }
+    @Override
+    public int getCount() {
+        // Returns the row count for ListView display purposes
+        return adapterImpl.getRowCount();
+    }
 
-  @Override public View getView(int position, View convertView, ViewGroup parent) {
-    AdapterImpl.ViewHolder viewHolder = adapterImpl.onCreateViewHolder();
-    adapterImpl.onBindViewHolder(viewHolder, position, parent);
-    return viewHolder.itemView;
-  }
+    @Override
+    public int getItemViewType(int position) {
+        return wrappedAdapter.getItemViewType(position);
+    }
 
-  @Override public int getCount() {
-    // Returns the row count for ListView display purposes
-    return adapterImpl.getRowCount();
-  }
+    @Override
+    public int getActualItemCount() {
+        return wrappedAdapter.getCount();
+    }
 
-  @Override public int getItemViewType(int position) {
-    return wrappedAdapter.getItemViewType(position);
-  }
+    @Override
+    public ListAdapter getWrappedAdapter() {
+        return wrappedAdapter;
+    }
 
-  @Override public int getActualItemCount() {
-    return wrappedAdapter.getCount();
-  }
+    void recalculateItemsPerRow() {
+        adapterImpl.recalculateItemsPerRow();
+    }
 
-  @Override public ListAdapter getWrappedAdapter() {
-    return wrappedAdapter;
-  }
+    class GridDataSetObserver extends DataSetObserver {
+        @Override
+        public void onChanged() {
+            recalculateItemsPerRow();
+        }
 
-  void recalculateItemsPerRow() {
-    adapterImpl.recalculateItemsPerRow();
-  }
+        @Override
+        public void onInvalidated() {
+            recalculateItemsPerRow();
+        }
+    }
 }

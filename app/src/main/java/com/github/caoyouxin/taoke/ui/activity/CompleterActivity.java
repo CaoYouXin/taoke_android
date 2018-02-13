@@ -2,7 +2,6 @@ package com.github.caoyouxin.taoke.ui.activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
@@ -10,16 +9,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.github.caoyouxin.taoke.R;
-import com.github.caoyouxin.taoke.api.ApiException;
 import com.github.caoyouxin.taoke.api.RxHelper;
 import com.github.caoyouxin.taoke.api.TaoKeApi;
-import com.github.caoyouxin.taoke.model.EnrollSubmit;
 import com.github.caoyouxin.taoke.model.UserData;
 import com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
