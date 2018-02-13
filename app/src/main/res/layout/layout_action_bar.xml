@@ -7,10 +7,17 @@
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginLeft="@dimen/len_52"
+        android:layout_marginRight="@dimen/len_52"
         android:textColor="@color/grey_800"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:scrollHorizontally="true"
         android:textSize="@dimen/font_16" />
 
     <com.mikepenz.iconics.view.IconicsTextView

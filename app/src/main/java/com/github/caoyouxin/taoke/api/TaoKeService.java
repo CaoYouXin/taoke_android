@@ -45,7 +45,7 @@ public interface TaoKeService {
     String API_GET_SHARE_LINK2 = "tbk/share/save";
 
     String API_HELP_LIST = "app/help/list";
-    String API_HELP_DOC_LIST = "blog/helpdoc/list";
+    String API_HELP_DOC_LIST = "blog/helpdoc/{type}/list";
     String API_NOVICE_LIST = "app/guide/list/{type}";
     String API_SHARE_APP_LIST = "app/share/img/url/list/{type}";
 
@@ -62,6 +62,8 @@ public interface TaoKeService {
 
     String API_UPLOAD_IMAGE = "upload/client/images";
     String API_SEND_FEEDBACK = "blog/feedback/post";
+
+    String BI_ITEM_DETAIL_CLICKED = "bi/item/detail/clicked";
 
     @Headers({"version: 1.9.6", "platform: android"})
     @POST("{api}")

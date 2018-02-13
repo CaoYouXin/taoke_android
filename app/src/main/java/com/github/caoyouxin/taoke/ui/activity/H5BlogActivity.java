@@ -7,24 +7,9 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.alibaba.baichuan.android.trade.AlibcTrade;
-import com.alibaba.baichuan.android.trade.callback.AlibcTradeCallback;
-import com.alibaba.baichuan.android.trade.model.AlibcShowParams;
-import com.alibaba.baichuan.android.trade.model.OpenType;
-import com.alibaba.baichuan.android.trade.page.AlibcBasePage;
-import com.alibaba.baichuan.android.trade.page.AlibcDetailPage;
-import com.alibaba.baichuan.trade.biz.context.AlibcTradeResult;
-import com.alibaba.baichuan.trade.biz.core.taoke.AlibcTaokeParams;
 import com.github.caoyouxin.taoke.R;
-import com.github.caoyouxin.taoke.model.HelpDoc;
-import com.github.caoyouxin.taoke.model.UserData;
-import com.github.caoyouxin.taoke.util.MyWebViewClient;
 import com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

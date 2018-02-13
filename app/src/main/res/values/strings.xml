@@ -134,10 +134,10 @@
     <string name="share_price_after">券后价&#160;¥&#160;%1$s</string>
 
     <string name="account_id">ID: %1$s\n️%2$s</string>
-    <string name="new_help">新手引导</string>
+    <string name="new_help">常见问题</string>
     <string name="account_description" />
     <string name="share_2_friends">分享给好友</string>
-    <string name="help_report">帮助与反馈</string>
+    <string name="help_report">意见反馈</string>
     <string name="about">关于</string>
     <string name="exit">退出登录</string>
     <string name="logo">Logo</string>

@@ -5,20 +5,17 @@ import android.content.ClipboardManager;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.caoyouxin.taoke.R;
-import com.github.caoyouxin.taoke.api.ApiException;
 import com.github.caoyouxin.taoke.api.RxHelper;
 import com.github.caoyouxin.taoke.api.TaoKeApi;
 import com.github.gnastnosaj.boilerplate.ui.activity.BaseActivity;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

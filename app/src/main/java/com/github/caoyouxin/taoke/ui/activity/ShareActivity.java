@@ -32,7 +32,6 @@ import com.bilibili.socialize.share.download.IImageDownloader;
 import com.bilibili.socialize.share.util.BitmapUtil;
 import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.adapter.ShareImageAdapter;
-import com.github.caoyouxin.taoke.api.ApiException;
 import com.github.caoyouxin.taoke.api.RxHelper;
 import com.github.caoyouxin.taoke.api.TaoKeApi;
 import com.github.caoyouxin.taoke.api.TaoKeRetrofit;
@@ -51,7 +50,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

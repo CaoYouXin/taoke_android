@@ -8,13 +8,10 @@ import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.caoyouxin.taoke.R;
 import com.github.caoyouxin.taoke.adapter.HelpDocAdapter;
-import com.github.caoyouxin.taoke.api.TaoKeApi;
 import com.github.caoyouxin.taoke.api.TaoKeRetrofit;
 import com.github.caoyouxin.taoke.datasource.HelpDocDataSource;
 import com.github.caoyouxin.taoke.model.HelpDoc;
@@ -37,20 +34,20 @@ public class HelpReportActivity extends BaseActivity {
     @BindView(R.id.help_list)
     RecyclerView helpList;
 
-    @BindView(R.id.help_content)
-    LinearLayout helpContent;
-
-    @BindView(R.id.help_q)
-    TextView helpQ;
-
-    @BindView(R.id.help_a)
-    TextView helpA;
-
-    @BindView(R.id.report_entry)
-    Button reportEntry;
+//    @BindView(R.id.help_content)
+//    LinearLayout helpContent;
+//
+//    @BindView(R.id.help_q)
+//    TextView helpQ;
+//
+//    @BindView(R.id.help_a)
+//    TextView helpA;
+//
+//    @BindView(R.id.report_entry)
+//    Button reportEntry;
 
     private GestureDetector gestureDetector;
-    private boolean isReadingHelp;
+//    private boolean isReadingHelp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +87,7 @@ public class HelpReportActivity extends BaseActivity {
                     HelpDoc helpDocItem = helpDocAdapter.getData().get(childPosition);
 
                     String link = TaoKeRetrofit.HOST + "blog/" + helpDocItem.path.replaceAll("/", "&@&")
-                            + "//" + TaoKeApi.CDN_HOST.replaceAll("/", "&@&");
+                            + "//" + TaoKeRetrofit.CDN_HOST.replaceAll("/", "&@&");
 
                     Intent intent = new Intent(HelpReportActivity.this, H5BlogActivity.class);
                     intent.putExtra(H5BlogActivity.HELP_DOC_LINK, link);
@@ -112,39 +109,39 @@ public class HelpReportActivity extends BaseActivity {
         helpListHelper.refresh();
     }
 
-    @OnClick({R.id.back, R.id.report_entry})
+    @OnClick({R.id.back})
     protected void onBackClick(View view) {
         switch (view.getId()) {
             case R.id.back:
-                if (this.isReadingHelp) {
-                    this.helpList.setVisibility(View.VISIBLE);
-                    this.reportEntry.setVisibility(View.VISIBLE);
-                    this.helpContent.setVisibility(View.GONE);
-                    this.helpQ.setText("");
-                    this.helpA.setText("");
-                    this.isReadingHelp = false;
-                    return;
-                }
+//                if (this.isReadingHelp) {
+//                    this.helpList.setVisibility(View.VISIBLE);
+//                    this.reportEntry.setVisibility(View.VISIBLE);
+//                    this.helpContent.setVisibility(View.GONE);
+//                    this.helpQ.setText("");
+//                    this.helpA.setText("");
+//                    this.isReadingHelp = false;
+//                    return;
+//                }
                 onBackPressed();
-                return;
-            case R.id.report_entry:
-                Intent intent = new Intent(this, ReportActivity.class);
-                startActivity(intent);
+//                return;
+//            case R.id.report_entry:
+//                Intent intent = new Intent(this, ReportActivity.class);
+//                startActivity(intent);
         }
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (this.isReadingHelp) {
-                this.helpList.setVisibility(View.VISIBLE);
-                this.reportEntry.setVisibility(View.VISIBLE);
-                this.helpContent.setVisibility(View.GONE);
-                this.helpQ.setText("");
-                this.helpA.setText("");
-                this.isReadingHelp = false;
-                return false;
-            }
+//            if (this.isReadingHelp) {
+//                this.helpList.setVisibility(View.VISIBLE);
+//                this.reportEntry.setVisibility(View.VISIBLE);
+//                this.helpContent.setVisibility(View.GONE);
+//                this.helpQ.setText("");
+//                this.helpA.setText("");
+//                this.isReadingHelp = false;
+//                return false;
+//            }
             onBackPressed();
             return false;
         }
